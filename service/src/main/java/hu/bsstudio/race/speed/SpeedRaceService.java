@@ -7,5 +7,6 @@ import reactor.core.publisher.Mono;
 
 public interface SpeedRaceService {
     Mono<DetailedTeam> updateSpeedRaceOnLap(final SpeedRaceScore speedRaceScore);
+
     Mono<DetailedTeam> updateSpeedRace(final SpeedRaceResult speedRaceResult);
 }

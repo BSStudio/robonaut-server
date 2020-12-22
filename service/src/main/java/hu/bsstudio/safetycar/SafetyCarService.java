@@ -7,5 +7,6 @@ import reactor.core.publisher.Mono;
 
 public interface SafetyCarService {
     Mono<DetailedTeam> safetyCarWasFollowed(final SafetyCarFollowInformation safetyCarFollowInformation);
+
     Mono<DetailedTeam> safetyCarWasOvertaken(final SafetyCarOvertakeInformation safetyCarOvertakeInformation);
 }
