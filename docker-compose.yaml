@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbit-mq
+      - mongo
+  rabbit-mq:
+    image: rabbitmq:3.8.9
+  mongo:
+    image: mongo:4.4.2-bionic

@@ -1,0 +1,277 @@
+openapi: 3.0.0
+info:
+  title: RobonAUT Server
+  version: 1.0.0
+paths:
+  /api/team:
+    post:
+      tags:
+        - team
+      summary: Add a new team
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+      responses:
+        201:
+          description: Team was created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedTeam'
+    get:
+      tags:
+        - team
+      summary: Get all team
+      responses:
+        200:
+          description: ""
+    put:
+      tags:
+        - team
+      summary: Update team
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+      responses:
+        200:
+          description: ""
+  /api/skill/timer/start:
+    post:
+      tags:
+        - skill
+      summary: Start Skill Timer
+      responses:
+        200:
+          description: ""
+  /api/skill/timer/stop:
+    post:
+      tags:
+        - skill
+      summary: Stop Skill Timer
+      responses:
+        200:
+          description: ""
+  /api/skill/gate:
+    post:
+      tags:
+        - skill
+      summary: Update skill score after passing a gate
+      responses:
+        200:
+          description: ""
+  /api/skill/result:
+    post:
+      tags:
+        - skill
+      summary: Update scores after skill race
+      responses:
+        200:
+          description: ""
+  /api/speed/safetyCar/follow:
+    post:
+      tags:
+        - safetycar
+      summary: Send safetycar follow status
+      responses:
+        200:
+          description: ""
+  /api/speed/safetyCar/overtake:
+    post:
+      tags:
+        - safetycar
+      summary: Send safetycar overtake status
+      responses:
+        200:
+          description: ""
+  /api/speed/timer/start:
+    post:
+      tags:
+        - speed
+      summary: Start Speed Timer
+      responses:
+        200:
+          description: ""
+  /api/speed/timer/stop:
+    post:
+      tags:
+        - speed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpeedTimer'
+      responses:
+        200:
+          description: ""
+  /api/speed/lap:
+    post:
+      tags:
+        - speed
+      responses:
+        200:
+          description: ""
+  /api/speed/result:
+    post:
+      tags:
+        - speed
+      responses:
+        200:
+          description: ""
+  /api/scores/qualification:
+    post:
+      tags:
+        - scores
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QualifiedTeam'
+      responses:
+        200:
+          description: ""
+  /api/scores/audience:
+    post:
+      tags:
+        - scores
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AudienceScoredTeam'
+      responses:
+        200:
+          description: ""
+  /api/scores/endResult:
+    post:
+      tags:
+        - scores
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndResultedTeam'
+      responses:
+        200:
+          description: ""
+components:
+  schemas:
+    Team:
+      type: object
+      properties:
+        teamId:
+          type: integer
+          required: true
+        year:
+          type: integer
+          example: 2021
+          required: true
+        teamName:
+          type: string
+          example: "BSS"
+          required: true
+        teamMembers:
+          type: array
+          example: [ "Boldi", "Bence" ]
+          required: true
+          items:
+            type: string
+        teamType:
+          type: string
+          required: true
+          enum:
+            - JUNIOR
+            - SENIOR
+    DetailedTeam:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Team'
+        - type: object
+          properties:
+            technicalScore:
+              type: integer
+              default: 0
+            speedScore:
+              type: integer
+              default: 0
+            speedBonusScore:
+              type: integer
+              default: 0
+            numberOfOvertakes:
+              type: integer
+              default: 0
+            safetyCarWasFollowed:
+              type: boolean
+              default: false
+            speedTimes:
+              type: array
+              items:
+                type: integer
+              default: [ ]
+            votes:
+              type: integer
+              default: 0
+            audienceScore:
+              type: integer
+              default: 0
+            qualificationScore:
+              type: integer
+              default: 0
+            totalScore:
+              type: integer
+              default: 0
+            rank:
+              type: integer
+              default: 0
+            juniorRank:
+              type: integer
+              default: 0
+    SpeedTimer:
+      type: object
+      properties:
+        timerAt:
+          description: Timer value in millisec
+          type: integer
+        timerAction:
+          type: string
+          example: STOP
+          enum:
+            - START
+            - STOP
+    AudienceScoredTeam:
+      type: object
+      properties:
+        teamId:
+          type: integer
+        votes:
+          type: integer
+        audienceScore:
+          type: integer
+    QualifiedTeam:
+      type: object
+      properties:
+        teamId:
+          type: integer
+        qualificationScore:
+          type: integer
+    EndResultedTeam:
+      type: object
+      properties:
+        teamId:
+          type: integer
+        totalScore:
+          type: integer
+        rank:
+          type: integer
+        juniorRank:
+          type: integer
+  securitySchemes:
+    RobonAuth:
+      type: apiKey
+      in: header
+      name: RobonAuth-Api-Key
+security:
+  - RobonAuth: [ ]

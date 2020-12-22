@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "robonauth.api-key",
+      "type": "java.lang.String",
+      "description": "Authentication key for communicating with the server."
+    }
+  ]
+}
