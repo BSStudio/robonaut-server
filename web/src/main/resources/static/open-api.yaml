@@ -8,6 +8,7 @@ paths:
       tags:
         - team
       summary: Add a new team
+      description: Add a new team and broadcast it
       requestBody:
         content:
           application/json:
@@ -15,7 +16,7 @@ paths:
               $ref: '#/components/schemas/Team'
       responses:
         201:
-          description: Team was created
+          description: Team was created successfully
           content:
             application/json:
               schema:
@@ -26,11 +27,18 @@ paths:
       summary: Get all team
       responses:
         200:
-          description: ""
+          description: "All teams"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DetailedTeam'
     put:
       tags:
         - team
       summary: Update team
+      description: Update team and broadcast changes
       requestBody:
         content:
           application/json:
@@ -38,59 +46,79 @@ paths:
               $ref: '#/components/schemas/Team'
       responses:
         200:
-          description: ""
+          description: "Updated team"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedTeam'
   /api/skill/timer/start:
     post:
       tags:
         - skill
+      summary: Start Skill Timer
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Timer'
-      summary: Start Skill Timer
       responses:
         200:
-          description: ""
+          description: "Timer state"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Timer'
   /api/skill/timer/stop:
     post:
       tags:
         - skill
+      summary: Stop Skill Timer
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Timer'
-      summary: Stop Skill Timer
       responses:
         200:
-          description: ""
+          description: "Timer state"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Timer'
   /api/skill/gate:
     post:
       tags:
         - skill
+      summary: Update skill score after passing a gate
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/GateInfo'
-      summary: Update skill score after passing a gate
       responses:
         200:
-          description: ""
+          description: "Team updated with skill race information"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedTeam'
   /api/skill/result:
     post:
       tags:
         - skill
+      summary: Update scores after skill race
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/SkillRaceResult'
-      summary: Update scores after skill race
       responses:
         200:
-          description: ""
+          description: "Team updated with skill race information"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedTeam'
   /api/speed/safetyCar/follow:
     post:
       tags:
@@ -104,6 +132,10 @@ paths:
       responses:
         200:
           description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedTeam'
   /api/speed/safetyCar/overtake:
     post:
       tags:
@@ -117,6 +149,10 @@ paths:
       responses:
         200:
           description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedTeam'
   /api/speed/timer/start:
     post:
       tags:
@@ -125,6 +161,10 @@ paths:
       responses:
         200:
           description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedTeam'
   /api/speed/timer/stop:
     post:
       tags:
@@ -137,6 +177,10 @@ paths:
       responses:
         200:
           description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedTeam'
   /api/speed/lap:
     post:
       tags:
@@ -149,6 +193,10 @@ paths:
       responses:
         200:
           description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedTeam'
   /api/speed/result:
     post:
       tags:
@@ -161,6 +209,10 @@ paths:
       responses:
         200:
           description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedTeam'
   /api/scores/qualification:
     post:
       tags:
@@ -173,6 +225,10 @@ paths:
       responses:
         200:
           description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedTeam'
   /api/scores/audience:
     post:
       tags:
@@ -185,10 +241,15 @@ paths:
       responses:
         200:
           description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedTeam'
   /api/scores/endResult:
     post:
       tags:
         - scores
+      summary: Add end result
       requestBody:
         content:
           application/json:
@@ -197,6 +258,10 @@ paths:
       responses:
         200:
           description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedTeam'
 components:
   schemas:
     Team:
