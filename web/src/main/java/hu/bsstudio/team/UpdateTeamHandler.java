@@ -1,8 +1,8 @@
 package hu.bsstudio.team;
 
+import hu.bsstudio.team.model.DetailedTeam;
 import hu.bsstudio.team.model.Team;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.HandlerFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -15,8 +15,8 @@ public class UpdateTeamHandler implements HandlerFunction<ServerResponse> {
 
     @Override
     public Mono<ServerResponse> handle(final ServerRequest request) {
-        return request.bodyToMono(Team.class)
-            .flatMap(teamService::updateTeam)
-            .flatMap(team -> ServerResponse.ok().body(BodyInserters.fromValue(team)));
+        final var detailedTeam = request.bodyToMono(Team.class)
+            .flatMap(teamService::updateTeam);
+        return ServerResponse.ok().body(detailedTeam, DetailedTeam.class);
     }
 }

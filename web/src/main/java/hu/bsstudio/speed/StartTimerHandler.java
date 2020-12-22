@@ -3,7 +3,6 @@ package hu.bsstudio.speed;
 import hu.bsstudio.race.speed.timer.SpeedTimerService;
 import hu.bsstudio.race.speed.timer.model.SpeedTimer;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.HandlerFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;

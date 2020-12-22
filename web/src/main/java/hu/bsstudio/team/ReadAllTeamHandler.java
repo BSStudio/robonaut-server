@@ -1,9 +1,7 @@
 package hu.bsstudio.team;
 
 import hu.bsstudio.team.model.DetailedTeam;
-import hu.bsstudio.team.model.Team;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.HandlerFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -16,7 +14,7 @@ public class ReadAllTeamHandler implements HandlerFunction<ServerResponse> {
 
     @Override
     public Mono<ServerResponse> handle(final ServerRequest request) {
-        final var teamFlux = teamService.findAllTeam();
-        return ServerResponse.ok().body(BodyInserters.fromPublisher(teamFlux, DetailedTeam.class));
+        final var detailedTeam = teamService.findAllTeam();
+        return ServerResponse.ok().body(detailedTeam, DetailedTeam.class);
     }
 }
