@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class SpeedRaceServiceConfiguration {
+public class SpeedTimerServiceConfiguration {
 
     @Bean
-    public SpeedTimerService speedRaceService() {
+    public SpeedTimerService speedTimerService() {
         return new DefaultSpeedTimerService();
     }
 }

@@ -1,7 +1,10 @@
 package hu.bsstudio.speed.configuration;
 
+import hu.bsstudio.race.speed.SpeedRaceService;
 import hu.bsstudio.race.speed.timer.SpeedTimerService;
 import hu.bsstudio.security.RobonAuthFilter;
+import hu.bsstudio.speed.SpeedRaceLapHandler;
+import hu.bsstudio.speed.SpeedRaceResultHandler;
 import hu.bsstudio.speed.StartTimerHandler;
 import hu.bsstudio.speed.StopTimerHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,28 +18,45 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 public class SpeedRaceRouterConfiguration {
 
     @Autowired
-    private RobonAuthFilter authFilter;
+    private RobonAuthFilter robonAuthFilter;
 
     @Autowired
-    private SpeedTimerService service;
+    private SpeedTimerService speedTimerService;
+
+    @Autowired
+    private SpeedRaceService speedRaceService;
 
     @Bean
     public RouterFunction<ServerResponse> speedRaceRouterFunction(final StartTimerHandler startTimerHandler,
-                                                                  final StopTimerHandler stopTimerHandler) {
+                                                                  final StopTimerHandler stopTimerHandler,
+                                                                  final SpeedRaceLapHandler speedRaceLapHandler,
+                                                                  final SpeedRaceResultHandler speedRaceResultHandler) {
         return RouterFunctions.route()
-            .filter(authFilter)
+            .filter(robonAuthFilter)
             .POST("/api/speed/timer/start", startTimerHandler)
             .POST("/api/speed/timer/stop", stopTimerHandler)
+            .POST("/api/speed/lap", speedRaceLapHandler)
+            .POST("/api/speed/result", speedRaceResultHandler)
             .build();
     }
 
     @Bean
     public StartTimerHandler startTimerHandler() {
-        return new StartTimerHandler(service);
+        return new StartTimerHandler(speedTimerService);
     }
 
     @Bean
     public StopTimerHandler stopTimerHandler() {
-        return new StopTimerHandler(service);
+        return new StopTimerHandler(speedTimerService);
+    }
+
+    @Bean
+    public SpeedRaceLapHandler speedRaceLapHandler() {
+        return new SpeedRaceLapHandler(speedRaceService);
+    }
+
+    @Bean
+    public SpeedRaceResultHandler speedRaceResultHandler() {
+        return new SpeedRaceResultHandler(speedRaceService);
     }
 }

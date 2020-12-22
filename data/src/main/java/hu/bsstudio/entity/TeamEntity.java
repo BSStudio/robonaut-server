@@ -18,13 +18,15 @@ public class TeamEntity {
     private TeamType teamType;
 
     // skill
-    private int technicalScore;
+    private int skillScore;
+
+    // safetyCar
+    private int numberOfOvertakes;
+    private boolean safetyCarWasFollowed;
 
     // speed
     private int speedScore;
     private int speedBonusScore;
-    private int numberOfOvertakes;
-    private boolean safetyCarWasFollowed;
     private List<Integer> speedTimes;
 
     // audience

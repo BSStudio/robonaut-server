@@ -69,6 +69,11 @@ paths:
     post:
       tags:
         - skill
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GateInfo'
       summary: Update skill score after passing a gate
       responses:
         200:
@@ -77,6 +82,11 @@ paths:
     post:
       tags:
         - skill
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SkillRaceResult'
       summary: Update scores after skill race
       responses:
         200:
@@ -131,6 +141,11 @@ paths:
     post:
       tags:
         - speed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpeedRaceScore'
       responses:
         200:
           description: ""
@@ -138,6 +153,11 @@ paths:
     post:
       tags:
         - speed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpeedRaceResult'
       responses:
         200:
           description: ""
@@ -211,7 +231,7 @@ components:
         - $ref: '#/components/schemas/Team'
         - type: object
           properties:
-            technicalScore:
+            skillScore:
               type: integer
               default: 0
             speedScore:
@@ -303,6 +323,48 @@ components:
         safetyCarFollowed:
           type: boolean
           example: true
+    GateInfo:
+      type: object
+      properties:
+        teamId:
+          type: integer
+        bonusTime:
+          type: integer
+        timeLeft:
+          type: integer
+        skillScore:
+          type: integer
+        totalSkillScore:
+          type: integer
+    SkillRaceResult:
+      type: object
+      properties:
+        teamId:
+          type: integer
+        skillScore:
+          type: integer
+    SpeedRaceScore:
+      type: object
+      properties:
+        teamId:
+          type: integer
+        speedTimes:
+          type: array
+          items:
+            type: integer
+    SpeedRaceResult:
+      type: object
+      properties:
+        teamId:
+          type: integer
+        speedScore:
+          type: integer
+        speedBonusScore:
+          type: integer
+        speedTimes:
+          type: array
+          items:
+            type: integer
   securitySchemes:
     RobonAuth:
       type: apiKey

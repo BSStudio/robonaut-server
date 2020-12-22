@@ -12,7 +12,7 @@ public class TeamModelEntityMapper {
             .teamName(teamEntity.getTeamName())
             .teamMembers(teamEntity.getTeamMembers())
             .teamType(teamEntity.getTeamType())
-            .technicalScore(teamEntity.getTechnicalScore())
+            .skillScore(teamEntity.getSkillScore())
             .speedScore(teamEntity.getSpeedScore())
             .speedBonusScore(teamEntity.getSpeedBonusScore())
             .numberOfOvertakes(teamEntity.getNumberOfOvertakes())

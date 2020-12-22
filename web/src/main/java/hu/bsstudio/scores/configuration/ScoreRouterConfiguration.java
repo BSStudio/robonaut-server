@@ -6,6 +6,7 @@ import hu.bsstudio.scores.QualificationScoreHandler;
 import hu.bsstudio.scores.audience.AudienceScoreService;
 import hu.bsstudio.scores.endresult.EndResultService;
 import hu.bsstudio.scores.qualification.QualificationScoreService;
+import hu.bsstudio.security.RobonAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,8 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class ScoreRouterConfiguration {
 
+    @Autowired
+    private RobonAuthFilter robonAuthFilter;
     @Autowired
     private QualificationScoreService qualificationScoreService;
     @Autowired
@@ -28,6 +31,7 @@ public class ScoreRouterConfiguration {
                                                               final AudienceScoreHandler audienceScoreHandler,
                                                               final EndResultHandler endResultHandler) {
         return RouterFunctions.route()
+            .filter(robonAuthFilter)
             .POST("/api/scores/qualification", qualificationScoreHandler)
             .POST("/api/scores/audience", audienceScoreHandler)
             .POST("/api/scores/endResult", endResultHandler)

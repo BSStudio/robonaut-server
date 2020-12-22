@@ -15,15 +15,21 @@ public class DetailedTeam {
     String teamName;
     List<String> teamMembers;
     TeamType teamType;
-    int technicalScore;
-    int speedScore;
-    int speedBonusScore;
+
+    int skillScore;
+
     int numberOfOvertakes;
     boolean safetyCarWasFollowed;
+
+    int speedScore;
+    int speedBonusScore;
     List<Integer> speedTimes;
+
     int votes;
     int audienceScore;
+
     int qualificationScore;
+
     int totalScore;
     int rank;
     int juniorRank;
