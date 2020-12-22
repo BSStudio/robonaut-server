@@ -1,6 +1,7 @@
 package hu.bsstudio.speed;
 
-import hu.bsstudio.race.speed.SpeedRaceService;
+import hu.bsstudio.race.speed.timer.SpeedTimerService;
+import hu.bsstudio.race.speed.timer.model.SpeedTimer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.HandlerFunction;
@@ -11,11 +12,11 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class StartTimerHandler implements HandlerFunction<ServerResponse> {
 
-    private final SpeedRaceService service;
+    private final SpeedTimerService service;
 
     @Override
     public Mono<ServerResponse> handle(final ServerRequest request) {
-        return service.startTimer()
-            .flatMap(startTimer -> ServerResponse.ok().body(BodyInserters.fromValue(startTimer)));
+        final var speedTimer = service.startTimer();
+        return ServerResponse.ok().body(speedTimer, SpeedTimer.class);
     }
 }

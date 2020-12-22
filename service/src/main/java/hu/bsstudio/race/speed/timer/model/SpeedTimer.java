@@ -1,5 +1,6 @@
-package hu.bsstudio.race.speed.model;
+package hu.bsstudio.race.speed.timer.model;
 
+import hu.bsstudio.common.TimerAction;
 import lombok.Value;
 
 @Value

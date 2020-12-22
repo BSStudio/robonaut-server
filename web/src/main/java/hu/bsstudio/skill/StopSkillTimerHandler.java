@@ -1,7 +1,7 @@
-package hu.bsstudio.speed;
+package hu.bsstudio.skill;
 
-import hu.bsstudio.race.speed.timer.SpeedTimerService;
-import hu.bsstudio.race.speed.timer.model.SpeedTimer;
+import hu.bsstudio.race.skill.timer.SkillTimerService;
+import hu.bsstudio.race.skill.timer.model.SkillTimer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.reactive.function.server.HandlerFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -9,14 +9,14 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public class StopTimerHandler implements HandlerFunction<ServerResponse> {
+public class StopSkillTimerHandler implements HandlerFunction<ServerResponse> {
 
-    private final SpeedTimerService service;
+    private final SkillTimerService service;
 
     @Override
     public Mono<ServerResponse> handle(final ServerRequest request) {
-        final var speedTimer = request.bodyToMono(SpeedTimer.class)
+        final var skillTimer = request.bodyToMono(SkillTimer.class)
             .flatMap(service::stopTimerAt);
-        return ServerResponse.ok().body(speedTimer, SpeedTimer.class);
+        return ServerResponse.ok().body(skillTimer, SkillTimer.class);
     }
 }

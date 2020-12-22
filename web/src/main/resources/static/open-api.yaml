@@ -43,6 +43,11 @@ paths:
     post:
       tags:
         - skill
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Timer'
       summary: Start Skill Timer
       responses:
         200:
@@ -51,6 +56,11 @@ paths:
     post:
       tags:
         - skill
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Timer'
       summary: Stop Skill Timer
       responses:
         200:
@@ -103,7 +113,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SpeedTimer'
+              $ref: '#/components/schemas/Timer'
       responses:
         200:
           description: ""
@@ -229,7 +239,7 @@ components:
             juniorRank:
               type: integer
               default: 0
-    SpeedTimer:
+    Timer:
       type: object
       properties:
         timerAt:

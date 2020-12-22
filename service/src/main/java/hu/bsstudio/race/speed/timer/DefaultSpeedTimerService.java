@@ -1,12 +1,12 @@
-package hu.bsstudio.race.speed;
+package hu.bsstudio.race.speed.timer;
 
-import hu.bsstudio.race.speed.model.SpeedTimer;
-import hu.bsstudio.race.speed.model.TimerAction;
+import hu.bsstudio.race.speed.timer.model.SpeedTimer;
+import hu.bsstudio.common.TimerAction;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public class DefaultSpeedRaceService implements SpeedRaceService {
+public class DefaultSpeedTimerService implements SpeedTimerService {
 
     private static final int TIMER_INITIAL_VALUE = 0;
 

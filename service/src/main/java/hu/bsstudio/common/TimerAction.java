@@ -1,4 +1,4 @@
-package hu.bsstudio.race.speed.model;
+package hu.bsstudio.common;
 
 public enum TimerAction {
     START,

@@ -1,6 +1,6 @@
 package hu.bsstudio.speed.configuration;
 
-import hu.bsstudio.race.speed.SpeedRaceService;
+import hu.bsstudio.race.speed.timer.SpeedTimerService;
 import hu.bsstudio.security.RobonAuthFilter;
 import hu.bsstudio.speed.StartTimerHandler;
 import hu.bsstudio.speed.StopTimerHandler;
@@ -18,7 +18,7 @@ public class SpeedRaceRouterConfiguration {
     private RobonAuthFilter authFilter;
 
     @Autowired
-    private SpeedRaceService service;
+    private SpeedTimerService service;
 
     @Bean
     public RouterFunction<ServerResponse> speedRaceRouterFunction(final StartTimerHandler startTimerHandler,
