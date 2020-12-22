@@ -86,6 +86,11 @@ paths:
       tags:
         - safetycar
       summary: Send safetycar follow status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SafetyCarFollowInformation'
       responses:
         200:
           description: ""
@@ -94,6 +99,11 @@ paths:
       tags:
         - safetycar
       summary: Send safetycar overtake status
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SafetyCarOvertakeInformation'
       responses:
         200:
           description: ""
@@ -278,6 +288,21 @@ components:
           type: integer
         juniorRank:
           type: integer
+    SafetyCarOvertakeInformation:
+      type: object
+      properties:
+        teamId:
+          type: integer
+        numberOfOvertakes:
+          type: integer
+    SafetyCarFollowInformation:
+      type: object
+      properties:
+        teamId:
+          type: integer
+        safetyCarFollowed:
+          type: boolean
+          example: true
   securitySchemes:
     RobonAuth:
       type: apiKey
