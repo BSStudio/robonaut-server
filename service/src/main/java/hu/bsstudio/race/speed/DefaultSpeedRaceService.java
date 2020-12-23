@@ -7,6 +7,7 @@ import hu.bsstudio.repository.TeamRepository;
 import hu.bsstudio.team.mapper.TeamModelEntityMapper;
 import hu.bsstudio.team.model.DetailedTeam;
 import lombok.AccessLevel;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import reactor.core.publisher.Mono;
@@ -14,6 +15,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class DefaultSpeedRaceService implements SpeedRaceService {
 
+    @NonNull
     private final TeamRepository repository;
 
     @Setter(AccessLevel.PACKAGE)

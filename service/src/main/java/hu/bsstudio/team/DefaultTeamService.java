@@ -33,10 +33,11 @@ public class DefaultTeamService implements TeamService {
     @Override
     public Mono<DetailedTeam> updateTeam(final Team team) {
         return Mono.just(team)
-            .map(this::toEntity)
+            .map(Team::getTeamId)
+            .flatMap(teamRepository::findById)
+            .map(entity -> updateBasicTeamInfo(entity, team))
             .flatMap(teamRepository::save)
             .map(teamMapper::toModel);
-        // todo rework
     }
 
     @Override
@@ -46,13 +47,16 @@ public class DefaultTeamService implements TeamService {
     }
 
     private TeamEntity toEntity(final Team team) {
-        final var teamEntity = new TeamEntity();
-        teamEntity.setTeamId(team.getTeamId());
-        teamEntity.setYear(team.getYear());
-        teamEntity.setTeamName(team.getTeamName());
-        teamEntity.setTeamMembers(team.getTeamMembers());
-        teamEntity.setTeamType(team.getTeamType());
-        teamEntity.setSpeedTimes(Collections.emptyList());
-        return teamEntity;
+        return updateBasicTeamInfo(new TeamEntity(), team);
+    }
+
+    private TeamEntity updateBasicTeamInfo(final TeamEntity entity, final Team team) {
+        entity.setTeamId(team.getTeamId());
+        entity.setYear(team.getYear());
+        entity.setTeamName(team.getTeamName());
+        entity.setTeamMembers(team.getTeamMembers());
+        entity.setTeamType(team.getTeamType());
+        entity.setSpeedTimes(Collections.emptyList());
+        return entity;
     }
 }
