@@ -1,4 +1,3 @@
-include 'integration'
 include 'application'
 include 'web'
 include 'service'
