@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public class StopTimerHandler implements HandlerFunction<ServerResponse> {
+public class StopSpeedTimerHandler implements HandlerFunction<ServerResponse> {
 
     private final SpeedTimerService service;
 
