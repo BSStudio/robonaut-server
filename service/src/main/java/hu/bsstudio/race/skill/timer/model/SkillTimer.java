@@ -1,6 +1,6 @@
 package hu.bsstudio.race.skill.timer.model;
 
-import hu.bsstudio.common.TimerAction;
+import hu.bsstudio.common.model.TimerAction;
 import lombok.Value;
 
 @Value

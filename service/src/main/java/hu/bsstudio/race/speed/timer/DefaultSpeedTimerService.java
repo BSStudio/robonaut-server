@@ -1,6 +1,6 @@
 package hu.bsstudio.race.speed.timer;
 
-import hu.bsstudio.common.TimerAction;
+import hu.bsstudio.common.model.TimerAction;
 import hu.bsstudio.race.speed.timer.model.SpeedTimer;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
