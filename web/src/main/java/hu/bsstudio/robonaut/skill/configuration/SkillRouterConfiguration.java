@@ -2,10 +2,10 @@ package hu.bsstudio.robonaut.skill.configuration;
 
 import hu.bsstudio.robonaut.race.skill.SkillRaceService;
 import hu.bsstudio.robonaut.race.skill.timer.SkillTimerService;
+import hu.bsstudio.robonaut.security.RobonAuthFilter;
 import hu.bsstudio.robonaut.skill.SkillGateHandler;
 import hu.bsstudio.robonaut.skill.SkillRaceResultHandler;
 import hu.bsstudio.robonaut.skill.StartSkillTimerHandler;
-import hu.bsstudio.robonaut.security.RobonAuthFilter;
 import hu.bsstudio.robonaut.skill.StopSkillTimerHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

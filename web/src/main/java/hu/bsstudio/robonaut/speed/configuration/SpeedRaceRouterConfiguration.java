@@ -2,9 +2,9 @@ package hu.bsstudio.robonaut.speed.configuration;
 
 import hu.bsstudio.robonaut.race.speed.SpeedRaceService;
 import hu.bsstudio.robonaut.race.speed.timer.SpeedTimerService;
+import hu.bsstudio.robonaut.security.RobonAuthFilter;
 import hu.bsstudio.robonaut.speed.SpeedRaceLapHandler;
 import hu.bsstudio.robonaut.speed.SpeedRaceResultHandler;
-import hu.bsstudio.robonaut.security.RobonAuthFilter;
 import hu.bsstudio.robonaut.speed.StartSpeedTimerHandler;
 import hu.bsstudio.robonaut.speed.StopSpeedTimerHandler;
 import org.springframework.beans.factory.annotation.Autowired;

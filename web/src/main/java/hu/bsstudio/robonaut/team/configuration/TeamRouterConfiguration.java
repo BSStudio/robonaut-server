@@ -1,9 +1,9 @@
 package hu.bsstudio.robonaut.team.configuration;
 
-import hu.bsstudio.robonaut.team.TeamService;
 import hu.bsstudio.robonaut.security.RobonAuthFilter;
 import hu.bsstudio.robonaut.team.CreateTeamHandler;
 import hu.bsstudio.robonaut.team.ReadAllTeamHandler;
+import hu.bsstudio.robonaut.team.TeamService;
 import hu.bsstudio.robonaut.team.UpdateTeamHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

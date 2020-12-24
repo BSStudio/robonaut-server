@@ -1,11 +1,11 @@
 package hu.bsstudio.robonaut.scores.configuration;
 
-import hu.bsstudio.robonaut.scores.audience.AudienceScoreService;
-import hu.bsstudio.robonaut.scores.endresult.EndResultService;
-import hu.bsstudio.robonaut.scores.qualification.QualificationScoreService;
 import hu.bsstudio.robonaut.scores.AudienceScoreHandler;
 import hu.bsstudio.robonaut.scores.EndResultHandler;
 import hu.bsstudio.robonaut.scores.QualificationScoreHandler;
+import hu.bsstudio.robonaut.scores.audience.AudienceScoreService;
+import hu.bsstudio.robonaut.scores.endresult.EndResultService;
+import hu.bsstudio.robonaut.scores.qualification.QualificationScoreService;
 import hu.bsstudio.robonaut.security.RobonAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
