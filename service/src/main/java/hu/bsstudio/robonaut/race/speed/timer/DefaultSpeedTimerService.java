@@ -13,13 +13,11 @@ public class DefaultSpeedTimerService implements SpeedTimerService {
     @Override
     public Mono<SpeedTimer> startTimer() {
         return Mono.just(new SpeedTimer(TIMER_INITIAL_VALUE, TimerAction.START));
-        // todo broadcast timer started
     }
 
     @Override
     public Mono<SpeedTimer> stopTimerAt(final SpeedTimer speedTimer) {
         return Mono.just(speedTimer)
             .filter(timer -> timer.getTimerAction().equals(TimerAction.STOP));
-        // todo broadcast timer stopped at
     }
 }
