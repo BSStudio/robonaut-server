@@ -4,7 +4,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import hu.bsstudio.robonaut.entity.TeamEntity;
-import hu.bsstudio.robonaut.race.skill.model.GateInfo;
+import hu.bsstudio.robonaut.race.skill.model.GateInformation;
 import hu.bsstudio.robonaut.race.skill.model.SkillRaceResult;
 import hu.bsstudio.robonaut.repository.TeamRepository;
 import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper;
@@ -22,7 +22,7 @@ final class DefaultSkillRaceServiceTest {
     private static final int TIME_LEFT = 4321;
     private static final int SKILL_SCORE = 1234;
     private static final int TOTAL_SKILL_SCORE = 9999;
-    private static final GateInfo GATE_INFO = new GateInfo(TEAM_ID, BONUS_TIME, TIME_LEFT, SKILL_SCORE, TOTAL_SKILL_SCORE);
+    private static final GateInformation GATE_INFO = new GateInformation(TEAM_ID, BONUS_TIME, TIME_LEFT, SKILL_SCORE, TOTAL_SKILL_SCORE);
     private static final SkillRaceResult SKILL_RACE_RESULT = new SkillRaceResult(TEAM_ID, SKILL_SCORE);
 
     private DefaultSkillRaceService underTest;

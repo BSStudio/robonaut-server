@@ -4,10 +4,19 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    environment:
+      robonauth.api-key: BSS
     depends_on:
       - rabbit-mq
       - mongo
+    ports:
+    - 8080:8080
   rabbit-mq:
-    image: rabbitmq:3.8.9
+    image: rabbitmq:management-alpine
+    ports:
+    - 5672:5672
+    - 8081:15672
   mongo:
     image: mongo:4.4.2-bionic
+    ports:
+    - 27017:27017
