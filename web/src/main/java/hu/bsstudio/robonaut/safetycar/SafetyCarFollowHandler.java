@@ -2,6 +2,7 @@ package hu.bsstudio.robonaut.safetycar;
 
 import hu.bsstudio.robonaut.safetycar.model.SafetyCarFollowInformation;
 import hu.bsstudio.robonaut.team.model.DetailedTeam;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.reactive.function.server.HandlerFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -11,6 +12,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class SafetyCarFollowHandler implements HandlerFunction<ServerResponse> {
 
+    @NonNull
     private final SafetyCarService service;
 
     @Override

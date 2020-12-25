@@ -1,6 +1,7 @@
 package hu.bsstudio.robonaut.team;
 
 import hu.bsstudio.robonaut.team.model.DetailedTeam;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.reactive.function.server.HandlerFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -10,6 +11,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ReadAllTeamHandler implements HandlerFunction<ServerResponse> {
 
+    @NonNull
     private final TeamService teamService;
 
     @Override
