@@ -1,6 +1,5 @@
 package hu.bsstudio.robonaut.race.speed;
 
-import hu.bsstudio.robonaut.entity.TeamEntity;
 import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult;
 import hu.bsstudio.robonaut.race.speed.model.SpeedRaceScore;
 import hu.bsstudio.robonaut.team.model.DetailedTeam;
@@ -11,6 +10,9 @@ import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 public class BroadcastingSpeedRaceService implements SpeedRaceService {
+
+    public static final String SPEED_LAP_ROUTING_KEY = "speed.lap";
+    public static final String TEAM_TEAM_DATA_ROUTING_KEY = "team.teamData";
 
     @NonNull
     private final RabbitTemplate template;
@@ -31,10 +33,10 @@ public class BroadcastingSpeedRaceService implements SpeedRaceService {
     }
 
     private void sendLapInfo(final SpeedRaceScore raceScore) {
-        template.convertAndSend("speed.lap", raceScore);
+        template.convertAndSend(SPEED_LAP_ROUTING_KEY, raceScore);
     }
 
     private void sendTeamInfo(final DetailedTeam detailedTeam) {
-        template.convertAndSend("team.teamData", detailedTeam);
+        template.convertAndSend(TEAM_TEAM_DATA_ROUTING_KEY, detailedTeam);
     }
 }

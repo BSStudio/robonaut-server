@@ -11,6 +11,9 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class BroadcastingSafetyCarService implements SafetyCarService {
 
+    public static final String SPEED_SAFETY_CAR_FOLLOW_ROUTING_KEY = "speed.safetyCar.follow";
+    public static final String SPEED_SAFETY_CAR_OVERTAKE_ROUTING_KEY = "speed.safetyCar.overtake";
+
     @NonNull
     private final RabbitTemplate template;
     @NonNull
@@ -31,10 +34,10 @@ public class BroadcastingSafetyCarService implements SafetyCarService {
     }
 
     private void sendSafetyCarFollow(final SafetyCarFollowInformation safetyCarFollowInformation) {
-        template.convertAndSend("speed.safetyCar.follow", safetyCarFollowInformation);
+        template.convertAndSend(SPEED_SAFETY_CAR_FOLLOW_ROUTING_KEY, safetyCarFollowInformation);
     }
 
     private void sendSafetyCarOvertake(final SafetyCarOvertakeInformation safetyCarOvertakeInformation) {
-        template.convertAndSend("speed.safetyCar.overtake", safetyCarOvertakeInformation);
+        template.convertAndSend(SPEED_SAFETY_CAR_OVERTAKE_ROUTING_KEY, safetyCarOvertakeInformation);
     }
 }

@@ -9,6 +9,9 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class BroadcastingSkillTimerService implements SkillTimerService {
 
+    public static final String SKILL_START_TIMER_ROUTING_KEY = "skill.startTimer";
+    public static final String SKILL_STOP_TIMER_ROUTING_KEY = "skill.stopTimer";
+
     @NonNull
     private final RabbitTemplate template;
     @NonNull
@@ -27,10 +30,10 @@ public class BroadcastingSkillTimerService implements SkillTimerService {
     }
 
     private void sendTimerStarted(final SkillTimer timer) {
-        template.convertAndSend("skill.startTimer", timer);
+        template.convertAndSend(SKILL_START_TIMER_ROUTING_KEY, timer);
     }
 
     private void sendTimerStopped(final SkillTimer timer) {
-        template.convertAndSend("skill.stopTimer", timer);
+        template.convertAndSend(SKILL_STOP_TIMER_ROUTING_KEY, timer);
     }
 }

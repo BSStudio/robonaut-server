@@ -11,6 +11,9 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class BroadcastingSkillRaceService implements SkillRaceService {
 
+    public static final String SKILL_GATE_ROUTING_KEY = "skill.gate";
+    public static final String TEAM_TEAM_DATA_ROUTING_KEY = "team.teamData";
+
     @NonNull
     private final RabbitTemplate template;
     @NonNull
@@ -31,10 +34,10 @@ public class BroadcastingSkillRaceService implements SkillRaceService {
 
 
     private void sendGateInfo(GateInformation gateInfo) {
-        template.convertAndSend("skill.gate", gateInfo);
+        template.convertAndSend(SKILL_GATE_ROUTING_KEY, gateInfo);
     }
 
     private void sendTeamInfo(final DetailedTeam detailedTeam) {
-        template.convertAndSend("team.teamData", detailedTeam);
+        template.convertAndSend(TEAM_TEAM_DATA_ROUTING_KEY, detailedTeam);
     }
 }
