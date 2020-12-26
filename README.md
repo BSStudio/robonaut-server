@@ -44,7 +44,7 @@ The required environment variables can be found here:
 For MongoDB and RabbitMQ specific variables visit Spring Boot documentations.
 
 ## Documentation
-To access the documentation run the application and navigate to `/swagger-ui.html`.
+To access the documentation run the application and navigate to the root `/`.
 
 # Message queues
 | type    | queue name        | comment        |
