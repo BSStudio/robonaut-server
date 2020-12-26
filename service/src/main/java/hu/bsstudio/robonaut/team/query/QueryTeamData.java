@@ -11,8 +11,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class QueryTeamData {
 
+    private final TeamService teamService;
+
     @Autowired
-    private TeamService teamService;
+    public QueryTeamData(final TeamService teamService) {
+        this.teamService = teamService;
+    }
 
     @RabbitListener(queues = "general.teamData")
     public void sendTeamData(final Requester requester) {

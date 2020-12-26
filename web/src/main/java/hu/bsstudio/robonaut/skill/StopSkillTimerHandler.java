@@ -18,7 +18,7 @@ public class StopSkillTimerHandler implements HandlerFunction<ServerResponse> {
     @Override
     public Mono<ServerResponse> handle(final ServerRequest request) {
         final var skillTimer = request.bodyToMono(SkillTimer.class)
-            .flatMap(service::stopTimerAt);
+            .flatMap(service::stopTimer);
         return ServerResponse.ok().body(skillTimer, SkillTimer.class);
     }
 }

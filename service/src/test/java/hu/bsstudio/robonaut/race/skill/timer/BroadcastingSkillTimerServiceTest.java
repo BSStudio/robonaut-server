@@ -15,6 +15,7 @@ import reactor.test.StepVerifier;
 final class BroadcastingSkillTimerServiceTest {
 
     private static final SkillTimer SKILL_TIMER = new SkillTimer(0, null);
+    private static final String ROUTING_KEY = "skill.timer";
 
     private BroadcastingSkillTimerService underTest;
 
@@ -30,7 +31,7 @@ final class BroadcastingSkillTimerServiceTest {
     }
 
     @Test
-    void name() {
+    void shouldReturnSpeedTimerFromUnderLyingServiceAndSendItWhenTimerIsStarted() {
         when(mockService.startTimer(SKILL_TIMER))
             .thenReturn(Mono.just(SKILL_TIMER));
 
@@ -39,6 +40,19 @@ final class BroadcastingSkillTimerServiceTest {
         StepVerifier.create(result)
             .expectNext(SKILL_TIMER)
             .verifyComplete();
-        verify(mockTemplate).convertAndSend("skill.timer", SKILL_TIMER);
+        verify(mockTemplate).convertAndSend(ROUTING_KEY, SKILL_TIMER);
+    }
+
+    @Test
+    void shouldReturnSpeedTimerFromUnderLyingServiceAndSendItWhenTimerIsStopped() {
+        when(mockService.stopTimer(SKILL_TIMER))
+            .thenReturn(Mono.just(SKILL_TIMER));
+
+        final var result = underTest.stopTimer(SKILL_TIMER);
+
+        StepVerifier.create(result)
+            .expectNext(SKILL_TIMER)
+            .verifyComplete();
+        verify(mockTemplate).convertAndSend(ROUTING_KEY, SKILL_TIMER);
     }
 }

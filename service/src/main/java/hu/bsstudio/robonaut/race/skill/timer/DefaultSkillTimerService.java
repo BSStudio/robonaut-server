@@ -15,7 +15,7 @@ public class DefaultSkillTimerService implements SkillTimerService {
     }
 
     @Override
-    public Mono<SkillTimer> stopTimerAt(final SkillTimer skillTimer) {
+    public Mono<SkillTimer> stopTimer(final SkillTimer skillTimer) {
         return Mono.just(skillTimer)
             .filter(this::timerActionIsStop);
     }

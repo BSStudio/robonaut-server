@@ -32,7 +32,7 @@ final class StopSkillTimerHandlerTest {
     @Test
     void shouldReturnSkillTimerWithOkStatus() {
         final var skillTimer = new SkillTimer(0, TimerAction.STOP);
-        when(mockService.stopTimerAt(skillTimer))
+        when(mockService.stopTimer(skillTimer))
             .thenReturn(Mono.just(skillTimer));
 
         webTestClient.post().uri("/test").bodyValue(skillTimer).exchange()

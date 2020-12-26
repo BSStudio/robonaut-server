@@ -10,7 +10,6 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
