@@ -1,7 +1,7 @@
 package hu.bsstudio.robonaut.scores.audience;
 
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import hu.bsstudio.robonaut.entity.TeamEntity;
 import hu.bsstudio.robonaut.repository.TeamRepository;
@@ -30,7 +30,7 @@ final class DefaultAudienceScoreServiceTest {
 
     @BeforeEach
     void setUp() {
-        initMocks(this);
+        openMocks(this);
         this.underTest = new DefaultAudienceScoreService(mockRepository);
         this.underTest.setTeamModelEntityMapper(mockMapper);
     }

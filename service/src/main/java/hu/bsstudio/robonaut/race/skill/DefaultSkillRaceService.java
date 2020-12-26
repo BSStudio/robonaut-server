@@ -1,12 +1,13 @@
 package hu.bsstudio.robonaut.race.skill;
 
 import hu.bsstudio.robonaut.entity.TeamEntity;
-import hu.bsstudio.robonaut.race.skill.model.GateInfo;
+import hu.bsstudio.robonaut.race.skill.model.GateInformation;
 import hu.bsstudio.robonaut.race.skill.model.SkillRaceResult;
 import hu.bsstudio.robonaut.repository.TeamRepository;
 import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper;
 import hu.bsstudio.robonaut.team.model.DetailedTeam;
 import lombok.AccessLevel;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import reactor.core.publisher.Mono;
@@ -14,18 +15,18 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class DefaultSkillRaceService implements SkillRaceService {
 
+    @NonNull
     private final TeamRepository repository;
 
     @Setter(AccessLevel.PACKAGE)
     private TeamModelEntityMapper mapper = new TeamModelEntityMapper();
 
     @Override
-    public Mono<DetailedTeam> updateSkillRaceResultOnGate(final GateInfo gateInfo) {
-        return Mono.just(gateInfo)
-            // todo broadcast gate info
-            .map(GateInfo::getTeamId)
+    public Mono<DetailedTeam> updateSkillRaceResultOnGate(final GateInformation gateInformation) {
+        return Mono.just(gateInformation)
+            .map(GateInformation::getTeamId)
             .flatMap(repository::findById)
-            .map(entity -> updateSkillRaceInfo(entity, gateInfo))
+            .map(entity -> updateSkillRaceInfo(entity, gateInformation))
             .flatMap(repository::save)
             .map(mapper::toModel);
     }
@@ -33,7 +34,6 @@ public class DefaultSkillRaceService implements SkillRaceService {
     @Override
     public Mono<DetailedTeam> updateSkillRaceResult(final SkillRaceResult skillRaceResult) {
         return Mono.just(skillRaceResult)
-            // todo broadcast final result
             .map(SkillRaceResult::getTeamId)
             .flatMap(repository::findById)
             .map(entity -> updateSkillRaceInfo(entity, skillRaceResult))
@@ -41,8 +41,8 @@ public class DefaultSkillRaceService implements SkillRaceService {
             .map(mapper::toModel);
     }
 
-    private TeamEntity updateSkillRaceInfo(final TeamEntity entity, final GateInfo gateInfo) {
-        entity.setSkillScore(gateInfo.getTotalSkillScore());
+    private TeamEntity updateSkillRaceInfo(final TeamEntity entity, final GateInformation gateInformation) {
+        entity.setSkillScore(gateInformation.getTotalSkillScore());
         return entity;
     }
 

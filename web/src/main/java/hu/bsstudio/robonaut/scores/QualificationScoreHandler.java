@@ -3,6 +3,7 @@ package hu.bsstudio.robonaut.scores;
 import hu.bsstudio.robonaut.scores.qualification.QualificationScoreService;
 import hu.bsstudio.robonaut.scores.qualification.model.QualifiedTeam;
 import hu.bsstudio.robonaut.team.model.DetailedTeam;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.reactive.function.server.HandlerFunction;
@@ -14,6 +15,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class QualificationScoreHandler implements HandlerFunction<ServerResponse> {
 
+    @NonNull
     private final QualificationScoreService service;
 
     @Override

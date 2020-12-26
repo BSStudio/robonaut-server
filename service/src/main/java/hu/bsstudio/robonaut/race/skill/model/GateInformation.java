@@ -3,7 +3,7 @@ package hu.bsstudio.robonaut.race.skill.model;
 import lombok.Value;
 
 @Value
-public class GateInfo {
+public class GateInformation {
     long teamId;
     int bonusTime;
     int timeLeft;

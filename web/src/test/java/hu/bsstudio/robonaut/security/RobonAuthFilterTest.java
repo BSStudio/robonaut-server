@@ -4,7 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +37,7 @@ final class RobonAuthFilterTest {
 
     @BeforeEach
     void setUp() {
-        initMocks(this);
+        openMocks(this);
         this.underTest = new RobonAuthFilter(APPLICATION_SECRET);
     }
 

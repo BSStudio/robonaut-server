@@ -1,10 +1,10 @@
 package hu.bsstudio.robonaut.skill;
 
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import hu.bsstudio.robonaut.race.skill.SkillRaceService;
-import hu.bsstudio.robonaut.race.skill.model.GateInfo;
+import hu.bsstudio.robonaut.race.skill.model.GateInformation;
 import hu.bsstudio.robonaut.team.model.DetailedTeam;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ final class SkillGateHandlerTest {
 
     @BeforeEach
     void setUp() {
-        initMocks(this);
+        openMocks(this);
         final var underTest = new SkillGateHandler(mockService);
         final var routerFunction = RouterFunctions.route()
             .POST("/test", underTest).build();
@@ -31,7 +31,7 @@ final class SkillGateHandlerTest {
 
     @Test
     void shouldReturnDetailedTeamWithOkStatus() {
-        final var gateInfo = new GateInfo(0, 0, 0, 0, 0);
+        final var gateInfo = new GateInformation(0, 0, 0, 0, 0);
         final var detailedTeam = DetailedTeam.builder().build();
         when(mockService.updateSkillRaceResultOnGate(gateInfo))
             .thenReturn(Mono.just(detailedTeam));

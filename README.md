@@ -17,3 +17,17 @@
 | POST /api/scores/qualification     | qualification          | Add qualification scores           | All team information                                     |
 | POST /api/scores/audience          | audience               | Add votes from audience            | All team information                                     |
 | POST /api/scores/endResult         | finalRankingAndResults | Add final scores                   | All team information                                     |
+
+# Message queues
+| type    | queue name        | comment        |
+|---------|-------------------|----------------|
+| general | teamDataRequest   | from CG client |
+| skill   | startTimer        |                |
+|         | stopTimer         |                |
+|         | gate              |                |
+| speed   | safetyCarFollow   |                |
+|         | safetyCarOvertake |                |
+|         | startTimer        |                |
+|         | stopTimer         |                |
+|         | lap               |                |
+| team    | teamData          |                |

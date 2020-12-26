@@ -1,7 +1,7 @@
 package hu.bsstudio.robonaut.scores;
 
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import hu.bsstudio.robonaut.scores.qualification.QualificationScoreService;
 import hu.bsstudio.robonaut.scores.qualification.model.QualifiedTeam;
@@ -24,7 +24,7 @@ final class QualificationScoreHandlerTest {
 
     @BeforeEach
     void setUp() {
-        initMocks(this);
+        openMocks(this);
         final var underTest = new QualificationScoreHandler(mockService);
         final var routerFunction = RouterFunctions.route()
             .POST("/test", underTest).build();

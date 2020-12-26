@@ -1,7 +1,7 @@
 package hu.bsstudio.robonaut.speed;
 
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import hu.bsstudio.robonaut.common.model.TimerAction;
 import hu.bsstudio.robonaut.race.speed.timer.SpeedTimerService;
@@ -22,7 +22,7 @@ final class StartSpeedTimerHandlerTest {
 
     @BeforeEach
     void setUp() {
-        initMocks(this);
+        openMocks(this);
         final var underTest = new StartSpeedTimerHandler(mockService);
         final var routerFunction = RouterFunctions.route()
             .POST("/test", underTest).build();

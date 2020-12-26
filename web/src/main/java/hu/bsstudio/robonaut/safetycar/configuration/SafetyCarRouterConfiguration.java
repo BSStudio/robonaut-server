@@ -17,7 +17,7 @@ public class SafetyCarRouterConfiguration {
     @Autowired
     private RobonAuthFilter robonAuthFilter;
     @Autowired
-    private SafetyCarService service;
+    private SafetyCarService safetyCarService;
 
     @Bean
     public RouterFunction<ServerResponse> safetyCarRouterFunction(final SafetyCarFollowHandler safetyCarFollowHandler,
@@ -31,11 +31,11 @@ public class SafetyCarRouterConfiguration {
 
     @Bean
     public SafetyCarFollowHandler safetyCarFollowHandler() {
-        return new SafetyCarFollowHandler(service);
+        return new SafetyCarFollowHandler(safetyCarService);
     }
 
     @Bean
     public SafetyCarOvertakeHandler safetyCarOvertakeHandler() {
-        return new SafetyCarOvertakeHandler(service);
+        return new SafetyCarOvertakeHandler(safetyCarService);
     }
 }

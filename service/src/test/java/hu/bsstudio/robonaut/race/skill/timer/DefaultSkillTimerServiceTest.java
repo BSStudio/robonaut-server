@@ -42,7 +42,7 @@ final class DefaultSkillTimerServiceTest {
     void shouldReturnSkillTimerWhenTimerIsStopped() {
         final var skillTimer = new SkillTimer(TIMER_AT, TimerAction.STOP);
 
-        final var result = underTest.stopTimerAt(skillTimer);
+        final var result = underTest.stopTimer(skillTimer);
 
         StepVerifier.create(result)
             .expectNext(skillTimer)
@@ -53,7 +53,7 @@ final class DefaultSkillTimerServiceTest {
     void shouldReturnEmptyWhenTimerActionDoesNotMatchWhenTimerIsStopped() {
         final var skillTimer = new SkillTimer(TIMER_AT, TimerAction.START);
 
-        final var result = underTest.stopTimerAt(skillTimer);
+        final var result = underTest.stopTimer(skillTimer);
 
         StepVerifier.create(result)
             .verifyComplete();

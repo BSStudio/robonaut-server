@@ -1,7 +1,7 @@
 package hu.bsstudio.robonaut.safetycar;
 
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import hu.bsstudio.robonaut.entity.TeamEntity;
 import hu.bsstudio.robonaut.repository.TeamRepository;
@@ -32,7 +32,7 @@ final class DefaultSafetyCarServiceTest {
 
     @BeforeEach
     void setUp() {
-        initMocks(this);
+        openMocks(this);
         this.underTest = new DefaultSafetyCarService(mockRepository);
         this.underTest.setMapper(mockMapper);
     }

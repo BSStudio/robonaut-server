@@ -1,6 +1,7 @@
 package hu.bsstudio.robonaut.security;
 
 import java.util.List;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ public class RobonAuthFilter implements HandlerFilterFunction<ServerResponse, Se
     private static final Mono<ServerResponse> UNAUTHORIZED_RESPONSE = ServerResponse.status(HttpStatus.UNAUTHORIZED).build();
     private static final String AUTH_API_KEY_HEADER = "RobonAuth-Api-Key";
 
+    @NonNull
     private final String apiKey;
 
     @Override

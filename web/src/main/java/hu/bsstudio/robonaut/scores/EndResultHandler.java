@@ -3,6 +3,7 @@ package hu.bsstudio.robonaut.scores;
 import hu.bsstudio.robonaut.scores.endresult.EndResultService;
 import hu.bsstudio.robonaut.scores.endresult.model.EndResultedTeam;
 import hu.bsstudio.robonaut.team.model.DetailedTeam;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.reactive.function.server.HandlerFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -12,6 +13,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class EndResultHandler implements HandlerFunction<ServerResponse> {
 
+    @NonNull
     private final EndResultService service;
 
     @Override
