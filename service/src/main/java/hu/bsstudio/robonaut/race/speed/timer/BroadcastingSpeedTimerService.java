@@ -9,8 +9,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class BroadcastingSpeedTimerService implements SpeedTimerService {
 
-    public static final String SPEED_START_TIMER_ROUTING_KEY = "speed.startTimer";
-    public static final String SPEED_STOP_TIMER_ROUTING_KEY = "speed.stopTimer";
+    public static final String SPEED_TIMER_ROUTING_KEY = "speed.timer";
 
     @NonNull
     private final RabbitTemplate template;
@@ -20,20 +19,16 @@ public class BroadcastingSpeedTimerService implements SpeedTimerService {
     @Override
     public Mono<SpeedTimer> startTimer() {
         return service.startTimer()
-            .doOnNext(this::sendTimerStarted);
+            .doOnNext(this::sendTimerInformation);
     }
 
     @Override
     public Mono<SpeedTimer> stopTimerAt(final SpeedTimer speedTimer) {
         return service.stopTimerAt(speedTimer)
-            .doOnNext(this::sendTimerStopped);
+            .doOnNext(this::sendTimerInformation);
     }
 
-    private void sendTimerStarted(final SpeedTimer timer) {
-        template.convertAndSend(SPEED_START_TIMER_ROUTING_KEY, timer);
-    }
-
-    private void sendTimerStopped(final SpeedTimer timer) {
-        template.convertAndSend(SPEED_STOP_TIMER_ROUTING_KEY, timer);
+    private void sendTimerInformation(final SpeedTimer timer) {
+        template.convertAndSend(SPEED_TIMER_ROUTING_KEY, timer);
     }
 }

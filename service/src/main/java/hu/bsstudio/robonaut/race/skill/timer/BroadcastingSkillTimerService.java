@@ -9,8 +9,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class BroadcastingSkillTimerService implements SkillTimerService {
 
-    public static final String SKILL_START_TIMER_ROUTING_KEY = "skill.startTimer";
-    public static final String SKILL_STOP_TIMER_ROUTING_KEY = "skill.stopTimer";
+    public static final String SKILL_TIMER_ROUTING_KEY = "skill.timer";
 
     @NonNull
     private final RabbitTemplate template;
@@ -20,20 +19,16 @@ public class BroadcastingSkillTimerService implements SkillTimerService {
     @Override
     public Mono<SkillTimer> startTimer(final SkillTimer skillTimer) {
         return service.startTimer(skillTimer)
-            .doOnNext(this::sendTimerStarted);
+            .doOnNext(this::sendSkillTimerData);
     }
 
     @Override
     public Mono<SkillTimer> stopTimerAt(final SkillTimer skillTimer) {
         return service.stopTimerAt(skillTimer)
-            .doOnNext(this::sendTimerStopped);
+            .doOnNext(this::sendSkillTimerData);
     }
 
-    private void sendTimerStarted(final SkillTimer timer) {
-        template.convertAndSend(SKILL_START_TIMER_ROUTING_KEY, timer);
-    }
-
-    private void sendTimerStopped(final SkillTimer timer) {
-        template.convertAndSend(SKILL_STOP_TIMER_ROUTING_KEY, timer);
+    private void sendSkillTimerData(final SkillTimer timer) {
+        template.convertAndSend(SKILL_TIMER_ROUTING_KEY, timer);
     }
 }

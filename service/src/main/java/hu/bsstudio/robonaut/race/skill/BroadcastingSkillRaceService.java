@@ -33,7 +33,7 @@ public class BroadcastingSkillRaceService implements SkillRaceService {
     }
 
 
-    private void sendGateInfo(GateInformation gateInfo) {
+    private void sendGateInfo(final GateInformation gateInfo) {
         template.convertAndSend(SKILL_GATE_ROUTING_KEY, gateInfo);
     }
 

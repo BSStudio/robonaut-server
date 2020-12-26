@@ -46,6 +46,11 @@ public class DefaultTeamService implements TeamService {
             .map(teamMapper::toModel);
     }
 
+    public Mono<Void> removeTeam(final long teamId) {
+        return Mono.just(teamId)
+            .flatMap(teamRepository::deleteById);
+    }
+
     private TeamEntity toEntity(final Team team) {
         return updateBasicTeamInfo(new TeamEntity(), team);
     }

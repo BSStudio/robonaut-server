@@ -2,7 +2,6 @@ package hu.bsstudio.robonaut.team;
 
 import hu.bsstudio.robonaut.team.model.DetailedTeam;
 import hu.bsstudio.robonaut.team.model.Team;
-import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -35,16 +34,10 @@ public class BroadcastingTeamService implements TeamService {
     @Override
     public Flux<DetailedTeam> findAllTeam() {
         return service.findAllTeam()
-            .collectList()
-            .doOnNext(this::sendAllTeam)
-            .flatMapIterable(detailedTeams -> detailedTeams);
+            .doOnNext(this::sendTeamInfo);
     }
 
     private void sendTeamInfo(final DetailedTeam detailedTeam) {
         template.convertAndSend(TEAM_TEAM_DATA_ROUTING_KEY, detailedTeam);
-    }
-
-    void sendAllTeam(final List<DetailedTeam> detailedTeamList) {
-        template.convertAndSend("", detailedTeamList); // todo
     }
 }

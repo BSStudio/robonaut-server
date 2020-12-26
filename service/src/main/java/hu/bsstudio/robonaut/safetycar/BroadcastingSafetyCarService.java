@@ -13,6 +13,7 @@ public class BroadcastingSafetyCarService implements SafetyCarService {
 
     public static final String SPEED_SAFETY_CAR_FOLLOW_ROUTING_KEY = "speed.safetyCar.follow";
     public static final String SPEED_SAFETY_CAR_OVERTAKE_ROUTING_KEY = "speed.safetyCar.overtake";
+    public static final String TEAM_DATA_ROUTING_KEY = "team.teamData";
 
     @NonNull
     private final RabbitTemplate template;
@@ -23,14 +24,16 @@ public class BroadcastingSafetyCarService implements SafetyCarService {
     public Mono<DetailedTeam> safetyCarWasFollowed(final SafetyCarFollowInformation safetyCarFollowInformation) {
         return Mono.just(safetyCarFollowInformation)
             .doOnNext(this::sendSafetyCarFollow)
-            .flatMap(service::safetyCarWasFollowed);
+            .flatMap(service::safetyCarWasFollowed)
+            .doOnNext(this::sendTeamData);
     }
 
     @Override
     public Mono<DetailedTeam> safetyCarWasOvertaken(final SafetyCarOvertakeInformation safetyCarOvertakeInformation) {
         return Mono.just(safetyCarOvertakeInformation)
             .doOnNext(this::sendSafetyCarOvertake)
-            .flatMap(service::safetyCarWasOvertaken);
+            .flatMap(service::safetyCarWasOvertaken)
+            .doOnNext(this::sendTeamData);
     }
 
     private void sendSafetyCarFollow(final SafetyCarFollowInformation safetyCarFollowInformation) {
@@ -39,5 +42,9 @@ public class BroadcastingSafetyCarService implements SafetyCarService {
 
     private void sendSafetyCarOvertake(final SafetyCarOvertakeInformation safetyCarOvertakeInformation) {
         template.convertAndSend(SPEED_SAFETY_CAR_OVERTAKE_ROUTING_KEY, safetyCarOvertakeInformation);
+    }
+
+    private void sendTeamData(final DetailedTeam detailedTeam) {
+        template.convertAndSend(TEAM_DATA_ROUTING_KEY, detailedTeam);
     }
 }

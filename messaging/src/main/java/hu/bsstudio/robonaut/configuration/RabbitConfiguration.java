@@ -1,4 +1,4 @@
-package hu.bsstudio.robonaut;
+package hu.bsstudio.robonaut.configuration;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionNameStrategy;
@@ -17,12 +17,7 @@ public class RabbitConfiguration {
 
     @Bean
     public Queue startSkillTimerQueue() {
-        return new Queue("skill.startTimer");
-    }
-
-    @Bean
-    public Queue stopSkillTimerQueue() {
-        return new Queue("skill.stopTimer");
+        return new Queue("skill.timer");
     }
 
     @Bean
@@ -42,12 +37,7 @@ public class RabbitConfiguration {
 
     @Bean
     public Queue startSpeedTimerQueue() {
-        return new Queue("speed.startTimer");
-    }
-
-    @Bean
-    public Queue stopSpeedTimerQueue() {
-        return new Queue("speed.stopTimer");
+        return new Queue("speed.timer");
     }
 
     @Bean

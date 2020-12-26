@@ -23,7 +23,8 @@ public class BroadcastingSpeedRaceService implements SpeedRaceService {
     public Mono<DetailedTeam> updateSpeedRaceOnLap(final SpeedRaceScore speedRaceScore) {
         return Mono.just(speedRaceScore)
             .doOnNext(this::sendLapInfo)
-            .flatMap(service::updateSpeedRaceOnLap);
+            .flatMap(service::updateSpeedRaceOnLap)
+            .doOnNext(this::sendTeamInfo);
     }
 
     @Override
