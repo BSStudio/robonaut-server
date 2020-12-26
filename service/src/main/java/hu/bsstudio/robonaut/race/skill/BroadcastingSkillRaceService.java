@@ -23,7 +23,8 @@ public class BroadcastingSkillRaceService implements SkillRaceService {
     public Mono<DetailedTeam> updateSkillRaceResultOnGate(final GateInformation gateInformation) {
         return Mono.just(gateInformation)
             .doOnNext(this::sendGateInfo)
-            .flatMap(service::updateSkillRaceResultOnGate);
+            .flatMap(service::updateSkillRaceResultOnGate)
+            .doOnNext(this::sendTeamInfo);
     }
 
     @Override
