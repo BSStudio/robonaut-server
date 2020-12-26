@@ -45,17 +45,3 @@ For MongoDB and RabbitMQ specific variables visit Spring Boot documentations.
 
 ## Documentation
 To access the documentation run the application and navigate to the root `/`.
-
-# Message queues
-| type    | queue name        | comment        |
-|---------|-------------------|----------------|
-| general | teamDataRequest   | from CG client |
-| skill   | startTimer        |                |
-|         | stopTimer         |                |
-|         | gate              |                |
-| speed   | safetyCarFollow   |                |
-|         | safetyCarOvertake |                |
-|         | startTimer        |                |
-|         | stopTimer         |                |
-|         | lap               |                |
-| team    | teamData          |                |
