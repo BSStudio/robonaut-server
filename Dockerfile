@@ -7,8 +7,6 @@ COPY . .
 RUN gradle bootJar --parallel
 
 FROM $JDK
-RUN addgroup -S spring && adduser -S spring -G spring
-USER spring:spring
 WORKDIR /home/spring
-COPY --from=build ./application/build/libs/app.jar ./app.jar
+COPY --from=build /home/gradle/application/build/libs/app.jar ./app.jar
 ENTRYPOINT ["java","-jar","./app.jar"]
