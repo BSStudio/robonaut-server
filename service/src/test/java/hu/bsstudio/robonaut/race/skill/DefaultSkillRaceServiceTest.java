@@ -1,7 +1,7 @@
 package hu.bsstudio.robonaut.race.skill;
 
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import hu.bsstudio.robonaut.entity.TeamEntity;
 import hu.bsstudio.robonaut.race.skill.model.GateInformation;
@@ -34,7 +34,7 @@ final class DefaultSkillRaceServiceTest {
 
     @BeforeEach
     void setUp() {
-        initMocks(this);
+        openMocks(this);
         this.underTest = new DefaultSkillRaceService(mockRepository);
         this.underTest.setMapper(mockMapper);
     }

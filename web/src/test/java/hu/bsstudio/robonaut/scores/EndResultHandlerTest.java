@@ -1,7 +1,7 @@
 package hu.bsstudio.robonaut.scores;
 
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import hu.bsstudio.robonaut.scores.endresult.EndResultService;
 import hu.bsstudio.robonaut.scores.endresult.model.EndResultedTeam;
@@ -24,7 +24,7 @@ final class EndResultHandlerTest {
 
     @BeforeEach
     void setUp() {
-        initMocks(this);
+        openMocks(this);
         final var underTest = new EndResultHandler(mockService);
         final var routerFunction = RouterFunctions.route()
             .POST("/test", underTest).build();

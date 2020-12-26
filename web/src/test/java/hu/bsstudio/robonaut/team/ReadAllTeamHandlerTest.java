@@ -1,7 +1,7 @@
 package hu.bsstudio.robonaut.team;
 
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import hu.bsstudio.robonaut.team.model.DetailedTeam;
 import java.util.List;
@@ -22,7 +22,7 @@ final class ReadAllTeamHandlerTest {
 
     @BeforeEach
     void setUp() {
-        initMocks(this);
+        openMocks(this);
         final var underTest = new ReadAllTeamHandler(mockService);
         final var routerFunction = RouterFunctions.route()
             .POST("/test", underTest).build();

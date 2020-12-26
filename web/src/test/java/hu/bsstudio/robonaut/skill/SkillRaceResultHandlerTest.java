@@ -1,7 +1,7 @@
 package hu.bsstudio.robonaut.skill;
 
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import hu.bsstudio.robonaut.race.skill.SkillRaceService;
 import hu.bsstudio.robonaut.race.skill.model.SkillRaceResult;
@@ -22,7 +22,7 @@ final class SkillRaceResultHandlerTest {
 
     @BeforeEach
     void setUp() {
-        initMocks(this);
+        openMocks(this);
         final var underTest = new SkillRaceResultHandler(mockService);
         final var routerFunction = RouterFunctions.route()
             .POST("/test", underTest).build();

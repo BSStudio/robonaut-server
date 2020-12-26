@@ -1,7 +1,7 @@
 package hu.bsstudio.robonaut.safetycar;
 
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import hu.bsstudio.robonaut.safetycar.model.SafetyCarOvertakeInformation;
 import hu.bsstudio.robonaut.team.model.DetailedTeam;
@@ -21,7 +21,7 @@ final class SafetyCarOvertakeHandlerTest {
 
     @BeforeEach
     void setUp() {
-        initMocks(this);
+        openMocks(this);
         final var underTest = new SafetyCarOvertakeHandler(mockService);
         final var routerFunction = RouterFunctions.route()
             .POST("/test", underTest).build();

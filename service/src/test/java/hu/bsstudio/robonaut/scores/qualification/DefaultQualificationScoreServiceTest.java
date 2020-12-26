@@ -1,7 +1,7 @@
 package hu.bsstudio.robonaut.scores.qualification;
 
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import hu.bsstudio.robonaut.entity.TeamEntity;
 import hu.bsstudio.robonaut.repository.TeamRepository;
@@ -29,7 +29,7 @@ final class DefaultQualificationScoreServiceTest {
 
     @BeforeEach
     void setUp() {
-        initMocks(this);
+        openMocks(this);
         this.underTest = new DefaultQualificationScoreService(mockRepository);
         this.underTest.setMapper(mockMapper);
     }

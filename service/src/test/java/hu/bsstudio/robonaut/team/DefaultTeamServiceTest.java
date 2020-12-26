@@ -1,7 +1,7 @@
 package hu.bsstudio.robonaut.team;
 
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import hu.bsstudio.robonaut.entity.TeamEntity;
 import hu.bsstudio.robonaut.entity.TeamType;
@@ -49,7 +49,7 @@ final class DefaultTeamServiceTest {
 
     @BeforeEach
     void setUp() {
-        initMocks(this);
+        openMocks(this);
         this.underTest = new DefaultTeamService(mockRepository);
         this.underTest.setTeamMapper(mockMapper);
     }

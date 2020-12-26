@@ -1,7 +1,7 @@
 package hu.bsstudio.robonaut.scores;
 
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import hu.bsstudio.robonaut.scores.audience.AudienceScoreService;
 import hu.bsstudio.robonaut.scores.audience.model.AudienceScoredTeam;
@@ -24,7 +24,7 @@ final class AudienceScoreHandlerTest {
 
     @BeforeEach
     void setUp() {
-        initMocks(this);
+        openMocks(this);
         final var underTest = new AudienceScoreHandler(mockService);
         final var routerFunction = RouterFunctions.route()
             .POST("/test", underTest).build();
