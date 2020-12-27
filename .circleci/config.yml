@@ -25,3 +25,9 @@ jobs:
     steps:
       - checkout
       - run: docker-compose up --build --abort-on-container-exit
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - integration-test
