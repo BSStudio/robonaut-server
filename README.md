@@ -10,17 +10,14 @@ To display the events, we created software that uses [CasparCG](https://casparcg
 This program persisted the events of the tournament and broadcasted the details of the events to the playout software.
 
 ```
-+----------+    +---------+    +----------+    +-----------------+    +---------------+
-|          |    |         |    |          |    |                 |    |               |
-| CasparCG |<-->| Playout |<-->| RabbitMQ |<-->| Robonaut Server |<-->| Race software |
-|          |    |         |    |          |    |                 |    |               |
-+----------+    +---------+    +----------+    +-----------------+    +---------------+
-                                                        |
-                                                   +---------+
-                                                   |         |
-                                                   | MongoDB |
-                                                   |         |
-                                                   +---------+
++----------+    +---------+    +----------+    +----------+    +--------------+
+| CasparCG |<-->| Playout |<-->| RabbitMQ |<-->| RobonAUT |<-->| Race control |
+|          |    | Server  |    |          |    |  Server  |    | software     |
++----------+    +---------+    +----------+    +----------+    +--------------+
+                                                     |
+                                               +----------+
+                                               | Mongo DB |
+                                               +----------+
 ```
 
 ## Run the application
