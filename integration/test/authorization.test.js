@@ -1,9 +1,10 @@
+require('dotenv').config()
 const request = require('supertest')
 
 const HOST = process.env.HOST_NAME;
 
 describe('Authorization test', () => {
-    const endpoints = [
+    const postEndpoint = [
         '/api/team',
         '/api/skill/timer/start',
         '/api/skill/timer/stop',
@@ -19,7 +20,7 @@ describe('Authorization test', () => {
         '/api/scores/audience',
         '/api/scores/endResult'
     ];
-    test.each(endpoints)('POST %p endpoint should return unauthorized', async (endpoint) => {
+    test.each(postEndpoint)('POST %p endpoint should return unauthorized', async (endpoint) => {
         return request(HOST)
             .post(endpoint)
             .then(response => {
@@ -27,7 +28,7 @@ describe('Authorization test', () => {
             });
     });
 
-    test('GET /api/team endpoint should return unauthorized', async () => {
+    test('GET "/api/team" endpoint should return unauthorized', async () => {
         return request(HOST)
             .post('/api/team')
             .then(response => {
@@ -35,7 +36,7 @@ describe('Authorization test', () => {
             });
     });
 
-    test('PUT /api/team endpoint should return unauthorized', async () => {
+    test('PUT "/api/team" endpoint should return unauthorized', async () => {
         return request(HOST)
             .post('/api/team')
             .then(response => {
