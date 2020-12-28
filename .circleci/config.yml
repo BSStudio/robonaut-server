@@ -24,8 +24,8 @@ jobs:
       - image: circleci/openjdk:11-jdk-buster
     steps:
       - checkout
-      - setup_remote_docker
-        version: 19.03.13
+      - setup_remote_docker:
+          version: 19.03.13
       - run: docker-compose up --build --abort-on-container-exit
 workflows:
   version: 2
