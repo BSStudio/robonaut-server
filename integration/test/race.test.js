@@ -283,10 +283,15 @@ const updatedTeamAfterEndResults = {
 };
 
 function assertQueue(queueName, expected) {
+    let _connection;
     return amqp.connect(AMQP_HOST)
-        .then(connection => connection.createChannel())
+        .then(connection => {
+            _connection = connection
+            return connection.createChannel();
+        })
         .then(channel => channel.get(queueName, {noAck: true}))
-        .then(msg => expect(JSON.parse(msg.content.toString())).toStrictEqual(expected));
+        .then(msg => expect(JSON.parse(msg.content.toString())).toStrictEqual(expected))
+        .then(() => _connection.close());
 }
 
 describe('Test a happy path of events', () => {

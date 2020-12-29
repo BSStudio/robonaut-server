@@ -9,6 +9,7 @@ const cleanDB = () => {
         .then(client => {
             return client.db().dropDatabase()
         })
+        .then(() => mongoClient.close())
 }
 
 const createDummyData = () => {
@@ -48,6 +49,7 @@ const fill = () => {
             const dummyData = createDummyData();
             return collection.insertMany(dummyData);
         })
+        .then(() => mongoClient.close())
 }
 
 exports.cleanDB = cleanDB

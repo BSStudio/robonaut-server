@@ -1,5 +1,5 @@
 {
-  "name": "integration",
+  "name": "robonaut-server-integration-test",
   "private": true,
   "dependencies": {
     "amqplib": "^0.6.0",
@@ -16,6 +16,6 @@
     "@types/supertest": "^2.0.10"
   },
   "scripts": {
-    "test": "jest --forceExit"
+    "test": "jest"
   }
 }

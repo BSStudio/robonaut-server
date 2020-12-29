@@ -20,7 +20,7 @@ describe('Authorization test', () => {
         '/api/scores/audience',
         '/api/scores/endResult'
     ];
-    test.each(postEndpoint)('POST %p endpoint should return unauthorized', async (endpoint) => {
+    test.each(postEndpoint)('POST %p endpoint should return unauthorized', (endpoint) => {
         return request(HOST)
             .post(endpoint)
             .then(response => {
@@ -28,7 +28,7 @@ describe('Authorization test', () => {
             });
     });
 
-    test('GET "/api/team" endpoint should return unauthorized', async () => {
+    test('GET "/api/team" endpoint should return unauthorized', () => {
         return request(HOST)
             .post('/api/team')
             .then(response => {
@@ -36,7 +36,7 @@ describe('Authorization test', () => {
             });
     });
 
-    test('PUT "/api/team" endpoint should return unauthorized', async () => {
+    test('PUT "/api/team" endpoint should return unauthorized', () => {
         return request(HOST)
             .post('/api/team')
             .then(response => {
