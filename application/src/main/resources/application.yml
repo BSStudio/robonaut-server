@@ -7,3 +7,5 @@ spring:
 springdoc:
   swagger-ui:
     url: /open-api.yaml
+    path: /
+    display-request-duration: true

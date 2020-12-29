@@ -8,7 +8,8 @@ paths:
       tags:
         - team
       summary: Add a new team
-      description: Add a new team and broadcast it
+      description: "Add a new team and broadcast the resulted DetailedTeam schema on the `team.teamData` queue as JSON.
+                    In case of an error no data will be sent on the queue."
       requestBody:
         content:
           application/json:
@@ -16,7 +17,7 @@ paths:
               $ref: '#/components/schemas/Team'
       responses:
         201:
-          description: Team was created successfully
+          description: "Team was created successfully"
           content:
             application/json:
               schema:
@@ -25,6 +26,8 @@ paths:
       tags:
         - team
       summary: Get all team
+      description: "Find all persisted team and broadcast the resulted DetailedTeam schemas on the `team.teamData` queue as JSON **one by one**.
+                   In case of an error no data will be sent on the queue."
       responses:
         200:
           description: "All teams"
@@ -38,7 +41,8 @@ paths:
       tags:
         - team
       summary: Update team
-      description: Update team and broadcast changes
+      description: "Updated a team and broadcast the resulted DetailedTeam schema on the `team.teamData` queue as JSON.
+                   In case of an error no data will be sent on the queue."
       requestBody:
         content:
           application/json:
@@ -56,6 +60,8 @@ paths:
       tags:
         - skill
       summary: Start Skill Timer
+      description: "Broadcast skill timer start state on `skill.timer` queue in JSON format.
+                    If the timer action don't match no action will be made"
       requestBody:
         content:
           application/json:
@@ -73,6 +79,8 @@ paths:
       tags:
         - skill
       summary: Stop Skill Timer
+      description: "Broadcast skill timer stop state on `skill.timer` queue in JSON format.
+                    If the timer action don't match no action will be made"
       requestBody:
         content:
           application/json:
@@ -169,6 +177,7 @@ paths:
     post:
       tags:
         - speed
+      summary: Stop Speed Timer
       requestBody:
         content:
           application/json:
@@ -185,6 +194,7 @@ paths:
     post:
       tags:
         - speed
+      summary: Update speed score after a lap
       requestBody:
         content:
           application/json:
@@ -201,6 +211,7 @@ paths:
     post:
       tags:
         - speed
+      summary: Update scores after speed race
       requestBody:
         content:
           application/json:
@@ -217,6 +228,7 @@ paths:
     post:
       tags:
         - scores
+      summary: Add qualification scores
       requestBody:
         content:
           application/json:
@@ -233,6 +245,7 @@ paths:
     post:
       tags:
         - scores
+      summary: Add audience scores
       requestBody:
         content:
           application/json:
