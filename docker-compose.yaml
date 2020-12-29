@@ -6,9 +6,8 @@ services:
       dockerfile: Dockerfile
     environment:
       robonauth.api-key: BSS
-    depends_on:
-      - rabbit-mq
-      - mongo
+      spring.data.mongodb.host: mongo
+      spring.rabbitmq.host: rabbit-mq
     ports:
     - 8080:8080
   rabbit-mq:
@@ -20,3 +19,16 @@ services:
     image: mongo:4.4.2-bionic
     ports:
     - 27017:27017
+  integration-test:
+    build:
+      context: ./integration
+      dockerfile: Dockerfile
+    command: dockerize -wait tcp://mongo:27017 -wait tcp://app:8080 -wait tcp://rabbit-mq:5672 -timeout 10m sh -c "sleep 1m && yarn test"
+    environment:
+      HOST_NAME: http://app:8080
+      DB_HOST: mongodb://mongo:27017/
+      AMQP_HOST: amqp://rabbit-mq
+    depends_on:
+    - rabbit-mq
+    - app
+    - mongo
