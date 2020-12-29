@@ -23,7 +23,7 @@ services:
     build:
       context: ./integration
       dockerfile: Dockerfile
-    command: dockerize -wait tcp://mongo:27017 -wait tcp://app:8080 -wait tcp://rabbit-mq:5672 -timeout 10m sh -c "yarn test"
+    command: dockerize -wait tcp://mongo:27017 -wait tcp://app:8080 -wait tcp://rabbit-mq:5672 -timeout 10m sh -c "sleep 1m && yarn test"
     environment:
       HOST_NAME: http://app:8080
       DB_HOST: mongodb://mongo:27017/
