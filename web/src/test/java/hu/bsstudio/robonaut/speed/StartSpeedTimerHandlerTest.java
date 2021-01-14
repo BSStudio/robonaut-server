@@ -19,6 +19,7 @@ final class StartSpeedTimerHandlerTest {
     private SpeedTimerService mockService;
 
     private WebTestClient webTestClient;
+    public static final SpeedTimer SPEED_TIMER = new SpeedTimer(0, TimerAction.START);
 
     @BeforeEach
     void setUp() {
@@ -31,12 +32,11 @@ final class StartSpeedTimerHandlerTest {
 
     @Test
     void shouldReturnSpeedTimerWithOkStatus() {
-        final var speedTimer = new SpeedTimer(0, TimerAction.START);
-        when(mockService.startTimer())
-            .thenReturn(Mono.just(speedTimer));
+        when(mockService.startTimer(SPEED_TIMER))
+            .thenReturn(Mono.just(SPEED_TIMER));
 
         webTestClient.post().uri("/test").exchange()
             .expectStatus().isOk()
-            .expectBody(SpeedTimer.class).isEqualTo(speedTimer);
+            .expectBody(SpeedTimer.class).isEqualTo(SPEED_TIMER);
     }
 }
