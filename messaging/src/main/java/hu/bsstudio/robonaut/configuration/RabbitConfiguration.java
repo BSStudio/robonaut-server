@@ -56,7 +56,7 @@ public class RabbitConfiguration {
     }
 
     @Bean
-    public ConnectionNameStrategy cns() {
+    public ConnectionNameStrategy connectionNameStrategy() {
         return new SimplePropertyValueConnectionNameStrategy("spring.application.name");
     }
 }
