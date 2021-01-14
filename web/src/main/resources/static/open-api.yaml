@@ -166,13 +166,18 @@ paths:
       tags:
         - speed
       summary: Start Speed Timer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Timer'
       responses:
         200:
           description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailedTeam'
+                $ref: '#/components/schemas/Timer'
   /api/speed/timer/stop:
     post:
       tags:
@@ -189,7 +194,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailedTeam'
+                $ref: '#/components/schemas/Timer'
   /api/speed/lap:
     post:
       tags:
