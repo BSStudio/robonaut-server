@@ -17,7 +17,8 @@ public class StartSpeedTimerHandler implements HandlerFunction<ServerResponse> {
 
     @Override
     public Mono<ServerResponse> handle(final ServerRequest request) {
-        final var speedTimer = service.startTimer();
+        final var speedTimer = request.bodyToMono(SpeedTimer.class)
+            .flatMap(service::startTimer);
         return ServerResponse.ok().body(speedTimer, SpeedTimer.class);
     }
 }

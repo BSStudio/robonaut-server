@@ -32,10 +32,10 @@ final class BroadcastingSpeedTimerServiceTest {
 
     @Test
     void shouldReturnSpeedTimerFromUnderLyingServiceAndSendItWhenTimerIsStarted() {
-        when(mockService.startTimer())
+        when(mockService.startTimer(SPEED_TIMER))
             .thenReturn(Mono.just(SPEED_TIMER));
 
-        final var result = underTest.startTimer();
+        final var result = underTest.startTimer(SPEED_TIMER);
 
         StepVerifier.create(result)
             .expectNext(SPEED_TIMER)

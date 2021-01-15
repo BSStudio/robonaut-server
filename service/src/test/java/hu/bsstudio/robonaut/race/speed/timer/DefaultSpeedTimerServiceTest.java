@@ -8,6 +8,9 @@ import reactor.test.StepVerifier;
 
 final class DefaultSpeedTimerServiceTest {
 
+    private static final SpeedTimer SPEED_TIMER_START = new SpeedTimer(2020, TimerAction.START);
+    private static final SpeedTimer SPEED_TIMER_STOP = new SpeedTimer(2020, TimerAction.STOP);
+
     private DefaultSpeedTimerService underTest;
 
     @BeforeEach
@@ -16,30 +19,38 @@ final class DefaultSpeedTimerServiceTest {
     }
 
     @Test
-    void shouldReturnTimerWithZeroInitialValueWhenTimerIsStarted() {
-        final var result = underTest.startTimer();
+    void shouldReturnTimerOnStart() {
+
+        final var result = underTest.startTimer(SPEED_TIMER_START);
 
         StepVerifier.create(result)
-            .expectNext(new SpeedTimer(0, TimerAction.START))
+            .expectNext(SPEED_TIMER_START)
+            .verifyComplete();
+    }
+
+    @Test
+    void shouldReturnEmptyWhenActionDoesNotMatchOnStart() {
+
+        final var result = underTest.startTimer(SPEED_TIMER_STOP);
+
+        StepVerifier.create(result)
             .verifyComplete();
     }
 
     @Test
     void shouldReturnTimerOnStop() {
-        final var speedTimer = new SpeedTimer(2020, TimerAction.STOP);
 
-        final var result = underTest.stopTimerAt(speedTimer);
+        final var result = underTest.stopTimerAt(SPEED_TIMER_STOP);
 
         StepVerifier.create(result)
-            .expectNext(speedTimer)
+            .expectNext(SPEED_TIMER_STOP)
             .verifyComplete();
     }
 
     @Test
-    void shouldReturnEmptyWhenActionDoesNotMatch() {
-        final var speedTimer = new SpeedTimer(2020, TimerAction.START);
+    void shouldReturnEmptyWhenActionDoesNotMatchOnStop() {
 
-        final var result = underTest.stopTimerAt(speedTimer);
+        final var result = underTest.stopTimerAt(SPEED_TIMER_START);
 
         StepVerifier.create(result)
             .verifyComplete();
