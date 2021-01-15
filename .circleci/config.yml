@@ -26,7 +26,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 19.03.13
-      - run: docker-compose up --build --abort-on-container-exit ./docker-compose.test.yaml
+      - run: docker-compose -f ./docker-compose.test.yaml up --build --abort-on-container-exit
 workflows:
   version: 2
   build_and_test:
