@@ -10,5 +10,7 @@ public interface TeamService {
 
     Mono<DetailedTeam> updateTeam(final Team team);
 
+    Mono<DetailedTeam> updateTeam(final DetailedTeam team);
+
     Flux<DetailedTeam> findAllTeam();
 }

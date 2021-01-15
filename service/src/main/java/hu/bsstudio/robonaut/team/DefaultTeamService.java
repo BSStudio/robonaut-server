@@ -41,6 +41,14 @@ public class DefaultTeamService implements TeamService {
     }
 
     @Override
+    public Mono<DetailedTeam> updateTeam(final DetailedTeam detailedTeam) {
+        return Mono.just(detailedTeam)
+            .map(teamMapper::toEntity)
+            .flatMap(teamRepository::save)
+            .map(teamMapper::toModel);
+    }
+
+    @Override
     public Flux<DetailedTeam> findAllTeam() {
         return teamRepository.findAll()
             .map(teamMapper::toModel);

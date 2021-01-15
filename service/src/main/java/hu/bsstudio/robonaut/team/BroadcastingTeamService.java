@@ -32,6 +32,12 @@ public class BroadcastingTeamService implements TeamService {
     }
 
     @Override
+    public Mono<DetailedTeam> updateTeam(final DetailedTeam detailedTeam) {
+        return service.updateTeam(detailedTeam)
+            .doOnNext(this::sendTeamInfo);
+    }
+
+    @Override
     public Flux<DetailedTeam> findAllTeam() {
         return service.findAllTeam()
             .doOnNext(this::sendTeamInfo);

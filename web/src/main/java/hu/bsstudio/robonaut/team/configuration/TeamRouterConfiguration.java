@@ -1,6 +1,7 @@
 package hu.bsstudio.robonaut.team.configuration;
 
 import hu.bsstudio.robonaut.security.RobonAuthFilter;
+import hu.bsstudio.robonaut.team.AdminUpdateTeamHandler;
 import hu.bsstudio.robonaut.team.CreateTeamHandler;
 import hu.bsstudio.robonaut.team.ReadAllTeamHandler;
 import hu.bsstudio.robonaut.team.TeamService;
@@ -23,13 +24,15 @@ public class TeamRouterConfiguration {
 
     @Bean
     public RouterFunction<ServerResponse> teamRouterFunction(final CreateTeamHandler createTeamHandler,
-                                                             final UpdateTeamHandler updateTeamHandler,
-                                                             final ReadAllTeamHandler readAllTeamHandler) {
+                                                             final ReadAllTeamHandler readAllTeamHandler,
+                                                             final AdminUpdateTeamHandler adminUpdateTeamHandler,
+                                                             final UpdateTeamHandler updateTeamHandler) {
         return RouterFunctions.route()
             .filter(robonAuthFilter)
             .POST("/api/team", createTeamHandler)
-            .PUT("/api/team", updateTeamHandler)
             .GET("/api/team", readAllTeamHandler)
+            .PUT("/api/team", updateTeamHandler)
+            .PUT("/api/admin/team", adminUpdateTeamHandler)
             .build();
     }
 
@@ -46,5 +49,10 @@ public class TeamRouterConfiguration {
     @Bean
     public UpdateTeamHandler updateTeamHandler() {
         return new UpdateTeamHandler(teamService);
+    }
+
+    @Bean
+    public AdminUpdateTeamHandler adminUpdateTeamHandler() {
+        return new AdminUpdateTeamHandler(teamService);
     }
 }
