@@ -2,6 +2,9 @@ openapi: 3.0.0
 info:
   title: RobonAUT Server
   version: 1.0.0
+  contact:
+    name: Bence Csik
+    url: https://github.com/csikb
 paths:
   /api/team:
     post:
@@ -9,7 +12,8 @@ paths:
         - team
       summary: Add a new team
       description: "Add a new team and broadcast the resulted DetailedTeam schema on the `team.teamData` queue as JSON.
-                    In case of an error no data will be sent on the queue."
+                    In case of an error no data will be sent to the queue.
+                    The _teamId_ field is required to be unique."
       requestBody:
         content:
           application/json:
@@ -41,7 +45,7 @@ paths:
       tags:
         - team
       summary: Update team
-      description: "Updated a team and broadcast the resulted DetailedTeam schema on the `team.teamData` queue as JSON.
+      description: "Update a team and broadcast the resulted DetailedTeam schema on the `team.teamData` queue as JSON.
                    In case of an error no data will be sent on the queue."
       requestBody:
         content:
@@ -61,7 +65,7 @@ paths:
         - skill
       summary: Start Skill Timer
       description: "Broadcast skill timer start state on `skill.timer` queue in JSON format.
-                    If the timer action don't match no action will be made"
+                    If the _timerAction_ field don't match to the endpoint no action will be made"
       requestBody:
         content:
           application/json:
@@ -79,8 +83,8 @@ paths:
       tags:
         - skill
       summary: Stop Skill Timer
-      description: "Broadcast skill timer stop state on `skill.timer` queue in JSON format.
-                    If the timer action don't match no action will be made"
+      description: "Broadcast skill timer start state on `skill.timer` queue in JSON format.
+                   If the _timerAction_ field don't match to the endpoint no action will be made"
       requestBody:
         content:
           application/json:
@@ -98,6 +102,9 @@ paths:
       tags:
         - skill
       summary: Update skill score after passing a gate
+      description: "Update skill score for a team after a car passed a gate successfully.
+                    The provided GateInfo will be broadcast on `skill.gate` queue.
+                    The updated DetailedTeam schema will be broadcast on the `team.teamData` queue as JSON."
       requestBody:
         content:
           application/json:
@@ -115,6 +122,8 @@ paths:
       tags:
         - skill
       summary: Update scores after skill race
+      description: "Update skill score for a team after the race was finished.
+                    The updated DetailedTeam schema will be broadcast on the `team.teamData` queue as JSON."
       requestBody:
         content:
           application/json:
@@ -132,6 +141,9 @@ paths:
       tags:
         - safetycar
       summary: Send safetycar follow status
+      description: "Update _safetyCarWasFollowed_ field for a team after a car successfully or unsuccessfully followed the safetyCar.
+                    The provided SafetyCarFollowInformation will be broadcast on `speed.safetyCar.follow` queue.
+                    The updated DetailedTeam schema will be broadcast on the `team.teamData` queue as JSON."
       requestBody:
         content:
           application/json:
@@ -139,7 +151,7 @@ paths:
               $ref: '#/components/schemas/SafetyCarFollowInformation'
       responses:
         200:
-          description: ""
+          description: "The updated team"
           content:
             application/json:
               schema:
@@ -149,6 +161,9 @@ paths:
       tags:
         - safetycar
       summary: Send safetycar overtake status
+      description: "Update _numberOfOvertakes_ field for a team how many times a team overtook the safetyCar.
+                    The provided SafetyCarFollowInformation will be broadcast on `speed.safetyCar.overtake` queue.
+                    The updated DetailedTeam schema will be broadcast on the `team.teamData` queue as JSON."
       requestBody:
         content:
           application/json:
@@ -156,7 +171,7 @@ paths:
               $ref: '#/components/schemas/SafetyCarOvertakeInformation'
       responses:
         200:
-          description: ""
+          description: "The updated team"
           content:
             application/json:
               schema:
@@ -166,9 +181,16 @@ paths:
       tags:
         - speed
       summary: Start Speed Timer
+      description: "Broadcast speed timer start state on `speed.timer` queue in JSON format.
+                    If the _timerAction_ field don't match to the endpoint no action will be made"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Timer'
       responses:
         200:
-          description: ""
+          description: "The updated team"
           content:
             application/json:
               schema:
@@ -178,6 +200,8 @@ paths:
       tags:
         - speed
       summary: Stop Speed Timer
+      description: "Broadcast speed timer stop state on `speed.timer` queue in JSON format.
+                    If the _timerAction_ field don't match to the endpoint no action will be made"
       requestBody:
         content:
           application/json:
@@ -185,16 +209,21 @@ paths:
               $ref: '#/components/schemas/Timer'
       responses:
         200:
-          description: ""
+          description: "The updated team"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailedTeam'
+                $ref: '#/components/schemas/Timer'
   /api/speed/lap:
     post:
       tags:
         - speed
       summary: Update speed score after a lap
+      description: "This action will replace all the previous _speedTimes_!
+                    All previous _speedTimes_ should be sent for consistency.
+                    The endpoint will update the _speedTimes_ field for a team with the latest speed race lap times.
+                    The provided SpeedRaceScore will be broadcast on `speed.lap` queue.
+                    The updated DetailedTeam schema will be broadcast on the `team.teamData` queue as JSON."
       requestBody:
         content:
           application/json:
@@ -202,7 +231,7 @@ paths:
               $ref: '#/components/schemas/SpeedRaceScore'
       responses:
         200:
-          description: ""
+          description: "The updated team"
           content:
             application/json:
               schema:
@@ -212,6 +241,10 @@ paths:
       tags:
         - speed
       summary: Update scores after speed race
+      description: "This action will replace all the previous _speedTimes_!
+                    All previous _speedTimes_ should be sent for consistency.
+                    The endpoint will update the _speedTimes_, _speedBonusScore_ and _speedScore_ fields for a team with their speed race results.
+                    The updated DetailedTeam schema will be broadcast on the `team.teamData` queue as JSON."
       requestBody:
         content:
           application/json:
@@ -219,7 +252,7 @@ paths:
               $ref: '#/components/schemas/SpeedRaceResult'
       responses:
         200:
-          description: ""
+          description: "The updated team"
           content:
             application/json:
               schema:
@@ -229,14 +262,21 @@ paths:
       tags:
         - scores
       summary: Add qualification scores
+      description: "Update the qualification scores for one or multiple teams.
+                    The input can be a single or an array of objects.
+                    The updated DetailedTeam schema(s) will be broadcast on the `team.teamData` queue as JSON."
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/QualifiedTeam'
+              oneOf:
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/QualifiedTeam'
+                - $ref: '#/components/schemas/QualifiedTeam'
       responses:
         200:
-          description: ""
+          description: "The updated team"
           content:
             application/json:
               schema:
@@ -246,14 +286,21 @@ paths:
       tags:
         - scores
       summary: Add audience scores
+      description: "Update the audience scores for one or multiple teams.
+                    The input can be a single or an array of objects.
+                    The updated DetailedTeam schema(s) will be broadcast on the `team.teamData` queue as JSON."
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AudienceScoredTeam'
+              oneOf:
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/AudienceScoredTeam'
+                - $ref: '#/components/schemas/AudienceScoredTeam'
       responses:
         200:
-          description: ""
+          description: "The updated team"
           content:
             application/json:
               schema:
@@ -263,14 +310,21 @@ paths:
       tags:
         - scores
       summary: Add end result
+      description: "Update the end results for one or multiple teams.
+                    The input can be a single or an array of objects.
+                    The updated DetailedTeam schema(s) will be broadcast on the `team.teamData` queue as JSON."
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EndResultedTeam'
+              oneOf:
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/EndResultedTeam'
+                - $ref: '#/components/schemas/EndResultedTeam'
       responses:
         200:
-          description: ""
+          description: "The updated team"
           content:
             application/json:
               schema:
@@ -279,27 +333,28 @@ components:
   schemas:
     Team:
       type: object
+      required:
+        - teamId
+        - year
+        - teamName
+        - teamMembers
+        - teamType
       properties:
         teamId:
           type: integer
-          required: true
         year:
           type: integer
           example: 2021
-          required: true
         teamName:
           type: string
           example: "BSS"
-          required: true
         teamMembers:
           type: array
           example: [ "Boldi", "Bence" ]
-          required: true
           items:
             type: string
         teamType:
           type: string
-          required: true
           enum:
             - JUNIOR
             - SENIOR
@@ -349,10 +404,13 @@ components:
               default: 0
     Timer:
       type: object
+      required:
+        - timerAt
+        - timerAction
       properties:
         timerAt:
-          description: Timer value in millisec
           type: integer
+          description: Timer value in millisec
         timerAction:
           type: string
           example: STOP
@@ -361,6 +419,10 @@ components:
             - STOP
     AudienceScoredTeam:
       type: object
+      required:
+        - teamId
+        - votes
+        - audienceScore
       properties:
         teamId:
           type: integer
@@ -370,6 +432,9 @@ components:
           type: integer
     QualifiedTeam:
       type: object
+      required:
+        - teamId
+        - qualificationScore
       properties:
         teamId:
           type: integer
@@ -377,6 +442,11 @@ components:
           type: integer
     EndResultedTeam:
       type: object
+      required:
+        - teamId
+        - totalScore
+        - rank
+        - juniorRank
       properties:
         teamId:
           type: integer
@@ -388,6 +458,9 @@ components:
           type: integer
     SafetyCarOvertakeInformation:
       type: object
+      required:
+        - teamId
+        - numberOfOvertakes
       properties:
         teamId:
           type: integer
@@ -395,6 +468,9 @@ components:
           type: integer
     SafetyCarFollowInformation:
       type: object
+      required:
+        - teamId
+        - safetyCarFollowed
       properties:
         teamId:
           type: integer
@@ -403,6 +479,12 @@ components:
           example: true
     GateInfo:
       type: object
+      required:
+        - teamId
+        - bonusTime
+        - timeLeft
+        - skillScore
+        - totalSkillScore
       properties:
         teamId:
           type: integer
@@ -416,6 +498,9 @@ components:
           type: integer
     SkillRaceResult:
       type: object
+      required:
+        - teamId
+        - skillScore
       properties:
         teamId:
           type: integer
@@ -423,6 +508,9 @@ components:
           type: integer
     SpeedRaceScore:
       type: object
+      required:
+        - teamId
+        - speedTimes
       properties:
         teamId:
           type: integer
@@ -432,6 +520,11 @@ components:
             type: integer
     SpeedRaceResult:
       type: object
+      required:
+        - teamId
+        - speedScore
+        - speedBonusScore
+        - speedTimes
       properties:
         teamId:
           type: integer
