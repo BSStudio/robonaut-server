@@ -35,7 +35,9 @@ final class StopSpeedTimerHandlerTest {
         when(mockService.stopTimerAt(speedTimer))
             .thenReturn(Mono.just(speedTimer));
 
-        webTestClient.post().uri("/test").bodyValue(speedTimer).exchange()
+        webTestClient.post().uri("/test")
+            .bodyValue(speedTimer)
+            .exchange()
             .expectStatus().isOk()
             .expectBody(SpeedTimer.class).isEqualTo(speedTimer);
     }
