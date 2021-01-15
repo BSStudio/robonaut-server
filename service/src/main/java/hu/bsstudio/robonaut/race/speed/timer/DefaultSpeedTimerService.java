@@ -8,16 +8,15 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class DefaultSpeedTimerService implements SpeedTimerService {
 
-    private static final int TIMER_INITIAL_VALUE = 0;
-
     @Override
-    public Mono<SpeedTimer> startTimer() {
-        return Mono.just(new SpeedTimer(TIMER_INITIAL_VALUE, TimerAction.START));
+    public Mono<SpeedTimer> startTimer(final SpeedTimer speedTimer) {
+        return Mono.just(speedTimer)
+            .filter(timer -> timer.getTimerAction() == TimerAction.START);
     }
 
     @Override
     public Mono<SpeedTimer> stopTimerAt(final SpeedTimer speedTimer) {
         return Mono.just(speedTimer)
-            .filter(timer -> timer.getTimerAction().equals(TimerAction.STOP));
+            .filter(timer -> timer.getTimerAction() == TimerAction.STOP);
     }
 }
