@@ -306,7 +306,7 @@ describe('Test a happy path of events', () => {
             purgeQueue('speed.safetyCar.overtake'),
             purgeQueue('speed.timer'),
             purgeQueue('team.teamData')
-        ])
+        ]);
     });
     it('should contain no teams in the start', () => {
         return request(HOST)
@@ -326,7 +326,7 @@ describe('Test a happy path of events', () => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual(createdTeam)
             })
-            .then(_ => assertQueue('team.teamData', createdTeam))
+            .then(_ => assertQueue('team.teamData', createdTeam));
     });
     it('should display the new team', () => {
         return request(HOST)
@@ -368,7 +368,7 @@ describe('Test a happy path of events', () => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual(skillTimerStart)
             })
-            .then(_ => assertQueue('skill.timer', skillTimerStart))
+            .then(_ => assertQueue('skill.timer', skillTimerStart));
     });
     it('should stop the skill timer', () => {
         return request(HOST)
@@ -379,7 +379,7 @@ describe('Test a happy path of events', () => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual(skillTimerStop)
             })
-            .then(_ => assertQueue('skill.timer', skillTimerStop))
+            .then(_ => assertQueue('skill.timer', skillTimerStop));
     });
     it('should update team on gate enter', () => {
         return request(HOST)
@@ -448,7 +448,7 @@ describe('Test a happy path of events', () => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual(speedTimerStop)
             })
-            .then(_ => assertQueue('speed.timer', speedTimerStop))
+            .then(_ => assertQueue('speed.timer', speedTimerStop));
     });
     it('should update team after lap is completed', () => {
         return request(HOST)
@@ -507,6 +507,6 @@ describe('Test a happy path of events', () => {
             .then(_ => assertQueue('team.teamData', updatedTeamAfterEndResults));
     });
     afterAll(() => {
-        return cleanDB()
+        return cleanDB();
     });
 });
