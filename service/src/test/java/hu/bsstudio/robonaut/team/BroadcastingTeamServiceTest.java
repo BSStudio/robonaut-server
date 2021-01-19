@@ -61,6 +61,19 @@ final class BroadcastingTeamServiceTest {
     }
 
     @Test
+    void shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenTeamIsUpdatedByAdmin() {
+        when(mockService.updateTeam(DETAILED_TEAM_1))
+            .thenReturn(Mono.just(DETAILED_TEAM_1));
+
+        final var result = underTest.updateTeam(DETAILED_TEAM_1);
+
+        StepVerifier.create(result)
+            .expectNext(DETAILED_TEAM_1)
+            .verifyComplete();
+        verify(mockTemplate).convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_1);
+    }
+
+    @Test
     void shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenFindingAllTeam() {
         when(mockService.findAllTeam())
             .thenReturn(Flux.just(DETAILED_TEAM_1, DETAILED_TEAM_2));

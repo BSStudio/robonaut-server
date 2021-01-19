@@ -16,7 +16,7 @@ public class AdminUpdateTeamHandler implements HandlerFunction<ServerResponse> {
 
     @Override
     public Mono<ServerResponse> handle(final ServerRequest request) {
-        final var detailedTeam = request.bodyToMono(DetailedTeam.class)
+        final var detailedTeam = request.bodyToFlux(DetailedTeam.class)
             .flatMap(teamService::updateTeam);
         return ServerResponse.ok().body(detailedTeam, DetailedTeam.class);
     }
