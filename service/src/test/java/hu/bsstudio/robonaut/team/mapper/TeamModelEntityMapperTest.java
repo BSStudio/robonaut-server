@@ -28,6 +28,10 @@ final class TeamModelEntityMapperTest {
     private static final int TOTAL_SCORE = Integer.MAX_VALUE;
     private static final int RANK = 2;
     private static final int JUNIOR_RANK = -1;
+
+    private static final TeamEntity TEAM_ENTITY = createTeamEntity();
+    private static final DetailedTeam DETAILED_TEAM = createDetailedTeam();
+
     private TeamModelEntityMapper underTest;
 
     @BeforeEach
@@ -37,28 +41,22 @@ final class TeamModelEntityMapperTest {
 
     @Test
     void shouldReturnMappedDetailedTeam() {
-        final var teamEntity = new TeamEntity();
-        teamEntity.setTeamId(TEAM_ID);
-        teamEntity.setYear(YEAR);
-        teamEntity.setTeamName(TEAM_NAME);
-        teamEntity.setTeamMembers(TEAM_MEMBERS);
-        teamEntity.setTeamType(TEAM_TYPE);
-        teamEntity.setSkillScore(SKILL_SCORE);
-        teamEntity.setSpeedScore(SPEED_SCORE);
-        teamEntity.setSpeedBonusScore(SPEED_BONUS_SCORE);
-        teamEntity.setNumberOfOvertakes(NUMBER_OF_OVERTAKES);
-        teamEntity.setSafetyCarWasFollowed(SAFETY_CAR_WAS_FOLLOWED);
-        teamEntity.setSpeedTimes(SPEED_TIMES);
-        teamEntity.setVotes(VOTES);
-        teamEntity.setAudienceScore(AUDIENCE_SCORE);
-        teamEntity.setQualificationScore(QUALIFICATION_SCORE);
-        teamEntity.setTotalScore(TOTAL_SCORE);
-        teamEntity.setRank(RANK);
-        teamEntity.setJuniorRank(JUNIOR_RANK);
 
-        final var detailedTeam = underTest.toModel(teamEntity);
+        final var result = underTest.toModel(TEAM_ENTITY);
 
-        final var expected = DetailedTeam.builder()
+        assertThat(result).isEqualTo(DETAILED_TEAM);
+    }
+
+    @Test
+    void shouldReturnMapperEntity() {
+
+        final var result = underTest.toEntity(DETAILED_TEAM);
+
+        assertThat(result).isEqualTo(TEAM_ENTITY);
+    }
+
+    private static DetailedTeam createDetailedTeam() {
+        return DetailedTeam.builder()
             .teamId(TEAM_ID)
             .year(YEAR)
             .teamName(TEAM_NAME)
@@ -77,6 +75,27 @@ final class TeamModelEntityMapperTest {
             .rank(RANK)
             .juniorRank(JUNIOR_RANK)
             .build();
-        assertThat(detailedTeam).isEqualTo(expected);
+    }
+
+    private static TeamEntity createTeamEntity() {
+        final var entity = new TeamEntity();
+        entity.setTeamId(TEAM_ID);
+        entity.setYear(YEAR);
+        entity.setTeamName(TEAM_NAME);
+        entity.setTeamMembers(TEAM_MEMBERS);
+        entity.setTeamType(TEAM_TYPE);
+        entity.setSkillScore(SKILL_SCORE);
+        entity.setSpeedScore(SPEED_SCORE);
+        entity.setSpeedBonusScore(SPEED_BONUS_SCORE);
+        entity.setNumberOfOvertakes(NUMBER_OF_OVERTAKES);
+        entity.setSafetyCarWasFollowed(SAFETY_CAR_WAS_FOLLOWED);
+        entity.setSpeedTimes(SPEED_TIMES);
+        entity.setVotes(VOTES);
+        entity.setAudienceScore(AUDIENCE_SCORE);
+        entity.setQualificationScore(QUALIFICATION_SCORE);
+        entity.setTotalScore(TOTAL_SCORE);
+        entity.setRank(RANK);
+        entity.setJuniorRank(JUNIOR_RANK);
+        return entity;
     }
 }

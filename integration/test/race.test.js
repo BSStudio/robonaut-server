@@ -281,6 +281,25 @@ const updatedTeamAfterEndResults = {
     votes: 456,
     year: 2022
 };
+const adminUpdatedTeam = {
+    audienceScore: 9871,
+    juniorRank: -11,
+    numberOfOvertakes: 21,
+    qualificationScore: 9991,
+    rank: 11,
+    safetyCarWasFollowed: false,
+    skillScore: 501,
+    speedBonusScore: 151,
+    speedScore: 251,
+    speedTimes: [20, 30, 50, 1],
+    teamId: 0,
+    teamMembers: ["Boldizsár Márta", "Bence Csik", "Csili"],
+    teamName: "BSS",
+    teamType: "JUNIOR",
+    totalScore: 9876541,
+    votes: 4561,
+    year: 2023
+};
 
 function assertQueue(queueName, expected) {
     let _connection;
@@ -506,6 +525,17 @@ describe('Test a happy path of events', () => {
             })
             .then(_ => assertQueue('team.teamData', updatedTeamAfterEndResults));
     });
+    it('should update all field for the team', () => {
+        return request(HOST)
+            .put('/api/admin/team')
+            .set('RobonAuth-Api-Key', 'BSS')
+            .send(adminUpdatedTeam)
+            .then(response => {
+                expect(response.status).toBe(200)
+                expect(response.body).toStrictEqual([adminUpdatedTeam])
+            })
+            .then(_ => assertQueue('team.teamData', adminUpdatedTeam));
+    })
     afterAll(() => {
         return cleanDB();
     });
