@@ -527,7 +527,7 @@ describe('Test a happy path of events', () => {
     });
     it('should update all field for the team', () => {
         return request(HOST)
-            .post('/api/admin/team')
+            .put('/api/admin/team')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(adminUpdatedTeam)
             .then(response => {
