@@ -59,6 +59,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DetailedTeam'
+  /api/admin/team:
+    put:
+      tags:
+        - team
+      summary: Update all information for a team
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/DetailedTeam'
+                - $ref: '#/components/schemas/DetailedTeam'
+      responses:
+        200:
+          description: "Updated team"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedTeam'
   /api/skill/timer/start:
     post:
       tags:
