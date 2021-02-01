@@ -4,7 +4,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
-import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult;
 import hu.bsstudio.robonaut.race.speed.model.SpeedRaceScore;
 import hu.bsstudio.robonaut.team.model.DetailedTeam;
 import java.util.Collections;
@@ -17,7 +16,6 @@ import reactor.test.StepVerifier;
 
 final class BroadcastingSpeedRaceServiceTest {
 
-    private static final SpeedRaceResult SPEED_RACE_RESULT = new SpeedRaceResult(0, 0, 0, Collections.emptyList());
     private static final SpeedRaceScore SPEED_RACE_SCORE = new SpeedRaceScore(0, Collections.emptyList());
     private static final DetailedTeam DETAILED_TEAM = DetailedTeam.builder().build();
     private static final String TEAM_DATA_ROUTING_KEY = "team.teamData";
@@ -37,26 +35,13 @@ final class BroadcastingSpeedRaceServiceTest {
     }
 
     @Test
-    void shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenRaceResultWasSubmitted() {
-        when(mockService.updateSpeedRace(SPEED_RACE_RESULT))
-            .thenReturn(Mono.just(DETAILED_TEAM));
-
-        final var result = underTest.updateSpeedRace(SPEED_RACE_RESULT);
-
-        StepVerifier.create(result)
-            .expectNext(DETAILED_TEAM)
-            .verifyComplete();
-        verify(mockTemplate).convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM);
-    }
-
-    @Test
     void shouldSendSpeedRaceScoreThenShouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
-        when(mockService.updateSpeedRaceOnLap(SPEED_RACE_SCORE))
+        when(mockService.updateSpeedRace(SPEED_RACE_SCORE))
             .thenReturn(Mono.just(DETAILED_TEAM));
 
-        final var result = underTest.updateSpeedRaceOnLap(SPEED_RACE_SCORE);
-
-        StepVerifier.create(result)
+        Mono.just(SPEED_RACE_SCORE)
+            .flatMap(underTest::updateSpeedRace)
+            .as(StepVerifier::create)
             .expectNext(DETAILED_TEAM)
             .verifyComplete();
         verify(mockTemplate).convertAndSend(SPEED_LAP_ROUTING_KEY, SPEED_RACE_SCORE);

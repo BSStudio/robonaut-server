@@ -19,7 +19,7 @@ public class SpeedRaceLapHandler implements HandlerFunction<ServerResponse> {
     @Override
     public Mono<ServerResponse> handle(final ServerRequest request) {
         final var detailedTeam = request.bodyToMono(SpeedRaceScore.class)
-            .flatMap(service::updateSpeedRaceOnLap);
+            .flatMap(service::updateSpeedRace);
         return ServerResponse.ok().body(detailedTeam, DetailedTeam.class);
     }
 }

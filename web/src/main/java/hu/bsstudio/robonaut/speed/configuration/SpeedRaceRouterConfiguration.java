@@ -4,7 +4,6 @@ import hu.bsstudio.robonaut.race.speed.SpeedRaceService;
 import hu.bsstudio.robonaut.race.speed.timer.SpeedTimerService;
 import hu.bsstudio.robonaut.security.RobonAuthFilter;
 import hu.bsstudio.robonaut.speed.SpeedRaceLapHandler;
-import hu.bsstudio.robonaut.speed.SpeedRaceResultHandler;
 import hu.bsstudio.robonaut.speed.StartSpeedTimerHandler;
 import hu.bsstudio.robonaut.speed.StopSpeedTimerHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +28,12 @@ public class SpeedRaceRouterConfiguration {
     @Bean
     public RouterFunction<ServerResponse> speedRaceRouterFunction(final StartSpeedTimerHandler startSpeedTimerHandler,
                                                                   final StopSpeedTimerHandler stopSpeedTimerHandler,
-                                                                  final SpeedRaceLapHandler speedRaceLapHandler,
-                                                                  final SpeedRaceResultHandler speedRaceResultHandler) {
+                                                                  final SpeedRaceLapHandler speedRaceLapHandler) {
         return RouterFunctions.route()
             .filter(robonAuthFilter)
             .POST("/api/speed/timer/start", startSpeedTimerHandler)
             .POST("/api/speed/timer/stop", stopSpeedTimerHandler)
             .POST("/api/speed/lap", speedRaceLapHandler)
-            .POST("/api/speed/result", speedRaceResultHandler)
             .build();
     }
 
@@ -53,10 +50,5 @@ public class SpeedRaceRouterConfiguration {
     @Bean
     public SpeedRaceLapHandler speedRaceLapHandler() {
         return new SpeedRaceLapHandler(speedRaceService);
-    }
-
-    @Bean
-    public SpeedRaceResultHandler speedRaceResultHandler() {
-        return new SpeedRaceResultHandler(speedRaceService);
     }
 }

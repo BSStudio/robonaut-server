@@ -1,6 +1,5 @@
 package hu.bsstudio.robonaut.race.speed;
 
-import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult;
 import hu.bsstudio.robonaut.race.speed.model.SpeedRaceScore;
 import hu.bsstudio.robonaut.team.model.DetailedTeam;
 import lombok.NonNull;
@@ -20,16 +19,10 @@ public class BroadcastingSpeedRaceService implements SpeedRaceService {
     private final SpeedRaceService service;
 
     @Override
-    public Mono<DetailedTeam> updateSpeedRaceOnLap(final SpeedRaceScore speedRaceScore) {
+    public Mono<DetailedTeam> updateSpeedRace(final SpeedRaceScore speedRaceScore) {
         return Mono.just(speedRaceScore)
             .doOnNext(this::sendLapInfo)
-            .flatMap(service::updateSpeedRaceOnLap)
-            .doOnNext(this::sendTeamInfo);
-    }
-
-    @Override
-    public Mono<DetailedTeam> updateSpeedRace(final SpeedRaceResult speedRaceResult) {
-        return service.updateSpeedRace(speedRaceResult)
+            .flatMap(service::updateSpeedRace)
             .doOnNext(this::sendTeamInfo);
     }
 
