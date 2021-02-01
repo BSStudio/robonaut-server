@@ -13,9 +13,9 @@ services:
   rabbit-mq:
     image: rabbitmq:management-alpine
     ports:
-    - 5672:5672
-    - 8081:15672
+    - 127.0.0.1:5672:5672
+    - 127.0.0.1:8081:15672
   mongo:
     image: mongo:4.4.2-bionic
     ports:
-    - 27017:27017
+    - 127.0.0.1:27017:27017
