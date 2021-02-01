@@ -257,27 +257,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DetailedTeam'
-  /api/speed/result:
-    post:
-      tags:
-        - speed
-      summary: Update scores after speed race
-      description: "This action will replace all the previous _speedTimes_!
-                    All previous _speedTimes_ should be sent for consistency.
-                    The endpoint will update the _speedTimes_, _speedBonusScore_ and _speedScore_ fields for a team with their speed race results.
-                    The updated DetailedTeam schema will be broadcast on the `team.teamData` queue as JSON."
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SpeedRaceResult'
-      responses:
-        200:
-          description: "The updated team"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DetailedTeam'
   /api/scores/qualification:
     post:
       tags:
@@ -534,24 +513,6 @@ components:
         - speedTimes
       properties:
         teamId:
-          type: integer
-        speedTimes:
-          type: array
-          items:
-            type: integer
-    SpeedRaceResult:
-      type: object
-      required:
-        - teamId
-        - speedScore
-        - speedBonusScore
-        - speedTimes
-      properties:
-        teamId:
-          type: integer
-        speedScore:
-          type: integer
-        speedBonusScore:
           type: integer
         speedTimes:
           type: array
