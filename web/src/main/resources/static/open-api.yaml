@@ -460,6 +460,9 @@ components:
     Score:
       type: object
       required:
+        - speedScore
+        - bestSpeedTime
+        - totalScore
       properties:
         speedScore:
           type: integer
