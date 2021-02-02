@@ -6,5 +6,5 @@ import lombok.Value;
 public class Score {
     int speedScore;
     int bestSpeedTime;
-    int score;
+    int totalScore;
 }

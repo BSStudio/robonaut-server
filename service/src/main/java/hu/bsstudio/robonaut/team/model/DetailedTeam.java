@@ -28,6 +28,6 @@ public class DetailedTeam {
 
     int qualificationScore;
 
-    Score score;
+    Score combinedScore;
     Score juniorScore;
 }

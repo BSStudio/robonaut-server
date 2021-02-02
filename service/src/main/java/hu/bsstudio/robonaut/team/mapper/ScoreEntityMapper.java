@@ -7,7 +7,7 @@ public class ScoreEntityMapper {
 
     public ScoreEntity toEntity(final Score score) {
         final var entity = new ScoreEntity();
-        entity.setScore(score.getScore());
+        entity.setScore(score.getTotalScore());
         entity.setSpeedScore(score.getSpeedScore());
         entity.setBestSpeedTime(score.getBestSpeedTime());
         return entity;

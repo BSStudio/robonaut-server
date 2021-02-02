@@ -2,6 +2,7 @@ package hu.bsstudio.robonaut.scores.endresult;
 
 import hu.bsstudio.robonaut.entity.ScoreEntity;
 import hu.bsstudio.robonaut.entity.TeamEntity;
+import hu.bsstudio.robonaut.entity.TeamType;
 import hu.bsstudio.robonaut.repository.TeamRepository;
 import hu.bsstudio.robonaut.scores.endresult.model.EndResultedTeam;
 import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper;
@@ -36,6 +37,7 @@ public class DefaultEndResultService implements EndResultService {
         return Mono.just(endResultedTeam)
             .map(EndResultedTeam::getTeamId)
             .flatMap(teamRepository::findById)
+            .filter(teamEntity -> teamEntity.getTeamType() == TeamType.JUNIOR)
             .map(entity -> addEndResultJunior(entity, endResultedTeam))
             .flatMap(teamRepository::save)
             .map(teamModelEntityMapper::toModel);

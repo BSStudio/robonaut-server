@@ -25,7 +25,7 @@ public class TeamModelEntityMapper {
             .votes(teamEntity.getVotes())
             .audienceScore(teamEntity.getAudienceScore())
             .qualificationScore(teamEntity.getQualificationScore())
-            .score(scoreEntityMapper.toModel(teamEntity.getScore()))
+            .combinedScore(scoreEntityMapper.toModel(teamEntity.getScore()))
             .juniorScore(scoreEntityMapper.toModel(teamEntity.getJuniorScore()))
             .build();
     }
@@ -44,7 +44,7 @@ public class TeamModelEntityMapper {
         entity.setVotes(detailedTeam.getVotes());
         entity.setAudienceScore(detailedTeam.getAudienceScore());
         entity.setQualificationScore(detailedTeam.getQualificationScore());
-        entity.setScore(scoreEntityMapper.toEntity(detailedTeam.getScore()));
+        entity.setScore(scoreEntityMapper.toEntity(detailedTeam.getCombinedScore()));
         entity.setJuniorScore(scoreEntityMapper.toEntity(detailedTeam.getJuniorScore()));
         return entity;
     }
