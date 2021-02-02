@@ -184,31 +184,6 @@ const updatedTeamWithLapInformation = {
     votes: 0,
     year: 2022
 };
-const speedResult = {
-    teamId: 0,
-    speedScore: 25,
-    speedBonusScore: 15,
-    speedTimes: [20, 30, 50]
-};
-const updatedTeamAfterSpeedRace = {
-    audienceScore: 0,
-    juniorRank: 0,
-    numberOfOvertakes: 2,
-    qualificationScore: 0,
-    rank: 0,
-    safetyCarWasFollowed: true,
-    skillScore: 50,
-    speedBonusScore: 15,
-    speedScore: 25,
-    speedTimes: [20, 30, 50],
-    teamId: 0,
-    teamMembers: ["Boldizsár Márta", "Bence Csik"],
-    teamName: "Budvári Schönherz Stúdió",
-    teamType: "SENIOR",
-    totalScore: 0,
-    votes: 0,
-    year: 2022
-};
 const qualifiedTeam = {
     teamId: 0,
     qualificationScore: 999
@@ -221,9 +196,9 @@ const updatedTeamAfterQualification = {
     rank: 0,
     safetyCarWasFollowed: true,
     skillScore: 50,
-    speedBonusScore: 15,
-    speedScore: 25,
-    speedTimes: [20, 30, 50],
+    speedBonusScore: 0,
+    speedScore: 0,
+    speedTimes: [10, 20, 30],
     teamId: 0,
     teamMembers: ["Boldizsár Márta", "Bence Csik"],
     teamName: "Budvári Schönherz Stúdió",
@@ -245,9 +220,9 @@ const updatedTeamAfterAudienceScores = {
     rank: 0,
     safetyCarWasFollowed: true,
     skillScore: 50,
-    speedBonusScore: 15,
-    speedScore: 25,
-    speedTimes: [20, 30, 50],
+    speedBonusScore: 0,
+    speedScore: 0,
+    speedTimes: [10, 20, 30],
     teamId: 0,
     teamMembers: ["Boldizsár Márta", "Bence Csik"],
     teamName: "Budvári Schönherz Stúdió",
@@ -270,9 +245,9 @@ const updatedTeamAfterEndResults = {
     rank: 1,
     safetyCarWasFollowed: true,
     skillScore: 50,
-    speedBonusScore: 15,
-    speedScore: 25,
-    speedTimes: [20, 30, 50],
+    speedBonusScore: 0,
+    speedScore: 0,
+    speedTimes: [10, 20, 30],
     teamId: 0,
     teamMembers: ["Boldizsár Márta", "Bence Csik"],
     teamName: "Budvári Schönherz Stúdió",
@@ -480,17 +455,6 @@ describe('Test a happy path of events', () => {
             })
             .then(_ => assertQueue('speed.lap', speedLapScore))
             .then(_ => assertQueue('team.teamData', updatedTeamWithLapInformation));
-    });
-    it('should update team after speed race', () => {
-        return request(HOST)
-            .post('/api/speed/result')
-            .set('RobonAuth-Api-Key', 'BSS')
-            .send(speedResult)
-            .then(response => {
-                expect(response.status).toBe(200)
-                expect(response.body).toStrictEqual(updatedTeamAfterSpeedRace)
-            })
-            .then(_ => assertQueue('team.teamData', updatedTeamAfterSpeedRace));
     });
     it('should update qualification scores for the team', () => {
         return request(HOST)

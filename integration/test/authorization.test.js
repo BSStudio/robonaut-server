@@ -15,7 +15,6 @@ describe('Authorization test', () => {
         '/api/speed/timer/start',
         '/api/speed/timer/stop',
         '/api/speed/lap',
-        '/api/speed/result',
         '/api/scores/qualification',
         '/api/scores/audience',
         '/api/scores/endResult'
