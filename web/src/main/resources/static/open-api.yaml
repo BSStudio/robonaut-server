@@ -517,15 +517,12 @@ components:
         - teamId
         - totalScore
         - rank
-        - juniorRank
       properties:
         teamId:
           type: integer
         totalScore:
           type: integer
         rank:
-          type: integer
-        juniorRank:
           type: integer
     SafetyCarOvertakeInformation:
       type: object
