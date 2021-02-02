@@ -4,11 +4,12 @@ import hu.bsstudio.robonaut.common.model.TimerAction;
 import hu.bsstudio.robonaut.race.skill.timer.model.SkillTimer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 final class DefaultSkillTimerServiceTest {
 
-    private static final int TIMER_AT = 2020;
+    private static final SkillTimer SKILL_TIMER = new SkillTimer(2020, TimerAction.START);
 
     private DefaultSkillTimerService underTest;
 
@@ -18,44 +19,11 @@ final class DefaultSkillTimerServiceTest {
     }
 
     @Test
-    void shouldReturnSkillTimerWhenTimerIsStarted() {
-        final var skillTimer = new SkillTimer(TIMER_AT, TimerAction.START);
-
-        final var result = underTest.startTimer(skillTimer);
-
-        StepVerifier.create(result)
-            .expectNext(skillTimer)
-            .verifyComplete();
-    }
-
-    @Test
-    void shouldReturnEmptyWhenTimerActionDoesNotMatchWhenTimerIsStarted() {
-        final var skillTimer = new SkillTimer(TIMER_AT, TimerAction.STOP);
-
-        final var result = underTest.startTimer(skillTimer);
-
-        StepVerifier.create(result)
-            .verifyComplete();
-    }
-
-    @Test
-    void shouldReturnSkillTimerWhenTimerIsStopped() {
-        final var skillTimer = new SkillTimer(TIMER_AT, TimerAction.STOP);
-
-        final var result = underTest.stopTimer(skillTimer);
-
-        StepVerifier.create(result)
-            .expectNext(skillTimer)
-            .verifyComplete();
-    }
-
-    @Test
-    void shouldReturnEmptyWhenTimerActionDoesNotMatchWhenTimerIsStopped() {
-        final var skillTimer = new SkillTimer(TIMER_AT, TimerAction.START);
-
-        final var result = underTest.stopTimer(skillTimer);
-
-        StepVerifier.create(result)
+    void shouldReturnSkillTimerWhenTimerIsUpdated() {
+        Mono.just(SKILL_TIMER)
+            .flatMap(underTest::updateTimer)
+            .as(StepVerifier::create)
+            .expectNext(SKILL_TIMER)
             .verifyComplete();
     }
 }

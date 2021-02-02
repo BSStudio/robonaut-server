@@ -31,26 +31,13 @@ final class BroadcastingSkillTimerServiceTest {
     }
 
     @Test
-    void shouldReturnSpeedTimerFromUnderLyingServiceAndSendItWhenTimerIsStarted() {
-        when(mockService.startTimer(SKILL_TIMER))
+    void shouldReturnSpeedTimerFromUnderLyingServiceAndSendItWhenTimerIsUpdated() {
+        when(mockService.updateTimer(SKILL_TIMER))
             .thenReturn(Mono.just(SKILL_TIMER));
 
-        final var result = underTest.startTimer(SKILL_TIMER);
-
-        StepVerifier.create(result)
-            .expectNext(SKILL_TIMER)
-            .verifyComplete();
-        verify(mockTemplate).convertAndSend(ROUTING_KEY, SKILL_TIMER);
-    }
-
-    @Test
-    void shouldReturnSpeedTimerFromUnderLyingServiceAndSendItWhenTimerIsStopped() {
-        when(mockService.stopTimer(SKILL_TIMER))
-            .thenReturn(Mono.just(SKILL_TIMER));
-
-        final var result = underTest.stopTimer(SKILL_TIMER);
-
-        StepVerifier.create(result)
+        Mono.just(SKILL_TIMER)
+            .flatMap(underTest::updateTimer)
+            .as(StepVerifier::create)
             .expectNext(SKILL_TIMER)
             .verifyComplete();
         verify(mockTemplate).convertAndSend(ROUTING_KEY, SKILL_TIMER);

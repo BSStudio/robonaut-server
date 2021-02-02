@@ -17,14 +17,8 @@ public class BroadcastingSkillTimerService implements SkillTimerService {
     private final SkillTimerService service;
 
     @Override
-    public Mono<SkillTimer> startTimer(final SkillTimer skillTimer) {
-        return service.startTimer(skillTimer)
-            .doOnNext(this::sendSkillTimerData);
-    }
-
-    @Override
-    public Mono<SkillTimer> stopTimer(final SkillTimer skillTimer) {
-        return service.stopTimer(skillTimer)
+    public Mono<SkillTimer> updateTimer(final SkillTimer skillTimer) {
+        return service.updateTimer(skillTimer)
             .doOnNext(this::sendSkillTimerData);
     }
 
