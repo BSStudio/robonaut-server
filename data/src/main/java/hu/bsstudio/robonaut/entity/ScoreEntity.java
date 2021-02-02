@@ -11,7 +11,6 @@ public class ScoreEntity {
     private List<Integer> speedTimes;
 
     // calculated
-    private int totalScore;
+    private int score;
     private int rank;
-    private int juniorRank;
 }
