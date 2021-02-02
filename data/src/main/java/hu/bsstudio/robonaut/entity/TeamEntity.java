@@ -24,11 +24,6 @@ public class TeamEntity {
     private int numberOfOvertakes;
     private boolean safetyCarWasFollowed;
 
-    // speed
-    private int speedScore;
-    private int speedBonusScore;
-    private List<Integer> speedTimes;
-
     // audience
     private int votes;
     private int audienceScore;
@@ -36,8 +31,6 @@ public class TeamEntity {
     // qualification
     private int qualificationScore;
 
-    // calculated
-    private int totalScore;
-    private int rank;
-    private int juniorRank;
+    private ScoreEntity juniorScore;
+    private ScoreEntity score;
 }
