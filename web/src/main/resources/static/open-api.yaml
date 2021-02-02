@@ -516,13 +516,10 @@ components:
       required:
         - teamId
         - totalScore
-        - rank
       properties:
         teamId:
           type: integer
         totalScore:
-          type: integer
-        rank:
           type: integer
     SafetyCarOvertakeInformation:
       type: object
