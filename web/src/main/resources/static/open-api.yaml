@@ -359,11 +359,7 @@ paths:
         content:
           application/json:
             schema:
-              oneOf:
-                - type: array
-                  items:
-                    $ref: '#/components/schemas/EndResultedTeam'
-                - $ref: '#/components/schemas/EndResultedTeam'
+              $ref: '#/components/schemas/EndResultedTeam'
       responses:
         200:
           description: "The updated teams"
@@ -383,11 +379,7 @@ paths:
         content:
           application/json:
             schema:
-              oneOf:
-                - type: array
-                  items:
-                    $ref: '#/components/schemas/EndResultedTeam'
-                - $ref: '#/components/schemas/EndResultedTeam'
+              $ref: '#/components/schemas/EndResultedTeam'
       responses:
         200:
           description: "The updated teams"
