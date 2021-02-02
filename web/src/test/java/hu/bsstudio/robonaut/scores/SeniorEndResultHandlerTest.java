@@ -15,7 +15,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import reactor.core.publisher.Mono;
 
-final class EndResultHandlerTest {
+final class SeniorEndResultHandlerTest {
 
     @Mock
     private EndResultService mockService;
@@ -25,7 +25,7 @@ final class EndResultHandlerTest {
     @BeforeEach
     void setUp() {
         openMocks(this);
-        final var underTest = new EndResultHandler(mockService);
+        final var underTest = new SeniorEndResultHandler(mockService);
         final var routerFunction = RouterFunctions.route()
             .POST("/test", underTest).build();
         this.webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build();
@@ -33,9 +33,9 @@ final class EndResultHandlerTest {
 
     @Test
     void shouldReturnDetailedTeamWithOkStatus() {
-        final var endResultedTeam = new EndResultedTeam(0, 0, 0, 0);
+        final var endResultedTeam = new EndResultedTeam(0, 0);
         final var detailedTeam = DetailedTeam.builder().build();
-        when(mockService.updateEndResult(endResultedTeam))
+        when(mockService.updateEndResultSenior(endResultedTeam))
             .thenReturn(Mono.just(detailedTeam));
 
         webTestClient.post().uri("/test").bodyValue(endResultedTeam).exchange()

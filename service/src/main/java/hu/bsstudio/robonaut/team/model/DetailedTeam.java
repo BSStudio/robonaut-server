@@ -21,8 +21,6 @@ public class DetailedTeam {
     int numberOfOvertakes;
     boolean safetyCarWasFollowed;
 
-    int speedScore;
-    int speedBonusScore;
     List<Integer> speedTimes;
 
     int votes;
@@ -30,7 +28,6 @@ public class DetailedTeam {
 
     int qualificationScore;
 
-    int totalScore;
-    int rank;
-    int juniorRank;
+    Score score;
+    Score juniorScore;
 }

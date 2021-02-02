@@ -24,6 +24,9 @@ public class TeamEntity {
     private int numberOfOvertakes;
     private boolean safetyCarWasFollowed;
 
+    // speed
+    private List<Integer> speedTimes;
+
     // audience
     private int votes;
     private int audienceScore;

@@ -1,5 +1,6 @@
 package hu.bsstudio.robonaut.scores.endresult;
 
+import hu.bsstudio.robonaut.entity.ScoreEntity;
 import hu.bsstudio.robonaut.entity.TeamEntity;
 import hu.bsstudio.robonaut.repository.TeamRepository;
 import hu.bsstudio.robonaut.scores.endresult.model.EndResultedTeam;
@@ -21,19 +22,38 @@ public class DefaultEndResultService implements EndResultService {
     private TeamModelEntityMapper teamModelEntityMapper = new TeamModelEntityMapper();
 
     @Override
-    public Mono<DetailedTeam> updateEndResult(final EndResultedTeam endResultedTeam) {
+    public Mono<DetailedTeam> updateEndResultSenior(final EndResultedTeam endResultedTeam) {
         return Mono.just(endResultedTeam)
             .map(EndResultedTeam::getTeamId)
             .flatMap(teamRepository::findById)
-            .map(entity -> addEndResult(entity, endResultedTeam))
+            .map(entity -> addEndResultSenior(entity, endResultedTeam))
             .flatMap(teamRepository::save)
             .map(teamModelEntityMapper::toModel);
     }
 
-    private TeamEntity addEndResult(final TeamEntity entity, final EndResultedTeam endResultedTeam) {
-        entity.setTotalScore(endResultedTeam.getTotalScore());
-        entity.setRank(endResultedTeam.getRank());
-        entity.setJuniorRank(endResultedTeam.getJuniorRank());
+    @Override
+    public Mono<DetailedTeam> updateEndResultJunior(final EndResultedTeam endResultedTeam) {
+        return Mono.just(endResultedTeam)
+            .map(EndResultedTeam::getTeamId)
+            .flatMap(teamRepository::findById)
+            .map(entity -> addEndResultJunior(entity, endResultedTeam))
+            .flatMap(teamRepository::save)
+            .map(teamModelEntityMapper::toModel);
+    }
+
+    private TeamEntity addEndResultSenior(final TeamEntity entity, final EndResultedTeam endResultedTeam) {
+        final var score = entity.getScore();
+        score.setScore(endResultedTeam.getPoints());
+
+        entity.setScore(score);
+        return entity;
+    }
+
+    private TeamEntity addEndResultJunior(final TeamEntity entity, final EndResultedTeam endResultedTeam) {
+        final var juniorScore = entity.getJuniorScore();
+        juniorScore.setScore(endResultedTeam.getPoints());
+
+        entity.setJuniorScore(juniorScore);
         return entity;
     }
 }

@@ -7,6 +7,6 @@ import lombok.Value;
 public class SpeedRaceResult {
     long teamId;
     int speedScore;
-    int speedBonusScore;
+    int bestSpeedTime;
     List<Integer> speedTimes;
 }

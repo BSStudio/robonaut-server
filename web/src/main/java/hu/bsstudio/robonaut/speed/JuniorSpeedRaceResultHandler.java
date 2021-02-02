@@ -11,7 +11,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public class SpeedRaceResultHandler implements HandlerFunction<ServerResponse> {
+public class JuniorSpeedRaceResultHandler implements HandlerFunction<ServerResponse> {
 
     @NonNull
     private final SpeedRaceService service;
@@ -19,7 +19,7 @@ public class SpeedRaceResultHandler implements HandlerFunction<ServerResponse> {
     @Override
     public Mono<ServerResponse> handle(final ServerRequest request) {
         final var detailedTeam = request.bodyToMono(SpeedRaceResult.class)
-            .flatMap(service::updateSpeedRace);
+            .flatMap(service::updateSpeedRaceJunior);
         return ServerResponse.ok().body(detailedTeam, DetailedTeam.class);
     }
 }

@@ -32,11 +32,21 @@ public class DefaultSpeedRaceService implements SpeedRaceService {
     }
 
     @Override
-    public Mono<DetailedTeam> updateSpeedRace(final SpeedRaceResult speedRaceResult) {
+    public Mono<DetailedTeam> updateSpeedRaceJunior(final SpeedRaceResult speedRaceResult) {
         return Mono.just(speedRaceResult)
             .map(SpeedRaceResult::getTeamId)
             .flatMap(repository::findById)
-            .map(entity -> updateSpeedScore(entity, speedRaceResult))
+            .map(entity -> updateSpeedScoreJunior(entity, speedRaceResult))
+            .flatMap(repository::save)
+            .map(mapper::toModel);
+    }
+
+    @Override
+    public Mono<DetailedTeam> updateSpeedRaceSenior(final SpeedRaceResult speedRaceResult) {
+        return Mono.just(speedRaceResult)
+            .map(SpeedRaceResult::getTeamId)
+            .flatMap(repository::findById)
+            .map(entity -> updateSpeedScoreSenior(entity, speedRaceResult))
             .flatMap(repository::save)
             .map(mapper::toModel);
     }
@@ -46,10 +56,23 @@ public class DefaultSpeedRaceService implements SpeedRaceService {
         return entity;
     }
 
-    private TeamEntity updateSpeedScore(final TeamEntity entity, final SpeedRaceResult result) {
+    private TeamEntity updateSpeedScoreJunior(final TeamEntity entity, final SpeedRaceResult result) {
+        final var newJuniorScore = entity.getJuniorScore();
+        newJuniorScore.setSpeedScore(result.getSpeedScore());
+        newJuniorScore.setBestSpeedTime(result.getBestSpeedTime());
+
+        entity.setJuniorScore(newJuniorScore);
         entity.setSpeedTimes(result.getSpeedTimes());
-        entity.setSpeedBonusScore(result.getSpeedBonusScore());
-        entity.setSpeedScore(result.getSpeedScore());
+        return entity;
+    }
+
+    private TeamEntity updateSpeedScoreSenior(final TeamEntity entity, final SpeedRaceResult result) {
+        final var newScore = entity.getScore();
+        newScore.setSpeedScore(result.getSpeedScore());
+        newScore.setBestSpeedTime(result.getBestSpeedTime());
+
+        entity.setJuniorScore(newScore);
+        entity.setSpeedTimes(result.getSpeedTimes());
         return entity;
     }
 }
