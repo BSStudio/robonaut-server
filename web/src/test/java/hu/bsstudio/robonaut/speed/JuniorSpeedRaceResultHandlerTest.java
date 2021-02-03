@@ -34,7 +34,7 @@ final class JuniorSpeedRaceResultHandlerTest {
     void shouldReturnDetailedTeamWithOkStatus() {
         final var speedRaceResult = new SpeedRaceResult(0, 0, 0, Collections.emptyList());
         final var detailedTeam = DetailedTeam.builder().build();
-        when(mockService.updateSpeedRace(speedRaceResult))
+        when(mockService.updateSpeedRaceJunior(speedRaceResult))
             .thenReturn(Mono.just(detailedTeam));
 
         webTestClient.post().uri("/test").bodyValue(speedRaceResult).exchange()

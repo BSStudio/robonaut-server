@@ -297,11 +297,7 @@ paths:
         content:
           application/json:
             schema:
-              oneOf:
-                - type: array
-                  items:
-                    $ref: '#/components/schemas/AudienceScoredTeam'
-                - $ref: '#/components/schemas/AudienceScoredTeam'
+              $ref: '#/components/schemas/AudienceScoredTeam'
       responses:
         200:
           description: "The updated teams"

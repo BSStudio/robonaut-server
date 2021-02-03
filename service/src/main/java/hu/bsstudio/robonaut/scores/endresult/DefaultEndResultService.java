@@ -1,6 +1,5 @@
 package hu.bsstudio.robonaut.scores.endresult;
 
-import hu.bsstudio.robonaut.entity.ScoreEntity;
 import hu.bsstudio.robonaut.entity.TeamEntity;
 import hu.bsstudio.robonaut.entity.TeamType;
 import hu.bsstudio.robonaut.repository.TeamRepository;

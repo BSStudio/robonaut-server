@@ -2,8 +2,8 @@ package hu.bsstudio.robonaut.scores.configuration;
 
 import hu.bsstudio.robonaut.scores.AudienceScoreHandler;
 import hu.bsstudio.robonaut.scores.JuniorEndResultHandler;
-import hu.bsstudio.robonaut.scores.SeniorEndResultHandler;
 import hu.bsstudio.robonaut.scores.QualificationScoreHandler;
+import hu.bsstudio.robonaut.scores.SeniorEndResultHandler;
 import hu.bsstudio.robonaut.scores.audience.AudienceScoreService;
 import hu.bsstudio.robonaut.scores.endresult.EndResultService;
 import hu.bsstudio.robonaut.scores.qualification.QualificationScoreService;

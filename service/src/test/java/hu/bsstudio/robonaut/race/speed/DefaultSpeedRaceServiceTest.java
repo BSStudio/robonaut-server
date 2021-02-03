@@ -62,13 +62,11 @@ final class DefaultSpeedRaceServiceTest {
         when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundTeamEntity));
         final var updatedTeamEntity = new TeamEntity();
         updatedTeamEntity.setSpeedTimes(SPEED_TIMES);
-        updatedTeamEntity.setSpeedBonusScore(SPEED_BONUS_SCORE);
-        updatedTeamEntity.setSpeedScore(SPEED_SCORE);
         when(mockRepository.save(updatedTeamEntity)).thenReturn(Mono.just(updatedTeamEntity));
         final var detailedTeam = DetailedTeam.builder().build();
         when(mockMapper.toModel(updatedTeamEntity)).thenReturn(detailedTeam);
 
-        final var result = underTest.updateSpeedRace(speedRaceResult);
+        final var result = underTest.updateSpeedRaceJunior(speedRaceResult);
 
         StepVerifier.create(result)
             .expectNext(detailedTeam)
@@ -90,20 +88,7 @@ final class DefaultSpeedRaceServiceTest {
             .verifyComplete();
     }
 
-    @Test
-    void shouldReturnEmptyWhenEntityWasNotFoundWhenRaceResultWasSubmitted() {
-        final var speedRaceResult = new SpeedRaceResult(TEAM_ID, SPEED_SCORE, SPEED_BONUS_SCORE, SPEED_TIMES);
-        final var foundTeamEntity = new TeamEntity();
-        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundTeamEntity));
-        final var updatedTeamEntity = new TeamEntity();
-        updatedTeamEntity.setSpeedTimes(SPEED_TIMES);
-        updatedTeamEntity.setSpeedBonusScore(SPEED_BONUS_SCORE);
-        updatedTeamEntity.setSpeedScore(SPEED_SCORE);
-        when(mockRepository.save(updatedTeamEntity)).thenReturn(Mono.empty());
+    // todo empty
 
-        final var result = underTest.updateSpeedRace(speedRaceResult);
-
-        StepVerifier.create(result)
-            .verifyComplete();
-    }
+    // todo senior
 }

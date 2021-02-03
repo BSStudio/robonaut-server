@@ -2,7 +2,6 @@ package hu.bsstudio.robonaut.team.mapper;
 
 import hu.bsstudio.robonaut.entity.TeamEntity;
 import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import java.awt.image.MultiPixelPackedSampleModel;
 import lombok.AccessLevel;
 import lombok.Setter;
 
