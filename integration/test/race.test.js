@@ -62,8 +62,7 @@ const updatedTeam = {
     votes: 0,
     year: 2022
 };
-const skillTimerStart = {timerAt: 2000, timerAction: 'START'};
-const skillTimerStop = {timerAt: 1000, timerAction: 'STOP'};
+const skillTimerUpdate = {timerAt: 2000, timerAction: 'START'};
 const gateInformation = {
     teamId: 0,
     bonusTime: 10,
@@ -159,8 +158,7 @@ const updatedTeamAfterSafetyCarOvertake = {
     votes: 0,
     year: 2022
 };
-const speedTimerStart = {timerAt: 0, timerAction: 'START'};
-const speedTimerStop = {timerAt: 1000, timerAction: 'STOP'};
+const speedTimerUpdate = {timerAt: 0, timerAction: 'START'};
 const speedLapScore = {
     teamId: 0,
     speedTimes: [10, 20, 30]
@@ -380,25 +378,14 @@ describe('Test a happy path of events', () => {
     });
     it('should start the skill timer', () => {
         return request(HOST)
-            .post('/api/skill/timer/start')
+            .post('/api/skill/timer')
             .set('RobonAuth-Api-Key', 'BSS')
-            .send(skillTimerStart)
+            .send(skillTimerUpdate)
             .then(response => {
                 expect(response.status).toBe(200)
-                expect(response.body).toStrictEqual(skillTimerStart)
+                expect(response.body).toStrictEqual(skillTimerUpdate)
             })
-            .then(_ => assertQueue('skill.timer', skillTimerStart));
-    });
-    it('should stop the skill timer', () => {
-        return request(HOST)
-            .post('/api/skill/timer/stop')
-            .set('RobonAuth-Api-Key', 'BSS')
-            .send(skillTimerStop)
-            .then(response => {
-                expect(response.status).toBe(200)
-                expect(response.body).toStrictEqual(skillTimerStop)
-            })
-            .then(_ => assertQueue('skill.timer', skillTimerStop));
+            .then(_ => assertQueue('skill.timer', skillTimerUpdate));
     });
     it('should update team on gate enter', () => {
         return request(HOST)
@@ -449,25 +436,14 @@ describe('Test a happy path of events', () => {
     });
     it('should start the speed timer', () => {
         return request(HOST)
-            .post('/api/speed/timer/start')
+            .post('/api/speed/timer')
             .set('RobonAuth-Api-Key', 'BSS')
-            .send(speedTimerStart)
+            .send(speedTimerUpdate)
             .then(response => {
                 expect(response.status).toBe(200)
-                expect(response.body).toStrictEqual(speedTimerStart)
+                expect(response.body).toStrictEqual(speedTimerUpdate)
             })
-            .then(_ => assertQueue('speed.timer', speedTimerStart))
-    });
-    it('should stop the speed timer', () => {
-        return request(HOST)
-            .post('/api/speed/timer/stop')
-            .set('RobonAuth-Api-Key', 'BSS')
-            .send(speedTimerStop)
-            .then(response => {
-                expect(response.status).toBe(200)
-                expect(response.body).toStrictEqual(speedTimerStop)
-            })
-            .then(_ => assertQueue('speed.timer', speedTimerStop));
+            .then(_ => assertQueue('speed.timer', speedTimerUpdate))
     });
     it('should update team after lap is completed', () => {
         return request(HOST)

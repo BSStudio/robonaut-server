@@ -13,7 +13,9 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import reactor.core.publisher.Mono;
 
-final class StopSpeedTimerHandlerTest {
+final class UpdateSpeedTimerHandlerTest {
+
+    private static final SpeedTimer SPEED_TIMER = new SpeedTimer(0, TimerAction.START);
 
     @Mock
     private SpeedTimerService mockService;
@@ -23,7 +25,7 @@ final class StopSpeedTimerHandlerTest {
     @BeforeEach
     void setUp() {
         openMocks(this);
-        final var underTest = new StopSpeedTimerHandler(mockService);
+        final var underTest = new UpdateSpeedTimerHandler(mockService);
         final var routerFunction = RouterFunctions.route()
             .POST("/test", underTest).build();
         this.webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build();
@@ -31,14 +33,13 @@ final class StopSpeedTimerHandlerTest {
 
     @Test
     void shouldReturnSpeedTimerWithOkStatus() {
-        final var speedTimer = new SpeedTimer(0, TimerAction.STOP);
-        when(mockService.stopTimerAt(speedTimer))
-            .thenReturn(Mono.just(speedTimer));
+        when(mockService.updateTimer(SPEED_TIMER))
+            .thenReturn(Mono.just(SPEED_TIMER));
 
         webTestClient.post().uri("/test")
-            .bodyValue(speedTimer)
+            .bodyValue(SPEED_TIMER)
             .exchange()
             .expectStatus().isOk()
-            .expectBody(SpeedTimer.class).isEqualTo(speedTimer);
+            .expectBody(SpeedTimer.class).isEqualTo(SPEED_TIMER);
     }
 }

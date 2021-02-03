@@ -80,32 +80,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DetailedTeam'
-  /api/skill/timer/start:
+  /api/skill/timer:
     post:
       tags:
         - skill
       summary: Start Skill Timer
       description: "Broadcast skill timer start state on `skill.timer` queue in JSON format.
                     If the _timerAction_ field don't match to the endpoint no action will be made"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Timer'
-      responses:
-        200:
-          description: "Timer state"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Timer'
-  /api/skill/timer/stop:
-    post:
-      tags:
-        - skill
-      summary: Stop Skill Timer
-      description: "Broadcast skill timer stop state on `skill.timer` queue in JSON format.
-                   If the _timerAction_ field don't match to the endpoint no action will be made"
       requestBody:
         content:
           application/json:
@@ -197,31 +178,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DetailedTeam'
-  /api/speed/timer/start:
+  /api/speed/timer:
     post:
       tags:
         - speed
       summary: Start Speed Timer
       description: "Broadcast speed timer start state on `speed.timer` queue in JSON format.
-                    If the _timerAction_ field don't match to the endpoint no action will be made"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Timer'
-      responses:
-        200:
-          description: "Timer state"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Timer'
-  /api/speed/timer/stop:
-    post:
-      tags:
-        - speed
-      summary: Stop Speed Timer
-      description: "Broadcast speed timer stop state on `speed.timer` queue in JSON format.
                     If the _timerAction_ field don't match to the endpoint no action will be made"
       requestBody:
         content:

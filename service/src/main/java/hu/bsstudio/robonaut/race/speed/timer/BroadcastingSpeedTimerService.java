@@ -17,14 +17,8 @@ public class BroadcastingSpeedTimerService implements SpeedTimerService {
     private final SpeedTimerService service;
 
     @Override
-    public Mono<SpeedTimer> startTimer(final SpeedTimer speedTimer) {
-        return service.startTimer(speedTimer)
-            .doOnNext(this::sendTimerInformation);
-    }
-
-    @Override
-    public Mono<SpeedTimer> stopTimerAt(final SpeedTimer speedTimer) {
-        return service.stopTimerAt(speedTimer)
+    public Mono<SpeedTimer> updateTimer(final SpeedTimer speedTimer) {
+        return service.updateTimer(speedTimer)
             .doOnNext(this::sendTimerInformation);
     }
 
