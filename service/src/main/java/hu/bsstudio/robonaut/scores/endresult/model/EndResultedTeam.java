@@ -5,5 +5,5 @@ import lombok.Value;
 @Value
 public class EndResultedTeam {
     long teamId;
-    int points;
+    int totalScore;
 }

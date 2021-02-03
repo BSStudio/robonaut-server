@@ -45,7 +45,7 @@ public class DefaultEndResultService implements EndResultService {
 
     private TeamEntity addEndResultSenior(final TeamEntity entity, final EndResultedTeam endResultedTeam) {
         final var score = entity.getScore();
-        score.setScore(endResultedTeam.getPoints());
+        score.setScore(endResultedTeam.getTotalScore());
 
         entity.setScore(score);
         return entity;
@@ -53,7 +53,7 @@ public class DefaultEndResultService implements EndResultService {
 
     private TeamEntity addEndResultJunior(final TeamEntity entity, final EndResultedTeam endResultedTeam) {
         final var juniorScore = entity.getJuniorScore();
-        juniorScore.setScore(endResultedTeam.getPoints());
+        juniorScore.setScore(endResultedTeam.getTotalScore());
 
         entity.setJuniorScore(juniorScore);
         return entity;
