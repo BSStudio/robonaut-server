@@ -4,7 +4,7 @@ ARG JDK=openjdk:11-slim
 
 FROM $GRADLE as build
 COPY . .
-RUN gradle bootJar --parallel
+RUN gradle build bootJar --parallel
 
 FROM $JDK
 WORKDIR /home/spring

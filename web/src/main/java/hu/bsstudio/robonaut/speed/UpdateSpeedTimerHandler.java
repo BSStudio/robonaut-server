@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public class StopSpeedTimerHandler implements HandlerFunction<ServerResponse> {
+public class UpdateSpeedTimerHandler implements HandlerFunction<ServerResponse> {
 
     @NonNull
     private final SpeedTimerService service;
@@ -18,7 +18,7 @@ public class StopSpeedTimerHandler implements HandlerFunction<ServerResponse> {
     @Override
     public Mono<ServerResponse> handle(final ServerRequest request) {
         final var speedTimer = request.bodyToMono(SpeedTimer.class)
-            .flatMap(service::stopTimerAt);
+            .flatMap(service::updateTimer);
         return ServerResponse.ok().body(speedTimer, SpeedTimer.class);
     }
 }

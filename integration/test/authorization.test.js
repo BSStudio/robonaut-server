@@ -6,14 +6,12 @@ const HOST = process.env.HOST_NAME;
 describe('Authorization test', () => {
     const postEndpoint = [
         '/api/team',
-        '/api/skill/timer/start',
-        '/api/skill/timer/stop',
+        '/api/skill/timer',
         '/api/skill/gate',
         '/api/skill/result',
         '/api/speed/safetyCar/follow',
         '/api/speed/safetyCar/overtake',
-        '/api/speed/timer/start',
-        '/api/speed/timer/stop',
+        '/api/speed/timer',
         '/api/speed/lap',
         '/api/speed/result',
         '/api/scores/qualification',
