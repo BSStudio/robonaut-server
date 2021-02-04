@@ -44,22 +44,10 @@ const updateTeam = {
     teamType: "SENIOR"
 };
 const updatedTeam = {
-    audienceScore: 0,
-    juniorRank: 0,
-    numberOfOvertakes: 0,
-    qualificationScore: 0,
-    rank: 0,
-    safetyCarWasFollowed: false,
-    skillScore: 0,
-    speedBonusScore: 0,
-    speedScore: 0,
-    speedTimes: [],
-    teamId: 0,
+    ...createdTeam,
     teamMembers: ["Boldizsár Márta", "Bence Csik"],
     teamName: "Budvári Schönherz Stúdió",
     teamType: "SENIOR",
-    totalScore: 0,
-    votes: 0,
     year: 2022
 };
 const skillTimerUpdate = {timerAt: 2000, timerAction: 'START'};
@@ -71,92 +59,32 @@ const gateInformation = {
     totalSkillScore: 25
 };
 const updatedTeamWithGateInformation = {
-    audienceScore: 0,
-    juniorRank: 0,
-    numberOfOvertakes: 0,
-    qualificationScore: 0,
-    rank: 0,
-    safetyCarWasFollowed: false,
-    skillScore: 25,
-    speedBonusScore: 0,
-    speedScore: 0,
-    speedTimes: [],
-    teamId: 0,
-    teamMembers: ["Boldizsár Márta", "Bence Csik"],
-    teamName: "Budvári Schönherz Stúdió",
-    teamType: "SENIOR",
-    totalScore: 0,
-    votes: 0,
-    year: 2022
+    ...updatedTeam,
+    skillScore: 25
 };
 const skillResult = {
     teamId: 0,
     skillScore: 50
 };
 const updatedTeamAfterSkillRace = {
-    audienceScore: 0,
-    juniorRank: 0,
-    numberOfOvertakes: 0,
-    qualificationScore: 0,
-    rank: 0,
-    safetyCarWasFollowed: false,
-    skillScore: 50,
-    speedBonusScore: 0,
-    speedScore: 0,
-    speedTimes: [],
-    teamId: 0,
-    teamMembers: ["Boldizsár Márta", "Bence Csik"],
-    teamName: "Budvári Schönherz Stúdió",
-    teamType: "SENIOR",
-    totalScore: 0,
-    votes: 0,
-    year: 2022
+    ...updatedTeamWithGateInformation,
+    skillScore: 50
 };
 const safetyCarFollowInformation = {
     teamId: 0,
     safetyCarFollowed: true
 };
 const updatedTeamAfterSafetyCarFollow = {
-    audienceScore: 0,
-    juniorRank: 0,
-    numberOfOvertakes: 0,
-    qualificationScore: 0,
-    rank: 0,
-    safetyCarWasFollowed: true,
-    skillScore: 50,
-    speedBonusScore: 0,
-    speedScore: 0,
-    speedTimes: [],
-    teamId: 0,
-    teamMembers: ["Boldizsár Márta", "Bence Csik"],
-    teamName: "Budvári Schönherz Stúdió",
-    teamType: "SENIOR",
-    totalScore: 0,
-    votes: 0,
-    year: 2022
+    ...updatedTeamAfterSkillRace,
+    safetyCarWasFollowed: true
 };
 const safetyCarOvertakeInformation = {
     teamId: 0,
     numberOfOvertakes: 2
 };
 const updatedTeamAfterSafetyCarOvertake = {
-    audienceScore: 0,
-    juniorRank: 0,
-    numberOfOvertakes: 2,
-    qualificationScore: 0,
-    rank: 0,
-    safetyCarWasFollowed: true,
-    skillScore: 50,
-    speedBonusScore: 0,
-    speedScore: 0,
-    speedTimes: [],
-    teamId: 0,
-    teamMembers: ["Boldizsár Márta", "Bence Csik"],
-    teamName: "Budvári Schönherz Stúdió",
-    teamType: "SENIOR",
-    totalScore: 0,
-    votes: 0,
-    year: 2022
+    ...updatedTeamAfterSafetyCarFollow,
+    numberOfOvertakes: 2
 };
 const speedTimerUpdate = {timerAt: 0, timerAction: 'START'};
 const speedLapScore = {
@@ -164,23 +92,8 @@ const speedLapScore = {
     speedTimes: [10, 20, 30]
 };
 const updatedTeamWithLapInformation = {
-    audienceScore: 0,
-    juniorRank: 0,
-    numberOfOvertakes: 2,
-    qualificationScore: 0,
-    rank: 0,
-    safetyCarWasFollowed: true,
-    skillScore: 50,
-    speedBonusScore: 0,
-    speedScore: 0,
+    ...updatedTeamAfterSafetyCarOvertake,
     speedTimes: [10, 20, 30],
-    teamId: 0,
-    teamMembers: ["Boldizsár Márta", "Bence Csik"],
-    teamName: "Budvári Schönherz Stúdió",
-    teamType: "SENIOR",
-    totalScore: 0,
-    votes: 0,
-    year: 2022
 };
 const speedResult = {
     teamId: 0,
@@ -189,46 +102,18 @@ const speedResult = {
     speedTimes: [20, 30, 50]
 };
 const updatedTeamAfterSpeedRace = {
-    audienceScore: 0,
-    juniorRank: 0,
-    numberOfOvertakes: 2,
-    qualificationScore: 0,
-    rank: 0,
-    safetyCarWasFollowed: true,
-    skillScore: 50,
+    ...updatedTeamWithLapInformation,
     speedBonusScore: 15,
     speedScore: 25,
-    speedTimes: [20, 30, 50],
-    teamId: 0,
-    teamMembers: ["Boldizsár Márta", "Bence Csik"],
-    teamName: "Budvári Schönherz Stúdió",
-    teamType: "SENIOR",
-    totalScore: 0,
-    votes: 0,
-    year: 2022
+    speedTimes: [20, 30, 50]
 };
 const qualifiedTeam = {
     teamId: 0,
     qualificationScore: 999
 };
 const updatedTeamAfterQualification = {
-    audienceScore: 0,
-    juniorRank: 0,
-    numberOfOvertakes: 2,
-    qualificationScore: 999,
-    rank: 0,
-    safetyCarWasFollowed: true,
-    skillScore: 50,
-    speedBonusScore: 15,
-    speedScore: 25,
-    speedTimes: [20, 30, 50],
-    teamId: 0,
-    teamMembers: ["Boldizsár Márta", "Bence Csik"],
-    teamName: "Budvári Schönherz Stúdió",
-    teamType: "SENIOR",
-    totalScore: 0,
-    votes: 0,
-    year: 2022
+    ...updatedTeamAfterSpeedRace,
+    qualificationScore: 999
 };
 const audienceScoredTeam = {
     teamId: 0,
@@ -236,23 +121,9 @@ const audienceScoredTeam = {
     audienceScore: 987
 }
 const updatedTeamAfterAudienceScores = {
+    ...updatedTeamAfterQualification,
     audienceScore: 987,
-    juniorRank: 0,
-    numberOfOvertakes: 2,
-    qualificationScore: 999,
-    rank: 0,
-    safetyCarWasFollowed: true,
-    skillScore: 50,
-    speedBonusScore: 15,
-    speedScore: 25,
-    speedTimes: [20, 30, 50],
-    teamId: 0,
-    teamMembers: ["Boldizsár Márta", "Bence Csik"],
-    teamName: "Budvári Schönherz Stúdió",
-    teamType: "SENIOR",
-    totalScore: 0,
-    votes: 456,
-    year: 2022
+    votes: 456
 };
 const endResultedTeam = {
     teamId: 0,
@@ -261,23 +132,10 @@ const endResultedTeam = {
     juniorRank: -1
 };
 const updatedTeamAfterEndResults = {
-    audienceScore: 987,
+    ...updatedTeamAfterAudienceScores,
     juniorRank: -1,
-    numberOfOvertakes: 2,
-    qualificationScore: 999,
     rank: 1,
-    safetyCarWasFollowed: true,
-    skillScore: 50,
-    speedBonusScore: 15,
-    speedScore: 25,
-    speedTimes: [20, 30, 50],
-    teamId: 0,
-    teamMembers: ["Boldizsár Márta", "Bence Csik"],
-    teamName: "Budvári Schönherz Stúdió",
-    teamType: "SENIOR",
-    totalScore: 987654,
-    votes: 456,
-    year: 2022
+    totalScore: 987654
 };
 const adminUpdatedTeam = {
     audienceScore: 9871,
