@@ -1,5 +1,6 @@
 package hu.bsstudio.robonaut.scores.endresult;
 
+import hu.bsstudio.robonaut.entity.ScoreEntity;
 import hu.bsstudio.robonaut.entity.TeamEntity;
 import hu.bsstudio.robonaut.entity.TeamType;
 import hu.bsstudio.robonaut.repository.TeamRepository;
@@ -43,18 +44,19 @@ public class DefaultEndResultService implements EndResultService {
     }
 
     private TeamEntity addEndResultSenior(final TeamEntity entity, final EndResultedTeam endResultedTeam) {
-        final var score = entity.getScore();
-        score.setScore(endResultedTeam.getTotalScore());
-
+        final var score = updateTotalScore(endResultedTeam, entity.getScore());
         entity.setScore(score);
         return entity;
     }
 
     private TeamEntity addEndResultJunior(final TeamEntity entity, final EndResultedTeam endResultedTeam) {
-        final var juniorScore = entity.getJuniorScore();
-        juniorScore.setScore(endResultedTeam.getTotalScore());
-
+        final var juniorScore = updateTotalScore(endResultedTeam, entity.getJuniorScore());
         entity.setJuniorScore(juniorScore);
         return entity;
+    }
+
+    private ScoreEntity updateTotalScore(final EndResultedTeam endResultedTeam, final ScoreEntity score) {
+        score.setScore(endResultedTeam.getTotalScore());
+        return score;
     }
 }

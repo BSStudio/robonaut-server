@@ -1,5 +1,6 @@
 package hu.bsstudio.robonaut.race.speed;
 
+import hu.bsstudio.robonaut.entity.ScoreEntity;
 import hu.bsstudio.robonaut.entity.TeamEntity;
 import hu.bsstudio.robonaut.entity.TeamType;
 import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult;
@@ -39,7 +40,7 @@ public class DefaultSpeedRaceService implements SpeedRaceService {
             .flatMap(repository::findById)
             .filter(teamEntity -> teamEntity.getTeamType() == TeamType.JUNIOR)
             .map(entity -> updateSpeedScoreJunior(entity, speedRaceResult))
-            .flatMap(repository::save)
+            .flatMap(entity1 -> repository.save(entity1))
             .map(mapper::toModel);
     }
 
@@ -59,22 +60,22 @@ public class DefaultSpeedRaceService implements SpeedRaceService {
     }
 
     private TeamEntity updateSpeedScoreJunior(final TeamEntity entity, final SpeedRaceResult result) {
-        final var newJuniorScore = entity.getJuniorScore();
-        newJuniorScore.setSpeedScore(result.getSpeedScore());
-        newJuniorScore.setBestSpeedTime(result.getBestSpeedTime());
-
-        entity.setJuniorScore(newJuniorScore);
+        final var scoreEntity = updateScore(result, entity.getJuniorScore());
+        entity.setJuniorScore(scoreEntity);
         entity.setSpeedTimes(result.getSpeedTimes());
         return entity;
     }
 
     private TeamEntity updateSpeedScoreSenior(final TeamEntity entity, final SpeedRaceResult result) {
-        final var newScore = entity.getScore();
-        newScore.setSpeedScore(result.getSpeedScore());
-        newScore.setBestSpeedTime(result.getBestSpeedTime());
-
-        entity.setJuniorScore(newScore);
+        final var scoreEntity = updateScore(result, entity.getScore());
+        entity.setScore(scoreEntity);
         entity.setSpeedTimes(result.getSpeedTimes());
         return entity;
+    }
+
+    private ScoreEntity updateScore(final SpeedRaceResult result, final ScoreEntity score) {
+        score.setSpeedScore(result.getSpeedScore());
+        score.setBestSpeedTime(result.getBestSpeedTime());
+        return score;
     }
 }
