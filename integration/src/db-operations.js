@@ -4,7 +4,7 @@ const {MongoClient} = require('mongodb')
 const DB_URI = process.env.DB_HOST
 
 const cleanDB = () => {
-    const mongoClient = new MongoClient(DB_URI)
+    const mongoClient = new MongoClient(DB_URI, { useUnifiedTopology: true })
     return mongoClient.connect()
         .then(client => {
             return client.db().dropDatabase()

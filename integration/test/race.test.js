@@ -4,8 +4,7 @@ const amqp = require('amqplib');
 const {cleanDB} = require('../src/db-operations')
 const {purgeQueue} = require('../src/amqp-operations')
 
-const HOST = process.env.HOST_NAME;
-const AMQP_HOST = process.env.AMQP_HOST;
+const {HOST_NAME, AMQP_HOST} = process.env;
 
 const sentTeam = {
     teamId: 0,
@@ -16,14 +15,20 @@ const sentTeam = {
 };
 const createdTeam = {
     audienceScore: 0,
-    juniorRank: 0,
+    combinedScore: {
+        bestSpeedTime: 0,
+        speedScore: 0,
+        totalScore: 0
+    },
+    juniorScore: {
+        bestSpeedTime: 0,
+        speedScore: 0,
+        totalScore: 0
+    },
     numberOfOvertakes: 0,
     qualificationScore: 0,
-    rank: 0,
     safetyCarWasFollowed: false,
     skillScore: 0,
-    speedBonusScore: 0,
-    speedScore: 0,
     speedTimes: [],
     teamId: 0,
     teamMembers: [
@@ -32,7 +37,6 @@ const createdTeam = {
     ],
     teamName: "BSS",
     teamType: "JUNIOR",
-    totalScore: 0,
     votes: 0,
     year: 2021
 };
@@ -103,8 +107,10 @@ const speedResult = {
 };
 const updatedTeamAfterSpeedRace = {
     ...updatedTeamWithLapInformation,
-    speedBonusScore: 15,
-    speedScore: 25,
+    combinedScore: {
+        ...updatedTeamWithLapInformation.combinedScore,
+        speedScore: 25
+    },
     speedTimes: [20, 30, 50]
 };
 const qualifiedTeam = {
@@ -133,26 +139,32 @@ const endResultedTeam = {
 };
 const updatedTeamAfterEndResults = {
     ...updatedTeamAfterAudienceScores,
-    juniorRank: -1,
-    rank: 1,
-    totalScore: 987654
+    combinedScore: {
+        ...updatedTeamAfterAudienceScores.combinedScore,
+        totalScore: 987654
+    }
 };
 const adminUpdatedTeam = {
     audienceScore: 9871,
-    juniorRank: -11,
+    combinedScore: {
+        bestSpeedTime: 123456,
+        speedScore: 66,
+        totalScore: 1234
+    },
+    juniorScore: {
+        bestSpeedTime: 123456,
+        speedScore: 99,
+        totalScore: 123
+    },
     numberOfOvertakes: 21,
     qualificationScore: 9991,
-    rank: 11,
     safetyCarWasFollowed: false,
     skillScore: 501,
-    speedBonusScore: 151,
-    speedScore: 251,
     speedTimes: [20, 30, 50, 1],
     teamId: 0,
     teamMembers: ["Boldizsár Márta", "Bence Csik", "Csili"],
-    teamName: "BSS",
+    teamName: "BSSes",
     teamType: "JUNIOR",
-    totalScore: 9876541,
     votes: 4561,
     year: 2023
 };
@@ -184,7 +196,7 @@ describe('Test a happy path of events', () => {
         ]);
     });
     it('should contain no teams in the start', () => {
-        return request(HOST)
+        return request(HOST_NAME)
             .get('/api/team')
             .set('RobonAuth-Api-Key', 'BSS')
             .then(response => {
@@ -193,7 +205,7 @@ describe('Test a happy path of events', () => {
             });
     });
     it('should add a new team', () => {
-        return request(HOST)
+        return request(HOST_NAME)
             .post('/api/team')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(sentTeam)
@@ -204,7 +216,7 @@ describe('Test a happy path of events', () => {
             .then(_ => assertQueue('team.teamData', createdTeam));
     });
     it('should display the new team', () => {
-        return request(HOST)
+        return request(HOST_NAME)
             .get('/api/team')
             .set('RobonAuth-Api-Key', 'BSS')
             .then(response => {
@@ -214,7 +226,7 @@ describe('Test a happy path of events', () => {
             .then(_ => assertQueue('team.teamData', createdTeam));
     });
     it('should update the team', () => {
-        return request(HOST)
+        return request(HOST_NAME)
             .put('/api/team')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(updateTeam)
@@ -225,7 +237,7 @@ describe('Test a happy path of events', () => {
             .then(_ => assertQueue('team.teamData', updatedTeam));
     });
     it('should display the updated team', () => {
-        return request(HOST)
+        return request(HOST_NAME)
             .get('/api/team')
             .set('RobonAuth-Api-Key', 'BSS')
             .then(response => {
@@ -234,8 +246,8 @@ describe('Test a happy path of events', () => {
             })
             .then(_ => assertQueue('team.teamData', updatedTeam));
     });
-    it('should start the skill timer', () => {
-        return request(HOST)
+    it('should update the skill timer', () => {
+        return request(HOST_NAME)
             .post('/api/skill/timer')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(skillTimerUpdate)
@@ -246,7 +258,7 @@ describe('Test a happy path of events', () => {
             .then(_ => assertQueue('skill.timer', skillTimerUpdate));
     });
     it('should update team on gate enter', () => {
-        return request(HOST)
+        return request(HOST_NAME)
             .post('/api/skill/gate')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(gateInformation)
@@ -258,7 +270,7 @@ describe('Test a happy path of events', () => {
             .then(_ => assertQueue('team.teamData', updatedTeamWithGateInformation));
     });
     it('should update team after skill race', () => {
-        return request(HOST)
+        return request(HOST_NAME)
             .post('/api/skill/result')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(skillResult)
@@ -269,7 +281,7 @@ describe('Test a happy path of events', () => {
             .then(_ => assertQueue('team.teamData', updatedTeamAfterSkillRace));
     });
     it('should update team after safety car was followed', () => {
-        return request(HOST)
+        return request(HOST_NAME)
             .post('/api/speed/safetyCar/follow')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(safetyCarFollowInformation)
@@ -281,7 +293,7 @@ describe('Test a happy path of events', () => {
             .then(_ => assertQueue('speed.safetyCar.follow', safetyCarFollowInformation));
     });
     it('should update team after safety car was overtaken', () => {
-        return request(HOST)
+        return request(HOST_NAME)
             .post('/api/speed/safetyCar/overtake')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(safetyCarOvertakeInformation)
@@ -292,8 +304,8 @@ describe('Test a happy path of events', () => {
             .then(_ => assertQueue('team.teamData', updatedTeamAfterSafetyCarOvertake))
             .then(_ => assertQueue('speed.safetyCar.overtake', safetyCarOvertakeInformation));
     });
-    it('should start the speed timer', () => {
-        return request(HOST)
+    it('should update the speed timer', () => {
+        return request(HOST_NAME)
             .post('/api/speed/timer')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(speedTimerUpdate)
@@ -304,7 +316,7 @@ describe('Test a happy path of events', () => {
             .then(_ => assertQueue('speed.timer', speedTimerUpdate))
     });
     it('should update team after lap is completed', () => {
-        return request(HOST)
+        return request(HOST_NAME)
             .post('/api/speed/lap')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(speedLapScore)
@@ -316,8 +328,8 @@ describe('Test a happy path of events', () => {
             .then(_ => assertQueue('team.teamData', updatedTeamWithLapInformation));
     });
     it('should update team after speed race', () => {
-        return request(HOST)
-            .post('/api/speed/result')
+        return request(HOST_NAME)
+            .post('/api/speed/result/senior')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(speedResult)
             .then(response => {
@@ -326,8 +338,19 @@ describe('Test a happy path of events', () => {
             })
             .then(_ => assertQueue('team.teamData', updatedTeamAfterSpeedRace));
     });
+    it('should not update junior score for senior team', () => {
+        return request(HOST_NAME)
+            .post('/api/speed/result/junior')
+            .set('RobonAuth-Api-Key', 'BSS')
+            .send(speedResult)
+            .then(response => {
+                expect(response.status).toBe(200)
+                expect(response.body).toStrictEqual('')
+            })
+    });
+    // todo update junior for junior team
     it('should update qualification scores for the team', () => {
-        return request(HOST)
+        return request(HOST_NAME)
             .post('/api/scores/qualification')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(qualifiedTeam)
@@ -338,7 +361,7 @@ describe('Test a happy path of events', () => {
             .then(_ => assertQueue('team.teamData', updatedTeamAfterQualification));
     });
     it('should update audience scores for the team', () => {
-        return request(HOST)
+        return request(HOST_NAME)
             .post('/api/scores/audience')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(audienceScoredTeam)
@@ -348,9 +371,20 @@ describe('Test a happy path of events', () => {
             })
             .then(_ => assertQueue('team.teamData', updatedTeamAfterAudienceScores));
     });
-    it('should update end result scores for the team', () => {
-        return request(HOST)
-            .post('/api/scores/endResult')
+    it('should update combined end result scores for senior team', () => {
+        return request(HOST_NAME)
+            .post('/api/scores/endResult/senior')
+            .set('RobonAuth-Api-Key', 'BSS')
+            .send(endResultedTeam)
+            .then(response => {
+                expect(response.status).toBe(200)
+                expect(response.body).toStrictEqual([updatedTeamAfterEndResults])
+            })
+            .then(_ => assertQueue('team.teamData', updatedTeamAfterEndResults));
+    });
+    it('should not update junior end result scores for junior team', () => {
+        return request(HOST_NAME)
+            .post('/api/scores/endResult/senior')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(endResultedTeam)
             .then(response => {
@@ -360,7 +394,7 @@ describe('Test a happy path of events', () => {
             .then(_ => assertQueue('team.teamData', updatedTeamAfterEndResults));
     });
     it('should update all field for the team', () => {
-        return request(HOST)
+        return request(HOST_NAME)
             .put('/api/admin/team')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(adminUpdatedTeam)
