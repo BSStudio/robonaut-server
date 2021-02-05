@@ -84,7 +84,7 @@ paths:
     post:
       tags:
         - skill
-      summary: Start Skill Timer
+      summary: Update Skill Timer
       description: "Broadcast skill timer start state on `skill.timer` queue in JSON format.
                     If the _timerAction_ field don't match to the endpoint no action will be made"
       requestBody:
@@ -182,7 +182,7 @@ paths:
     post:
       tags:
         - speed
-      summary: Start Speed Timer
+      summary: Update Speed Timer
       description: "Broadcast speed timer start state on `speed.timer` queue in JSON format.
                     If the _timerAction_ field don't match to the endpoint no action will be made"
       requestBody:

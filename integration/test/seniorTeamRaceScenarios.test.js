@@ -6,7 +6,7 @@ const {purgeQueue} = require('../src/amqp-operations')
 
 const {HOST_NAME, AMQP_HOST} = process.env;
 
-const sentTeam = {
+const newTeam = {
     teamId: 0,
     year: 2021,
     teamName: "BSS",
@@ -208,7 +208,7 @@ describe('Test a happy path of events', () => {
         return request(HOST_NAME)
             .post('/api/team')
             .set('RobonAuth-Api-Key', 'BSS')
-            .send(sentTeam)
+            .send(newTeam)
             .then(response => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual(createdTeam)
@@ -348,7 +348,6 @@ describe('Test a happy path of events', () => {
                 expect(response.body).toStrictEqual('')
             })
     });
-    // todo update junior for junior team
     it('should update qualification scores for the team', () => {
         return request(HOST_NAME)
             .post('/api/scores/qualification')

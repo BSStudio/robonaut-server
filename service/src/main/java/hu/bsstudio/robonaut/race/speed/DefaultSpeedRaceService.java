@@ -40,7 +40,7 @@ public class DefaultSpeedRaceService implements SpeedRaceService {
             .flatMap(repository::findById)
             .filter(teamEntity -> teamEntity.getTeamType() == TeamType.JUNIOR)
             .map(entity -> updateSpeedScoreJunior(entity, speedRaceResult))
-            .flatMap(entity1 -> repository.save(entity1))
+            .flatMap(repository::save)
             .map(mapper::toModel);
     }
 
