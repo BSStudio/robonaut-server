@@ -1,6 +1,5 @@
-require('dotenv').config()
 const request = require('supertest')
-const amqp = require('amqplib');
+const amqp = require('amqplib')
 const {cleanDB} = require('../src/db-operations')
 const {purgeQueue} = require('../src/amqp-operations')
 
@@ -11,7 +10,7 @@ const newTeam = {
     year: 2021,
     teamName: "BSS",
     teamMembers: ["Boldi", "Bence"],
-    teamType: "JUNIOR"
+    teamType: "SENIOR"
 };
 const createdTeam = {
     audienceScore: 0,
@@ -36,7 +35,7 @@ const createdTeam = {
         "Bence"
     ],
     teamName: "BSS",
-    teamType: "JUNIOR",
+    teamType: "SENIOR",
     votes: 0,
     year: 2021
 };
@@ -45,16 +44,15 @@ const updateTeam = {
     year: 2022,
     teamName: "Budvári Schönherz Stúdió",
     teamMembers: ["Boldizsár Márta", "Bence Csik"],
-    teamType: "SENIOR"
+    teamType: "JUNIOR"
 };
 const updatedTeam = {
     ...createdTeam,
     teamMembers: ["Boldizsár Márta", "Bence Csik"],
     teamName: "Budvári Schönherz Stúdió",
-    teamType: "SENIOR",
+    teamType: "JUNIOR",
     year: 2022
 };
-const skillTimerUpdate = {timerAt: 2000, timerAction: 'START'};
 const gateInformation = {
     teamId: 0,
     bonusTime: 10,
@@ -90,7 +88,6 @@ const updatedTeamAfterSafetyCarOvertake = {
     ...updatedTeamAfterSafetyCarFollow,
     numberOfOvertakes: 2
 };
-const speedTimerUpdate = {timerAt: 0, timerAction: 'START'};
 const speedLapScore = {
     teamId: 0,
     speedTimes: [10, 20, 30]
@@ -105,10 +102,18 @@ const speedResult = {
     speedBonusScore: 15,
     speedTimes: [20, 30, 50]
 };
-const updatedTeamAfterSpeedRace = {
+const updatedTeamAfterSpeedRaceSenior = {
     ...updatedTeamWithLapInformation,
     combinedScore: {
         ...updatedTeamWithLapInformation.combinedScore,
+        speedScore: 25
+    },
+    speedTimes: [20, 30, 50]
+};
+const updatedTeamAfterSpeedRaceJunior = {
+    ...updatedTeamAfterSpeedRaceSenior,
+    juniorScore: {
+        ...updatedTeamAfterSpeedRaceSenior.juniorScore,
         speedScore: 25
     },
     speedTimes: [20, 30, 50]
@@ -118,7 +123,7 @@ const qualifiedTeam = {
     qualificationScore: 999
 };
 const updatedTeamAfterQualification = {
-    ...updatedTeamAfterSpeedRace,
+    ...updatedTeamAfterSpeedRaceJunior,
     qualificationScore: 999
 };
 const audienceScoredTeam = {
@@ -137,10 +142,17 @@ const endResultedTeam = {
     rank: 1,
     juniorRank: -1
 };
-const updatedTeamAfterEndResults = {
+const updatedTeamAfterEndResultsSenior = {
     ...updatedTeamAfterAudienceScores,
     combinedScore: {
         ...updatedTeamAfterAudienceScores.combinedScore,
+        totalScore: 987654
+    }
+};
+const updatedTeamAfterEndResultsJunior = {
+    ...updatedTeamAfterEndResultsSenior,
+    juniorScore: {
+        ...updatedTeamAfterEndResultsSenior.juniorScore,
         totalScore: 987654
     }
 };
@@ -181,17 +193,36 @@ function assertQueue(queueName, expected) {
         .then(() => _connection.close());
 }
 
-describe('Test a happy path of events', () => {
+function expectQueuesToBeEmpty() {
+    let _connection;
+    return amqp.connect(AMQP_HOST)
+        .then(connection => {
+            _connection = connection
+            return connection.createChannel();
+        })
+        .then(channel => Promise.all([
+            expect(channel.checkQueue('general.teamData')).resolves.toHaveProperty('messageCount', 0),
+            expect(channel.checkQueue('skill.gate')).resolves.toHaveProperty('messageCount', 0),
+            expect(channel.checkQueue('skill.timer')).resolves.toHaveProperty('messageCount', 0),
+            expect(channel.checkQueue('speed.lap')).resolves.toHaveProperty('messageCount', 0),
+            expect(channel.checkQueue('speed.timer')).resolves.toHaveProperty('messageCount', 0),
+            expect(channel.checkQueue('speed.safetyCar.follow')).resolves.toHaveProperty('messageCount', 0),
+            expect(channel.checkQueue('speed.safetyCar.overtake')).resolves.toHaveProperty('messageCount', 0),
+            expect(channel.checkQueue('team.teamData')).resolves.toHaveProperty('messageCount', 0),
+        ]))
+        .then(() => _connection.close());
+
+}
+
+describe('Test a likely path of events for a junior team', () => {
     beforeAll(() => {
         return Promise.all([
             cleanDB(),
             purgeQueue('general.teamData'),
             purgeQueue('skill.gate'),
-            purgeQueue('skill.timer'),
             purgeQueue('speed.lap'),
             purgeQueue('speed.safetyCar.follow'),
             purgeQueue('speed.safetyCar.overtake'),
-            purgeQueue('speed.timer'),
             purgeQueue('team.teamData')
         ]);
     });
@@ -246,17 +277,6 @@ describe('Test a happy path of events', () => {
             })
             .then(_ => assertQueue('team.teamData', updatedTeam));
     });
-    it('should update the skill timer', () => {
-        return request(HOST_NAME)
-            .post('/api/skill/timer')
-            .set('RobonAuth-Api-Key', 'BSS')
-            .send(skillTimerUpdate)
-            .then(response => {
-                expect(response.status).toBe(200)
-                expect(response.body).toStrictEqual(skillTimerUpdate)
-            })
-            .then(_ => assertQueue('skill.timer', skillTimerUpdate));
-    });
     it('should update team on gate enter', () => {
         return request(HOST_NAME)
             .post('/api/skill/gate')
@@ -304,17 +324,6 @@ describe('Test a happy path of events', () => {
             .then(_ => assertQueue('team.teamData', updatedTeamAfterSafetyCarOvertake))
             .then(_ => assertQueue('speed.safetyCar.overtake', safetyCarOvertakeInformation));
     });
-    it('should update the speed timer', () => {
-        return request(HOST_NAME)
-            .post('/api/speed/timer')
-            .set('RobonAuth-Api-Key', 'BSS')
-            .send(speedTimerUpdate)
-            .then(response => {
-                expect(response.status).toBe(200)
-                expect(response.body).toStrictEqual(speedTimerUpdate)
-            })
-            .then(_ => assertQueue('speed.timer', speedTimerUpdate))
-    });
     it('should update team after lap is completed', () => {
         return request(HOST_NAME)
             .post('/api/speed/lap')
@@ -334,19 +343,20 @@ describe('Test a happy path of events', () => {
             .send(speedResult)
             .then(response => {
                 expect(response.status).toBe(200)
-                expect(response.body).toStrictEqual(updatedTeamAfterSpeedRace)
+                expect(response.body).toStrictEqual(updatedTeamAfterSpeedRaceSenior)
             })
-            .then(_ => assertQueue('team.teamData', updatedTeamAfterSpeedRace));
+            .then(_ => assertQueue('team.teamData', updatedTeamAfterSpeedRaceSenior));
     });
-    it('should not update junior score for senior team', () => {
+    it('should update junior score for junior team', () => {
         return request(HOST_NAME)
             .post('/api/speed/result/junior')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(speedResult)
             .then(response => {
                 expect(response.status).toBe(200)
-                expect(response.body).toStrictEqual('')
+                expect(response.body).toStrictEqual(updatedTeamAfterSpeedRaceJunior)
             })
+            .then(_ => assertQueue('team.teamData', updatedTeamAfterSpeedRaceJunior));
     });
     it('should update qualification scores for the team', () => {
         return request(HOST_NAME)
@@ -370,27 +380,27 @@ describe('Test a happy path of events', () => {
             })
             .then(_ => assertQueue('team.teamData', updatedTeamAfterAudienceScores));
     });
-    it('should update combined end result scores for senior team', () => {
+    it('should update combined end result scores for junior team', () => {
         return request(HOST_NAME)
             .post('/api/scores/endResult/senior')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(endResultedTeam)
             .then(response => {
                 expect(response.status).toBe(200)
-                expect(response.body).toStrictEqual([updatedTeamAfterEndResults])
+                expect(response.body).toStrictEqual([updatedTeamAfterEndResultsSenior])
             })
-            .then(_ => assertQueue('team.teamData', updatedTeamAfterEndResults));
+            .then(_ => assertQueue('team.teamData', updatedTeamAfterEndResultsSenior));
     });
-    it('should not update junior end result scores for junior team', () => {
+    it('should update junior end result scores for junior team', () => {
         return request(HOST_NAME)
-            .post('/api/scores/endResult/senior')
+            .post('/api/scores/endResult/junior')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(endResultedTeam)
             .then(response => {
                 expect(response.status).toBe(200)
-                expect(response.body).toStrictEqual([updatedTeamAfterEndResults])
+                expect(response.body).toStrictEqual([updatedTeamAfterEndResultsJunior])
             })
-            .then(_ => assertQueue('team.teamData', updatedTeamAfterEndResults));
+            .then(_ => assertQueue('team.teamData', updatedTeamAfterEndResultsJunior));
     });
     it('should update all field for the team', () => {
         return request(HOST_NAME)
@@ -404,6 +414,9 @@ describe('Test a happy path of events', () => {
             .then(_ => assertQueue('team.teamData', adminUpdatedTeam));
     })
     afterAll(() => {
-        return cleanDB();
+        return Promise.all([
+            cleanDB(),
+            expectQueuesToBeEmpty(),
+        ]);
     });
 });
