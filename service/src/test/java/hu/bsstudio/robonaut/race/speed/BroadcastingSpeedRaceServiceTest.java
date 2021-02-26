@@ -37,11 +37,24 @@ final class BroadcastingSpeedRaceServiceTest {
     }
 
     @Test
-    void shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenRaceResultWasSubmitted() {
-        when(mockService.updateSpeedRace(SPEED_RACE_RESULT))
+    void shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenRaceResultWasSubmittedOnJunior() {
+        when(mockService.updateSpeedRaceJunior(SPEED_RACE_RESULT))
             .thenReturn(Mono.just(DETAILED_TEAM));
 
-        final var result = underTest.updateSpeedRace(SPEED_RACE_RESULT);
+        final var result = underTest.updateSpeedRaceJunior(SPEED_RACE_RESULT);
+
+        StepVerifier.create(result)
+            .expectNext(DETAILED_TEAM)
+            .verifyComplete();
+        verify(mockTemplate).convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM);
+    }
+
+    @Test
+    void shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenRaceResultWasSubmittedOnSenior() {
+        when(mockService.updateSpeedRaceSenior(SPEED_RACE_RESULT))
+            .thenReturn(Mono.just(DETAILED_TEAM));
+
+        final var result = underTest.updateSpeedRaceSenior(SPEED_RACE_RESULT);
 
         StepVerifier.create(result)
             .expectNext(DETAILED_TEAM)

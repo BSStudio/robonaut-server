@@ -28,8 +28,14 @@ public class BroadcastingSpeedRaceService implements SpeedRaceService {
     }
 
     @Override
-    public Mono<DetailedTeam> updateSpeedRace(final SpeedRaceResult speedRaceResult) {
-        return service.updateSpeedRace(speedRaceResult)
+    public Mono<DetailedTeam> updateSpeedRaceJunior(final SpeedRaceResult speedRaceResult) {
+        return service.updateSpeedRaceJunior(speedRaceResult)
+            .doOnNext(this::sendTeamInfo);
+    }
+
+    @Override
+    public Mono<DetailedTeam> updateSpeedRaceSenior(final SpeedRaceResult speedRaceResult) {
+        return service.updateSpeedRaceSenior(speedRaceResult)
             .doOnNext(this::sendTeamInfo);
     }
 

@@ -11,7 +11,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public class EndResultHandler implements HandlerFunction<ServerResponse> {
+public class JuniorEndResultHandler implements HandlerFunction<ServerResponse> {
 
     @NonNull
     private final EndResultService service;
@@ -19,7 +19,7 @@ public class EndResultHandler implements HandlerFunction<ServerResponse> {
     @Override
     public Mono<ServerResponse> handle(final ServerRequest request) {
         final var detailedTeam = request.bodyToFlux(EndResultedTeam.class)
-            .flatMap(service::updateEndResult);
+            .flatMap(service::updateEndResultJunior);
         return ServerResponse.ok().body(detailedTeam, DetailedTeam.class);
     }
 }

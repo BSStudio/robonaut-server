@@ -1,8 +1,9 @@
 package hu.bsstudio.robonaut.scores.configuration;
 
 import hu.bsstudio.robonaut.scores.AudienceScoreHandler;
-import hu.bsstudio.robonaut.scores.EndResultHandler;
+import hu.bsstudio.robonaut.scores.JuniorEndResultHandler;
 import hu.bsstudio.robonaut.scores.QualificationScoreHandler;
+import hu.bsstudio.robonaut.scores.SeniorEndResultHandler;
 import hu.bsstudio.robonaut.scores.audience.AudienceScoreService;
 import hu.bsstudio.robonaut.scores.endresult.EndResultService;
 import hu.bsstudio.robonaut.scores.qualification.QualificationScoreService;
@@ -29,12 +30,14 @@ public class ScoreRouterConfiguration {
     @Bean
     public RouterFunction<ServerResponse> scoreRouterFunction(final QualificationScoreHandler qualificationScoreHandler,
                                                               final AudienceScoreHandler audienceScoreHandler,
-                                                              final EndResultHandler endResultHandler) {
+                                                              final SeniorEndResultHandler seniorEndResultHandler,
+                                                              final JuniorEndResultHandler juniorEndResultHandler) {
         return RouterFunctions.route()
             .filter(robonAuthFilter)
             .POST("/api/scores/qualification", qualificationScoreHandler)
             .POST("/api/scores/audience", audienceScoreHandler)
-            .POST("/api/scores/endResult", endResultHandler)
+            .POST("/api/scores/endResult/senior", seniorEndResultHandler)
+            .POST("/api/scores/endResult/junior", juniorEndResultHandler)
             .build();
     }
 
@@ -49,7 +52,12 @@ public class ScoreRouterConfiguration {
     }
 
     @Bean
-    public EndResultHandler endResultHandler() {
-        return new EndResultHandler(endResultService);
+    public SeniorEndResultHandler seniorEndResultHandler() {
+        return new SeniorEndResultHandler(endResultService);
+    }
+
+    @Bean
+    public JuniorEndResultHandler juniorEndResultHandler() {
+        return new JuniorEndResultHandler(endResultService);
     }
 }

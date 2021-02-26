@@ -20,7 +20,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Team'
       responses:
-        201:
+        200:
           description: "Team was created successfully"
           content:
             application/json:
@@ -84,7 +84,7 @@ paths:
     post:
       tags:
         - skill
-      summary: Start Skill Timer
+      summary: Update Skill Timer
       description: "Broadcast skill timer start state on `skill.timer` queue in JSON format.
                     If the _timerAction_ field don't match to the endpoint no action will be made"
       requestBody:
@@ -182,7 +182,7 @@ paths:
     post:
       tags:
         - speed
-      summary: Start Speed Timer
+      summary: Update Speed Timer
       description: "Broadcast speed timer start state on `speed.timer` queue in JSON format.
                     If the _timerAction_ field don't match to the endpoint no action will be made"
       requestBody:
@@ -219,7 +219,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DetailedTeam'
-  /api/speed/result:
+  /api/speed/result/senior:
+    post:
+      tags:
+        - speed
+      summary: Update scores after speed race
+      description: "This action will replace all the previous _speedTimes_!
+                    All previous _speedTimes_ should be sent for consistency.
+                    The endpoint will update the _speedTimes_, _speedBonusScore_ and _speedScore_ fields for a team with their speed race results.
+                    The updated DetailedTeam schema will be broadcast on the `team.teamData` queue as JSON."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SpeedRaceResult'
+      responses:
+        200:
+          description: "The updated team"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedTeam'
+  /api/speed/result/junior:
     post:
       tags:
         - speed
@@ -276,11 +297,7 @@ paths:
         content:
           application/json:
             schema:
-              oneOf:
-                - type: array
-                  items:
-                    $ref: '#/components/schemas/AudienceScoredTeam'
-                - $ref: '#/components/schemas/AudienceScoredTeam'
+              $ref: '#/components/schemas/AudienceScoredTeam'
       responses:
         200:
           description: "The updated teams"
@@ -288,23 +305,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DetailedTeam'
-  /api/scores/endResult:
+  /api/scores/endResult/senior:
     post:
       tags:
         - scores
       summary: Add end result
-      description: "Update the end results for one or multiple teams.
+      description: "Update the senior end results for one or multiple teams.
                     The input can be a single or an array of objects.
                     The updated DetailedTeam schema(s) will be broadcast on the `team.teamData` queue as JSON."
       requestBody:
         content:
           application/json:
             schema:
-              oneOf:
-                - type: array
-                  items:
-                    $ref: '#/components/schemas/EndResultedTeam'
-                - $ref: '#/components/schemas/EndResultedTeam'
+              $ref: '#/components/schemas/EndResultedTeam'
+      responses:
+        200:
+          description: "The updated teams"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedTeam'
+  /api/scores/endResult/junior:
+    post:
+      tags:
+        - scores
+      summary: Add end result
+      description: "Update the junior end results for one or multiple teams.
+                      The input can be a single or an array of objects.
+                      The updated DetailedTeam schema(s) will be broadcast on the `team.teamData` queue as JSON."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndResultedTeam'
       responses:
         200:
           description: "The updated teams"
@@ -350,12 +383,6 @@ components:
             skillScore:
               type: integer
               default: 0
-            speedScore:
-              type: integer
-              default: 0
-            speedBonusScore:
-              type: integer
-              default: 0
             numberOfOvertakes:
               type: integer
               default: 0
@@ -376,15 +403,26 @@ components:
             qualificationScore:
               type: integer
               default: 0
-            totalScore:
-              type: integer
-              default: 0
-            rank:
-              type: integer
-              default: 0
-            juniorRank:
-              type: integer
-              default: 0
+            combinedScore:
+              $ref: '#/components/schemas/Score'
+            juniorScore:
+              $ref: '#/components/schemas/Score'
+    Score:
+      type: object
+      required:
+        - speedScore
+        - bestSpeedTime
+        - totalScore
+      properties:
+        speedScore:
+          type: integer
+          default: 0
+        bestSpeedTime:
+          type: integer
+          default: 0
+        totalScore:
+          type: integer
+          default: 0
     Timer:
       type: object
       required:
@@ -428,16 +466,10 @@ components:
       required:
         - teamId
         - totalScore
-        - rank
-        - juniorRank
       properties:
         teamId:
           type: integer
         totalScore:
-          type: integer
-        rank:
-          type: integer
-        juniorRank:
           type: integer
     SafetyCarOvertakeInformation:
       type: object
@@ -506,14 +538,14 @@ components:
       required:
         - teamId
         - speedScore
-        - speedBonusScore
+        - bestSpeedTime
         - speedTimes
       properties:
         teamId:
           type: integer
         speedScore:
           type: integer
-        speedBonusScore:
+        bestSpeedTime:
           type: integer
         speedTimes:
           type: array

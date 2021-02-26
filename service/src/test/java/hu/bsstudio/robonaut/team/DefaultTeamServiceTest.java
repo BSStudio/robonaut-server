@@ -3,11 +3,13 @@ package hu.bsstudio.robonaut.team;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
+import hu.bsstudio.robonaut.entity.ScoreEntity;
 import hu.bsstudio.robonaut.entity.TeamEntity;
 import hu.bsstudio.robonaut.entity.TeamType;
 import hu.bsstudio.robonaut.repository.TeamRepository;
 import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper;
 import hu.bsstudio.robonaut.team.model.DetailedTeam;
+import hu.bsstudio.robonaut.team.model.Score;
 import hu.bsstudio.robonaut.team.model.Team;
 import java.util.Collections;
 import java.util.List;
@@ -40,7 +42,11 @@ final class DefaultTeamServiceTest {
         .teamType(TEAM_TYPE_1)
         .year(YEAR_1)
         .build();
-    private static final DetailedTeam DETAILED_TEAM_1 = DetailedTeam.builder().teamId(TEAM_ID_1).build();
+    private static final DetailedTeam DETAILED_TEAM_1 = DetailedTeam.builder()
+        .teamId(TEAM_ID_1)
+        .combinedScore(new Score(0, 0, 0))
+        .juniorScore(new Score(0, 0, 0))
+        .build();
     private static final DetailedTeam DETAILED_TEAM_2 = DetailedTeam.builder().teamId(TEAM_ID_2).build();
 
     private DefaultTeamService underTest;
@@ -111,6 +117,7 @@ final class DefaultTeamServiceTest {
 
     private static TeamEntity createTeamEntity(final Long teamId, final int year, final String teamName,
                                                final List<String> teamMembers, final TeamType teamType) {
+        final var defaultScore = new ScoreEntity();
         final var teamEntity = new TeamEntity();
         teamEntity.setTeamId(teamId);
         teamEntity.setYear(year);
@@ -118,6 +125,8 @@ final class DefaultTeamServiceTest {
         teamEntity.setTeamMembers(teamMembers);
         teamEntity.setTeamType(teamType);
         teamEntity.setSpeedTimes(Collections.emptyList());
+        teamEntity.setScore(defaultScore);
+        teamEntity.setJuniorScore(defaultScore);
         return teamEntity;
     }
 }

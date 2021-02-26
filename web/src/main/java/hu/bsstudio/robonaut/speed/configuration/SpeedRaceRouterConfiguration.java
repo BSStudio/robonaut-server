@@ -3,8 +3,9 @@ package hu.bsstudio.robonaut.speed.configuration;
 import hu.bsstudio.robonaut.race.speed.SpeedRaceService;
 import hu.bsstudio.robonaut.race.speed.timer.SpeedTimerService;
 import hu.bsstudio.robonaut.security.RobonAuthFilter;
+import hu.bsstudio.robonaut.speed.JuniorSpeedRaceResultHandler;
+import hu.bsstudio.robonaut.speed.SeniorSpeedRaceResultHandler;
 import hu.bsstudio.robonaut.speed.SpeedRaceLapHandler;
-import hu.bsstudio.robonaut.speed.SpeedRaceResultHandler;
 import hu.bsstudio.robonaut.speed.UpdateSpeedTimerHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,12 +29,14 @@ public class SpeedRaceRouterConfiguration {
     @Bean
     public RouterFunction<ServerResponse> speedRaceRouterFunction(final UpdateSpeedTimerHandler updateSpeedTimerHandler,
                                                                   final SpeedRaceLapHandler speedRaceLapHandler,
-                                                                  final SpeedRaceResultHandler speedRaceResultHandler) {
+                                                                  final JuniorSpeedRaceResultHandler juniorSpeedRaceResultHandler,
+                                                                  final SeniorSpeedRaceResultHandler seniorSpeedRaceResultHandler) {
         return RouterFunctions.route()
             .filter(robonAuthFilter)
             .POST("/api/speed/timer", updateSpeedTimerHandler)
             .POST("/api/speed/lap", speedRaceLapHandler)
-            .POST("/api/speed/result", speedRaceResultHandler)
+            .POST("/api/speed/result/junior", juniorSpeedRaceResultHandler)
+            .POST("/api/speed/result/senior", seniorSpeedRaceResultHandler)
             .build();
     }
 
@@ -48,7 +51,12 @@ public class SpeedRaceRouterConfiguration {
     }
 
     @Bean
-    public SpeedRaceResultHandler speedRaceResultHandler() {
-        return new SpeedRaceResultHandler(speedRaceService);
+    public JuniorSpeedRaceResultHandler juniorSpeedRaceResultHandler() {
+        return new JuniorSpeedRaceResultHandler(speedRaceService);
+    }
+
+    @Bean
+    public SeniorSpeedRaceResultHandler seniorSpeedRaceResultHandler() {
+        return new SeniorSpeedRaceResultHandler(speedRaceService);
     }
 }

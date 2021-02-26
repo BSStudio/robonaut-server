@@ -1,5 +1,6 @@
 package hu.bsstudio.robonaut.team;
 
+import hu.bsstudio.robonaut.entity.ScoreEntity;
 import hu.bsstudio.robonaut.entity.TeamEntity;
 import hu.bsstudio.robonaut.repository.TeamRepository;
 import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper;
@@ -55,7 +56,17 @@ public class DefaultTeamService implements TeamService {
     }
 
     private TeamEntity toEntity(final Team team) {
-        return updateBasicTeamInfo(new TeamEntity(), team);
+        final var defaultScore = new ScoreEntity();
+        final var entity = new TeamEntity();
+        entity.setTeamId(team.getTeamId());
+        entity.setYear(team.getYear());
+        entity.setTeamName(team.getTeamName());
+        entity.setTeamMembers(team.getTeamMembers());
+        entity.setTeamType(team.getTeamType());
+        entity.setSpeedTimes(Collections.emptyList());
+        entity.setScore(defaultScore);
+        entity.setJuniorScore(defaultScore);
+        return entity;
     }
 
     private TeamEntity updateBasicTeamInfo(final TeamEntity entity, final Team team) {
