@@ -1,13 +1,16 @@
 package hu.bsstudio.robonaut.team.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.MockitoAnnotations.openMocks;
 
 import hu.bsstudio.robonaut.entity.TeamEntity;
 import hu.bsstudio.robonaut.entity.TeamType;
 import hu.bsstudio.robonaut.team.model.DetailedTeam;
+import hu.bsstudio.robonaut.team.model.Score;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 final class TeamModelEntityMapperTest {
 
@@ -27,16 +30,23 @@ final class TeamModelEntityMapperTest {
     private static final int QUALIFICATION_SCORE = 444;
     private static final int TOTAL_SCORE = Integer.MAX_VALUE;
     private static final int RANK = 2;
+    private static final int BEST_SPEED_TIME = 6767;
     private static final int JUNIOR_RANK = -1;
 
     private static final TeamEntity TEAM_ENTITY = createTeamEntity();
     private static final DetailedTeam DETAILED_TEAM = createDetailedTeam();
+    private static final Score COMBINED_SCORE = new Score(SPEED_SCORE, BEST_SPEED_TIME, TOTAL_SCORE);
 
     private TeamModelEntityMapper underTest;
 
+    @Mock
+    private ScoreEntityMapper mockMapper;
+
     @BeforeEach
     void setUp() {
+        openMocks(this);
         this.underTest = new TeamModelEntityMapper();
+        this.underTest.setScoreEntityMapper(mockMapper);
     }
 
     @Test
@@ -63,17 +73,13 @@ final class TeamModelEntityMapperTest {
             .teamMembers(TEAM_MEMBERS)
             .teamType(TEAM_TYPE)
             .skillScore(SKILL_SCORE)
-            .speedScore(SPEED_SCORE)
-            .speedBonusScore(SPEED_BONUS_SCORE)
             .numberOfOvertakes(NUMBER_OF_OVERTAKES)
             .safetyCarWasFollowed(SAFETY_CAR_WAS_FOLLOWED)
             .speedTimes(SPEED_TIMES)
             .votes(VOTES)
             .audienceScore(AUDIENCE_SCORE)
             .qualificationScore(QUALIFICATION_SCORE)
-            .totalScore(TOTAL_SCORE)
-            .rank(RANK)
-            .juniorRank(JUNIOR_RANK)
+            .combinedScore(COMBINED_SCORE)
             .build();
     }
 
@@ -85,17 +91,12 @@ final class TeamModelEntityMapperTest {
         entity.setTeamMembers(TEAM_MEMBERS);
         entity.setTeamType(TEAM_TYPE);
         entity.setSkillScore(SKILL_SCORE);
-        entity.setSpeedScore(SPEED_SCORE);
-        entity.setSpeedBonusScore(SPEED_BONUS_SCORE);
         entity.setNumberOfOvertakes(NUMBER_OF_OVERTAKES);
         entity.setSafetyCarWasFollowed(SAFETY_CAR_WAS_FOLLOWED);
         entity.setSpeedTimes(SPEED_TIMES);
         entity.setVotes(VOTES);
         entity.setAudienceScore(AUDIENCE_SCORE);
         entity.setQualificationScore(QUALIFICATION_SCORE);
-        entity.setTotalScore(TOTAL_SCORE);
-        entity.setRank(RANK);
-        entity.setJuniorRank(JUNIOR_RANK);
         return entity;
     }
 }

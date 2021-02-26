@@ -18,8 +18,14 @@ public class BroadcastingEndResultService implements EndResultService {
     private final EndResultService service;
 
     @Override
-    public Mono<DetailedTeam> updateEndResult(final EndResultedTeam endResultedTeam) {
-        return service.updateEndResult(endResultedTeam)
+    public Mono<DetailedTeam> updateEndResultSenior(final EndResultedTeam endResultedTeam) {
+        return service.updateEndResultSenior(endResultedTeam)
+            .doOnNext(this::sendTeamInfo);
+    }
+
+    @Override
+    public Mono<DetailedTeam> updateEndResultJunior(final EndResultedTeam endResultedTeam) {
+        return service.updateEndResultJunior(endResultedTeam)
             .doOnNext(this::sendTeamInfo);
     }
 

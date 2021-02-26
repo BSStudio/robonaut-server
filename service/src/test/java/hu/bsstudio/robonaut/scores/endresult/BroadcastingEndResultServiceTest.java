@@ -15,7 +15,7 @@ import reactor.test.StepVerifier;
 
 final class BroadcastingEndResultServiceTest {
 
-    private static final EndResultedTeam END_RESULTED_TEAM = new EndResultedTeam(0, 0, 0, 0);
+    private static final EndResultedTeam END_RESULTED_TEAM = new EndResultedTeam(0, 0);
     private static final DetailedTeam DETAILED_TEAM = DetailedTeam.builder().build();
     private static final String TEAM_DATA_ROUTING_KEY = "team.teamData";
 
@@ -33,11 +33,24 @@ final class BroadcastingEndResultServiceTest {
     }
 
     @Test
-    void shouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
-        when(mockService.updateEndResult(END_RESULTED_TEAM))
+    void shouldReturnDetailedTeamFromUnderLyingServiceAndSendItForSenior() {
+        when(mockService.updateEndResultSenior(END_RESULTED_TEAM))
             .thenReturn(Mono.just(DETAILED_TEAM));
 
-        final var result = underTest.updateEndResult(END_RESULTED_TEAM);
+        final var result = underTest.updateEndResultSenior(END_RESULTED_TEAM);
+
+        StepVerifier.create(result)
+            .expectNext(DETAILED_TEAM)
+            .verifyComplete();
+        verify(mockTemplate).convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM);
+    }
+
+    @Test
+    void shouldReturnDetailedTeamFromUnderLyingServiceAndSendItForJunior() {
+        when(mockService.updateEndResultJunior(END_RESULTED_TEAM))
+            .thenReturn(Mono.just(DETAILED_TEAM));
+
+        final var result = underTest.updateEndResultJunior(END_RESULTED_TEAM);
 
         StepVerifier.create(result)
             .expectNext(DETAILED_TEAM)

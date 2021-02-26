@@ -16,6 +16,6 @@
     "@types/supertest": "^2.0.10"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest -i"
   }
 }

@@ -1,6 +1,8 @@
 package hu.bsstudio.robonaut.race.speed;
 
+import hu.bsstudio.robonaut.entity.ScoreEntity;
 import hu.bsstudio.robonaut.entity.TeamEntity;
+import hu.bsstudio.robonaut.entity.TeamType;
 import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult;
 import hu.bsstudio.robonaut.race.speed.model.SpeedRaceScore;
 import hu.bsstudio.robonaut.repository.TeamRepository;
@@ -32,11 +34,22 @@ public class DefaultSpeedRaceService implements SpeedRaceService {
     }
 
     @Override
-    public Mono<DetailedTeam> updateSpeedRace(final SpeedRaceResult speedRaceResult) {
+    public Mono<DetailedTeam> updateSpeedRaceJunior(final SpeedRaceResult speedRaceResult) {
         return Mono.just(speedRaceResult)
             .map(SpeedRaceResult::getTeamId)
             .flatMap(repository::findById)
-            .map(entity -> updateSpeedScore(entity, speedRaceResult))
+            .filter(teamEntity -> teamEntity.getTeamType() == TeamType.JUNIOR)
+            .map(entity -> updateSpeedScoreJunior(entity, speedRaceResult))
+            .flatMap(repository::save)
+            .map(mapper::toModel);
+    }
+
+    @Override
+    public Mono<DetailedTeam> updateSpeedRaceSenior(final SpeedRaceResult speedRaceResult) {
+        return Mono.just(speedRaceResult)
+            .map(SpeedRaceResult::getTeamId)
+            .flatMap(repository::findById)
+            .map(entity -> updateSpeedScoreSenior(entity, speedRaceResult))
             .flatMap(repository::save)
             .map(mapper::toModel);
     }
@@ -46,10 +59,23 @@ public class DefaultSpeedRaceService implements SpeedRaceService {
         return entity;
     }
 
-    private TeamEntity updateSpeedScore(final TeamEntity entity, final SpeedRaceResult result) {
+    private TeamEntity updateSpeedScoreJunior(final TeamEntity entity, final SpeedRaceResult result) {
+        final var scoreEntity = updateScore(result, entity.getJuniorScore());
+        entity.setJuniorScore(scoreEntity);
         entity.setSpeedTimes(result.getSpeedTimes());
-        entity.setSpeedBonusScore(result.getSpeedBonusScore());
-        entity.setSpeedScore(result.getSpeedScore());
         return entity;
+    }
+
+    private TeamEntity updateSpeedScoreSenior(final TeamEntity entity, final SpeedRaceResult result) {
+        final var scoreEntity = updateScore(result, entity.getScore());
+        entity.setScore(scoreEntity);
+        entity.setSpeedTimes(result.getSpeedTimes());
+        return entity;
+    }
+
+    private ScoreEntity updateScore(final SpeedRaceResult result, final ScoreEntity score) {
+        score.setSpeedScore(result.getSpeedScore());
+        score.setBestSpeedTime(result.getBestSpeedTime());
+        return score;
     }
 }

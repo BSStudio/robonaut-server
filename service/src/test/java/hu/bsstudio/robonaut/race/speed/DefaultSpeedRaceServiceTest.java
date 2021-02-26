@@ -3,7 +3,9 @@ package hu.bsstudio.robonaut.race.speed;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
+import hu.bsstudio.robonaut.entity.ScoreEntity;
 import hu.bsstudio.robonaut.entity.TeamEntity;
+import hu.bsstudio.robonaut.entity.TeamType;
 import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult;
 import hu.bsstudio.robonaut.race.speed.model.SpeedRaceScore;
 import hu.bsstudio.robonaut.repository.TeamRepository;
@@ -18,10 +20,13 @@ import reactor.test.StepVerifier;
 
 final class DefaultSpeedRaceServiceTest {
 
-    private static final long TEAM_ID = 42;
-    private static final int SPEED_SCORE = 120;
-    private static final int SPEED_BONUS_SCORE = 2;
-    private static final List<Integer> SPEED_TIMES = List.of(420, 4200);
+    private static final long TEAM_ID = 1;
+    private static final int SPEED_SCORE = 420;
+    private static final int BEST_SPEED_TIME = 444;
+    private static final List<Integer> SPEED_TIMES = List.of(123, 456);
+    private static final SpeedRaceResult SPEED_RACE_RESULT = new SpeedRaceResult(TEAM_ID, SPEED_SCORE, BEST_SPEED_TIME, SPEED_TIMES);
+    private static final DetailedTeam DETAILED_TEAM = DetailedTeam.builder().teamId(TEAM_ID).build();
+    private static final SpeedRaceScore SPEED_RACE_SCORE = new SpeedRaceScore(TEAM_ID, SPEED_TIMES);
 
     private DefaultSpeedRaceService underTest;
 
@@ -38,72 +43,118 @@ final class DefaultSpeedRaceServiceTest {
     }
 
     @Test
-    void shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdated() {
-        final var speedRaceResult = new SpeedRaceScore(TEAM_ID, SPEED_TIMES);
-        final var foundTeamEntity = new TeamEntity();
-        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundTeamEntity));
-        final var updatedTeamEntity = new TeamEntity();
-        updatedTeamEntity.setSpeedTimes(SPEED_TIMES);
-        when(mockRepository.save(updatedTeamEntity)).thenReturn(Mono.just(updatedTeamEntity));
-        final var detailedTeam = DetailedTeam.builder().build();
-        when(mockMapper.toModel(updatedTeamEntity)).thenReturn(detailedTeam);
+    void onLap() {
+        final TeamEntity foundEntity = new TeamEntity();
+        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundEntity));
 
-        final var result = underTest.updateSpeedRaceOnLap(speedRaceResult);
+        final var updatedEntity = new TeamEntity();
+        updatedEntity.setSpeedTimes(SPEED_TIMES);
+        when(mockRepository.save(updatedEntity)).thenReturn(Mono.just(updatedEntity));
+        when(mockMapper.toModel(updatedEntity)).thenReturn(DETAILED_TEAM);
 
-        StepVerifier.create(result)
-            .expectNext(detailedTeam)
+        Mono.just(SPEED_RACE_SCORE)
+            .flatMap(underTest::updateSpeedRaceOnLap)
+            .as(StepVerifier::create)
+            .expectNext(DETAILED_TEAM)
             .verifyComplete();
     }
 
     @Test
-    void shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdatedWhenRaceResultWasSubmitted() {
-        final var speedRaceResult = new SpeedRaceResult(TEAM_ID, SPEED_SCORE, SPEED_BONUS_SCORE, SPEED_TIMES);
-        final var foundTeamEntity = new TeamEntity();
-        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundTeamEntity));
-        final var updatedTeamEntity = new TeamEntity();
-        updatedTeamEntity.setSpeedTimes(SPEED_TIMES);
-        updatedTeamEntity.setSpeedBonusScore(SPEED_BONUS_SCORE);
-        updatedTeamEntity.setSpeedScore(SPEED_SCORE);
-        when(mockRepository.save(updatedTeamEntity)).thenReturn(Mono.just(updatedTeamEntity));
-        final var detailedTeam = DetailedTeam.builder().build();
-        when(mockMapper.toModel(updatedTeamEntity)).thenReturn(detailedTeam);
+    void onLapNotFound() {
+        final TeamEntity foundEntity = new TeamEntity();
+        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundEntity));
 
-        final var result = underTest.updateSpeedRace(speedRaceResult);
+        final var updatedEntity = new TeamEntity();
+        updatedEntity.setSpeedTimes(SPEED_TIMES);
+        when(mockRepository.save(updatedEntity)).thenReturn(Mono.empty());
 
-        StepVerifier.create(result)
-            .expectNext(detailedTeam)
+        Mono.just(SPEED_RACE_SCORE)
+            .flatMap(underTest::updateSpeedRaceOnLap)
+            .as(StepVerifier::create)
             .verifyComplete();
     }
 
     @Test
-    void shouldReturnEmptyWhenEntityWasNotFound() {
-        final var speedRaceResult = new SpeedRaceScore(TEAM_ID, SPEED_TIMES);
-        final var foundTeamEntity = new TeamEntity();
-        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundTeamEntity));
-        final var updatedTeamEntity = new TeamEntity();
-        updatedTeamEntity.setSpeedTimes(SPEED_TIMES);
-        when(mockRepository.save(updatedTeamEntity)).thenReturn(Mono.empty());
+    void junior() {
+        final TeamEntity foundEntity = new TeamEntity();
+        foundEntity.setTeamType(TeamType.JUNIOR);
+        final var juniorScore = new ScoreEntity();
+        foundEntity.setJuniorScore(juniorScore);
+        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundEntity));
 
-        final var result = underTest.updateSpeedRaceOnLap(speedRaceResult);
+        final var updatedEntity = new TeamEntity();
+        updatedEntity.setTeamType(TeamType.JUNIOR);
+        updatedEntity.setSpeedTimes(SPEED_TIMES);
+        juniorScore.setSpeedScore(SPEED_SCORE);
+        juniorScore.setBestSpeedTime(BEST_SPEED_TIME);
+        updatedEntity.setJuniorScore(juniorScore);
+        when(mockRepository.save(updatedEntity)).thenReturn(Mono.just(updatedEntity));
 
-        StepVerifier.create(result)
+        when(mockMapper.toModel(updatedEntity)).thenReturn(DETAILED_TEAM);
+
+        Mono.just(SPEED_RACE_RESULT)
+            .flatMap(underTest::updateSpeedRaceJunior)
+            .as(StepVerifier::create)
+            .expectNext(DETAILED_TEAM)
             .verifyComplete();
     }
 
     @Test
-    void shouldReturnEmptyWhenEntityWasNotFoundWhenRaceResultWasSubmitted() {
-        final var speedRaceResult = new SpeedRaceResult(TEAM_ID, SPEED_SCORE, SPEED_BONUS_SCORE, SPEED_TIMES);
-        final var foundTeamEntity = new TeamEntity();
-        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundTeamEntity));
-        final var updatedTeamEntity = new TeamEntity();
-        updatedTeamEntity.setSpeedTimes(SPEED_TIMES);
-        updatedTeamEntity.setSpeedBonusScore(SPEED_BONUS_SCORE);
-        updatedTeamEntity.setSpeedScore(SPEED_SCORE);
-        when(mockRepository.save(updatedTeamEntity)).thenReturn(Mono.empty());
+    void juniorNotFound() {
+        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.empty());
 
-        final var result = underTest.updateSpeedRace(speedRaceResult);
-
-        StepVerifier.create(result)
+        Mono.just(SPEED_RACE_RESULT)
+            .flatMap(underTest::updateSpeedRaceJunior)
+            .as(StepVerifier::create)
             .verifyComplete();
     }
+
+    @Test
+    void juniorWhenSenior() {
+        final TeamEntity foundEntity = new TeamEntity();
+        foundEntity.setTeamType(TeamType.SENIOR);
+        final var juniorScore = new ScoreEntity();
+        foundEntity.setJuniorScore(juniorScore);
+        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundEntity));
+
+        Mono.just(SPEED_RACE_RESULT)
+            .flatMap(underTest::updateSpeedRaceJunior)
+            .as(StepVerifier::create)
+            .verifyComplete();
+    }
+
+    @Test
+    void senior() {
+        final TeamEntity foundEntity = new TeamEntity();
+        final var scoreEntity = new ScoreEntity();
+        foundEntity.setScore(scoreEntity);
+        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundEntity));
+
+        final var updatedEntity = new TeamEntity();
+        updatedEntity.setSpeedTimes(SPEED_TIMES);
+        scoreEntity.setSpeedScore(SPEED_SCORE);
+        scoreEntity.setBestSpeedTime(BEST_SPEED_TIME);
+        updatedEntity.setScore(scoreEntity);
+        when(mockRepository.save(updatedEntity)).thenReturn(Mono.just(updatedEntity));
+
+        when(mockMapper.toModel(updatedEntity)).thenReturn(DETAILED_TEAM);
+
+        Mono.just(SPEED_RACE_RESULT)
+            .flatMap(underTest::updateSpeedRaceSenior)
+            .as(StepVerifier::create)
+            .expectNext(DETAILED_TEAM)
+            .verifyComplete();
+    }
+
+    @Test
+    void seniorNotFound() {
+        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.empty());
+
+        Mono.just(SPEED_RACE_RESULT)
+            .flatMap(underTest::updateSpeedRaceSenior)
+            .as(StepVerifier::create)
+            .verifyComplete();
+    }
+
+    // todo rename
 }

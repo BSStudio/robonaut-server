@@ -6,6 +6,4 @@ import lombok.Value;
 public class EndResultedTeam {
     long teamId;
     int totalScore;
-    int rank;
-    int juniorRank;
 }

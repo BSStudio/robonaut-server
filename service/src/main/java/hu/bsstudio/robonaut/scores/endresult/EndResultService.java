@@ -5,5 +5,7 @@ import hu.bsstudio.robonaut.team.model.DetailedTeam;
 import reactor.core.publisher.Mono;
 
 public interface EndResultService {
-    Mono<DetailedTeam> updateEndResult(final EndResultedTeam endResultedTeam);
+    Mono<DetailedTeam> updateEndResultSenior(final EndResultedTeam endResultedTeam);
+
+    Mono<DetailedTeam> updateEndResultJunior(final EndResultedTeam endResultedTeam);
 }

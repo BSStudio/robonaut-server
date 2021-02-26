@@ -3,7 +3,9 @@ package hu.bsstudio.robonaut.scores.endresult;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
+import hu.bsstudio.robonaut.entity.ScoreEntity;
 import hu.bsstudio.robonaut.entity.TeamEntity;
+import hu.bsstudio.robonaut.entity.TeamType;
 import hu.bsstudio.robonaut.repository.TeamRepository;
 import hu.bsstudio.robonaut.scores.endresult.model.EndResultedTeam;
 import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper;
@@ -17,10 +19,9 @@ import reactor.test.StepVerifier;
 final class DefaultEndResultServiceTest {
 
     private static final long TEAM_ID = 42;
-    private static final int TOTAL_SCORE = 420;
-    private static final int RANK = 2;
-    private static final int JUNIOR_RANK = 1;
-    private static final EndResultedTeam END_RESULTED_TEAM = new EndResultedTeam(TEAM_ID, TOTAL_SCORE, RANK, JUNIOR_RANK);
+    private static final int POINTS = 420;
+    private static final EndResultedTeam END_RESULTED_TEAM = new EndResultedTeam(TEAM_ID, POINTS);
+    private static final DetailedTeam DETAILED_TEAM = DetailedTeam.builder().build();
 
     private DefaultEndResultService underTest;
 
@@ -37,37 +38,80 @@ final class DefaultEndResultServiceTest {
     }
 
     @Test
-    void shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdated() {
+    void shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdatedOnJunior() {
         final var foundTeamEntity = new TeamEntity();
+        foundTeamEntity.setScore(new ScoreEntity());
         when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundTeamEntity));
         final var updatedTeamEntity = new TeamEntity();
-        updatedTeamEntity.setRank(RANK);
-        updatedTeamEntity.setJuniorRank(JUNIOR_RANK);
-        updatedTeamEntity.setTotalScore(TOTAL_SCORE);
+        final var updatedScore = new ScoreEntity();
+        updatedScore.setScore(POINTS);
+        updatedTeamEntity.setScore(updatedScore);
         when(mockRepository.save(updatedTeamEntity)).thenReturn(Mono.just(updatedTeamEntity));
-        final var detailedTeam = DetailedTeam.builder().build();
-        when(mockMapper.toModel(updatedTeamEntity)).thenReturn(detailedTeam);
+        when(mockMapper.toModel(updatedTeamEntity)).thenReturn(DETAILED_TEAM);
 
-        final var result = underTest.updateEndResult(END_RESULTED_TEAM);
+        Mono.just(END_RESULTED_TEAM)
+            .flatMap(underTest::updateEndResultSenior)
 
-        StepVerifier.create(result)
-            .expectNext(detailedTeam)
+            .as(StepVerifier::create)
+            .expectNext(DETAILED_TEAM)
             .verifyComplete();
     }
 
     @Test
-    void shouldReturnEmptyWhenEntityWasNotFound() {
+    void shouldReturnEmptyWhenEntityWasNotFoundOnJunior() {
+        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.empty());
+
+        Mono.just(END_RESULTED_TEAM)
+            .flatMap(underTest::updateEndResultSenior)
+
+            .as(StepVerifier::create)
+            .verifyComplete();
+    }
+
+    @Test
+    void shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdatedOnSenior() {
         final var foundTeamEntity = new TeamEntity();
+        foundTeamEntity.setTeamType(TeamType.JUNIOR);
+        foundTeamEntity.setJuniorScore(new ScoreEntity());
         when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundTeamEntity));
         final var updatedTeamEntity = new TeamEntity();
-        updatedTeamEntity.setRank(RANK);
-        updatedTeamEntity.setJuniorRank(JUNIOR_RANK);
-        updatedTeamEntity.setTotalScore(TOTAL_SCORE);
-        when(mockRepository.save(updatedTeamEntity)).thenReturn(Mono.empty());
+        final var updatedScore = new ScoreEntity();
+        updatedScore.setScore(POINTS);
+        updatedTeamEntity.setJuniorScore(updatedScore);
+        updatedTeamEntity.setTeamType(TeamType.JUNIOR);
+        when(mockRepository.save(updatedTeamEntity)).thenReturn(Mono.just(updatedTeamEntity));
+        when(mockMapper.toModel(updatedTeamEntity)).thenReturn(DETAILED_TEAM);
 
-        final var result = underTest.updateEndResult(END_RESULTED_TEAM);
+        Mono.just(END_RESULTED_TEAM)
+            .flatMap(underTest::updateEndResultJunior)
 
-        StepVerifier.create(result)
+            .as(StepVerifier::create)
+            .expectNext(DETAILED_TEAM)
+            .verifyComplete();
+    }
+
+    @Test
+    void shouldReturnEmptyWhenSeniorTeamTriesToUpdateJuniorScore() {
+        final var foundTeamEntity = new TeamEntity();
+        foundTeamEntity.setTeamType(TeamType.SENIOR);
+        foundTeamEntity.setJuniorScore(new ScoreEntity());
+        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundTeamEntity));
+
+        Mono.just(END_RESULTED_TEAM)
+            .flatMap(underTest::updateEndResultJunior)
+
+            .as(StepVerifier::create)
+            .verifyComplete();
+    }
+
+    @Test
+    void shouldReturnEmptyWhenEntityWasNotFoundOnSenior() {
+        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.empty());
+
+        Mono.just(END_RESULTED_TEAM)
+            .flatMap(underTest::updateEndResultJunior)
+
+            .as(StepVerifier::create)
             .verifyComplete();
     }
 }

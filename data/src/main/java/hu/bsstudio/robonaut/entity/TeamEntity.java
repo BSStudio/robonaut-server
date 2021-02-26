@@ -25,8 +25,6 @@ public class TeamEntity {
     private boolean safetyCarWasFollowed;
 
     // speed
-    private int speedScore;
-    private int speedBonusScore;
     private List<Integer> speedTimes;
 
     // audience
@@ -36,8 +34,6 @@ public class TeamEntity {
     // qualification
     private int qualificationScore;
 
-    // calculated
-    private int totalScore;
-    private int rank;
-    private int juniorRank;
+    private ScoreEntity juniorScore;
+    private ScoreEntity score;
 }
