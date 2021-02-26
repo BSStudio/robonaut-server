@@ -52,6 +52,6 @@ describe('Test a likely path of events for skill timer', () => {
             .then(_ => assertQueue('skill.timer', skillTimerUpdate));
     });
     afterAll(() => {
-        return expectQueuesToBeEmpty()
+        return expect(expectQueuesToBeEmpty()).resolves;
     })
 });

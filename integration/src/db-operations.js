@@ -6,10 +6,8 @@ const DB_URI = process.env.DB_HOST
 const cleanDB = () => {
     const mongoClient = new MongoClient(DB_URI, { useUnifiedTopology: true })
     return mongoClient.connect()
-        .then(client => {
-            return client.db().dropDatabase()
-        })
-        .then(() => mongoClient.close())
+        .then(client => client.db().dropDatabase())
+        .finally(() => mongoClient.close())
 }
 
 const createDummyData = () => {
@@ -18,7 +16,7 @@ const createDummyData = () => {
             return {
                 _id: i,
                 year: 2022,
-                teamName: "Budvári Sschönherz Stúdió",
+                teamName: "Budvári Schönherz Stúdió",
                 teamMembers: [
                     "Boldizsár Márta",
                     "Bence Csik"
@@ -49,7 +47,7 @@ const fill = () => {
             const dummyData = createDummyData();
             return collection.insertMany(dummyData);
         })
-        .then(() => mongoClient.close())
+        .finally(() => mongoClient.close())
 }
 
 exports.cleanDB = cleanDB

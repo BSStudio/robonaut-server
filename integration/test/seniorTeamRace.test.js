@@ -175,7 +175,9 @@ function assertQueue(queueName, expected) {
         })
         .then(channel => channel.get(queueName, {noAck: true}))
         .then(msg => expect(JSON.parse(msg.content.toString())).toStrictEqual(expected))
-        .then(() => _connection.close());
+        .finally(() => {
+            if (_connection) _connection.close()
+        });
 }
 
 function expectQueuesToBeEmpty() {
@@ -185,17 +187,19 @@ function expectQueuesToBeEmpty() {
             _connection = connection
             return connection.createChannel();
         })
-        .then(channel => Promise.all([
-            expect(channel.checkQueue('general.teamData')).resolves.toHaveProperty('messageCount', 0),
-            expect(channel.checkQueue('skill.gate')).resolves.toHaveProperty('messageCount', 0),
-            expect(channel.checkQueue('skill.timer')).resolves.toHaveProperty('messageCount', 0),
-            expect(channel.checkQueue('speed.lap')).resolves.toHaveProperty('messageCount', 0),
-            expect(channel.checkQueue('speed.timer')).resolves.toHaveProperty('messageCount', 0),
-            expect(channel.checkQueue('speed.safetyCar.follow')).resolves.toHaveProperty('messageCount', 0),
-            expect(channel.checkQueue('speed.safetyCar.overtake')).resolves.toHaveProperty('messageCount', 0),
-            expect(channel.checkQueue('team.teamData')).resolves.toHaveProperty('messageCount', 0),
-        ]))
-        .then(() => _connection.close());
+        .then(async (channel) => {
+            await expect(channel.checkQueue('general.teamData')).resolves.toHaveProperty('messageCount', 0)
+            await expect(channel.checkQueue('skill.gate')).resolves.toHaveProperty('messageCount', 0)
+            await expect(channel.checkQueue('skill.timer')).resolves.toHaveProperty('messageCount', 0)
+            await expect(channel.checkQueue('speed.lap')).resolves.toHaveProperty('messageCount', 0)
+            await expect(channel.checkQueue('speed.timer')).resolves.toHaveProperty('messageCount', 0)
+            await expect(channel.checkQueue('speed.safetyCar.follow')).resolves.toHaveProperty('messageCount', 0)
+            await expect(channel.checkQueue('speed.safetyCar.overtake')).resolves.toHaveProperty('messageCount', 0)
+            await expect(channel.checkQueue('team.teamData')).resolves.toHaveProperty('messageCount', 0)
+        })
+        .finally(() => {
+            if (_connection) _connection.close()
+        });
 
 }
 
