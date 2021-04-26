@@ -27,7 +27,7 @@ subprojects {
     ext {
         set('springCloudVersion', "Hoxton.SR1")
         cucumberVersion = '6.1.1'
-        springdocVersion = '1.5.5'
+        springdocVersion = '1.5.8'
     }
 
     dependencyManagement {
