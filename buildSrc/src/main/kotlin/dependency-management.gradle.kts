@@ -20,7 +20,7 @@ repositories {
 }
 
 extra["springCloudVersion"] = "2020.0.2"
-extra["springDocVersion"] = "1.5.5"
+extra["springDocVersion"] = "1.5.8"
 
 dependencyManagement {
     imports {
