@@ -1,6 +1,0 @@
-include 'application'
-include 'web'
-include 'service'
-include 'data'
-include 'messaging'
-
