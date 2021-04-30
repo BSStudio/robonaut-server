@@ -2,13 +2,14 @@ ARG JDK=openjdk:11-slim
 
 FROM $JDK as build
 # cache dependencies
-COPY ./gradlew ./settings.gradle ./build.gradle ./
-COPY ./gradle                   ./gradle
-COPY ./web/build.gradle         ./web
-COPY ./service/build.gradle     ./service
-COPY ./messaging/build.gradle   ./messaging
-COPY ./data/build.gradle        ./data
-COPY ./application/build.gradle ./application
+COPY ./gradlew                    ./
+COPY ./settings.gradle            ./
+COPY ./gradle                     ./gradle
+COPY ./web/build.gradle.kts       ./web
+COPY ./service/build.gradle.kts   ./service
+COPY ./messaging/build.gradle.kts ./messaging
+COPY ./data/build.gradle.kts      ./data
+COPY ./app/build.gradle.kts       ./app
 RUN ./gradlew
 # build
 COPY . .
