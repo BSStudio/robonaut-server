@@ -1,12 +1,24 @@
-# Update gradle/gradle-wrapper.properties accordingly
-ARG GRADLE=gradle:6.8.3-jdk11
 ARG JDK=openjdk:11-slim
 
-FROM $GRADLE as build
-COPY . .
-RUN gradle bootJar --parallel
+FROM $JDK as build
+# cache dependencies
+COPY ./gradlew                    ./
+COPY ./settings.gradle.kts        ./
+COPY ./gradle                     ./gradle
+COPY ./buildSrc/src               ./buildSrc/src
+COPY ./buildSrc/build.gradle.kts  ./buildSrc
+COPY ./web/build.gradle.kts       ./web
+COPY ./service/build.gradle.kts   ./service
+COPY ./messaging/build.gradle.kts ./messaging
+COPY ./data/build.gradle.kts      ./data
+COPY ./app/build.gradle.kts       ./app
+RUN ./gradlew
+# build
+COPY ./ ./
+ARG BUILD_ARG="bootJar --parallel"
+RUN ./gradlew $BUILD_ARG
 
-FROM $JDK
-WORKDIR /home/spring
-COPY --from=build /home/gradle/application/build/libs/app.jar ./app.jar
+FROM $JDK as app
+ARG BOOT_JAR=/app/build/libs/*.jar
+COPY --from=build $BOOT_JAR ./app.jar
 ENTRYPOINT ["java","-jar","./app.jar"]
