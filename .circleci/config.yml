@@ -7,6 +7,8 @@ jobs:
       - checkout
       - run: ./gradlew
       - run: ./gradlew check --parallel
+      - store_test_results:
+          path: ./web/build/test-results
   integration-test:
     docker:
       - image: cimg/base:2021.04
