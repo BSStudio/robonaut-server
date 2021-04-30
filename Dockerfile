@@ -19,8 +19,6 @@ ARG BUILD_ARG="bootJar --parallel"
 RUN ./gradlew $BUILD_ARG
 
 FROM $JDK as app
-USER spring
-WORKDIR /home/spring
 ARG BOOT_JAR=/app/build/libs/*.jar
 COPY --from=build $BOOT_JAR ./app.jar
 ENTRYPOINT ["java","-jar","./app.jar"]
