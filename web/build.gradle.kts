@@ -11,4 +11,5 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springdoc:springdoc-openapi-webflux-ui:1.5.5")
+    testImplementation("io.projectreactor:reactor-test")
 }
