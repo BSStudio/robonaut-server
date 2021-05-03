@@ -5,16 +5,6 @@ plugins {
     id("io.spring.dependency-management")
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-}
-
-configurations {
-    compileOnly {
-        extendsFrom(configurations.annotationProcessor.get())
-    }
-}
-
 repositories {
     mavenCentral()
 }
