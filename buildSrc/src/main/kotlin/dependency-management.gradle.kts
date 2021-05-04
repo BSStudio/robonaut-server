@@ -5,22 +5,12 @@ plugins {
     id("io.spring.dependency-management")
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-}
-
-configurations {
-    compileOnly {
-        extendsFrom(configurations.annotationProcessor.get())
-    }
-}
-
 repositories {
     mavenCentral()
 }
 
 extra["springCloudVersion"] = "2020.0.2"
-extra["springDocVersion"] = "1.5.5"
+extra["springDocVersion"] = "1.5.8"
 
 dependencyManagement {
     imports {
