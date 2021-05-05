@@ -29,10 +29,10 @@ jobs:
           path: messaging/build/reports
   integration-test:
     docker:
-      - image: cimg/base:2021.04
+      - image: cimg/node:lts
     steps:
-      - checkout:
-          path: integration
+      - checkout
+      - working_directory: integration
       - setup_remote_docker:
           version: 20.10.2
       - restore_cache:
