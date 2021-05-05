@@ -1,24 +1,24 @@
-ARG JDK=openjdk:11-slim
+ARG JDK=registry.access.redhat.com/ubi8/openjdk-11
 
 FROM $JDK as build
 # cache dependencies
-COPY ./gradlew                    ./
-COPY ./settings.gradle.kts        ./
-COPY ./gradle                     ./gradle
-COPY ./buildSrc/src               ./buildSrc/src
-COPY ./buildSrc/build.gradle.kts  ./buildSrc
-COPY ./web/build.gradle.kts       ./web
-COPY ./service/build.gradle.kts   ./service
-COPY ./messaging/build.gradle.kts ./messaging
-COPY ./data/build.gradle.kts      ./data
-COPY ./app/build.gradle.kts       ./app
+COPY --chown=jboss ./gradlew                    ./
+COPY --chown=jboss ./settings.gradle.kts        ./
+COPY --chown=jboss ./gradle                     ./gradle/
+COPY --chown=jboss ./buildSrc/build.gradle.kts  ./buildSrc/
+COPY --chown=jboss ./buildSrc/src               ./buildSrc/src/
+COPY --chown=jboss ./web/build.gradle.kts       ./web/
+COPY --chown=jboss ./service/build.gradle.kts   ./service/
+COPY --chown=jboss ./messaging/build.gradle.kts ./messaging/
+COPY --chown=jboss ./data/build.gradle.kts      ./data/
+COPY --chown=jboss ./app/build.gradle.kts       ./app/
 RUN ./gradlew
 # build
-COPY ./ ./
+COPY --chown=jboss ./ ./
 ARG BUILD_ARG="bootJar --parallel"
 RUN ./gradlew $BUILD_ARG
 
 FROM $JDK as app
-ARG BOOT_JAR=/app/build/libs/*.jar
-COPY --from=build $BOOT_JAR ./app.jar
+ARG BOOT_JAR=/home/jboss/app/build/libs/*.jar
+COPY --chown=jboss --from=build $BOOT_JAR ./app.jar
 ENTRYPOINT ["java","-jar","./app.jar"]

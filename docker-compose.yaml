@@ -7,15 +7,32 @@ services:
     environment:
       robonauth.api-key: BSS
       spring.data.mongodb.host: mongo
-      spring.rabbitmq.host: rabbit-mq
+      spring.rabbitmq.host: rabbitmq
     ports:
     - 8080:8080
-  rabbit-mq:
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+  rabbitmq:
     image: rabbitmq:management-alpine
     ports:
-    - 127.0.0.1:5672:5672
-    - 127.0.0.1:8081:8081
+    - 5672:5672
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 5
+      start_period: 40s
   mongo:
-    image: mongo:4.4.2-bionic
+    image: mongo:bionic
     ports:
-    - 127.0.0.1:27017:27017
+    - 27017:27017
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
