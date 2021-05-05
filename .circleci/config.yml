@@ -30,10 +30,9 @@ jobs:
   integration-test:
     docker:
       - image: cimg/node:lts
-    working_directory: ~/integration
     steps:
       - checkout:
-          path: ~/integration
+          path: ./integration
       - setup_remote_docker:
           version: 20.10.2
       - restore_cache:
