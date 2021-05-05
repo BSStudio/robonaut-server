@@ -30,14 +30,16 @@ jobs:
   integration-test:
     docker:
       - image: cimg/node:lts
+    working_directory: ~/integration
     steps:
-      - checkout
-      - run: cd ./integration; ls -la; pwd;
+      - checkout:
+          path: ~/integration
       - setup_remote_docker:
           version: 20.10.2
       - restore_cache:
           keys:
             - v1-npm-deps-{{ checksum "package-lock.json" }}
+      - run: ls -la; pwd;
       - run: npm install
       - save_cache:
           paths:
