@@ -3,5 +3,5 @@
  * https://jestjs.io/docs/en/configuration.html
  */
 module.exports = {
-    setupFiles: ["dotenv/config"],
+    reporters: ["default", ["jest-junit", {outputDirectory: "out"}]]
 };
