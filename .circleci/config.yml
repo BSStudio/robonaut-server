@@ -31,8 +31,8 @@ jobs:
     docker:
       - image: cimg/base:2021.04
     steps:
-      - checkout
-      - run: cd integration
+      - checkout:
+          path: integration
       - setup_remote_docker:
           version: 20.10.2
       - restore_cache:
