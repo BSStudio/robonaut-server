@@ -32,7 +32,7 @@ jobs:
       - image: cimg/node:lts
     steps:
       - checkout
-      - working_directory: integration
+      - run: cd ./integration; ls -la; pwd;
       - setup_remote_docker:
           version: 20.10.2
       - restore_cache:
