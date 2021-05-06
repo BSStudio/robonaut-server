@@ -382,7 +382,7 @@ describe('Test a likely path of events for a senior team', () => {
     })
 
     afterAll(async () => {
-        await cleanDB(mongoBaseUrl)
+        await dropMongoDb(mongoBaseUrl)
         await expectQueuesToBeEmpty(amqpBaseUrl)
     });
 

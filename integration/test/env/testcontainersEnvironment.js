@@ -5,7 +5,7 @@ const NodeEnvironment = require('jest-environment-node');
 
 const DIR = path.join(os.tmpdir(), 'jest_testcontainers_global_setup');
 
-class TestContainersEnvironment extends NodeEnvironment {
+module.exports = class TestContainersEnvironment extends NodeEnvironment {
     constructor(config) {
         super(config);
     }
@@ -33,5 +33,3 @@ class TestContainersEnvironment extends NodeEnvironment {
         return super.runScript(script);
     }
 }
-
-module.exports = TestContainersEnvironment;
