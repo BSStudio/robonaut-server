@@ -47,6 +47,8 @@ jobs:
       - run:
           command: npm test -- --ci
           working_directory: integration
+          environment:
+            DEBUG: testcontainers*
       - store_test_results:
           path: integration/out
 workflows:
