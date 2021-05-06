@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
@@ -28,8 +28,8 @@ jobs:
       - store_artifacts:
           path: messaging/build/reports
   integration-test:
-    docker:
-      - image: cimg/node:lts
+    machine:
+      image: ubuntu-2004:202104-01
     steps:
       - checkout
       - setup_remote_docker:
