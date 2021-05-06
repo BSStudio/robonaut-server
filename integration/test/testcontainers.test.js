@@ -24,7 +24,7 @@ describe('Test testcontainers', () => {
         appBaseUrl = `http://${app.getHost()}:${app.getMappedPort(8080)}`
         amqpBaseUrl = `amqp://${rabbitMQ.getHost()}:${rabbitMQ.getMappedPort(5672)}`
         mongoBaseUrl = `mongodb://${mongo.getHost()}:${mongo.getMappedPort(27017)}/`
-    }, 1000 * 60 * 5)
+    }, 1000 * 60 * 30)
 
     describe('Authorization test', () => {
         const postEndpoint = [
