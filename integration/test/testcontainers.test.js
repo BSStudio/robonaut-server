@@ -1,30 +1,12 @@
-const path = require('path')
-const {DockerComposeEnvironment, Wait} = require('testcontainers')
 const request = require('supertest')
 const {purgeQueue} = require('../src/amqp-operations')
 const {assertQueue, expectQueuesToBeEmpty} = require('./utils/amqpAssertions')
 const {cleanDB} = require('../src/db-operations')
 
 describe('Test testcontainers', () => {
-    let dockerComposeEnvironment
-    let appBaseUrl
-    let amqpBaseUrl
-    let mongoBaseUrl
-    beforeAll(async () => {
-        const buildContext = path.resolve(__dirname, '../../')
-        const composeFile = 'docker-compose.yaml'
-        dockerComposeEnvironment = await new DockerComposeEnvironment(buildContext, composeFile)
-            .withWaitStrategy('rabbitmq_1', Wait.forHealthCheck())
-            .withWaitStrategy('mongo_1', Wait.forHealthCheck())
-            .withWaitStrategy('app_1', Wait.forHealthCheck())
-            .up();
-        const rabbitMQ = dockerComposeEnvironment.getContainer('rabbitmq_1');
-        const mongo = dockerComposeEnvironment.getContainer('mongo_1');
-        const app = dockerComposeEnvironment.getContainer('app_1')
-        appBaseUrl = `http://${app.getHost()}:${app.getMappedPort(8080)}`
-        amqpBaseUrl = `amqp://${rabbitMQ.getHost()}:${rabbitMQ.getMappedPort(5672)}`
-        mongoBaseUrl = `mongodb://${mongo.getHost()}:${mongo.getMappedPort(27017)}/`
-    }, 1000 * 60 * 30)
+    const appBaseUrl = global.__APP_BASE_URL__
+    const amqpBaseUrl = global.__AMQP_BASE_URL__
+    const mongoBaseUrl = global.__MONGO_BASE_URL__
 
     describe('Authorization test', () => {
         const postEndpoint = [
@@ -850,8 +832,4 @@ describe('Test testcontainers', () => {
         });
         afterAll(() => expectQueuesToBeEmpty(amqpBaseUrl))
     });
-
-    afterAll(() => {
-        return dockerComposeEnvironment.down()
-    })
 });
