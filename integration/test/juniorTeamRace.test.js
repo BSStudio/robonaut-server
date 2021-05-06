@@ -1,61 +1,26 @@
 const request = require('supertest')
-const amqp = require('amqplib')
-const {cleanDB} = require('../src/db-operations')
-const {purgeQueue} = require('../src/amqp-operations')
-
-const {HOST_NAME, AMQP_HOST} = process.env;
-
-function assertQueue(queueName, expected) {
-    let _connection;
-    return amqp.connect(AMQP_HOST)
-        .then(connection => {
-            _connection = connection
-            return connection.createChannel();
-        })
-        .then(channel => channel.get(queueName, {noAck: true}))
-        .then(msg => expect(JSON.parse(msg.content.toString())).toStrictEqual(expected))
-        .finally(() => {
-            if (_connection) _connection.close()
-        });
-}
-
-function expectQueuesToBeEmpty() {
-    let _connection;
-    return amqp.connect(AMQP_HOST)
-        .then(connection => {
-            _connection = connection
-            return connection.createChannel();
-        })
-        .then(async (channel) => {
-            await expect(channel.checkQueue('general.teamData')).resolves.toHaveProperty('messageCount', 0)
-            await expect(channel.checkQueue('skill.gate')).resolves.toHaveProperty('messageCount', 0)
-            await expect(channel.checkQueue('skill.timer')).resolves.toHaveProperty('messageCount', 0)
-            await expect(channel.checkQueue('speed.lap')).resolves.toHaveProperty('messageCount', 0)
-            await expect(channel.checkQueue('speed.timer')).resolves.toHaveProperty('messageCount', 0)
-            await expect(channel.checkQueue('speed.safetyCar.follow')).resolves.toHaveProperty('messageCount', 0)
-            await expect(channel.checkQueue('speed.safetyCar.overtake')).resolves.toHaveProperty('messageCount', 0)
-            await expect(channel.checkQueue('team.teamData')).resolves.toHaveProperty('messageCount', 0)
-        })
-        .finally(() => {
-            if (_connection) _connection.close()
-        });
-
-}
+const purgeQueue = require('../src/purgeQueue')
+const {assertQueue, expectQueuesToBeEmpty} = require('./utils/amqpAssertions')
+const dropMongoDb = require('../src/dropMongoDb')
 
 describe('Test a likely path of events for a junior team', () => {
-    beforeAll(() => {
-        return Promise.all([
-            cleanDB(),
-            purgeQueue('general.teamData'),
-            purgeQueue('skill.gate'),
-            purgeQueue('speed.lap'),
-            purgeQueue('speed.safetyCar.follow'),
-            purgeQueue('speed.safetyCar.overtake'),
-            purgeQueue('team.teamData')
-        ]);
+
+    const appBaseUrl = global.__APP_BASE_URL__
+    const amqpBaseUrl = global.__AMQP_BASE_URL__
+    const mongoBaseUrl = global.__MONGO_BASE_URL__
+
+    beforeAll(async () => {
+        await dropMongoDb(mongoBaseUrl)
+        await purgeQueue(amqpBaseUrl, 'general.teamData')
+        await purgeQueue(amqpBaseUrl, 'skill.gate')
+        await purgeQueue(amqpBaseUrl, 'speed.lap')
+        await purgeQueue(amqpBaseUrl, 'speed.safetyCar.follow')
+        await purgeQueue(amqpBaseUrl, 'speed.safetyCar.overtake')
+        await purgeQueue(amqpBaseUrl, 'team.teamData')
     });
+
     it('should contain no teams in the start', () => {
-        return request(HOST_NAME)
+        return request(appBaseUrl)
             .get('/api/team')
             .set('RobonAuth-Api-Key', 'BSS')
             .then(response => {
@@ -97,26 +62,26 @@ describe('Test a likely path of events for a junior team', () => {
         votes: 0,
         year: 2021
     };
-    it('should add a new team', () => {
-        return request(HOST_NAME)
+    it('should add a new senior team', async () => {
+        await request(appBaseUrl)
             .post('/api/team')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(newTeam)
             .then(response => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual(createdTeam)
-            })
-            .then(_ => assertQueue('team.teamData', createdTeam));
+            });
+        await assertQueue(amqpBaseUrl, 'team.teamData', createdTeam);
     });
-    it('should display the new team', () => {
-        return request(HOST_NAME)
+    it('should display the new senior team', async () => {
+        await request(appBaseUrl)
             .get('/api/team')
             .set('RobonAuth-Api-Key', 'BSS')
             .then(response => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual([createdTeam])
-            })
-            .then(_ => assertQueue('team.teamData', createdTeam));
+            });
+        await assertQueue(amqpBaseUrl, 'team.teamData', createdTeam);
     });
     const updateTeam = {
         teamId: 0,
@@ -132,26 +97,26 @@ describe('Test a likely path of events for a junior team', () => {
         teamType: "JUNIOR",
         year: 2022
     };
-    it('should update the team', () => {
-        return request(HOST_NAME)
+    it('should update the senior team  to a junior team', async () => {
+        await request(appBaseUrl)
             .put('/api/team')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(updateTeam)
             .then(response => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual(updatedTeam)
-            })
-            .then(_ => assertQueue('team.teamData', updatedTeam));
+            });
+        await assertQueue(amqpBaseUrl, 'team.teamData', updatedTeam);
     });
-    it('should display the updated team', () => {
-        return request(HOST_NAME)
+    it('should display the updated junior team', async () => {
+        await request(appBaseUrl)
             .get('/api/team')
             .set('RobonAuth-Api-Key', 'BSS')
             .then(response => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual([updatedTeam])
-            })
-            .then(_ => assertQueue('team.teamData', updatedTeam));
+            });
+        await assertQueue(amqpBaseUrl, 'team.teamData', updatedTeam);
     });
     const gateInformation = {
         teamId: 0,
@@ -164,17 +129,17 @@ describe('Test a likely path of events for a junior team', () => {
         ...updatedTeam,
         skillScore: 25
     };
-    it('should update team on gate enter', () => {
-        return request(HOST_NAME)
+    it('should update team on gate enter', async () => {
+        await request(appBaseUrl)
             .post('/api/skill/gate')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(gateInformation)
             .then(response => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual(updatedTeamWithGateInformation)
-            })
-            .then(_ => assertQueue('skill.gate', gateInformation))
-            .then(_ => assertQueue('team.teamData', updatedTeamWithGateInformation));
+            });
+        await assertQueue(amqpBaseUrl, 'skill.gate', gateInformation);
+        await assertQueue(amqpBaseUrl, 'team.teamData', updatedTeamWithGateInformation);
     });
     const skillResult = {
         teamId: 0,
@@ -184,16 +149,16 @@ describe('Test a likely path of events for a junior team', () => {
         ...updatedTeamWithGateInformation,
         skillScore: 50
     };
-    it('should update team after skill race', () => {
-        return request(HOST_NAME)
+    it('should update team after skill race', async () => {
+        await request(appBaseUrl)
             .post('/api/skill/result')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(skillResult)
             .then(response => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual(updatedTeamAfterSkillRace)
-            })
-            .then(_ => assertQueue('team.teamData', updatedTeamAfterSkillRace));
+            });
+        await assertQueue(amqpBaseUrl, 'team.teamData', updatedTeamAfterSkillRace);
     });
     const safetyCarFollowInformation = {
         teamId: 0,
@@ -203,17 +168,17 @@ describe('Test a likely path of events for a junior team', () => {
         ...updatedTeamAfterSkillRace,
         safetyCarWasFollowed: true
     };
-    it('should update team after safety car was followed', () => {
-        return request(HOST_NAME)
+    it('should update team after safety car was followed', async () => {
+        await request(appBaseUrl)
             .post('/api/speed/safetyCar/follow')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(safetyCarFollowInformation)
             .then(response => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual(updatedTeamAfterSafetyCarFollow)
-            })
-            .then(_ => assertQueue('team.teamData', updatedTeamAfterSafetyCarFollow))
-            .then(_ => assertQueue('speed.safetyCar.follow', safetyCarFollowInformation));
+            });
+        await assertQueue(amqpBaseUrl, 'team.teamData', updatedTeamAfterSafetyCarFollow);
+        await assertQueue(amqpBaseUrl, 'speed.safetyCar.follow', safetyCarFollowInformation);
     });
     const safetyCarOvertakeInformation = {
         teamId: 0,
@@ -223,17 +188,17 @@ describe('Test a likely path of events for a junior team', () => {
         ...updatedTeamAfterSafetyCarFollow,
         numberOfOvertakes: 2
     };
-    it('should update team after safety car was overtaken', () => {
-        return request(HOST_NAME)
+    it('should update team after safety car was overtaken', async () => {
+        await request(appBaseUrl)
             .post('/api/speed/safetyCar/overtake')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(safetyCarOvertakeInformation)
             .then(response => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual(updatedTeamAfterSafetyCarOvertake)
-            })
-            .then(_ => assertQueue('team.teamData', updatedTeamAfterSafetyCarOvertake))
-            .then(_ => assertQueue('speed.safetyCar.overtake', safetyCarOvertakeInformation));
+            });
+        await assertQueue(amqpBaseUrl, 'team.teamData', updatedTeamAfterSafetyCarOvertake);
+        await assertQueue(amqpBaseUrl, 'speed.safetyCar.overtake', safetyCarOvertakeInformation);
     });
     const speedLapScore = {
         teamId: 0,
@@ -243,17 +208,17 @@ describe('Test a likely path of events for a junior team', () => {
         ...updatedTeamAfterSafetyCarOvertake,
         speedTimes: [10, 20, 30],
     };
-    it('should update team after lap is completed', () => {
-        return request(HOST_NAME)
+    it('should update team after lap is completed', async () => {
+        await request(appBaseUrl)
             .post('/api/speed/lap')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(speedLapScore)
             .then(response => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual(updatedTeamWithLapInformation)
-            })
-            .then(_ => assertQueue('speed.lap', speedLapScore))
-            .then(_ => assertQueue('team.teamData', updatedTeamWithLapInformation));
+            });
+        await assertQueue(amqpBaseUrl, 'speed.lap', speedLapScore);
+        await assertQueue(amqpBaseUrl, 'team.teamData', updatedTeamWithLapInformation);
     });
     const speedResult = {
         teamId: 0,
@@ -269,16 +234,16 @@ describe('Test a likely path of events for a junior team', () => {
         },
         speedTimes: [20, 30, 50]
     };
-    it('should update team after speed race', () => {
-        return request(HOST_NAME)
+    it('should update team after speed race', async () => {
+        await request(appBaseUrl)
             .post('/api/speed/result/senior')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(speedResult)
             .then(response => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual(updatedTeamAfterSpeedRaceSenior)
-            })
-            .then(_ => assertQueue('team.teamData', updatedTeamAfterSpeedRaceSenior));
+            });
+        await assertQueue(amqpBaseUrl, 'team.teamData', updatedTeamAfterSpeedRaceSenior);
     });
     const updatedTeamAfterSpeedRaceJunior = {
         ...updatedTeamAfterSpeedRaceSenior,
@@ -288,16 +253,16 @@ describe('Test a likely path of events for a junior team', () => {
         },
         speedTimes: [20, 30, 50]
     };
-    it('should update junior score for junior team', () => {
-        return request(HOST_NAME)
+    it('should update junior score for junior team', async () => {
+        await request(appBaseUrl)
             .post('/api/speed/result/junior')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(speedResult)
             .then(response => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual(updatedTeamAfterSpeedRaceJunior)
-            })
-            .then(_ => assertQueue('team.teamData', updatedTeamAfterSpeedRaceJunior));
+            });
+        await assertQueue(amqpBaseUrl, 'team.teamData', updatedTeamAfterSpeedRaceJunior);
     });
     const qualifiedTeam = {
         teamId: 0,
@@ -307,16 +272,16 @@ describe('Test a likely path of events for a junior team', () => {
         ...updatedTeamAfterSpeedRaceJunior,
         qualificationScore: 999
     };
-    it('should update qualification scores for the team', () => {
-        return request(HOST_NAME)
+    it('should update qualification scores for the team', async () => {
+        await request(appBaseUrl)
             .post('/api/scores/qualification')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(qualifiedTeam)
             .then(response => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual([updatedTeamAfterQualification])
-            })
-            .then(_ => assertQueue('team.teamData', updatedTeamAfterQualification));
+            });
+        await assertQueue(amqpBaseUrl, 'team.teamData', updatedTeamAfterQualification);
     });
     const audienceScoredTeam = {
         teamId: 0,
@@ -328,16 +293,16 @@ describe('Test a likely path of events for a junior team', () => {
         audienceScore: 987,
         votes: 456
     };
-    it('should update audience scores for the team', () => {
-        return request(HOST_NAME)
+    it('should update audience scores for the team', async () => {
+        await request(appBaseUrl)
             .post('/api/scores/audience')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(audienceScoredTeam)
             .then(response => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual([updatedTeamAfterAudienceScores])
-            })
-            .then(_ => assertQueue('team.teamData', updatedTeamAfterAudienceScores));
+            });
+        await assertQueue(amqpBaseUrl, 'team.teamData', updatedTeamAfterAudienceScores);
     });
     const endResultedTeam = {
         teamId: 0,
@@ -352,16 +317,16 @@ describe('Test a likely path of events for a junior team', () => {
             totalScore: 987654
         }
     };
-    it('should update combined end result scores for junior team', () => {
-        return request(HOST_NAME)
+    it('should update combined end result scores for junior team', async () => {
+        await request(appBaseUrl)
             .post('/api/scores/endResult/senior')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(endResultedTeam)
             .then(response => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual([updatedTeamAfterEndResultsSenior])
-            })
-            .then(_ => assertQueue('team.teamData', updatedTeamAfterEndResultsSenior));
+            });
+        await assertQueue(amqpBaseUrl, 'team.teamData', updatedTeamAfterEndResultsSenior);
     });
     const updatedTeamAfterEndResultsJunior = {
         ...updatedTeamAfterEndResultsSenior,
@@ -370,16 +335,16 @@ describe('Test a likely path of events for a junior team', () => {
             totalScore: 987654
         }
     };
-    it('should update junior end result scores for junior team', () => {
-        return request(HOST_NAME)
+    it('should update junior end result scores for junior team', async () => {
+        await request(appBaseUrl)
             .post('/api/scores/endResult/junior')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(endResultedTeam)
             .then(response => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual([updatedTeamAfterEndResultsJunior])
-            })
-            .then(_ => assertQueue('team.teamData', updatedTeamAfterEndResultsJunior));
+            });
+        await assertQueue(amqpBaseUrl, 'team.teamData', updatedTeamAfterEndResultsJunior);
     });
     const adminUpdatedTeam = {
         audienceScore: 9871,
@@ -405,19 +370,22 @@ describe('Test a likely path of events for a junior team', () => {
         votes: 4561,
         year: 2023
     };
-    it('should update all field for the team', () => {
-        return request(HOST_NAME)
+    it('should update all field for the team', async () => {
+        await request(appBaseUrl)
             .put('/api/admin/team')
             .set('RobonAuth-Api-Key', 'BSS')
             .send(adminUpdatedTeam)
             .then(response => {
                 expect(response.status).toBe(200)
                 expect(response.body).toStrictEqual([adminUpdatedTeam])
-            })
-            .then(_ => assertQueue('team.teamData', adminUpdatedTeam));
+            });
+        await assertQueue(amqpBaseUrl, 'team.teamData', adminUpdatedTeam);
     })
+
+
     afterAll(async () => {
-        await cleanDB()
-        await expectQueuesToBeEmpty()
+        await dropMongoDb(mongoBaseUrl)
+        await expectQueuesToBeEmpty(amqpBaseUrl)
     });
+
 });
