@@ -32,5 +32,4 @@ function expectQueuesToBeEmpty(amqpHost) {
         .then(() => _connection.close());
 }
 
-exports.assertQueue = assertQueue
-exports.expectQueuesToBeEmpty = expectQueuesToBeEmpty
+module.exports = { assertQueue, expectQueuesToBeEmpty }
