@@ -36,7 +36,7 @@ jobs:
           keys:
             - v1-npm-deps-{{ checksum "integration/package-lock.json" }}
       - run:
-          command: npm install
+          command: npm install --no-fund --no-audit
           working_directory: integration
       - save_cache:
           paths:
