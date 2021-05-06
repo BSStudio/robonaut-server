@@ -1,5 +1,5 @@
 const request = require('supertest')
-const {purgeQueue} = require('../src/amqpOperations')
+const purgeQueue = require('../src/purgeQueue')
 const {assertQueue, expectQueuesToBeEmpty} = require('./utils/amqpAssertions')
 
 describe('Test a likely path of events for skill timer', () => {

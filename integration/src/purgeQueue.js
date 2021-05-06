@@ -4,7 +4,7 @@ function closeConnection(connection) {
     if (connection) connection.close()
 }
 
-function purgeQueue(amqpBaseUrl, queue) {
+module.exports = (amqpBaseUrl, queue) => {
     let _connection;
     return amqp.connect(amqpBaseUrl)
         .then(connection => {
@@ -14,5 +14,3 @@ function purgeQueue(amqpBaseUrl, queue) {
         .then(channel => channel.purgeQueue(queue))
         .finally(() => closeConnection(_connection))
 }
-
-exports.purgeQueue = purgeQueue

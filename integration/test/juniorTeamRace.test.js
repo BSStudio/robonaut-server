@@ -1,7 +1,7 @@
 const request = require('supertest')
-const {purgeQueue} = require('../src/amqpOperations')
+const purgeQueue = require('../src/purgeQueue')
 const {assertQueue, expectQueuesToBeEmpty} = require('./utils/amqpAssertions')
-const {cleanDB} = require('../src/dbOperations')
+const dropMongoDb = require('../src/dropMongoDb')
 
 describe('Test a likely path of events for a junior team', () => {
 
@@ -10,7 +10,7 @@ describe('Test a likely path of events for a junior team', () => {
     const mongoBaseUrl = global.__MONGO_BASE_URL__
 
     beforeAll(async () => {
-        await cleanDB(mongoBaseUrl)
+        await dropMongoDb(mongoBaseUrl)
         await purgeQueue(amqpBaseUrl, 'general.teamData')
         await purgeQueue(amqpBaseUrl, 'skill.gate')
         await purgeQueue(amqpBaseUrl, 'speed.lap')
@@ -387,4 +387,5 @@ describe('Test a likely path of events for a junior team', () => {
         await cleanDB(mongoBaseUrl)
         await expectQueuesToBeEmpty(amqpBaseUrl)
     });
+
 });
