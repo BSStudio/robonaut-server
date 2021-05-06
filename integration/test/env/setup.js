@@ -9,15 +9,14 @@ const BUILD_CONTEXT = path.resolve(__dirname, './../../..')
 const COMPOSE_FILE = 'docker-compose.yaml'
 
 module.exports = async function () {
-    console.log('\nBuilding Docker compose...')
+
     const dockerComposeEnvironment = await new DockerComposeEnvironment(BUILD_CONTEXT, COMPOSE_FILE)
         .withWaitStrategy('rabbitmq_1', Wait.forHealthCheck())
         .withWaitStrategy('mongo_1', Wait.forHealthCheck())
         .withWaitStrategy('app_1', Wait.forHealthCheck())
         .up();
-    console.log('Docker compose is up')
 
-    global.__DOCKER_COMPOSE_ENV__ = dockerComposeEnvironment;
+    global.__DOCKER_COMPOSE_ENVIRONMENT__ = dockerComposeEnvironment;
 
     const rabbitMQ = dockerComposeEnvironment.getContainer('rabbitmq_1');
     const mongo = dockerComposeEnvironment.getContainer('mongo_1');
@@ -32,4 +31,5 @@ module.exports = async function () {
     fs.writeFileSync(path.join(DIR, 'appBaseUrl'), appBaseUrl);
     fs.writeFileSync(path.join(DIR, 'amqpBaseUrl'), amqpBaseUrl);
     fs.writeFileSync(path.join(DIR, 'mongoBaseUrl'), mongoBaseUrl);
+
 };

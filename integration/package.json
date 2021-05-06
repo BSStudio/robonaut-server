@@ -20,6 +20,6 @@
     "@types/supertest": "^2.0.11"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest --runInBand"
   }
 }

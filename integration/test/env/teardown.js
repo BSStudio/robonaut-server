@@ -5,9 +5,11 @@ const rimraf = require('rimraf');
 const DIR = path.join(os.tmpdir(), 'jest_testcontainers_global_setup');
 
 module.exports = async function () {
+
+    // stop containers
     await global.__DOCKER_COMPOSE_ENV__.down();
-    console.log('Docker compose is down')
 
     // remove temp folder
     rimraf.sync(DIR);
+
 };
