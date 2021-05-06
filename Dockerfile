@@ -5,8 +5,8 @@ FROM $JDK as build
 COPY ./gradlew                    ./
 COPY ./settings.gradle.kts        ./
 COPY ./gradle                     ./gradle/
-COPY ./buildSrc/build.gradle.kts  ./buildSrc/
 COPY ./buildSrc/src               ./buildSrc/src/
+COPY ./buildSrc/build.gradle.kts  ./buildSrc/
 COPY ./web/build.gradle.kts       ./web/
 COPY ./service/build.gradle.kts   ./service/
 COPY ./messaging/build.gradle.kts ./messaging/
@@ -19,6 +19,6 @@ ARG BUILD_ARG="bootJar --parallel"
 RUN ./gradlew $BUILD_ARG
 
 FROM $JDK as app
-ARG BOOT_JAR=./app/build/libs/*.jar
+ARG BOOT_JAR=/app/build/libs/*.jar
 COPY --from=build $BOOT_JAR ./app.jar
 ENTRYPOINT ["java","-jar","./app.jar"]
