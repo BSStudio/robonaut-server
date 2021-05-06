@@ -32,8 +32,6 @@ jobs:
       image: ubuntu-2004:202104-01
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.2
       - restore_cache:
           keys:
             - v1-npm-deps-{{ checksum "integration/package-lock.json" }}
