@@ -820,8 +820,8 @@ describe('Test testcontainers', () => {
     describe('Test a likely path of events for speed timer', () => {
         beforeAll(() => purgeQueue(amqpBaseUrl, 'speed.timer'));
         const speedTimerUpdate = {timerAt: 2000, timerAction: 'START'};
-        it('should update the speed timer', () => {
-            return request(appBaseUrl)
+        it('should update the speed timer', async () => {
+            await request(appBaseUrl)
                 .post('/api/speed/timer')
                 .set('RobonAuth-Api-Key', 'BSS')
                 .send(speedTimerUpdate)
@@ -829,18 +829,16 @@ describe('Test testcontainers', () => {
                     expect(response.status).toBe(200)
                     expect(response.body).toStrictEqual(speedTimerUpdate)
                 })
-                .then(_ => assertQueue(amqpBaseUrl, 'speed.timer', speedTimerUpdate));
+            await assertQueue(amqpBaseUrl, 'speed.timer', speedTimerUpdate);
         });
-        afterAll(() => {
-            return expectQueuesToBeEmpty(amqpBaseUrl)
-        })
+        afterAll(() => expectQueuesToBeEmpty(amqpBaseUrl))
     });
 
     describe('Test a likely path of events for skill timer', () => {
         beforeAll(() => purgeQueue(amqpBaseUrl, 'skill.timer'));
         const skillTimerUpdate = {timerAt: 2000, timerAction: 'START'};
-        it('should update the skill timer', () => {
-            return request(appBaseUrl)
+        it('should update the skill timer', async () => {
+            await request(appBaseUrl)
                 .post('/api/skill/timer')
                 .set('RobonAuth-Api-Key', 'BSS')
                 .send(skillTimerUpdate)
@@ -848,14 +846,12 @@ describe('Test testcontainers', () => {
                     expect(response.status).toBe(200)
                     expect(response.body).toStrictEqual(skillTimerUpdate)
                 })
-                .then(_ => assertQueue(amqpBaseUrl, 'skill.timer', skillTimerUpdate));
+            await assertQueue(amqpBaseUrl, 'skill.timer', skillTimerUpdate)
         });
-        afterAll(() => {
-            return expect(expectQueuesToBeEmpty(amqpBaseUrl)).resolves;
-        })
+        afterAll(() => expectQueuesToBeEmpty(amqpBaseUrl))
     });
 
-    afterAll(async () => {
-        await dockerComposeEnvironment.down()
+    afterAll(() => {
+        return dockerComposeEnvironment.down()
     })
 });
