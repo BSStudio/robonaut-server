@@ -1,7 +1,7 @@
-const NodeEnvironment = require('jest-environment-node')
 const fs = require('fs')
+const NodeEnvironment = require('jest-environment-node')
 const path = require('path')
-import testEnvironmentTempDir from './testEnvironmentTempDir'
+const testEnvironmentTempDir = require('./testEnvironmentTempDir')
 
 class TestContainersEnvironment extends NodeEnvironment {
   async setup() {
@@ -9,15 +9,15 @@ class TestContainersEnvironment extends NodeEnvironment {
 
     // get the urls
     const appBaseUrl = fs.readFileSync(
-      path.join(testEnvironmentTempDir, 'appBaseUrl'),
+      path.join(testEnvironmentTempDir.default, 'appBaseUrl'),
       'utf8'
     )
     const amqpBaseUrl = fs.readFileSync(
-      path.join(testEnvironmentTempDir, 'amqpBaseUrl'),
+      path.join(testEnvironmentTempDir.default, 'amqpBaseUrl'),
       'utf8'
     )
     const mongoBaseUrl = fs.readFileSync(
-      path.join(testEnvironmentTempDir, 'mongoBaseUrl'),
+      path.join(testEnvironmentTempDir.default, 'mongoBaseUrl'),
       'utf8'
     )
 
