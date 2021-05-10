@@ -1,15 +1,10 @@
-const os = require('os');
-const path = require('path');
-const rimraf = require('rimraf');
-
-const DIR = path.join(os.tmpdir(), 'jest_testcontainers_global_setup');
+import rimraf from 'rimraf'
+import testEnvironmentTempDir from './testEnvironmentTempDir'
 
 module.exports = async function () {
+  // stop containers
+  await global.__DOCKER_COMPOSE_ENVIRONMENT__.down()
 
-    // stop containers
-    await global.__DOCKER_COMPOSE_ENVIRONMENT__.down();
-
-    // remove temp folder
-    rimraf.sync(DIR);
-
-};
+  // remove temp folder
+  rimraf.sync(testEnvironmentTempDir)
+}

@@ -1,35 +1,36 @@
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
-const NodeEnvironment = require('jest-environment-node');
+const fs = require('fs')
+const NodeEnvironment = require('jest-environment-node')
+const path = require('path')
+const testEnvironmentTempDir = require('./testEnvironmentTempDir')
 
-const DIR = path.join(os.tmpdir(), 'jest_testcontainers_global_setup');
+class TestContainersEnvironment extends NodeEnvironment {
+  async setup() {
+    await super.setup()
 
-module.exports = class TestContainersEnvironment extends NodeEnvironment {
-    constructor(config) {
-        super(config);
+    // get the urls
+    const app = fs.readFileSync(
+      path.join(testEnvironmentTempDir.default, 'appBaseUrl'),
+      'utf8'
+    )
+    const amqp = fs.readFileSync(
+      path.join(testEnvironmentTempDir.default, 'amqpBaseUrl'),
+      'utf8'
+    )
+    const mongo = fs.readFileSync(
+      path.join(testEnvironmentTempDir.default, 'mongoBaseUrl'),
+      'utf8'
+    )
+
+    if (!app || !amqp || !mongo) {
+      throw new Error('baseUrls not found')
     }
 
-    async setup() {
-        await super.setup();
-        // get the urls
-        const appBaseUrl = fs.readFileSync(path.join(DIR, 'appBaseUrl'), 'utf8');
-        const amqpBaseUrl = fs.readFileSync(path.join(DIR, 'amqpBaseUrl'), 'utf8');
-        const mongoBaseUrl = fs.readFileSync(path.join(DIR, 'mongoBaseUrl'), 'utf8');
-        if (!appBaseUrl || !amqpBaseUrl || !mongoBaseUrl) {
-            throw new Error('baseUrls not found');
-        }
-
-        this.global.__APP_BASE_URL__ = appBaseUrl;
-        this.global.__AMQP_BASE_URL__ = amqpBaseUrl;
-        this.global.__MONGO_BASE_URL__ = mongoBaseUrl;
+    this.global.__BASE_URL__ = {
+      app,
+      amqp,
+      mongo,
     }
-
-    async teardown() {
-        await super.teardown();
-    }
-
-    runScript(script) {
-        return super.runScript(script);
-    }
+  }
 }
+
+module.exports = TestContainersEnvironment
