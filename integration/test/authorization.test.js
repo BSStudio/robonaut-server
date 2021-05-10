@@ -20,7 +20,7 @@ describe('authorization test', () => {
     '/api/scores/endResult/junior',
   ]
   it.each(postEndpoint)(
-    'pOST %p endpoint should return unauthorized',
+    'endpoint POST %p should return unauthorized',
     (endpoint) =>
       request(appBaseUrl)
         .post(endpoint)
@@ -29,7 +29,7 @@ describe('authorization test', () => {
         })
   )
 
-  it('gET "/api/team" endpoint should return unauthorized', () =>
+  it('endpoint GET "/api/team" should return unauthorized', () =>
     request(appBaseUrl)
       .get('/api/team')
       .then((response) => {
@@ -38,7 +38,7 @@ describe('authorization test', () => {
 
   const putEndpoints = ['/api/admin/team', '/api/team']
   it.each(putEndpoints)(
-    'pUT %p endpoint should return unauthorized',
+    'endpoint PUT %p should return unauthorized',
     (endpoint) =>
       request(appBaseUrl)
         .put(endpoint)
