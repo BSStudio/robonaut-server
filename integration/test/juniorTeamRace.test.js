@@ -4,9 +4,9 @@ import purgeQueue from './../src/purgeQueue'
 import request from 'supertest'
 
 describe('test a likely path of events for a junior team', () => {
-  const appBaseUrl = global.__APP_BASE_URL__
-  const amqpBaseUrl = global.__AMQP_BASE_URL__
-  const mongoBaseUrl = global.__MONGO_BASE_URL__
+  const appBaseUrl = global.__BASE_URL__.app
+  const amqpBaseUrl = global.__BASE_URL__.amqp
+  const mongoBaseUrl = global.__BASE_URL__.mongo
 
   beforeAll(async () => {
     await dropMongoDb(mongoBaseUrl)

@@ -1,7 +1,7 @@
 import request from 'supertest'
 
 describe('authorization test', () => {
-  const appBaseUrl = global.__APP_BASE_URL__
+  const appBaseUrl = global.__BASE_URL__.app
 
   const postEndpoint = [
     '/api/team',
