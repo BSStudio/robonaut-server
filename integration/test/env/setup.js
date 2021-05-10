@@ -30,7 +30,7 @@ export default async function () {
   }
 
   // use the file system to expose the baseUrls for TestEnvironments
-  mkdirp.sync(DIR)
+  mkdirp.sync(testEnvironmentTempDir)
   fs.writeFileSync(path.join(testEnvironmentTempDir, 'appBaseUrl'), baseUrl.app)
   fs.writeFileSync(
     path.join(testEnvironmentTempDir, 'amqpBaseUrl'),
