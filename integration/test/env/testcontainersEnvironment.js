@@ -1,35 +1,34 @@
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
-const NodeEnvironment = require('jest-environment-node');
+const NodeEnvironment = require('jest-environment-node')
+const fs = require('fs')
+const path = require('path')
+import testEnvironmentTempDir from './testEnvironmentTempDir'
 
-const DIR = path.join(os.tmpdir(), 'jest_testcontainers_global_setup');
+class TestContainersEnvironment extends NodeEnvironment {
+  async setup() {
+    await super.setup()
 
-module.exports = class TestContainersEnvironment extends NodeEnvironment {
-    constructor(config) {
-        super(config);
+    // get the urls
+    const appBaseUrl = fs.readFileSync(
+      path.join(testEnvironmentTempDir, 'appBaseUrl'),
+      'utf8'
+    )
+    const amqpBaseUrl = fs.readFileSync(
+      path.join(testEnvironmentTempDir, 'amqpBaseUrl'),
+      'utf8'
+    )
+    const mongoBaseUrl = fs.readFileSync(
+      path.join(testEnvironmentTempDir, 'mongoBaseUrl'),
+      'utf8'
+    )
+
+    if (!appBaseUrl || !amqpBaseUrl || !mongoBaseUrl) {
+      throw new Error('baseUrls not found')
     }
 
-    async setup() {
-        await super.setup();
-        // get the urls
-        const appBaseUrl = fs.readFileSync(path.join(DIR, 'appBaseUrl'), 'utf8');
-        const amqpBaseUrl = fs.readFileSync(path.join(DIR, 'amqpBaseUrl'), 'utf8');
-        const mongoBaseUrl = fs.readFileSync(path.join(DIR, 'mongoBaseUrl'), 'utf8');
-        if (!appBaseUrl || !amqpBaseUrl || !mongoBaseUrl) {
-            throw new Error('baseUrls not found');
-        }
-
-        this.global.__APP_BASE_URL__ = appBaseUrl;
-        this.global.__AMQP_BASE_URL__ = amqpBaseUrl;
-        this.global.__MONGO_BASE_URL__ = mongoBaseUrl;
-    }
-
-    async teardown() {
-        await super.teardown();
-    }
-
-    runScript(script) {
-        return super.runScript(script);
-    }
+    this.global.__APP_BASE_URL__ = appBaseUrl
+    this.global.__AMQP_BASE_URL__ = amqpBaseUrl
+    this.global.__MONGO_BASE_URL__ = mongoBaseUrl
+  }
 }
+
+module.exports = TestContainersEnvironment

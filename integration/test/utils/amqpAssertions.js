@@ -1,35 +1,44 @@
-const amqp = require('amqplib')
+import amqp from 'amqplib'
 
 function assertQueue(amqpHost, queueName, expected) {
-    let _connection;
-    return amqp.connect(amqpHost)
-        .then(connection => {
-            _connection = connection
-            return connection.createChannel();
-        })
-        .then(channel => channel.get(queueName, {noAck: true}))
-        .then(msg => expect(JSON.parse(msg.content.toString())).toStrictEqual(expected))
-        .then(() => _connection.close());
+  let _connection
+  return amqp
+    .connect(amqpHost)
+    .then((connection) => {
+      _connection = connection
+      return connection.createChannel()
+    })
+    .then((channel) => channel.get(queueName, { noAck: true }))
+    .then((msg) =>
+      expect(JSON.parse(msg.content.toString())).toStrictEqual(expected)
+    )
+    .finally(() => _connection.close())
+}
+
+async function expectQueueToHaveNoMessages(channel, queueName) {
+  const queue = await channel.checkQueue(queueName)
+  expect(queue).toHaveProperty('messageCount', 0)
 }
 
 function expectQueuesToBeEmpty(amqpHost) {
-    let _connection;
-    return amqp.connect(amqpHost)
-        .then(connection => {
-            _connection = connection
-            return connection.createChannel();
-        })
-        .then(channel => Promise.all([
-            expect(channel.checkQueue('general.teamData')).resolves.toHaveProperty('messageCount', 0),
-            expect(channel.checkQueue('skill.gate')).resolves.toHaveProperty('messageCount', 0),
-            expect(channel.checkQueue('skill.timer')).resolves.toHaveProperty('messageCount', 0),
-            expect(channel.checkQueue('speed.lap')).resolves.toHaveProperty('messageCount', 0),
-            expect(channel.checkQueue('speed.timer')).resolves.toHaveProperty('messageCount', 0),
-            expect(channel.checkQueue('speed.safetyCar.follow')).resolves.toHaveProperty('messageCount', 0),
-            expect(channel.checkQueue('speed.safetyCar.overtake')).resolves.toHaveProperty('messageCount', 0),
-            expect(channel.checkQueue('team.teamData')).resolves.toHaveProperty('messageCount', 0),
-        ]))
-        .then(() => _connection.close());
+  let _connection
+  return amqp
+    .connect(amqpHost)
+    .then((connection) => {
+      _connection = connection
+      return connection.createChannel()
+    })
+    .then(async (channel) => {
+      await expectQueueToHaveNoMessages(channel, 'general.teamData')
+      await expectQueueToHaveNoMessages(channel, 'skill.gate')
+      await expectQueueToHaveNoMessages(channel, 'skill.timer')
+      await expectQueueToHaveNoMessages(channel, 'speed.lap')
+      await expectQueueToHaveNoMessages(channel, 'speed.timer')
+      await expectQueueToHaveNoMessages(channel, 'speed.safetyCar.follow')
+      await expectQueueToHaveNoMessages(channel, 'speed.safetyCar.overtake')
+      await expectQueueToHaveNoMessages(channel, 'team.teamData')
+    })
+    .finally(() => _connection.close())
 }
 
-module.exports = { assertQueue, expectQueuesToBeEmpty }
+export { assertQueue, expectQueuesToBeEmpty }
