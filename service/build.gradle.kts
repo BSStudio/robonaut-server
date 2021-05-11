@@ -2,6 +2,7 @@ plugins {
     id("spring-module-conventions")
     id("testing-conventions")
     id("checkstyle-conventions")
+    id("sonarqube-conventions")
 }
 
 dependencies {
