@@ -1,6 +1,7 @@
 plugins {
     id("spring-app-conventions")
     id("checkstyle-conventions")
+    id("sonarqube-conventions")
 }
 
 dependencies {
