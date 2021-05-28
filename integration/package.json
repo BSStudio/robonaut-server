@@ -25,7 +25,7 @@
     "@types/mongodb": "^3.6.16",
     "@types/node": "^15.0.2",
     "@types/supertest": "^2.0.11",
-    "eslint": "^7.26.0"
+    "eslint": "^7.27.0"
   },
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
