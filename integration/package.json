@@ -20,7 +20,7 @@
     "testcontainers": "^7.11.1"
   },
   "devDependencies": {
-    "@types/amqplib": "^0.5.17",
+    "@types/amqplib": "^0.8.0",
     "@types/jest": "^26.0.23",
     "@types/mongodb": "^3.6.17",
     "@types/node": "^15.6.1",
