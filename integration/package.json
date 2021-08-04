@@ -13,7 +13,7 @@
     "jest-environment-node": "^27.0.1",
     "jest-junit": "^12.1.0",
     "mkdirp": "^1.0.4",
-    "mongodb": "^3.6.9",
+    "mongodb": "^4.1.0",
     "prettier": "^2.3.0",
     "rimraf": "^3.0.2",
     "supertest": "^6.1.3",
