@@ -1,0 +1,7 @@
+[versions]
+springdoc = "1.5.10"
+
+[libraries]
+springdoc = { module = "org.springdoc:springdoc-openapi-webflux-ui", version.ref = "springdoc" }
+
+[bundles]
