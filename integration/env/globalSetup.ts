@@ -1,10 +1,10 @@
 import { DockerComposeEnvironment, Wait } from 'testcontainers'
-import fs from 'fs'
-import mkdirp from 'mkdirp'
-import path from 'path'
-import testEnvironmentTempDir from './testEnvironmentTempDir'
+import * as fs from 'fs/promises'
+import mkdirp = require('mkdirp')
+import * as path from 'path'
+import jestTempDir from './jestTempDir'
 
-const BUILD_CONTEXT = path.resolve(__dirname, './../../..')
+const BUILD_CONTEXT = path.resolve(__dirname, './../..')
 const COMPOSE_FILE = 'docker-compose.yaml'
 
 export default async function () {
@@ -17,7 +17,7 @@ export default async function () {
     .withWaitStrategy('app_1', Wait.forHealthCheck())
     .up()
 
-  global.__DOCKER_COMPOSE_ENVIRONMENT__ = dockerComposeEnvironment
+  global.dockerComposeEnvironment = dockerComposeEnvironment
 
   const rabbitMQ = dockerComposeEnvironment.getContainer('rabbitmq_1')
   const mongo = dockerComposeEnvironment.getContainer('mongo_1')
@@ -30,14 +30,15 @@ export default async function () {
   }
 
   // use the file system to expose the baseUrls for TestEnvironments
-  mkdirp.sync(testEnvironmentTempDir)
-  fs.writeFileSync(path.join(testEnvironmentTempDir, 'appBaseUrl'), baseUrl.app)
-  fs.writeFileSync(
-    path.join(testEnvironmentTempDir, 'amqpBaseUrl'),
-    baseUrl.amqp
-  )
-  fs.writeFileSync(
-    path.join(testEnvironmentTempDir, 'mongoBaseUrl'),
-    baseUrl.mongo
-  )
+  mkdirp.sync(jestTempDir)
+  return Promise.all([
+    writeToTempFile('appBaseUrl', baseUrl.app),
+    writeToTempFile('amqpBaseUrl', baseUrl.amqp),
+    writeToTempFile('mongoBaseUrl', baseUrl.mongo),
+  ])
+}
+
+function writeToTempFile(fileName: string, content: string) {
+  const filePath = path.join(jestTempDir, fileName)
+  return fs.writeFile(filePath, content)
 }

@@ -1,6 +1,6 @@
 import { assertQueue, expectQueuesToBeEmpty } from './utils/amqpAssertions'
-import purgeQueue from './../src/purgeQueue'
-import request from 'supertest'
+import purgeQueue from './utils/purgeQueue'
+import request = require('supertest')
 
 describe('test a likely path of events for skill timer', () => {
   const appBaseUrl = global.__BASE_URL__.app
