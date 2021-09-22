@@ -1,4 +1,4 @@
-import request from 'supertest'
+import request = require('supertest')
 
 describe('authorization test', () => {
   const appBaseUrl = global.__BASE_URL__.app

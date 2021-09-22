@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb'
 
-export default (mongoUri) => {
-  const mongoClient = new MongoClient(mongoUri, { useUnifiedTopology: true })
+export default (mongoUri: string): Promise<boolean> => {
+  const mongoClient = new MongoClient(mongoUri)
   return mongoClient
     .connect()
     .then((client) => client.db().dropDatabase())
