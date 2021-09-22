@@ -1,6 +1,6 @@
-ARG JDK=openjdk:11
+FROM openjdk:11.0.12 as jdk
 
-FROM $JDK as build
+FROM jdk as build
 # cache dependencies
 COPY ./gradlew                    ./
 COPY ./settings.gradle.kts        ./
@@ -18,7 +18,7 @@ COPY ./ ./
 ARG BUILD_ARG="bootJar --parallel"
 RUN ./gradlew $BUILD_ARG
 
-FROM $JDK as app
+FROM jdk as app
 ARG BOOT_JAR=/app/build/libs/*.jar
 COPY --from=build $BOOT_JAR ./app.jar
 ENTRYPOINT ["java","-jar","./app.jar"]

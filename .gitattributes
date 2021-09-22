@@ -1,0 +1,9 @@
+# Auto detect text files and perform LF normalization.
+# Resources:
+#    - https://www.kernel.org/pub/software/scm/git/docs/gitattributes.html
+#    - https://help.github.com/articles/dealing-with-line-endings/
+#    - https://git-scm.com/docs/gitattributes
+*           text=auto
+
+# bash files not having the .sh extension
+gradlew     text eol=lf
