@@ -7,7 +7,7 @@ repositories {
     mavenCentral()
 }
 
-extra["springCloudVersion"] = "2020.0.2"
+extra["springCloudVersion"] = "2020.0.3"
 
 dependencyManagement {
     imports {
