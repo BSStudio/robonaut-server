@@ -7,3 +7,4 @@
 
 rootProject.name = "robonaut-server"
 include("app", "web", "service", "data", "messaging")
+enableFeaturePreview("VERSION_CATALOGS")
