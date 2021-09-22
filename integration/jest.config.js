@@ -1,6 +1,8 @@
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
   reporters: ['default', ['jest-junit', { outputDirectory: 'out' }]],
-  globalSetup: './test/env/setup.js',
-  globalTeardown: './test/env/teardown.js',
-  testEnvironment: './test/env/testcontainersEnvironment.js',
+  preset: 'ts-jest',
+  testEnvironment: './env/testEnvironment.ts',
+  globalSetup: './env/globalSetup.ts',
+  globalTeardown: './env/globalTeardown.ts',
 }

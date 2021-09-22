@@ -1,6 +1,10 @@
-import amqp from 'amqplib'
+import amqp = require('amqplib')
 
-function assertQueue(amqpHost, queueName, expected) {
+function assertQueue(
+  amqpHost: string,
+  queueName: string,
+  expected: any
+): Promise<never> {
   let _connection
   return amqp
     .connect(amqpHost)
@@ -9,9 +13,10 @@ function assertQueue(amqpHost, queueName, expected) {
       return connection.createChannel()
     })
     .then((channel) => channel.get(queueName, { noAck: true }))
-    .then((msg) =>
+    .then((msg) => {
+      if (!msg) return Promise.reject('No message')
       expect(JSON.parse(msg.content.toString())).toStrictEqual(expected)
-    )
+    })
     .finally(() => _connection.close())
 }
 
@@ -20,7 +25,7 @@ async function expectQueueToHaveNoMessages(channel, queueName) {
   expect(queue).toHaveProperty('messageCount', 0)
 }
 
-function expectQueuesToBeEmpty(amqpHost) {
+function expectQueuesToBeEmpty(amqpHost: string) {
   let _connection
   return amqp
     .connect(amqpHost)
