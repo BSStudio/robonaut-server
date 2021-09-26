@@ -1,5 +1,5 @@
 plugins {
-    id("java-conventions")
+    id("kotlin-conventions")
     id("io.spring.dependency-management")
 }
 
@@ -7,7 +7,7 @@ repositories {
     mavenCentral()
 }
 
-extra["springCloudVersion"] = "2020.0.3"
+extra["springCloudVersion"] = "2020.0.4"
 extra["springDocVersion"] = "1.5.8"
 
 dependencyManagement {
