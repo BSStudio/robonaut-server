@@ -12,7 +12,7 @@ class SkillRaceResultHandler(private val service: SkillRaceService) : HandlerFun
 
     override fun handle(request: ServerRequest): Mono<ServerResponse> {
         val detailedTeam = request.bodyToMono(SkillRaceResult::class.java)
-            .flatMap { skillRaceResult: SkillRaceResult? -> service.updateSkillRaceResult(skillRaceResult) }
+            .flatMap { skillRaceResult -> service.updateSkillRaceResult(skillRaceResult) }
         return ServerResponse.ok().body(detailedTeam, DetailedTeam::class.java)
     }
 }

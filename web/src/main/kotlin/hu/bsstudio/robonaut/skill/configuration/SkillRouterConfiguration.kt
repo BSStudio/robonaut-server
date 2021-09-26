@@ -1,23 +1,17 @@
 package hu.bsstudio.robonaut.skill.configuration
 
-import org.springframework.beans.factory.annotation.Autowired
-import hu.bsstudio.robonaut.security.RobonAuthFilter
-import hu.bsstudio.robonaut.race.skill.timer.SkillTimerService
 import hu.bsstudio.robonaut.race.skill.SkillRaceService
-import hu.bsstudio.robonaut.skill.UpdateSkillTimerHandler
+import hu.bsstudio.robonaut.race.skill.timer.SkillTimerService
+import hu.bsstudio.robonaut.security.RobonAuthFilter
 import hu.bsstudio.robonaut.skill.SkillGateHandler
 import hu.bsstudio.robonaut.skill.SkillRaceResultHandler
-import org.springframework.web.reactive.function.server.RouterFunction
-import org.springframework.web.reactive.function.server.ServerResponse
-import org.springframework.web.reactive.function.server.RouterFunctions
-import lombok.RequiredArgsConstructor
-import org.springframework.web.reactive.function.server.HandlerFunction
-import hu.bsstudio.robonaut.team.model.DetailedTeam
-import hu.bsstudio.robonaut.race.skill.model.GateInformation
-import hu.bsstudio.robonaut.race.skill.model.SkillRaceResult
-import hu.bsstudio.robonaut.race.skill.timer.model.SkillTimer
+import hu.bsstudio.robonaut.skill.UpdateSkillTimerHandler
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.reactive.function.server.RouterFunction
+import org.springframework.web.reactive.function.server.RouterFunctions
+import org.springframework.web.reactive.function.server.ServerResponse
 
 @Configuration
 class SkillRouterConfiguration(

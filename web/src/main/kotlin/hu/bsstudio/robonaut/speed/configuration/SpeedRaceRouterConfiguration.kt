@@ -1,24 +1,18 @@
 package hu.bsstudio.robonaut.speed.configuration
 
-import org.springframework.beans.factory.annotation.Autowired
-import hu.bsstudio.robonaut.security.RobonAuthFilter
-import hu.bsstudio.robonaut.race.speed.timer.SpeedTimerService
 import hu.bsstudio.robonaut.race.speed.SpeedRaceService
-import hu.bsstudio.robonaut.speed.UpdateSpeedTimerHandler
-import hu.bsstudio.robonaut.speed.SpeedRaceLapHandler
+import hu.bsstudio.robonaut.race.speed.timer.SpeedTimerService
+import hu.bsstudio.robonaut.security.RobonAuthFilter
 import hu.bsstudio.robonaut.speed.JuniorSpeedRaceResultHandler
 import hu.bsstudio.robonaut.speed.SeniorSpeedRaceResultHandler
-import org.springframework.web.reactive.function.server.RouterFunction
-import org.springframework.web.reactive.function.server.ServerResponse
-import org.springframework.web.reactive.function.server.RouterFunctions
-import lombok.RequiredArgsConstructor
-import org.springframework.web.reactive.function.server.HandlerFunction
-import hu.bsstudio.robonaut.team.model.DetailedTeam
-import hu.bsstudio.robonaut.race.speed.model.SpeedRaceScore
-import hu.bsstudio.robonaut.race.speed.timer.model.SpeedTimer
-import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult
+import hu.bsstudio.robonaut.speed.SpeedRaceLapHandler
+import hu.bsstudio.robonaut.speed.UpdateSpeedTimerHandler
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.reactive.function.server.RouterFunction
+import org.springframework.web.reactive.function.server.RouterFunctions
+import org.springframework.web.reactive.function.server.ServerResponse
 
 @Configuration
 class SpeedRaceRouterConfiguration(

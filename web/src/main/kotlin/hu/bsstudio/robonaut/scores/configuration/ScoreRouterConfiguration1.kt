@@ -1,19 +1,19 @@
 package hu.bsstudio.robonaut.scores.configuration
 
-import org.springframework.beans.factory.annotation.Autowired
-import hu.bsstudio.robonaut.security.RobonAuthFilter
-import hu.bsstudio.robonaut.scores.qualification.QualificationScoreService
+import hu.bsstudio.robonaut.scores.AudienceScoreHandler
+import hu.bsstudio.robonaut.scores.JuniorEndResultHandler
+import hu.bsstudio.robonaut.scores.QualificationScoreHandler
+import hu.bsstudio.robonaut.scores.SeniorEndResultHandler
 import hu.bsstudio.robonaut.scores.audience.AudienceScoreService
 import hu.bsstudio.robonaut.scores.endresult.EndResultService
-import hu.bsstudio.robonaut.scores.QualificationScoreHandler
-import hu.bsstudio.robonaut.scores.AudienceScoreHandler
-import hu.bsstudio.robonaut.scores.SeniorEndResultHandler
-import hu.bsstudio.robonaut.scores.JuniorEndResultHandler
-import org.springframework.web.reactive.function.server.RouterFunction
-import org.springframework.web.reactive.function.server.ServerResponse
-import org.springframework.web.reactive.function.server.RouterFunctions
+import hu.bsstudio.robonaut.scores.qualification.QualificationScoreService
+import hu.bsstudio.robonaut.security.RobonAuthFilter
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.reactive.function.server.RouterFunction
+import org.springframework.web.reactive.function.server.RouterFunctions
+import org.springframework.web.reactive.function.server.ServerResponse
 
 @Configuration
 class ScoreRouterConfiguration(

@@ -12,7 +12,7 @@ class JuniorSpeedRaceResultHandler(private val service: SpeedRaceService) : Hand
 
     override fun handle(request: ServerRequest): Mono<ServerResponse> {
         val detailedTeam = request.bodyToMono(SpeedRaceResult::class.java)
-            .flatMap { speedRaceResult: SpeedRaceResult? -> service.updateSpeedRaceJunior(speedRaceResult) }
+            .flatMap { speedRaceResult -> service.updateSpeedRaceJunior(speedRaceResult) }
         return ServerResponse.ok().body(detailedTeam, DetailedTeam::class.java)
     }
 }

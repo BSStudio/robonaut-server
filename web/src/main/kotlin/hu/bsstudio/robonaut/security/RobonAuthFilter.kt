@@ -1,11 +1,11 @@
 package hu.bsstudio.robonaut.security
 
-import org.springframework.web.reactive.function.server.HandlerFilterFunction
-import org.springframework.web.reactive.function.server.ServerResponse
-import org.springframework.web.reactive.function.server.HandlerFunction
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
+import org.springframework.web.reactive.function.server.HandlerFilterFunction
+import org.springframework.web.reactive.function.server.HandlerFunction
 import org.springframework.web.reactive.function.server.ServerRequest
+import org.springframework.web.reactive.function.server.ServerResponse
 import reactor.core.publisher.Mono
 
 class RobonAuthFilter(private val apiKey: String) : HandlerFilterFunction<ServerResponse, ServerResponse> {
