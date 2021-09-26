@@ -12,7 +12,7 @@ class QualificationScoreHandler(private val service: QualificationScoreService) 
 
     override fun handle(request: ServerRequest): Mono<ServerResponse> {
         val detailedTeam = request.bodyToFlux(QualifiedTeam::class.java)
-            .flatMap { team: QualifiedTeam? -> service.updateQualificationScore(team) }
+            .flatMap(service::updateQualificationScore)
         return ServerResponse.ok().body(detailedTeam, DetailedTeam::class.java)
     }
 }

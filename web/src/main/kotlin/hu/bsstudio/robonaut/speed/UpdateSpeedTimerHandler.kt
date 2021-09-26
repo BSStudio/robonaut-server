@@ -11,7 +11,7 @@ class UpdateSpeedTimerHandler(private val service: SpeedTimerService) : HandlerF
 
     override fun handle(request: ServerRequest): Mono<ServerResponse> {
         val speedTimer = request.bodyToMono(SpeedTimer::class.java)
-            .flatMap { speedTimer: SpeedTimer? -> service.updateTimer(speedTimer) }
+            .flatMap(service::updateTimer)
         return ServerResponse.ok().body(speedTimer, SpeedTimer::class.java)
     }
 }

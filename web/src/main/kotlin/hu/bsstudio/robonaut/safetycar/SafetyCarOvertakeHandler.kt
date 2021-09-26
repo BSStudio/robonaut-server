@@ -11,9 +11,7 @@ class SafetyCarOvertakeHandler(private val service: SafetyCarService) : HandlerF
 
     override fun handle(request: ServerRequest): Mono<ServerResponse> {
         val detailedTeam = request.bodyToMono(SafetyCarOvertakeInformation::class.java)
-            .flatMap { safetyCarOvertakeInformation: SafetyCarOvertakeInformation? ->
-                service.safetyCarWasOvertaken(safetyCarOvertakeInformation)
-            }
+            .flatMap(service::safetyCarWasOvertaken)
         return ServerResponse.ok().body(detailedTeam, DetailedTeam::class.java)
     }
 }

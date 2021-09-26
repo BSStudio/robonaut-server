@@ -12,7 +12,7 @@ class SpeedRaceLapHandler(private val service: SpeedRaceService) : HandlerFuncti
 
     override fun handle(request: ServerRequest): Mono<ServerResponse> {
         val detailedTeam = request.bodyToMono(SpeedRaceScore::class.java)
-            .flatMap { speedRaceScore -> service.updateSpeedRaceOnLap(speedRaceScore) }
+            .flatMap(service::updateSpeedRaceOnLap)
         return ServerResponse.ok().body(detailedTeam, DetailedTeam::class.java)
     }
 }

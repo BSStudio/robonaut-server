@@ -12,7 +12,7 @@ class JuniorEndResultHandler(private val service: EndResultService) : HandlerFun
 
     override fun handle(request: ServerRequest): Mono<ServerResponse> {
         val detailedTeam = request.bodyToFlux(EndResultedTeam::class.java)
-            .flatMap { endResultedTeam: EndResultedTeam? -> service.updateEndResultJunior(endResultedTeam) }
+            .flatMap(service::updateEndResultJunior)
         return ServerResponse.ok().body(detailedTeam, DetailedTeam::class.java)
     }
 }

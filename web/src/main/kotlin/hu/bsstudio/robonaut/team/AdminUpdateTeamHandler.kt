@@ -10,7 +10,7 @@ class AdminUpdateTeamHandler(private val teamService: TeamService) : HandlerFunc
 
     override fun handle(request: ServerRequest): Mono<ServerResponse> {
         val detailedTeam = request.bodyToFlux(DetailedTeam::class.java)
-            .flatMap { team: DetailedTeam? -> teamService.updateTeam(team) }
+            .flatMap(teamService::updateTeam)
         return ServerResponse.ok().body(detailedTeam, DetailedTeam::class.java)
     }
 }

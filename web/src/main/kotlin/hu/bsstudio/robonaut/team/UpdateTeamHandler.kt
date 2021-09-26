@@ -11,7 +11,7 @@ class UpdateTeamHandler(private val teamService: TeamService) : HandlerFunction<
 
     override fun handle(request: ServerRequest): Mono<ServerResponse> {
         val detailedTeam = request.bodyToMono(Team::class.java)
-            .flatMap { team: Team? -> teamService.updateTeam(team) }
+            .flatMap(teamService::updateTeam)
         return ServerResponse.ok().body(detailedTeam, DetailedTeam::class.java)
     }
 }

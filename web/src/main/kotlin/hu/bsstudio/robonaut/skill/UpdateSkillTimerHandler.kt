@@ -11,7 +11,7 @@ class UpdateSkillTimerHandler(private val service: SkillTimerService) : HandlerF
 
     override fun handle(request: ServerRequest): Mono<ServerResponse> {
         val skillTimer = request.bodyToMono(SkillTimer::class.java)
-            .flatMap { skillTimer -> service.updateTimer(skillTimer) }
+            .flatMap(service::updateTimer)
         return ServerResponse.ok().body(skillTimer, SkillTimer::class.java)
     }
 }

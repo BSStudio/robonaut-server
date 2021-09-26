@@ -12,7 +12,7 @@ class AudienceScoreHandler(private val service: AudienceScoreService) : HandlerF
 
     override fun handle(request: ServerRequest): Mono<ServerResponse> {
         val detailedTeam = request.bodyToFlux(AudienceScoredTeam::class.java)
-            .flatMap { audienceScoredTeam: AudienceScoredTeam? -> service.updateAudienceScore(audienceScoredTeam) }
+            .flatMap(service::updateAudienceScore)
         return ServerResponse.ok().body(detailedTeam, DetailedTeam::class.java)
     }
 }

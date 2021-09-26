@@ -11,9 +11,7 @@ class SafetyCarFollowHandler(private val service: SafetyCarService) : HandlerFun
 
     override fun handle(request: ServerRequest): Mono<ServerResponse> {
         val safety = request.bodyToMono(SafetyCarFollowInformation::class.java)
-            .flatMap { safetyCarFollowInformation: SafetyCarFollowInformation? ->
-                service.safetyCarWasFollowed(safetyCarFollowInformation)
-            }
+            .flatMap(service::safetyCarWasFollowed)
         return ServerResponse.ok().body(safety, DetailedTeam::class.java)
     }
 }
