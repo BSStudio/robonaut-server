@@ -1,54 +1,42 @@
-package hu.bsstudio.robonaut.safetycar;
+package hu.bsstudio.robonaut.safetycar
 
-import hu.bsstudio.robonaut.entity.TeamEntity;
-import hu.bsstudio.robonaut.repository.TeamRepository;
-import hu.bsstudio.robonaut.safetycar.model.SafetyCarFollowInformation;
-import hu.bsstudio.robonaut.safetycar.model.SafetyCarOvertakeInformation;
-import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper;
-import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import lombok.AccessLevel;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import reactor.core.publisher.Mono;
+import hu.bsstudio.robonaut.entity.TeamEntity
+import hu.bsstudio.robonaut.repository.TeamRepository
+import hu.bsstudio.robonaut.safetycar.model.SafetyCarFollowInformation
+import hu.bsstudio.robonaut.safetycar.model.SafetyCarOvertakeInformation
+import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper
+import hu.bsstudio.robonaut.team.model.DetailedTeam
+import reactor.core.publisher.Mono
 
-@RequiredArgsConstructor
-public class DefaultSafetyCarService implements SafetyCarService {
+class DefaultSafetyCarService(private val repository: TeamRepository) : SafetyCarService {
 
-    @NonNull
-    private final TeamRepository repository;
+    var mapper = TeamModelEntityMapper()
 
-    @Setter(AccessLevel.PACKAGE)
-    private TeamModelEntityMapper mapper = new TeamModelEntityMapper();
-
-    @Override
-    public Mono<DetailedTeam> safetyCarWasFollowed(final SafetyCarFollowInformation followInformation) {
-        return Mono.just(followInformation)
-            .map(SafetyCarFollowInformation::getTeamId)
+    override fun safetyCarWasFollowed(safetyCarFollowInformation: SafetyCarFollowInformation): Mono<DetailedTeam> {
+        return Mono.just(safetyCarFollowInformation)
+            .map(SafetyCarFollowInformation::teamId)
             .flatMap(repository::findById)
-            .map(entity -> updateFollowInformation(entity, followInformation))
+            .map { updateFollowInformation(it, safetyCarFollowInformation) }
             .flatMap(repository::save)
-            .map(mapper::toModel);
+            .map(mapper::toModel)
     }
 
-    @Override
-    public Mono<DetailedTeam> safetyCarWasOvertaken(final SafetyCarOvertakeInformation safetyCarOvertakeInformation) {
+    override fun safetyCarWasOvertaken(safetyCarOvertakeInformation: SafetyCarOvertakeInformation): Mono<DetailedTeam> {
         return Mono.just(safetyCarOvertakeInformation)
-            .map(SafetyCarOvertakeInformation::getTeamId)
+            .map(SafetyCarOvertakeInformation::teamId)
             .flatMap(repository::findById)
-            .map(entity -> updateOvertakeInformation(entity, safetyCarOvertakeInformation))
+            .map { updateOvertakeInformation(it, safetyCarOvertakeInformation) }
             .flatMap(repository::save)
-            .map(mapper::toModel);
+            .map(mapper::toModel)
     }
 
-    private TeamEntity updateFollowInformation(final TeamEntity entity, final SafetyCarFollowInformation followInformation) {
-        entity.setSafetyCarWasFollowed(followInformation.isSafetyCarFollowed());
-        return entity;
-
+    private fun updateFollowInformation(entity: TeamEntity, followInformation: SafetyCarFollowInformation): TeamEntity {
+        entity.isSafetyCarWasFollowed = followInformation.safetyCarFollowed
+        return entity
     }
 
-    private TeamEntity updateOvertakeInformation(final TeamEntity entity, final SafetyCarOvertakeInformation overtakeInformation) {
-        entity.setNumberOfOvertakes(overtakeInformation.getNumberOfOvertakes());
-        return entity;
+    private fun updateOvertakeInformation(entity: TeamEntity, overtakeInformation: SafetyCarOvertakeInformation): TeamEntity {
+        entity.numberOfOvertakes = overtakeInformation.numberOfOvertakes
+        return entity
     }
 }

@@ -1,50 +1,45 @@
-package hu.bsstudio.robonaut.safetycar;
+package hu.bsstudio.robonaut.safetycar
 
-import hu.bsstudio.robonaut.safetycar.model.SafetyCarFollowInformation;
-import hu.bsstudio.robonaut.safetycar.model.SafetyCarOvertakeInformation;
-import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import reactor.core.publisher.Mono;
+import hu.bsstudio.robonaut.safetycar.model.SafetyCarFollowInformation
+import hu.bsstudio.robonaut.safetycar.model.SafetyCarOvertakeInformation
+import hu.bsstudio.robonaut.team.model.DetailedTeam
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import reactor.core.publisher.Mono
 
-@RequiredArgsConstructor
-public class BroadcastingSafetyCarService implements SafetyCarService {
+class BroadcastingSafetyCarService(
+    private val template: RabbitTemplate,
+    private val service: SafetyCarService,
+) : SafetyCarService {
 
-    public static final String SPEED_SAFETY_CAR_FOLLOW_ROUTING_KEY = "speed.safetyCar.follow";
-    public static final String SPEED_SAFETY_CAR_OVERTAKE_ROUTING_KEY = "speed.safetyCar.overtake";
-    public static final String TEAM_DATA_ROUTING_KEY = "team.teamData";
-
-    @NonNull
-    private final RabbitTemplate template;
-    @NonNull
-    private final SafetyCarService service;
-
-    @Override
-    public Mono<DetailedTeam> safetyCarWasFollowed(final SafetyCarFollowInformation safetyCarFollowInformation) {
+    override fun safetyCarWasFollowed(safetyCarFollowInformation: SafetyCarFollowInformation): Mono<DetailedTeam> {
         return Mono.just(safetyCarFollowInformation)
             .doOnNext(this::sendSafetyCarFollow)
             .flatMap(service::safetyCarWasFollowed)
-            .doOnNext(this::sendTeamData);
+            .doOnNext(this::sendTeamData)
     }
 
-    @Override
-    public Mono<DetailedTeam> safetyCarWasOvertaken(final SafetyCarOvertakeInformation safetyCarOvertakeInformation) {
+    override fun safetyCarWasOvertaken(safetyCarOvertakeInformation: SafetyCarOvertakeInformation): Mono<DetailedTeam> {
         return Mono.just(safetyCarOvertakeInformation)
             .doOnNext(this::sendSafetyCarOvertake)
             .flatMap(service::safetyCarWasOvertaken)
-            .doOnNext(this::sendTeamData);
+            .doOnNext(this::sendTeamData)
     }
 
-    private void sendSafetyCarFollow(final SafetyCarFollowInformation safetyCarFollowInformation) {
-        template.convertAndSend(SPEED_SAFETY_CAR_FOLLOW_ROUTING_KEY, safetyCarFollowInformation);
+    private fun sendSafetyCarFollow(safetyCarFollowInformation: SafetyCarFollowInformation) {
+        template.convertAndSend(SPEED_SAFETY_CAR_FOLLOW_ROUTING_KEY, safetyCarFollowInformation)
     }
 
-    private void sendSafetyCarOvertake(final SafetyCarOvertakeInformation safetyCarOvertakeInformation) {
-        template.convertAndSend(SPEED_SAFETY_CAR_OVERTAKE_ROUTING_KEY, safetyCarOvertakeInformation);
+    private fun sendSafetyCarOvertake(safetyCarOvertakeInformation: SafetyCarOvertakeInformation) {
+        template.convertAndSend(SPEED_SAFETY_CAR_OVERTAKE_ROUTING_KEY, safetyCarOvertakeInformation)
     }
 
-    private void sendTeamData(final DetailedTeam detailedTeam) {
-        template.convertAndSend(TEAM_DATA_ROUTING_KEY, detailedTeam);
+    private fun sendTeamData(detailedTeam: DetailedTeam) {
+        template.convertAndSend(TEAM_DATA_ROUTING_KEY, detailedTeam)
+    }
+
+    companion object {
+        const val SPEED_SAFETY_CAR_FOLLOW_ROUTING_KEY = "speed.safetyCar.follow"
+        const val SPEED_SAFETY_CAR_OVERTAKE_ROUTING_KEY = "speed.safetyCar.overtake"
+        const val TEAM_DATA_ROUTING_KEY = "team.teamData"
     }
 }

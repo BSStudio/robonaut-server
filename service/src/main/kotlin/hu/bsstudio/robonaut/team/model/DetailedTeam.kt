@@ -1,33 +1,20 @@
-package hu.bsstudio.robonaut.team.model;
+package hu.bsstudio.robonaut.team.model
 
-import hu.bsstudio.robonaut.entity.TeamType;
-import java.util.List;
-import lombok.Builder;
-import lombok.Value;
-import lombok.extern.jackson.Jacksonized;
+import hu.bsstudio.robonaut.entity.TeamType
 
-@Value
-@Builder
-@Jacksonized
-public class DetailedTeam {
-    long teamId;
-    int year;
-    String teamName;
-    List<String> teamMembers;
-    TeamType teamType;
-
-    int skillScore;
-
-    int numberOfOvertakes;
-    boolean safetyCarWasFollowed;
-
-    List<Integer> speedTimes;
-
-    int votes;
-    int audienceScore;
-
-    int qualificationScore;
-
-    Score combinedScore;
-    Score juniorScore;
-}
+data class DetailedTeam (
+    val teamId: Long,
+    val year: Int,
+    val teamName: String,
+    val teamMembers: List<String>,
+    val teamType: TeamType,
+    val skillScore: Int,
+    val numberOfOvertakes: Int,
+    val safetyCarWasFollowed: Boolean,
+    val speedTimes: List<Int>,
+    val votes: Int,
+    val audienceScore: Int,
+    val qualificationScore: Int,
+    val combinedScore: Score,
+    val juniorScore: Score,
+)

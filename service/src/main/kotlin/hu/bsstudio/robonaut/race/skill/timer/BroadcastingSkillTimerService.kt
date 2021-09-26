@@ -1,28 +1,24 @@
-package hu.bsstudio.robonaut.race.skill.timer;
+package hu.bsstudio.robonaut.race.skill.timer
 
-import hu.bsstudio.robonaut.race.skill.timer.model.SkillTimer;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import reactor.core.publisher.Mono;
+import hu.bsstudio.robonaut.race.skill.timer.model.SkillTimer
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import reactor.core.publisher.Mono
 
-@RequiredArgsConstructor
-public class BroadcastingSkillTimerService implements SkillTimerService {
+class BroadcastingSkillTimerService(
+    private val template: RabbitTemplate,
+    private val service: SkillTimerService
+) : SkillTimerService {
 
-    public static final String SKILL_TIMER_ROUTING_KEY = "skill.timer";
-
-    @NonNull
-    private final RabbitTemplate template;
-    @NonNull
-    private final SkillTimerService service;
-
-    @Override
-    public Mono<SkillTimer> updateTimer(final SkillTimer skillTimer) {
+    override fun updateTimer(skillTimer: SkillTimer): Mono<SkillTimer> {
         return service.updateTimer(skillTimer)
-            .doOnNext(this::sendSkillTimerData);
+            .doOnNext(this::sendSkillTimerData)
     }
 
-    private void sendSkillTimerData(final SkillTimer timer) {
-        template.convertAndSend(SKILL_TIMER_ROUTING_KEY, timer);
+    private fun sendSkillTimerData(timer: SkillTimer) {
+        template.convertAndSend(SKILL_TIMER_ROUTING_KEY, timer)
+    }
+
+    companion object {
+        const val SKILL_TIMER_ROUTING_KEY = "skill.timer"
     }
 }

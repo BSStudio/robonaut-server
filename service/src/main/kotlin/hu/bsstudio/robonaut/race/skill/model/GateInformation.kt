@@ -1,12 +1,9 @@
-package hu.bsstudio.robonaut.race.skill.model;
+package hu.bsstudio.robonaut.race.skill.model
 
-import lombok.Value;
-
-@Value
-public class GateInformation {
-    long teamId;
-    int bonusTime;
-    int timeLeft;
-    int skillScore;
-    int totalSkillScore;
-}
+data class GateInformation(
+    val teamId: Long,
+    val bonusTime: Int,
+    val timeLeft: Int,
+    val skillScore: Int,
+    val totalSkillScore: Int,
+)

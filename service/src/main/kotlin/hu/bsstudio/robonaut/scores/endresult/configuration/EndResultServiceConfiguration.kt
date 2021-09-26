@@ -1,29 +1,25 @@
-package hu.bsstudio.robonaut.scores.endresult.configuration;
+package hu.bsstudio.robonaut.scores.endresult.configuration
 
-import hu.bsstudio.robonaut.repository.TeamRepository;
-import hu.bsstudio.robonaut.scores.endresult.BroadcastingEndResultService;
-import hu.bsstudio.robonaut.scores.endresult.DefaultEndResultService;
-import hu.bsstudio.robonaut.scores.endresult.EndResultService;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import hu.bsstudio.robonaut.repository.TeamRepository
+import hu.bsstudio.robonaut.scores.endresult.BroadcastingEndResultService
+import hu.bsstudio.robonaut.scores.endresult.DefaultEndResultService
+import hu.bsstudio.robonaut.scores.endresult.EndResultService
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 
 @Configuration
-public class EndResultServiceConfiguration {
-
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
-    @Autowired
-    private TeamRepository teamRepository;
+class EndResultServiceConfiguration(
+    @Autowired private val rabbitTemplate: RabbitTemplate,
+    @Autowired private val teamRepository: TeamRepository
+) {
 
     @Bean
-    public EndResultService endResultService(final EndResultService defaultEndResultService) {
-        return new BroadcastingEndResultService(rabbitTemplate, defaultEndResultService);
+    fun endResultService(defaultEndResultService: EndResultService): EndResultService {
+        return BroadcastingEndResultService(rabbitTemplate, defaultEndResultService)
     }
 
     @Bean
-    public EndResultService defaultEndResultService() {
-        return new DefaultEndResultService(teamRepository);
-    }
+    fun defaultEndResultService(): EndResultService = DefaultEndResultService(teamRepository)
 }

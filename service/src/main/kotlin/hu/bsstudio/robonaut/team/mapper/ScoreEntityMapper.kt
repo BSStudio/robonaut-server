@@ -1,19 +1,19 @@
-package hu.bsstudio.robonaut.team.mapper;
+package hu.bsstudio.robonaut.team.mapper
 
-import hu.bsstudio.robonaut.entity.ScoreEntity;
-import hu.bsstudio.robonaut.team.model.Score;
+import hu.bsstudio.robonaut.entity.ScoreEntity
+import hu.bsstudio.robonaut.team.model.Score
 
-public class ScoreEntityMapper {
+class ScoreEntityMapper {
 
-    public ScoreEntity toEntity(final Score score) {
-        final var entity = new ScoreEntity();
-        entity.setScore(score.getTotalScore());
-        entity.setSpeedScore(score.getSpeedScore());
-        entity.setBestSpeedTime(score.getBestSpeedTime());
-        return entity;
+    fun toEntity(score: Score): ScoreEntity {
+        val entity = ScoreEntity()
+        entity.score = score.totalScore
+        entity.speedScore = score.speedScore
+        entity.bestSpeedTime = score.bestSpeedTime
+        return entity
     }
 
-    public Score toModel(final ScoreEntity entity) {
-        return new Score(entity.getSpeedScore(), entity.getBestSpeedTime(), entity.getScore());
+    fun toModel(entity: ScoreEntity): Score {
+        return Score(entity.speedScore, entity.bestSpeedTime, entity.score)
     }
 }

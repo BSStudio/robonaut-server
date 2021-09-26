@@ -1,9 +1,6 @@
-package hu.bsstudio.robonaut.race.skill.model;
+package hu.bsstudio.robonaut.race.skill.model
 
-import lombok.Value;
-
-@Value
-public class SkillRaceResult {
-    long teamId;
-    int skillScore;
-}
+data class SkillRaceResult (
+    val teamId: Long,
+    val skillScore: Int
+)

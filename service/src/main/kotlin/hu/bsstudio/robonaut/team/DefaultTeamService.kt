@@ -1,81 +1,71 @@
-package hu.bsstudio.robonaut.team;
+package hu.bsstudio.robonaut.team
 
-import hu.bsstudio.robonaut.entity.ScoreEntity;
-import hu.bsstudio.robonaut.entity.TeamEntity;
-import hu.bsstudio.robonaut.repository.TeamRepository;
-import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper;
-import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import hu.bsstudio.robonaut.team.model.Team;
-import java.util.Collections;
-import lombok.AccessLevel;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import hu.bsstudio.robonaut.entity.ScoreEntity
+import hu.bsstudio.robonaut.entity.TeamEntity
+import hu.bsstudio.robonaut.repository.TeamRepository
+import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper
+import hu.bsstudio.robonaut.team.model.DetailedTeam
+import hu.bsstudio.robonaut.team.model.Team
+import lombok.AccessLevel
+import lombok.RequiredArgsConstructor
+import lombok.Setter
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 @RequiredArgsConstructor
-public class DefaultTeamService implements TeamService {
-
-    @NonNull
-    private final TeamRepository teamRepository;
+class DefaultTeamService(private val teamRepository: TeamRepository) : TeamService {
 
     @Setter(AccessLevel.PACKAGE)
-    private TeamModelEntityMapper teamMapper = new TeamModelEntityMapper();
-
-    @Override
-    public Mono<DetailedTeam> addTeam(final Team team) {
+    private val teamMapper = TeamModelEntityMapper()
+    override fun addTeam(team: Team): Mono<DetailedTeam> {
         return Mono.just(team)
             .map(this::toEntity)
             .flatMap(teamRepository::insert)
-            .map(teamMapper::toModel);
+            .map(teamMapper::toModel)
     }
 
-    @Override
-    public Mono<DetailedTeam> updateTeam(final Team team) {
+    override fun updateTeam(team: Team): Mono<DetailedTeam> {
         return Mono.just(team)
-            .map(Team::getTeamId)
+            .map(Team::teamId)
             .flatMap(teamRepository::findById)
-            .map(entity -> updateBasicTeamInfo(entity, team))
+            .map { updateBasicTeamInfo(it, team) }
             .flatMap(teamRepository::save)
-            .map(teamMapper::toModel);
+            .map(teamMapper::toModel)
     }
 
-    @Override
-    public Mono<DetailedTeam> updateTeam(final DetailedTeam detailedTeam) {
+    override fun updateTeam(detailedTeam: DetailedTeam): Mono<DetailedTeam> {
         return Mono.just(detailedTeam)
             .map(teamMapper::toEntity)
             .flatMap(teamRepository::save)
-            .map(teamMapper::toModel);
+            .map(teamMapper::toModel)
     }
 
-    @Override
-    public Flux<DetailedTeam> findAllTeam() {
+    override fun findAllTeam(): Flux<DetailedTeam> {
         return teamRepository.findAll()
-            .map(teamMapper::toModel);
+            .map(teamMapper::toModel)
     }
 
-    private TeamEntity toEntity(final Team team) {
-        final var defaultScore = new ScoreEntity();
-        final var entity = new TeamEntity();
-        entity.setTeamId(team.getTeamId());
-        entity.setYear(team.getYear());
-        entity.setTeamName(team.getTeamName());
-        entity.setTeamMembers(team.getTeamMembers());
-        entity.setTeamType(team.getTeamType());
-        entity.setSpeedTimes(Collections.emptyList());
-        entity.setScore(defaultScore);
-        entity.setJuniorScore(defaultScore);
-        return entity;
+    private fun toEntity(team: Team): TeamEntity {
+        val defaultScore = ScoreEntity()
+        val entity = TeamEntity()
+        entity.teamId = team.teamId
+        entity.year = team.year
+        entity.teamName = team.teamName
+        entity.teamMembers = team.teamMembers
+        entity.teamType = team.teamType
+        entity.speedTimes = emptyList()
+        entity.score = defaultScore
+        entity.juniorScore = defaultScore
+        return entity
     }
 
-    private TeamEntity updateBasicTeamInfo(final TeamEntity entity, final Team team) {
-        entity.setTeamId(team.getTeamId());
-        entity.setYear(team.getYear());
-        entity.setTeamName(team.getTeamName());
-        entity.setTeamMembers(team.getTeamMembers());
-        entity.setTeamType(team.getTeamType());
-        entity.setSpeedTimes(Collections.emptyList());
-        return entity;
+    private fun updateBasicTeamInfo(entity: TeamEntity, team: Team): TeamEntity {
+        entity.teamId = team.teamId
+        entity.year = team.year
+        entity.teamName = team.teamName
+        entity.teamMembers = team.teamMembers
+        entity.teamType = team.teamType
+        entity.speedTimes = emptyList()
+        return entity
     }
 }

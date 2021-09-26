@@ -1,18 +1,17 @@
-package hu.bsstudio.robonaut.team.model;
+package hu.bsstudio.robonaut.team.model
 
-import hu.bsstudio.robonaut.entity.TeamType;
-import java.util.List;
-import lombok.Builder;
-import lombok.Value;
-import lombok.extern.jackson.Jacksonized;
+import hu.bsstudio.robonaut.entity.TeamType
+import lombok.Builder
+import lombok.Value
+import lombok.extern.jackson.Jacksonized
 
 @Value
 @Builder
 @Jacksonized
-public class Team {
-    long teamId;
-    int year;
-    String teamName;
-    List<String> teamMembers;
-    TeamType teamType;
+class Team {
+    var teamId: Long = 0
+    var year = 0
+    var teamName: String? = null
+    var teamMembers: List<String>? = null
+    var teamType: TeamType? = null
 }

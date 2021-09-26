@@ -1,29 +1,27 @@
-package hu.bsstudio.robonaut.safetycar.configuration;
+package hu.bsstudio.robonaut.safetycar.configuration
 
-import hu.bsstudio.robonaut.repository.TeamRepository;
-import hu.bsstudio.robonaut.safetycar.BroadcastingSafetyCarService;
-import hu.bsstudio.robonaut.safetycar.DefaultSafetyCarService;
-import hu.bsstudio.robonaut.safetycar.SafetyCarService;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Autowired
+import hu.bsstudio.robonaut.repository.TeamRepository
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import hu.bsstudio.robonaut.safetycar.SafetyCarService
+import hu.bsstudio.robonaut.safetycar.BroadcastingSafetyCarService
+import hu.bsstudio.robonaut.safetycar.DefaultSafetyCarService
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 
 @Configuration
-public class SafetyCarServiceConfiguration {
-
-    @Autowired
-    private TeamRepository repository;
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+class SafetyCarServiceConfiguration(
+    @Autowired private val repository: TeamRepository,
+    @Autowired private val rabbitTemplate: RabbitTemplate,
+) {
 
     @Bean
-    public SafetyCarService safetyCarService(final SafetyCarService defaultSafetyCarService) {
-        return new BroadcastingSafetyCarService(rabbitTemplate, defaultSafetyCarService);
+    fun safetyCarService(defaultSafetyCarService: SafetyCarService): SafetyCarService {
+        return BroadcastingSafetyCarService(rabbitTemplate, defaultSafetyCarService)
     }
 
     @Bean
-    public SafetyCarService defaultSafetyCarService() {
-        return new DefaultSafetyCarService(repository);
+    fun defaultSafetyCarService(): SafetyCarService {
+        return DefaultSafetyCarService(repository)
     }
 }

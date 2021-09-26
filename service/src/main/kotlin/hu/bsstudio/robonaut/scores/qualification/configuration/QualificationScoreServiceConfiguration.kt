@@ -1,29 +1,25 @@
-package hu.bsstudio.robonaut.scores.qualification.configuration;
+package hu.bsstudio.robonaut.scores.qualification.configuration
 
-import hu.bsstudio.robonaut.repository.TeamRepository;
-import hu.bsstudio.robonaut.scores.qualification.BroadcastingQualificationScoreService;
-import hu.bsstudio.robonaut.scores.qualification.DefaultQualificationScoreService;
-import hu.bsstudio.robonaut.scores.qualification.QualificationScoreService;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import hu.bsstudio.robonaut.repository.TeamRepository
+import hu.bsstudio.robonaut.scores.qualification.BroadcastingQualificationScoreService
+import hu.bsstudio.robonaut.scores.qualification.DefaultQualificationScoreService
+import hu.bsstudio.robonaut.scores.qualification.QualificationScoreService
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 
 @Configuration
-public class QualificationScoreServiceConfiguration {
-
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
-    @Autowired
-    private TeamRepository repository;
+class QualificationScoreServiceConfiguration(
+    @Autowired private val rabbitTemplate: RabbitTemplate,
+    @Autowired private val repository: TeamRepository,
+) {
 
     @Bean
-    public QualificationScoreService qualificationScoreService(final QualificationScoreService defaultQualificationScoreService) {
-        return new BroadcastingQualificationScoreService(rabbitTemplate, defaultQualificationScoreService);
+    fun qualificationScoreService(defaultQualificationScoreService: QualificationScoreService): QualificationScoreService {
+        return BroadcastingQualificationScoreService(rabbitTemplate, defaultQualificationScoreService)
     }
 
     @Bean
-    public QualificationScoreService defaultQualificationScoreService() {
-        return new DefaultQualificationScoreService(repository);
-    }
+    fun defaultQualificationScoreService(): QualificationScoreService = DefaultQualificationScoreService(repository)
 }

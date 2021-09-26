@@ -1,29 +1,25 @@
-package hu.bsstudio.robonaut.race.skill.configuration;
+package hu.bsstudio.robonaut.race.skill.configuration
 
-import hu.bsstudio.robonaut.race.skill.BroadcastingSkillRaceService;
-import hu.bsstudio.robonaut.race.skill.DefaultSkillRaceService;
-import hu.bsstudio.robonaut.race.skill.SkillRaceService;
-import hu.bsstudio.robonaut.repository.TeamRepository;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import hu.bsstudio.robonaut.race.skill.BroadcastingSkillRaceService
+import hu.bsstudio.robonaut.race.skill.DefaultSkillRaceService
+import hu.bsstudio.robonaut.race.skill.SkillRaceService
+import hu.bsstudio.robonaut.repository.TeamRepository
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 
 @Configuration
-public class SkillRaceServiceConfiguration {
-
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
-    @Autowired
-    private TeamRepository repository;
+class SkillRaceServiceConfiguration(
+    @Autowired private val rabbitTemplate: RabbitTemplate,
+    @Autowired private val repository: TeamRepository
+) {
 
     @Bean
-    public SkillRaceService skillRaceService(final SkillRaceService defaultSkillRaceService) {
-        return new BroadcastingSkillRaceService(rabbitTemplate, defaultSkillRaceService);
+    fun skillRaceService(defaultSkillRaceService: SkillRaceService): SkillRaceService {
+        return BroadcastingSkillRaceService(rabbitTemplate, defaultSkillRaceService)
     }
 
     @Bean
-    public SkillRaceService defaultSkillRaceService() {
-        return new DefaultSkillRaceService(repository);
-    }
+    fun defaultSkillRaceService(): SkillRaceService = DefaultSkillRaceService(repository)
 }

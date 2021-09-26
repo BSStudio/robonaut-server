@@ -1,53 +1,42 @@
-package hu.bsstudio.robonaut.race.skill;
+package hu.bsstudio.robonaut.race.skill
 
-import hu.bsstudio.robonaut.entity.TeamEntity;
-import hu.bsstudio.robonaut.race.skill.model.GateInformation;
-import hu.bsstudio.robonaut.race.skill.model.SkillRaceResult;
-import hu.bsstudio.robonaut.repository.TeamRepository;
-import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper;
-import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import lombok.AccessLevel;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import reactor.core.publisher.Mono;
+import hu.bsstudio.robonaut.entity.TeamEntity
+import hu.bsstudio.robonaut.race.skill.model.GateInformation
+import hu.bsstudio.robonaut.race.skill.model.SkillRaceResult
+import hu.bsstudio.robonaut.repository.TeamRepository
+import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper
+import hu.bsstudio.robonaut.team.model.DetailedTeam
+import reactor.core.publisher.Mono
 
-@RequiredArgsConstructor
-public class DefaultSkillRaceService implements SkillRaceService {
+class DefaultSkillRaceService(private val repository: TeamRepository) : SkillRaceService {
 
-    @NonNull
-    private final TeamRepository repository;
+    var mapper = TeamModelEntityMapper()
 
-    @Setter(AccessLevel.PACKAGE)
-    private TeamModelEntityMapper mapper = new TeamModelEntityMapper();
-
-    @Override
-    public Mono<DetailedTeam> updateSkillRaceResultOnGate(final GateInformation gateInformation) {
+    override fun updateSkillRaceResultOnGate(gateInformation: GateInformation): Mono<DetailedTeam> {
         return Mono.just(gateInformation)
-            .map(GateInformation::getTeamId)
+            .map(GateInformation::teamId)
             .flatMap(repository::findById)
-            .map(entity -> updateSkillRaceInfo(entity, gateInformation))
+            .map { updateSkillRaceInfo(it, gateInformation) }
             .flatMap(repository::save)
-            .map(mapper::toModel);
+            .map(mapper::toModel)
     }
 
-    @Override
-    public Mono<DetailedTeam> updateSkillRaceResult(final SkillRaceResult skillRaceResult) {
+    override fun updateSkillRaceResult(skillRaceResult: SkillRaceResult): Mono<DetailedTeam> {
         return Mono.just(skillRaceResult)
-            .map(SkillRaceResult::getTeamId)
+            .map(SkillRaceResult::teamId)
             .flatMap(repository::findById)
-            .map(entity -> updateSkillRaceInfo(entity, skillRaceResult))
+            .map { updateSkillRaceInfo(it, skillRaceResult) }
             .flatMap(repository::save)
-            .map(mapper::toModel);
+            .map(mapper::toModel)
     }
 
-    private TeamEntity updateSkillRaceInfo(final TeamEntity entity, final GateInformation gateInformation) {
-        entity.setSkillScore(gateInformation.getTotalSkillScore());
-        return entity;
+    private fun updateSkillRaceInfo(entity: TeamEntity, gateInformation: GateInformation): TeamEntity {
+        entity.skillScore = gateInformation.totalSkillScore
+        return entity
     }
 
-    private TeamEntity updateSkillRaceInfo(final TeamEntity entity, final SkillRaceResult skillRaceResult) {
-        entity.setSkillScore(skillRaceResult.getSkillScore());
-        return entity;
+    private fun updateSkillRaceInfo(entity: TeamEntity, skillRaceResult: SkillRaceResult): TeamEntity {
+        entity.skillScore = skillRaceResult.skillScore
+        return entity
     }
 }

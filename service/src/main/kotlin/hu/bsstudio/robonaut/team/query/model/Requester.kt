@@ -1,8 +1,8 @@
-package hu.bsstudio.robonaut.team.query.model;
+package hu.bsstudio.robonaut.team.query.model
 
-import lombok.Value;
+import lombok.Value
 
 @Value
-public class Requester {
-    String requesterName;
+class Requester {
+    var requesterName: String? = null
 }

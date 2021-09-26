@@ -1,10 +1,8 @@
-package hu.bsstudio.robonaut.race.speed.timer.model;
+package hu.bsstudio.robonaut.race.speed.timer.model
 
-import hu.bsstudio.robonaut.common.model.TimerAction;
-import lombok.Value;
+import hu.bsstudio.robonaut.common.model.TimerAction
 
-@Value
-public class SpeedTimer {
-    int timerAt;
-    TimerAction timerAction;
-}
+data class SpeedTimer (
+    val timerAt: Int,
+    val timerAction: TimerAction,
+)

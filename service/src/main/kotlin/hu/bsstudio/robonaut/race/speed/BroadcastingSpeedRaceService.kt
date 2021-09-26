@@ -1,49 +1,43 @@
-package hu.bsstudio.robonaut.race.speed;
+package hu.bsstudio.robonaut.race.speed
 
-import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult;
-import hu.bsstudio.robonaut.race.speed.model.SpeedRaceScore;
-import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import reactor.core.publisher.Mono;
+import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult
+import hu.bsstudio.robonaut.race.speed.model.SpeedRaceScore
+import hu.bsstudio.robonaut.team.model.DetailedTeam
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import reactor.core.publisher.Mono
 
-@RequiredArgsConstructor
-public class BroadcastingSpeedRaceService implements SpeedRaceService {
+class BroadcastingSpeedRaceService(
+    private val template: RabbitTemplate,
+    private val service: SpeedRaceService
+) : SpeedRaceService {
 
-    public static final String SPEED_LAP_ROUTING_KEY = "speed.lap";
-    public static final String TEAM_TEAM_DATA_ROUTING_KEY = "team.teamData";
-
-    @NonNull
-    private final RabbitTemplate template;
-    @NonNull
-    private final SpeedRaceService service;
-
-    @Override
-    public Mono<DetailedTeam> updateSpeedRaceOnLap(final SpeedRaceScore speedRaceScore) {
+    override fun updateSpeedRaceOnLap(speedRaceScore: SpeedRaceScore): Mono<DetailedTeam> {
         return Mono.just(speedRaceScore)
             .doOnNext(this::sendLapInfo)
             .flatMap(service::updateSpeedRaceOnLap)
-            .doOnNext(this::sendTeamInfo);
+            .doOnNext(this::sendTeamInfo)
     }
 
-    @Override
-    public Mono<DetailedTeam> updateSpeedRaceJunior(final SpeedRaceResult speedRaceResult) {
+    override fun updateSpeedRaceJunior(speedRaceResult: SpeedRaceResult): Mono<DetailedTeam> {
         return service.updateSpeedRaceJunior(speedRaceResult)
-            .doOnNext(this::sendTeamInfo);
+            .doOnNext(this::sendTeamInfo)
     }
 
-    @Override
-    public Mono<DetailedTeam> updateSpeedRaceSenior(final SpeedRaceResult speedRaceResult) {
+    override fun updateSpeedRaceSenior(speedRaceResult: SpeedRaceResult): Mono<DetailedTeam> {
         return service.updateSpeedRaceSenior(speedRaceResult)
-            .doOnNext(this::sendTeamInfo);
+            .doOnNext(this::sendTeamInfo)
     }
 
-    private void sendLapInfo(final SpeedRaceScore raceScore) {
-        template.convertAndSend(SPEED_LAP_ROUTING_KEY, raceScore);
+    private fun sendLapInfo(raceScore: SpeedRaceScore) {
+        template.convertAndSend(SPEED_LAP_ROUTING_KEY, raceScore)
     }
 
-    private void sendTeamInfo(final DetailedTeam detailedTeam) {
-        template.convertAndSend(TEAM_TEAM_DATA_ROUTING_KEY, detailedTeam);
+    private fun sendTeamInfo(detailedTeam: DetailedTeam) {
+        template.convertAndSend(TEAM_TEAM_DATA_ROUTING_KEY, detailedTeam)
+    }
+
+    companion object {
+        const val SPEED_LAP_ROUTING_KEY = "speed.lap"
+        const val TEAM_TEAM_DATA_ROUTING_KEY = "team.teamData"
     }
 }

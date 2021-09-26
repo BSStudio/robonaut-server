@@ -1,9 +1,6 @@
-package hu.bsstudio.robonaut.safetycar.model;
+package hu.bsstudio.robonaut.safetycar.model
 
-import lombok.Value;
-
-@Value
-public class SafetyCarFollowInformation {
-    long teamId;
-    boolean safetyCarFollowed;
-}
+data class SafetyCarFollowInformation (
+    val teamId: Long,
+    val safetyCarFollowed : Boolean,
+)

@@ -1,38 +1,28 @@
-package hu.bsstudio.robonaut.scores.audience;
+package hu.bsstudio.robonaut.scores.audience
 
-import hu.bsstudio.robonaut.entity.TeamEntity;
-import hu.bsstudio.robonaut.repository.TeamRepository;
-import hu.bsstudio.robonaut.scores.audience.model.AudienceScoredTeam;
-import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper;
-import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import lombok.AccessLevel;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import reactor.core.publisher.Mono;
+import hu.bsstudio.robonaut.entity.TeamEntity
+import hu.bsstudio.robonaut.repository.TeamRepository
+import hu.bsstudio.robonaut.scores.audience.model.AudienceScoredTeam
+import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper
+import hu.bsstudio.robonaut.team.model.DetailedTeam
+import reactor.core.publisher.Mono
 
-@RequiredArgsConstructor
-public class DefaultAudienceScoreService implements AudienceScoreService {
+class DefaultAudienceScoreService(private val teamRepository: TeamRepository) : AudienceScoreService {
 
-    @NonNull
-    private final TeamRepository teamRepository;
+    var teamModelEntityMapper = TeamModelEntityMapper()
 
-    @Setter(AccessLevel.PACKAGE)
-    private TeamModelEntityMapper teamModelEntityMapper = new TeamModelEntityMapper();
-
-    @Override
-    public Mono<DetailedTeam> updateAudienceScore(final AudienceScoredTeam audienceScoredTeam) {
+    override fun updateAudienceScore(audienceScoredTeam: AudienceScoredTeam): Mono<DetailedTeam> {
         return Mono.just(audienceScoredTeam)
-            .map(AudienceScoredTeam::getTeamId)
+            .map(AudienceScoredTeam::teamId)
             .flatMap(teamRepository::findById)
-            .map(entity -> addAudienceScore(entity, audienceScoredTeam))
+            .map { addAudienceScore(it, audienceScoredTeam) }
             .flatMap(teamRepository::save)
-            .map(teamModelEntityMapper::toModel);
+            .map(teamModelEntityMapper::toModel)
     }
 
-    private TeamEntity addAudienceScore(final TeamEntity entity, final AudienceScoredTeam audienceScoredTeam) {
-        entity.setVotes(audienceScoredTeam.getVotes());
-        entity.setAudienceScore(audienceScoredTeam.getAudienceScore());
-        return entity;
+    private fun addAudienceScore(entity: TeamEntity, audienceScoredTeam: AudienceScoredTeam): TeamEntity {
+        entity.votes = audienceScoredTeam.votes
+        entity.audienceScore = audienceScoredTeam.audienceScore
+        return entity
     }
 }

@@ -1,81 +1,67 @@
-package hu.bsstudio.robonaut.race.speed;
+package hu.bsstudio.robonaut.race.speed
 
-import hu.bsstudio.robonaut.entity.ScoreEntity;
-import hu.bsstudio.robonaut.entity.TeamEntity;
-import hu.bsstudio.robonaut.entity.TeamType;
-import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult;
-import hu.bsstudio.robonaut.race.speed.model.SpeedRaceScore;
-import hu.bsstudio.robonaut.repository.TeamRepository;
-import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper;
-import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import lombok.AccessLevel;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import reactor.core.publisher.Mono;
+import hu.bsstudio.robonaut.entity.ScoreEntity
+import hu.bsstudio.robonaut.entity.TeamEntity
+import hu.bsstudio.robonaut.entity.TeamType
+import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult
+import hu.bsstudio.robonaut.race.speed.model.SpeedRaceScore
+import hu.bsstudio.robonaut.repository.TeamRepository
+import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper
+import hu.bsstudio.robonaut.team.model.DetailedTeam
+import reactor.core.publisher.Mono
 
-@RequiredArgsConstructor
-public class DefaultSpeedRaceService implements SpeedRaceService {
+class DefaultSpeedRaceService(private val repository: TeamRepository) : SpeedRaceService {
 
-    @NonNull
-    private final TeamRepository repository;
+    var mapper = TeamModelEntityMapper()
 
-    @Setter(AccessLevel.PACKAGE)
-    private TeamModelEntityMapper mapper = new TeamModelEntityMapper();
-
-    @Override
-    public Mono<DetailedTeam> updateSpeedRaceOnLap(final SpeedRaceScore speedRaceScore) {
+    override fun updateSpeedRaceOnLap(speedRaceScore: SpeedRaceScore): Mono<DetailedTeam> {
         return Mono.just(speedRaceScore)
-            .map(SpeedRaceScore::getTeamId)
+            .map(SpeedRaceScore::teamId)
             .flatMap(repository::findById)
-            .map(entity -> updateSpeedScore(entity, speedRaceScore))
+            .map { updateSpeedScore(it, speedRaceScore) }
             .flatMap(repository::save)
-            .map(mapper::toModel);
+            .map(mapper::toModel)
     }
 
-    @Override
-    public Mono<DetailedTeam> updateSpeedRaceJunior(final SpeedRaceResult speedRaceResult) {
+    override fun updateSpeedRaceJunior(speedRaceResult: SpeedRaceResult): Mono<DetailedTeam> {
         return Mono.just(speedRaceResult)
-            .map(SpeedRaceResult::getTeamId)
+            .map(SpeedRaceResult::teamId)
             .flatMap(repository::findById)
-            .filter(teamEntity -> teamEntity.getTeamType() == TeamType.JUNIOR)
-            .map(entity -> updateSpeedScoreJunior(entity, speedRaceResult))
+            .filter { it.teamType == TeamType.JUNIOR }
+            .map { updateSpeedScoreJunior(it, speedRaceResult) }
             .flatMap(repository::save)
-            .map(mapper::toModel);
+            .map(mapper::toModel)
     }
 
-    @Override
-    public Mono<DetailedTeam> updateSpeedRaceSenior(final SpeedRaceResult speedRaceResult) {
+    override fun updateSpeedRaceSenior(speedRaceResult: SpeedRaceResult): Mono<DetailedTeam> {
         return Mono.just(speedRaceResult)
-            .map(SpeedRaceResult::getTeamId)
+            .map(SpeedRaceResult::teamId)
             .flatMap(repository::findById)
-            .map(entity -> updateSpeedScoreSenior(entity, speedRaceResult))
+            .map { updateSpeedScoreSenior(it, speedRaceResult) }
             .flatMap(repository::save)
-            .map(mapper::toModel);
+            .map(mapper::toModel)
     }
 
-    private TeamEntity updateSpeedScore(final TeamEntity entity, final SpeedRaceScore score) {
-        entity.setSpeedTimes(score.getSpeedTimes());
-        return entity;
+    private fun updateSpeedScore(entity: TeamEntity, score: SpeedRaceScore): TeamEntity {
+        entity.speedTimes = score.speedTimes
+        return entity
     }
 
-    private TeamEntity updateSpeedScoreJunior(final TeamEntity entity, final SpeedRaceResult result) {
-        final var scoreEntity = updateScore(result, entity.getJuniorScore());
-        entity.setJuniorScore(scoreEntity);
-        entity.setSpeedTimes(result.getSpeedTimes());
-        return entity;
+    private fun updateSpeedScoreJunior(entity: TeamEntity, result: SpeedRaceResult): TeamEntity {
+        entity.juniorScore = updateScore(result, entity.juniorScore)
+        entity.speedTimes = result.speedTimes
+        return entity
     }
 
-    private TeamEntity updateSpeedScoreSenior(final TeamEntity entity, final SpeedRaceResult result) {
-        final var scoreEntity = updateScore(result, entity.getScore());
-        entity.setScore(scoreEntity);
-        entity.setSpeedTimes(result.getSpeedTimes());
-        return entity;
+    private fun updateSpeedScoreSenior(entity: TeamEntity, result: SpeedRaceResult): TeamEntity {
+        entity.score = updateScore(result, entity.score)
+        entity.speedTimes = result.speedTimes
+        return entity
     }
 
-    private ScoreEntity updateScore(final SpeedRaceResult result, final ScoreEntity score) {
-        score.setSpeedScore(result.getSpeedScore());
-        score.setBestSpeedTime(result.getBestSpeedTime());
-        return score;
+    private fun updateScore(result: SpeedRaceResult, score: ScoreEntity): ScoreEntity {
+        score.speedScore = result.speedScore
+        score.bestSpeedTime = result.bestSpeedTime
+        return score
     }
 }

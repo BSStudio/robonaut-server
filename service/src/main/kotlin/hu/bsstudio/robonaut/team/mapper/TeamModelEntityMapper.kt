@@ -1,50 +1,48 @@
-package hu.bsstudio.robonaut.team.mapper;
+package hu.bsstudio.robonaut.team.mapper
 
-import hu.bsstudio.robonaut.entity.TeamEntity;
-import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import lombok.AccessLevel;
-import lombok.Setter;
+import hu.bsstudio.robonaut.entity.TeamEntity
+import hu.bsstudio.robonaut.team.model.DetailedTeam
+import lombok.AccessLevel
+import lombok.Setter
 
-public class TeamModelEntityMapper {
-
+class TeamModelEntityMapper {
     @Setter(AccessLevel.PACKAGE)
-    private ScoreEntityMapper scoreEntityMapper = new ScoreEntityMapper();
-
-    public DetailedTeam toModel(final TeamEntity teamEntity) {
-        return DetailedTeam.builder()
-            .teamId(teamEntity.getTeamId())
-            .year(teamEntity.getYear())
-            .teamName(teamEntity.getTeamName())
-            .teamMembers(teamEntity.getTeamMembers())
-            .teamType(teamEntity.getTeamType())
-            .skillScore(teamEntity.getSkillScore())
-            .numberOfOvertakes(teamEntity.getNumberOfOvertakes())
-            .safetyCarWasFollowed(teamEntity.isSafetyCarWasFollowed())
-            .speedTimes(teamEntity.getSpeedTimes())
-            .votes(teamEntity.getVotes())
-            .audienceScore(teamEntity.getAudienceScore())
-            .qualificationScore(teamEntity.getQualificationScore())
-            .combinedScore(scoreEntityMapper.toModel(teamEntity.getScore()))
-            .juniorScore(scoreEntityMapper.toModel(teamEntity.getJuniorScore()))
-            .build();
+    private val scoreEntityMapper = ScoreEntityMapper()
+    fun toModel(teamEntity: TeamEntity): DetailedTeam {
+        return DetailedTeam(
+            teamId = teamEntity.teamId,
+            year = teamEntity.year,
+            teamName = teamEntity.teamName,
+            teamMembers = teamEntity.teamMembers,
+            teamType = teamEntity.teamType,
+            skillScore = teamEntity.skillScore,
+            numberOfOvertakes = teamEntity.numberOfOvertakes,
+            safetyCarWasFollowed = teamEntity.isSafetyCarWasFollowed,
+            speedTimes = teamEntity.speedTimes,
+            votes = teamEntity.votes,
+            audienceScore = teamEntity.audienceScore,
+            qualificationScore = teamEntity.qualificationScore,
+            combinedScore = scoreEntityMapper.toModel(teamEntity.score),
+            juniorScore = scoreEntityMapper.toModel(teamEntity.juniorScore),
+        )
     }
 
-    public TeamEntity toEntity(final DetailedTeam detailedTeam) {
-        final var entity = new TeamEntity();
-        entity.setTeamId(detailedTeam.getTeamId());
-        entity.setYear(detailedTeam.getYear());
-        entity.setTeamName(detailedTeam.getTeamName());
-        entity.setTeamMembers(detailedTeam.getTeamMembers());
-        entity.setTeamType(detailedTeam.getTeamType());
-        entity.setSkillScore(detailedTeam.getSkillScore());
-        entity.setNumberOfOvertakes(detailedTeam.getNumberOfOvertakes());
-        entity.setSafetyCarWasFollowed(detailedTeam.isSafetyCarWasFollowed());
-        entity.setSpeedTimes(detailedTeam.getSpeedTimes());
-        entity.setVotes(detailedTeam.getVotes());
-        entity.setAudienceScore(detailedTeam.getAudienceScore());
-        entity.setQualificationScore(detailedTeam.getQualificationScore());
-        entity.setScore(scoreEntityMapper.toEntity(detailedTeam.getCombinedScore()));
-        entity.setJuniorScore(scoreEntityMapper.toEntity(detailedTeam.getJuniorScore()));
-        return entity;
+    fun toEntity(detailedTeam: DetailedTeam): TeamEntity {
+        val entity = TeamEntity()
+        entity.teamId = detailedTeam.teamId
+        entity.year = detailedTeam.year
+        entity.teamName = detailedTeam.teamName
+        entity.teamMembers = detailedTeam.teamMembers
+        entity.teamType = detailedTeam.teamType
+        entity.skillScore = detailedTeam.skillScore
+        entity.numberOfOvertakes = detailedTeam.numberOfOvertakes
+        entity.isSafetyCarWasFollowed = detailedTeam.safetyCarWasFollowed
+        entity.speedTimes = detailedTeam.speedTimes
+        entity.votes = detailedTeam.votes
+        entity.audienceScore = detailedTeam.audienceScore
+        entity.qualificationScore = detailedTeam.qualificationScore
+        entity.score = scoreEntityMapper.toEntity(detailedTeam.combinedScore)
+        entity.juniorScore = scoreEntityMapper.toEntity(detailedTeam.juniorScore)
+        return entity
     }
 }

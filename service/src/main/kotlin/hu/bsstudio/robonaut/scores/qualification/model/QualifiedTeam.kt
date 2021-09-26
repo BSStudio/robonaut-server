@@ -1,9 +1,6 @@
-package hu.bsstudio.robonaut.scores.qualification.model;
+package hu.bsstudio.robonaut.scores.qualification.model
 
-import lombok.Value;
-
-@Value
-public class QualifiedTeam {
-    long teamId;
-    int qualificationScore;
-}
+data class QualifiedTeam (
+    val teamId: Long,
+    val qualificationScore: Int,
+)

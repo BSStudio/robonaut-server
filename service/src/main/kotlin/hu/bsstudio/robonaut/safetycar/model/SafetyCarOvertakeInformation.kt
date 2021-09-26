@@ -1,9 +1,6 @@
-package hu.bsstudio.robonaut.safetycar.model;
+package hu.bsstudio.robonaut.safetycar.model
 
-import lombok.Value;
-
-@Value
-public class SafetyCarOvertakeInformation {
-    long teamId;
-    int numberOfOvertakes;
-}
+data class SafetyCarOvertakeInformation (
+    val teamId: Long,
+    val numberOfOvertakes: Int,
+)

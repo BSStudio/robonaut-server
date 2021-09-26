@@ -1,35 +1,32 @@
-package hu.bsstudio.robonaut.scores.endresult;
+package hu.bsstudio.robonaut.scores.endresult
 
-import hu.bsstudio.robonaut.scores.endresult.model.EndResultedTeam;
-import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import reactor.core.publisher.Mono;
+import hu.bsstudio.robonaut.scores.endresult.model.EndResultedTeam
+import hu.bsstudio.robonaut.team.model.DetailedTeam
+import lombok.RequiredArgsConstructor
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import reactor.core.publisher.Mono
 
 @RequiredArgsConstructor
-public class BroadcastingEndResultService implements EndResultService {
+class BroadcastingEndResultService(
+    private val template: RabbitTemplate,
+    private val service: EndResultService,
+) : EndResultService {
 
-    public static final String TEAM_TEAM_DATA_ROUTING_KEY = "team.teamData";
-
-    @NonNull
-    private final RabbitTemplate template;
-    @NonNull
-    private final EndResultService service;
-
-    @Override
-    public Mono<DetailedTeam> updateEndResultSenior(final EndResultedTeam endResultedTeam) {
+    override fun updateEndResultSenior(endResultedTeam: EndResultedTeam): Mono<DetailedTeam> {
         return service.updateEndResultSenior(endResultedTeam)
-            .doOnNext(this::sendTeamInfo);
+            .doOnNext(this::sendTeamInfo)
     }
 
-    @Override
-    public Mono<DetailedTeam> updateEndResultJunior(final EndResultedTeam endResultedTeam) {
+    override fun updateEndResultJunior(endResultedTeam: EndResultedTeam): Mono<DetailedTeam> {
         return service.updateEndResultJunior(endResultedTeam)
-            .doOnNext(this::sendTeamInfo);
+            .doOnNext(this::sendTeamInfo)
     }
 
-    private void sendTeamInfo(final DetailedTeam detailedTeam) {
-        template.convertAndSend(TEAM_TEAM_DATA_ROUTING_KEY, detailedTeam);
+    private fun sendTeamInfo(detailedTeam: DetailedTeam) {
+        template.convertAndSend(TEAM_TEAM_DATA_ROUTING_KEY, detailedTeam)
+    }
+
+    companion object {
+        const val TEAM_TEAM_DATA_ROUTING_KEY = "team.teamData"
     }
 }

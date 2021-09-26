@@ -1,10 +1,6 @@
-package hu.bsstudio.robonaut.race.speed.model;
+package hu.bsstudio.robonaut.race.speed.model
 
-import java.util.List;
-import lombok.Value;
-
-@Value
-public class SpeedRaceScore {
-    long teamId;
-    List<Integer> speedTimes;
-}
+data class SpeedRaceScore (
+    val teamId: Long,
+    val speedTimes: List<Int>,
+)

@@ -1,6 +1,5 @@
-package hu.bsstudio.robonaut.common.model;
+package hu.bsstudio.robonaut.common.model
 
-public enum TimerAction {
-    START,
-    STOP
+enum class TimerAction {
+    START, STOP
 }

@@ -1,27 +1,24 @@
-package hu.bsstudio.robonaut.team.query;
+package hu.bsstudio.robonaut.team.query
 
-import hu.bsstudio.robonaut.team.TeamService;
-import hu.bsstudio.robonaut.team.query.model.Requester;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import hu.bsstudio.robonaut.team.TeamService
+import hu.bsstudio.robonaut.team.query.model.Requester
+import lombok.extern.slf4j.Slf4j
+import org.slf4j.LoggerFactory
+import org.springframework.amqp.rabbit.annotation.RabbitListener
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 
-@Slf4j
 @Component
-public class QueryTeamData {
+class QueryTeamData @Autowired constructor(private val teamService: TeamService) {
 
-    private final TeamService teamService;
-
-    @Autowired
-    public QueryTeamData(final TeamService teamService) {
-        this.teamService = teamService;
+    @RabbitListener(queues = ["general.teamData"])
+    fun sendTeamData(requester: Requester?) {
+        LOG.info("Teams were requested by {}", requester)
+        teamService.findAllTeam()
+            .subscribe()
     }
 
-    @RabbitListener(queues = "general.teamData")
-    public void sendTeamData(final Requester requester) {
-        LOG.info("Teams were requested by {}", requester);
-        teamService.findAllTeam()
-            .subscribe();
+    companion object {
+        private val LOG = LoggerFactory.getLogger(this::class.java)
     }
 }

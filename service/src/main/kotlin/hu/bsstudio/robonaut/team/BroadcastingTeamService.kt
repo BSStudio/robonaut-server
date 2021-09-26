@@ -1,49 +1,43 @@
-package hu.bsstudio.robonaut.team;
+package hu.bsstudio.robonaut.team
 
-import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import hu.bsstudio.robonaut.team.model.Team;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import hu.bsstudio.robonaut.team.model.DetailedTeam
+import hu.bsstudio.robonaut.team.model.Team
+import lombok.RequiredArgsConstructor
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 @RequiredArgsConstructor
-public class BroadcastingTeamService implements TeamService {
+class BroadcastingTeamService(
+    private val template: RabbitTemplate,
+    private val service: TeamService,
+) : TeamService {
 
-    public static final String TEAM_TEAM_DATA_ROUTING_KEY = "team.teamData";
-
-    @NonNull
-    private final RabbitTemplate template;
-    @NonNull
-    private final TeamService service;
-
-
-    @Override
-    public Mono<DetailedTeam> addTeam(final Team team) {
+    override fun addTeam(team: Team): Mono<DetailedTeam> {
         return service.addTeam(team)
-            .doOnNext(this::sendTeamInfo);
+            .doOnNext { detailedTeam: DetailedTeam -> sendTeamInfo(detailedTeam) }
     }
 
-    @Override
-    public Mono<DetailedTeam> updateTeam(final Team team) {
+    override fun updateTeam(team: Team): Mono<DetailedTeam> {
         return service.updateTeam(team)
-            .doOnNext(this::sendTeamInfo);
+            .doOnNext(this::sendTeamInfo)
     }
 
-    @Override
-    public Mono<DetailedTeam> updateTeam(final DetailedTeam detailedTeam) {
+    override fun updateTeam(detailedTeam: DetailedTeam): Mono<DetailedTeam> {
         return service.updateTeam(detailedTeam)
-            .doOnNext(this::sendTeamInfo);
+            .doOnNext(this::sendTeamInfo)
     }
 
-    @Override
-    public Flux<DetailedTeam> findAllTeam() {
+    override fun findAllTeam(): Flux<DetailedTeam> {
         return service.findAllTeam()
-            .doOnNext(this::sendTeamInfo);
+            .doOnNext { detailedTeam: DetailedTeam -> sendTeamInfo(detailedTeam) }
     }
 
-    private void sendTeamInfo(final DetailedTeam detailedTeam) {
-        template.convertAndSend(TEAM_TEAM_DATA_ROUTING_KEY, detailedTeam);
+    private fun sendTeamInfo(detailedTeam: DetailedTeam) {
+        template.convertAndSend(TEAM_TEAM_DATA_ROUTING_KEY, detailedTeam)
+    }
+
+    companion object {
+        const val TEAM_TEAM_DATA_ROUTING_KEY = "team.teamData"
     }
 }

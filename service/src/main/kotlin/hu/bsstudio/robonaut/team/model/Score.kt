@@ -1,10 +1,7 @@
-package hu.bsstudio.robonaut.team.model;
+package hu.bsstudio.robonaut.team.model
 
-import lombok.Value;
-
-@Value
-public class Score {
-    int speedScore;
-    int bestSpeedTime;
-    int totalScore;
-}
+data class Score (
+    val speedScore: Int,
+    val bestSpeedTime: Int,
+    val totalScore: Int,
+)

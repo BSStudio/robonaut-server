@@ -1,10 +1,8 @@
-package hu.bsstudio.robonaut.race.skill.timer.model;
+package hu.bsstudio.robonaut.race.skill.timer.model
 
-import hu.bsstudio.robonaut.common.model.TimerAction;
-import lombok.Value;
+import hu.bsstudio.robonaut.common.model.TimerAction
 
-@Value
-public class SkillTimer {
-    int timerAt;
-    TimerAction timerAction;
-}
+data class SkillTimer(
+    val timerAt: Int,
+    val timerAction: TimerAction
+)

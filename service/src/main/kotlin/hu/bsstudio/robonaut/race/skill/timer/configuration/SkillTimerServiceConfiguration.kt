@@ -1,26 +1,23 @@
-package hu.bsstudio.robonaut.race.skill.timer.configuration;
+package hu.bsstudio.robonaut.race.skill.timer.configuration
 
-import hu.bsstudio.robonaut.race.skill.timer.BroadcastingSkillTimerService;
-import hu.bsstudio.robonaut.race.skill.timer.DefaultSkillTimerService;
-import hu.bsstudio.robonaut.race.skill.timer.SkillTimerService;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import hu.bsstudio.robonaut.race.skill.timer.BroadcastingSkillTimerService
+import hu.bsstudio.robonaut.race.skill.timer.DefaultSkillTimerService
+import hu.bsstudio.robonaut.race.skill.timer.SkillTimerService
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 
 @Configuration
-public class SkillTimerServiceConfiguration {
-
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+class SkillTimerServiceConfiguration(
+    @Autowired private val rabbitTemplate: RabbitTemplate
+) {
 
     @Bean
-    public SkillTimerService skillTimerService(final SkillTimerService defaultSkillTimerService) {
-        return new BroadcastingSkillTimerService(rabbitTemplate, defaultSkillTimerService);
+    fun skillTimerService(defaultSkillTimerService: SkillTimerService): SkillTimerService {
+        return BroadcastingSkillTimerService(rabbitTemplate, defaultSkillTimerService)
     }
 
     @Bean
-    public SkillTimerService defaultSkillTimerService() {
-        return new DefaultSkillTimerService();
-    }
+    fun defaultSkillTimerService(): SkillTimerService = DefaultSkillTimerService()
 }

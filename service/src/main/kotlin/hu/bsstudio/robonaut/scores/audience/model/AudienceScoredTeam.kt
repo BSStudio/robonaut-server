@@ -1,10 +1,7 @@
-package hu.bsstudio.robonaut.scores.audience.model;
+package hu.bsstudio.robonaut.scores.audience.model
 
-import lombok.Value;
-
-@Value
-public class AudienceScoredTeam {
-    long teamId;
-    int votes;
-    int audienceScore;
-}
+data class AudienceScoredTeam(
+    val teamId: Long,
+    val votes: Int,
+    val audienceScore: Int,
+)
