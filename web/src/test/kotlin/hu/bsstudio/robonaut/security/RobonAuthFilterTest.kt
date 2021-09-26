@@ -1,80 +1,81 @@
-package hu.bsstudio.robonaut.security;
+package hu.bsstudio.robonaut.security
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.springframework.http.HttpStatus
+import org.springframework.web.reactive.function.server.HandlerFunction
+import org.springframework.web.reactive.function.server.ServerRequest
+import org.springframework.web.reactive.function.server.ServerResponse
+import reactor.core.publisher.Mono
+import reactor.test.StepVerifier
 
-import java.util.Collections;
-import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.reactive.function.server.HandlerFunction;
-import org.springframework.web.reactive.function.server.ServerRequest;
-import org.springframework.web.reactive.function.server.ServerResponse;
-import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
+internal class RobonAuthFilterTest {
 
-final class RobonAuthFilterTest {
+    @MockK
+    private lateinit var request: ServerRequest
+    @MockK
+    private lateinit var handlerFunction: HandlerFunction<ServerResponse>
+    @MockK
+    private lateinit var mockResponse: ServerResponse
+    @MockK
+    private lateinit var headers: ServerRequest.Headers
 
-    private static final String APPLICATION_SECRET_HEADER = "RobonAuth-Api-Key";
-    private static final String APPLICATION_SECRET = "applicationSecret";
-    private static final String OTHER_APPLICATION_SECRET = "otherApplicationSecret";
-
-    @Mock
-    private ServerRequest request;
-    @Mock
-    private HandlerFunction<ServerResponse> handlerFunction;
-    @Mock
-    private ServerResponse mockResponse;
-    @Mock
-    private ServerRequest.Headers headers;
-
-    private RobonAuthFilter underTest;
+    private lateinit var underTest: RobonAuthFilter
 
     @BeforeEach
-    void setUp() {
-        openMocks(this);
-        this.underTest = new RobonAuthFilter(APPLICATION_SECRET);
+    fun setUp() {
+        MockKAnnotations.init(this)
+        underTest = RobonAuthFilter(APPLICATION_SECRET)
     }
 
     @Test
-    void shouldReturnUnauthorizedWhenApplicationSecretIsNotPresent() {
-        when(request.headers()).thenReturn(headers);
-        when(headers.header(APPLICATION_SECRET_HEADER)).thenReturn(Collections.emptyList());
+    fun `should return Unauthorized when application secret is not present`() {
+        every { request.headers() } returns headers
+        every { headers.header(APPLICATION_SECRET_HEADER) } returns emptyList()
 
-        final var response = underTest.filter(request, handlerFunction);
+        val response = underTest.filter(request, handlerFunction)
 
         StepVerifier.create(response)
-            .assertNext(serverResponse -> assertThat(serverResponse.statusCode(), is(equalTo(HttpStatus.UNAUTHORIZED))))
-            .verifyComplete();
+            .assertNext { serverResponse ->
+                assertThat(serverResponse.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED)
+            }
+            .verifyComplete()
     }
 
     @Test
-    void shouldReturnUnauthorizedWhenApplicationSecretIsNotMatching() {
-        when(request.headers()).thenReturn(headers);
-        when(headers.header(APPLICATION_SECRET_HEADER)).thenReturn(List.of(OTHER_APPLICATION_SECRET));
+    fun `should return Unauthorized when application secret is not matching`() {
+        every { request.headers() } returns headers
+        every { headers.header(APPLICATION_SECRET_HEADER) } returns listOf(OTHER_APPLICATION_SECRET)
 
-        final var response = underTest.filter(request, handlerFunction);
+        val response = underTest.filter(request, handlerFunction)
 
         StepVerifier.create(response)
-            .assertNext(serverResponse -> assertThat(serverResponse.statusCode(), is(equalTo(HttpStatus.UNAUTHORIZED))))
-            .verifyComplete();
+            .assertNext { serverResponse ->
+                assertThat(serverResponse.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED)
+            }
+            .verifyComplete()
     }
 
     @Test
-    void shouldReturnRequestWhenUserIsAuthenticated() {
-        when(request.headers()).thenReturn(headers);
-        when(headers.header(APPLICATION_SECRET_HEADER)).thenReturn(List.of(APPLICATION_SECRET));
-        when(handlerFunction.handle(request)).thenReturn(Mono.just(mockResponse));
+    fun `should return request when user is authenticated`() {
+        every { request.headers() } returns headers
+        every { headers.header(APPLICATION_SECRET_HEADER) } returns listOf(APPLICATION_SECRET)
+        every { handlerFunction.handle(request) } returns Mono.just(mockResponse)
 
-        final var response = underTest.filter(request, handlerFunction);
+        val response: Mono<ServerResponse> = underTest.filter(request, handlerFunction)
 
         StepVerifier.create(response)
             .expectNext(mockResponse)
-            .verifyComplete();
+            .verifyComplete()
+    }
+
+    companion object {
+        private const val APPLICATION_SECRET_HEADER = "RobonAuth-Api-Key"
+        private const val APPLICATION_SECRET = "applicationSecret"
+        private const val OTHER_APPLICATION_SECRET = "otherApplicationSecret"
     }
 }

@@ -1,44 +1,43 @@
-package hu.bsstudio.robonaut.safetycar;
+package hu.bsstudio.robonaut.safetycar
 
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
+import hu.bsstudio.robonaut.safetycar.model.SafetyCarOvertakeInformation
+import hu.bsstudio.robonaut.team.model.DetailedTeam
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.springframework.test.web.reactive.server.WebTestClient
+import org.springframework.test.web.reactive.server.expectBody
+import org.springframework.web.reactive.function.server.RouterFunctions
+import reactor.core.publisher.Mono
 
-import hu.bsstudio.robonaut.safetycar.model.SafetyCarOvertakeInformation;
-import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.web.reactive.function.server.RouterFunctions;
-import reactor.core.publisher.Mono;
+internal class SafetyCarOvertakeHandlerTest {
 
-final class SafetyCarOvertakeHandlerTest {
-
-    private static final String URI = "/test";
-
-    @Mock
-    private SafetyCarService mockService;
-
-    private WebTestClient webTestClient;
+    @MockK
+    private lateinit var mockService: SafetyCarService
+    private lateinit var webTestClient: WebTestClient
 
     @BeforeEach
-    void setUp() {
-        openMocks(this);
-        final var underTest = new SafetyCarOvertakeHandler(mockService);
-        final var routerFunction = RouterFunctions.route()
-            .POST(URI, underTest).build();
-        this.webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build();
+    fun setUp() {
+        MockKAnnotations.init(this)
+        val underTest = SafetyCarOvertakeHandler(mockService)
+        val routerFunction = RouterFunctions.route()
+            .POST(URI, underTest).build()
+        webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
     }
 
     @Test
-    void shouldReturnDetailedTeamWithOkStatus() {
-        final var safetyCarOvertakeInformation = new SafetyCarOvertakeInformation(0, 0);
-        final var detailedTeam = DetailedTeam.builder().build();
-        when(mockService.safetyCarWasOvertaken(safetyCarOvertakeInformation))
-            .thenReturn(Mono.just(detailedTeam));
-
+    fun `should return DetailedTeam with OK status`() {
+        val safetyCarOvertakeInformation = SafetyCarOvertakeInformation(0, 0)
+        val detailedTeam = DetailedTeam.builder().build()
+        every {mockService.safetyCarWasOvertaken(safetyCarOvertakeInformation) } returns Mono.just(detailedTeam)
         webTestClient.post().uri(URI).bodyValue(safetyCarOvertakeInformation).exchange()
-            .expectStatus().isOk()
-            .expectBody(DetailedTeam.class).isEqualTo(detailedTeam);
+            .expectStatus().isOk
+            .expectBody<DetailedTeam>().isEqualTo(detailedTeam)
+    }
+
+    companion object {
+        private const val URI = "/test"
     }
 }
