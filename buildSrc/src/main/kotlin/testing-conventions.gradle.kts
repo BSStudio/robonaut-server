@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        // exclude(module = "mockito-core")
+        exclude(module = "mockito-core")
         exclude(module = "hamcrest")
     }
     testImplementation("io.mockk:mockk:${property("mockkVersion")}")
