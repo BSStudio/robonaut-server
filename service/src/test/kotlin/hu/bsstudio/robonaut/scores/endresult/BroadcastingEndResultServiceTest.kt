@@ -30,7 +30,7 @@ internal class BroadcastingEndResultServiceTest {
     @Test
     fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItForSenior() {
         every { mockService.updateEndResultSenior(END_RESULTED_TEAM) } returns Mono.just(DETAILED_TEAM)
-        every{ mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
+        every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
 
         val result = underTest.updateEndResultSenior(END_RESULTED_TEAM)
 
@@ -42,7 +42,7 @@ internal class BroadcastingEndResultServiceTest {
     @Test
     fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItForJunior() {
         every { mockService.updateEndResultJunior(END_RESULTED_TEAM) } returns Mono.just(DETAILED_TEAM)
-        every{ mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
+        every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
 
         val result = underTest.updateEndResultJunior(END_RESULTED_TEAM)
 

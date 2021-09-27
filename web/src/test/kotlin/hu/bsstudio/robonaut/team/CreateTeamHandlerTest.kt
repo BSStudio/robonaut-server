@@ -13,11 +13,12 @@ import org.springframework.web.reactive.function.server.RouterFunctions
 import reactor.core.publisher.Mono
 
 internal class CreateTeamHandlerTest {
-    
+
     @MockK
     private lateinit var mockService: TeamService
+
     private lateinit var webTestClient: WebTestClient
-    
+
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)

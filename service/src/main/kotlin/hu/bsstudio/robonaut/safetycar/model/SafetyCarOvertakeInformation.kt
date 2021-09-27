@@ -1,6 +1,6 @@
 package hu.bsstudio.robonaut.safetycar.model
 
-data class SafetyCarOvertakeInformation (
+data class SafetyCarOvertakeInformation(
     val teamId: Long,
     val numberOfOvertakes: Int,
 )

@@ -25,5 +25,4 @@ class BroadcastingEndResultService(
     private fun sendTeamInfo(detailedTeam: DetailedTeam) {
         template.convertAndSend("team.teamData", detailedTeam)
     }
-
 }

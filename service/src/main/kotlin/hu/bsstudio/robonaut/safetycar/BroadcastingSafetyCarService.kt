@@ -36,5 +36,4 @@ class BroadcastingSafetyCarService(
     private fun sendTeamData(detailedTeam: DetailedTeam) {
         template.convertAndSend("team.teamData", detailedTeam)
     }
-
 }

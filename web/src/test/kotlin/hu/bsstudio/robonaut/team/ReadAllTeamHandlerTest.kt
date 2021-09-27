@@ -12,11 +12,11 @@ import org.springframework.web.reactive.function.server.RouterFunctions
 import reactor.core.publisher.Flux
 
 internal class ReadAllTeamHandlerTest {
-    
+
     @MockK
     private lateinit var mockService: TeamService
     private lateinit var webTestClient: WebTestClient
-    
+
     @BeforeEach
     fun setUp() {
         MockKAnnotations.init(this)

@@ -14,4 +14,5 @@ dependencies {
     implementation("io.spring.gradle:dependency-management-plugin:${property("springDependencyManagement")}")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin")
     implementation("org.jetbrains.kotlin:kotlin-allopen")
+    implementation("org.jlleitschuh.gradle:ktlint-gradle:10.2.0")
 }

@@ -2,8 +2,6 @@ package hu.bsstudio.robonaut.team.mapper
 
 import hu.bsstudio.robonaut.entity.TeamEntity
 import hu.bsstudio.robonaut.team.model.DetailedTeam
-import lombok.AccessLevel
-import lombok.Setter
 
 class TeamModelEntityMapper {
 

@@ -1,8 +1,8 @@
 package hu.bsstudio.robonaut.entity
 
-import org.springframework.data.mongodb.core.mapping.MongoId
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.MongoId
 
 @Document
 data class TeamEntity(

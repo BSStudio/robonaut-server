@@ -114,8 +114,11 @@ internal class DefaultTeamServiceTest {
         )
         private val DETAILED_TEAM_2 = DetailedTeam(teamId = TEAM_ID_2)
         private fun createTeamEntity(
-            teamId: Long, year: Int, teamName: String,
-            teamMembers: List<String>, teamType: TeamType
+            teamId: Long,
+            year: Int,
+            teamName: String,
+            teamMembers: List<String>,
+            teamType: TeamType
         ): TeamEntity {
             val defaultScore = ScoreEntity()
             return TeamEntity(

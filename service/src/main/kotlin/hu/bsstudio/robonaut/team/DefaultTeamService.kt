@@ -6,13 +6,9 @@ import hu.bsstudio.robonaut.repository.TeamRepository
 import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper
 import hu.bsstudio.robonaut.team.model.DetailedTeam
 import hu.bsstudio.robonaut.team.model.Team
-import lombok.AccessLevel
-import lombok.RequiredArgsConstructor
-import lombok.Setter
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
-@RequiredArgsConstructor
 class DefaultTeamService(private val teamRepository: TeamRepository) : TeamService {
 
     internal var teamMapper = TeamModelEntityMapper()

@@ -31,7 +31,7 @@ internal class SafetyCarOvertakeHandlerTest {
     fun `should return DetailedTeam with OK status`() {
         val safetyCarOvertakeInformation = SafetyCarOvertakeInformation(0, 0)
         val detailedTeam = DetailedTeam()
-        every {mockService.safetyCarWasOvertaken(safetyCarOvertakeInformation) } returns Mono.just(detailedTeam)
+        every { mockService.safetyCarWasOvertaken(safetyCarOvertakeInformation) } returns Mono.just(detailedTeam)
         webTestClient.post().uri(URI).bodyValue(safetyCarOvertakeInformation).exchange()
             .expectStatus().isOk
             .expectBody<DetailedTeam>().isEqualTo(detailedTeam)

@@ -6,7 +6,6 @@ import hu.bsstudio.robonaut.team.query.model.Requester
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import reactor.core.Disposable

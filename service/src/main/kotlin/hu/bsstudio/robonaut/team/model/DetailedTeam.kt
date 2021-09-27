@@ -2,7 +2,7 @@ package hu.bsstudio.robonaut.team.model
 
 import hu.bsstudio.robonaut.entity.TeamType
 
-data class DetailedTeam (
+data class DetailedTeam(
     val teamId: Long = 0,
     val year: Int = 0,
     val teamName: String = "",

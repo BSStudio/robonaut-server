@@ -32,7 +32,7 @@ internal class JuniorEndResultHandlerTest {
     fun `should return DetailedTeam with OK status`() {
         val endResultedTeam = EndResultedTeam(0, 0)
         val detailedTeam = DetailedTeam()
-        every {mockService.updateEndResultJunior(endResultedTeam) } returns Mono.just(detailedTeam)
+        every { mockService.updateEndResultJunior(endResultedTeam) } returns Mono.just(detailedTeam)
         webTestClient.post().uri("/test").bodyValue(endResultedTeam).exchange()
             .expectStatus().isOk
             .expectBody<List<DetailedTeam>>()

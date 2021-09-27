@@ -66,7 +66,7 @@ internal class TeamModelEntityMapperTest {
         private val SCORE_ENTITY = ScoreEntity(SPEED_SCORE, BEST_SPEED_TIME, TOTAL_SCORE)
         private val JUNIOR_SCORE = Score(SPEED_SCORE, BEST_SPEED_TIME, TOTAL_SCORE)
         private val JUNIOR_SCORE_ENTITY = ScoreEntity(SPEED_SCORE, BEST_SPEED_TIME, TOTAL_SCORE)
-        private val DETAILED_TEAM =  DetailedTeam(
+        private val DETAILED_TEAM = DetailedTeam(
             teamId = TEAM_ID,
             year = YEAR,
             teamName = TEAM_NAME,

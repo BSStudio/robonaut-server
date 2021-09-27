@@ -1,11 +1,11 @@
 package hu.bsstudio.robonaut.scores.qualification
 
+import hu.bsstudio.robonaut.entity.TeamEntity
 import hu.bsstudio.robonaut.repository.TeamRepository
 import hu.bsstudio.robonaut.scores.qualification.model.QualifiedTeam
+import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper
 import hu.bsstudio.robonaut.team.model.DetailedTeam
 import lombok.RequiredArgsConstructor
-import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper
-import hu.bsstudio.robonaut.entity.TeamEntity
 import reactor.core.publisher.Mono
 
 @RequiredArgsConstructor

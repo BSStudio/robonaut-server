@@ -5,7 +5,6 @@ import hu.bsstudio.robonaut.race.speed.timer.model.SpeedTimer
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.amqp.rabbit.core.RabbitTemplate

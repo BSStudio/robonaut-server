@@ -1,11 +1,11 @@
 package hu.bsstudio.robonaut.safetycar.configuration
 
-import org.springframework.beans.factory.annotation.Autowired
 import hu.bsstudio.robonaut.repository.TeamRepository
-import org.springframework.amqp.rabbit.core.RabbitTemplate
-import hu.bsstudio.robonaut.safetycar.SafetyCarService
 import hu.bsstudio.robonaut.safetycar.BroadcastingSafetyCarService
 import hu.bsstudio.robonaut.safetycar.DefaultSafetyCarService
+import hu.bsstudio.robonaut.safetycar.SafetyCarService
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
