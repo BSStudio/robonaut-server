@@ -41,15 +41,17 @@ tasks.jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                minimum = BigDecimal(1.00)
+                minimum = BigDecimal("0.92")
             }
         }
     }
     classDirectories.setFrom(
-        files(classDirectories.files.map {
-            fileTree(it) {
-                exclude(excluded)
+        files(
+            classDirectories.files.map {
+                fileTree(it) {
+                    exclude(excluded)
+                }
             }
-        })
+        )
     )
 }
