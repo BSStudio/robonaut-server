@@ -31,7 +31,7 @@ internal class AudienceScoreHandlerTest {
     @Test
     fun `should return DetailedTeam with OK status`() {
         val audienceScoredTeam = AudienceScoredTeam(0, 0, 0)
-        val detailedTeam = DetailedTeam.builder().build()
+        val detailedTeam = DetailedTeam()
         every { mockService.updateAudienceScore(audienceScoredTeam) } returns Mono.just(detailedTeam)
 
         webTestClient.post().uri("/test").bodyValue(listOf(audienceScoredTeam)).exchange()

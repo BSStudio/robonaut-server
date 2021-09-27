@@ -1,41 +1,42 @@
-package hu.bsstudio.robonaut.team.query;
+package hu.bsstudio.robonaut.team.query
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
+import hu.bsstudio.robonaut.team.TeamService
+import hu.bsstudio.robonaut.team.model.DetailedTeam
+import hu.bsstudio.robonaut.team.query.model.Requester
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.verify
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import reactor.core.Disposable
+import reactor.core.publisher.Flux
 
-import hu.bsstudio.robonaut.team.TeamService;
-import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import hu.bsstudio.robonaut.team.query.model.Requester;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import reactor.core.publisher.Flux;
+internal class QueryTeamDataTest {
 
-final class QueryTeamDataTest {
+    @MockK
+    private lateinit var mockService: TeamService
 
-    private static final Requester REQUESTER = new Requester("Bence");
+    @MockK
+    private lateinit var detailedTeamFlux: Flux<DetailedTeam>
 
-    private QueryTeamData underTest;
-
-    @Mock
-    private TeamService mockService;
-    @Mock
-    private Flux<DetailedTeam> detailedTeamFlux;
+    private lateinit var underTest: QueryTeamData
 
     @BeforeEach
-    void setUp() {
-        openMocks(this);
-        this.underTest = new QueryTeamData(mockService);
+    fun setUp() {
+        MockKAnnotations.init(this)
+        underTest = QueryTeamData(mockService)
     }
 
     @Test
-    void shouldCallFindAll() {
-        when(mockService.findAllTeam()).thenReturn(detailedTeamFlux);
+    fun shouldCallFindAll() {
+        every { mockService.findAllTeam() } returns detailedTeamFlux
+        every { detailedTeamFlux.subscribe() } returns Disposable { }
 
-        underTest.sendTeamData(REQUESTER);
+        underTest.sendTeamData(REQUESTER)
+    }
 
-        verify(mockService).findAllTeam();
-        verify(detailedTeamFlux).subscribe();
+    companion object {
+        private val REQUESTER = Requester("Bence")
     }
 }

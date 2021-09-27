@@ -1,6 +1,5 @@
-package hu.bsstudio.robonaut.entity;
+package hu.bsstudio.robonaut.entity
 
-public enum TeamType {
-    JUNIOR,
-    SENIOR
+enum class TeamType {
+    JUNIOR, SENIOR
 }

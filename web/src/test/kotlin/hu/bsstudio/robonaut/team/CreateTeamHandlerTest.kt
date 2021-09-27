@@ -29,8 +29,8 @@ internal class CreateTeamHandlerTest {
 
     @Test
     fun `should return DetailedTeam with OK status`() {
-        val team = Team.builder().build()
-        val detailedTeam = DetailedTeam.builder().build()
+        val team = Team()
+        val detailedTeam = DetailedTeam()
         every { mockService.addTeam(team) } returns Mono.just(detailedTeam)
 
         webTestClient.post().uri("/test").bodyValue(team).exchange()

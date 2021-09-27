@@ -1,160 +1,146 @@
-package hu.bsstudio.robonaut.race.speed;
+package hu.bsstudio.robonaut.race.speed
 
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
+import hu.bsstudio.robonaut.entity.ScoreEntity
+import hu.bsstudio.robonaut.entity.TeamEntity
+import hu.bsstudio.robonaut.entity.TeamType
+import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult
+import hu.bsstudio.robonaut.race.speed.model.SpeedRaceScore
+import hu.bsstudio.robonaut.repository.TeamRepository
+import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper
+import hu.bsstudio.robonaut.team.model.DetailedTeam
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import reactor.core.publisher.Mono
+import reactor.test.StepVerifier
 
-import hu.bsstudio.robonaut.entity.ScoreEntity;
-import hu.bsstudio.robonaut.entity.TeamEntity;
-import hu.bsstudio.robonaut.entity.TeamType;
-import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult;
-import hu.bsstudio.robonaut.race.speed.model.SpeedRaceScore;
-import hu.bsstudio.robonaut.repository.TeamRepository;
-import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper;
-import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
+internal class DefaultSpeedRaceServiceTest {
 
-final class DefaultSpeedRaceServiceTest {
+    @MockK
+    private lateinit var mockRepository: TeamRepository
 
-    private static final long TEAM_ID = 1;
-    private static final int SPEED_SCORE = 420;
-    private static final int BEST_SPEED_TIME = 444;
-    private static final List<Integer> SPEED_TIMES = List.of(123, 456);
-    private static final SpeedRaceResult SPEED_RACE_RESULT = new SpeedRaceResult(TEAM_ID, SPEED_SCORE, BEST_SPEED_TIME, SPEED_TIMES);
-    private static final DetailedTeam DETAILED_TEAM = DetailedTeam.builder().teamId(TEAM_ID).build();
-    private static final SpeedRaceScore SPEED_RACE_SCORE = new SpeedRaceScore(TEAM_ID, SPEED_TIMES);
+    @MockK
+    private lateinit var mockMapper: TeamModelEntityMapper
 
-    private DefaultSpeedRaceService underTest;
-
-    @Mock
-    private TeamRepository mockRepository;
-    @Mock
-    private TeamModelEntityMapper mockMapper;
+    private lateinit var underTest: DefaultSpeedRaceService
 
     @BeforeEach
-    void setUp() {
-        openMocks(this);
-        this.underTest = new DefaultSpeedRaceService(mockRepository);
-        this.underTest.setMapper(mockMapper);
+    fun setUp() {
+        MockKAnnotations.init(this)
+        underTest = DefaultSpeedRaceService(mockRepository)
+        underTest.mapper = mockMapper
     }
 
     @Test
-    void onLap() {
-        final TeamEntity foundEntity = new TeamEntity();
-        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundEntity));
-
-        final var updatedEntity = new TeamEntity();
-        updatedEntity.setSpeedTimes(SPEED_TIMES);
-        when(mockRepository.save(updatedEntity)).thenReturn(Mono.just(updatedEntity));
-        when(mockMapper.toModel(updatedEntity)).thenReturn(DETAILED_TEAM);
+    fun onLap() {
+        val foundEntity = TeamEntity()
+        every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundEntity)
+        val updatedEntity = TeamEntity()
+        updatedEntity.speedTimes = SPEED_TIMES
+        every { mockRepository.save(updatedEntity) } returns Mono.just(updatedEntity)
+        every { mockMapper.toModel(updatedEntity) } returns DETAILED_TEAM
 
         Mono.just(SPEED_RACE_SCORE)
             .flatMap(underTest::updateSpeedRaceOnLap)
-            .as(StepVerifier::create)
+            .let(StepVerifier::create)
             .expectNext(DETAILED_TEAM)
-            .verifyComplete();
+            .verifyComplete()
     }
 
     @Test
-    void onLapNotFound() {
-        final TeamEntity foundEntity = new TeamEntity();
-        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundEntity));
-
-        final var updatedEntity = new TeamEntity();
-        updatedEntity.setSpeedTimes(SPEED_TIMES);
-        when(mockRepository.save(updatedEntity)).thenReturn(Mono.empty());
+    fun onLapNotFound() {
+        val foundEntity = TeamEntity()
+        every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundEntity)
+        val updatedEntity = TeamEntity()
+        updatedEntity.speedTimes = SPEED_TIMES
+        every { mockRepository.save(updatedEntity) } returns Mono.empty()
 
         Mono.just(SPEED_RACE_SCORE)
             .flatMap(underTest::updateSpeedRaceOnLap)
-            .as(StepVerifier::create)
-            .verifyComplete();
+            .let(StepVerifier::create)
+            .verifyComplete()
     }
 
     @Test
-    void junior() {
-        final TeamEntity foundEntity = new TeamEntity();
-        foundEntity.setTeamType(TeamType.JUNIOR);
-        final var juniorScore = new ScoreEntity();
-        foundEntity.setJuniorScore(juniorScore);
-        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundEntity));
-
-        final var updatedEntity = new TeamEntity();
-        updatedEntity.setTeamType(TeamType.JUNIOR);
-        updatedEntity.setSpeedTimes(SPEED_TIMES);
-        juniorScore.setSpeedScore(SPEED_SCORE);
-        juniorScore.setBestSpeedTime(BEST_SPEED_TIME);
-        updatedEntity.setJuniorScore(juniorScore);
-        when(mockRepository.save(updatedEntity)).thenReturn(Mono.just(updatedEntity));
-
-        when(mockMapper.toModel(updatedEntity)).thenReturn(DETAILED_TEAM);
+    fun junior() {
+        val juniorScore = ScoreEntity()
+        val foundEntity = TeamEntity(teamType = TeamType.JUNIOR, juniorScore = juniorScore)
+        every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundEntity)
+        val updatedEntity = TeamEntity(teamType = TeamType.JUNIOR, speedTimes = SPEED_TIMES)
+        juniorScore.speedScore = SPEED_SCORE
+        juniorScore.bestSpeedTime = BEST_SPEED_TIME
+        updatedEntity.juniorScore = juniorScore
+        every { mockRepository.save(updatedEntity) } returns Mono.just(updatedEntity)
+        every { mockMapper.toModel(updatedEntity) } returns DETAILED_TEAM
 
         Mono.just(SPEED_RACE_RESULT)
             .flatMap(underTest::updateSpeedRaceJunior)
-            .as(StepVerifier::create)
+            .let(StepVerifier::create)
             .expectNext(DETAILED_TEAM)
-            .verifyComplete();
+            .verifyComplete()
     }
 
     @Test
-    void juniorNotFound() {
-        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.empty());
-
+    fun juniorNotFound() {
+        every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
         Mono.just(SPEED_RACE_RESULT)
             .flatMap(underTest::updateSpeedRaceJunior)
-            .as(StepVerifier::create)
-            .verifyComplete();
+            .let(StepVerifier::create)
+            .verifyComplete()
     }
 
     @Test
-    void juniorWhenSenior() {
-        final TeamEntity foundEntity = new TeamEntity();
-        foundEntity.setTeamType(TeamType.SENIOR);
-        final var juniorScore = new ScoreEntity();
-        foundEntity.setJuniorScore(juniorScore);
-        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundEntity));
-
+    fun juniorWhenSenior() {
+        val foundEntity = TeamEntity()
+        foundEntity.teamType = TeamType.SENIOR
+        val juniorScore = ScoreEntity()
+        foundEntity.juniorScore = juniorScore
+        every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundEntity)
         Mono.just(SPEED_RACE_RESULT)
             .flatMap(underTest::updateSpeedRaceJunior)
-            .as(StepVerifier::create)
-            .verifyComplete();
+            .let(StepVerifier::create)
+            .verifyComplete()
     }
 
     @Test
-    void senior() {
-        final TeamEntity foundEntity = new TeamEntity();
-        final var scoreEntity = new ScoreEntity();
-        foundEntity.setScore(scoreEntity);
-        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundEntity));
-
-        final var updatedEntity = new TeamEntity();
-        updatedEntity.setSpeedTimes(SPEED_TIMES);
-        scoreEntity.setSpeedScore(SPEED_SCORE);
-        scoreEntity.setBestSpeedTime(BEST_SPEED_TIME);
-        updatedEntity.setScore(scoreEntity);
-        when(mockRepository.save(updatedEntity)).thenReturn(Mono.just(updatedEntity));
-
-        when(mockMapper.toModel(updatedEntity)).thenReturn(DETAILED_TEAM);
+    fun senior() {
+        val scoreEntity = ScoreEntity()
+        val foundEntity = TeamEntity(score = scoreEntity)
+        every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundEntity)
+        val updatedEntity = TeamEntity()
+        updatedEntity.speedTimes = SPEED_TIMES
+        scoreEntity.speedScore = SPEED_SCORE
+        scoreEntity.bestSpeedTime = BEST_SPEED_TIME
+        updatedEntity.score = scoreEntity
+        every { mockRepository.save(updatedEntity) } returns Mono.just(updatedEntity)
+        every { mockMapper.toModel(updatedEntity) } returns DETAILED_TEAM
 
         Mono.just(SPEED_RACE_RESULT)
             .flatMap(underTest::updateSpeedRaceSenior)
-            .as(StepVerifier::create)
+            .let(StepVerifier::create)
             .expectNext(DETAILED_TEAM)
-            .verifyComplete();
+            .verifyComplete()
     }
 
     @Test
-    void seniorNotFound() {
-        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.empty());
+    fun seniorNotFound() {
+        every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
 
         Mono.just(SPEED_RACE_RESULT)
             .flatMap(underTest::updateSpeedRaceSenior)
-            .as(StepVerifier::create)
-            .verifyComplete();
-    }
+            .let(StepVerifier::create)
+            .verifyComplete()
+    } // todo rename
 
-    // todo rename
+    companion object {
+        private const val TEAM_ID: Long = 1
+        private const val SPEED_SCORE = 420
+        private const val BEST_SPEED_TIME = 444
+        private val SPEED_TIMES = listOf(123, 456)
+        private val SPEED_RACE_RESULT = SpeedRaceResult(TEAM_ID, SPEED_SCORE, BEST_SPEED_TIME, SPEED_TIMES)
+        private val DETAILED_TEAM: DetailedTeam = DetailedTeam(teamId = TEAM_ID)
+        private val SPEED_RACE_SCORE = SpeedRaceScore(TEAM_ID, SPEED_TIMES)
+    }
 }

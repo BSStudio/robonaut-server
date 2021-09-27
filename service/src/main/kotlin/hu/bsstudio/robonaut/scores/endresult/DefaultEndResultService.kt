@@ -13,7 +13,7 @@ class DefaultEndResultService(
     private val teamRepository: TeamRepository
 ) : EndResultService {
 
-    var teamModelEntityMapper = TeamModelEntityMapper()
+    internal var teamModelEntityMapper = TeamModelEntityMapper()
 
     override fun updateEndResultSenior(endResultedTeam: EndResultedTeam): Mono<DetailedTeam> {
         return Mono.just(endResultedTeam)

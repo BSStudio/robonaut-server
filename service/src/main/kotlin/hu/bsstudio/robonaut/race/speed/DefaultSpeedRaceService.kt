@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono
 
 class DefaultSpeedRaceService(private val repository: TeamRepository) : SpeedRaceService {
 
-    var mapper = TeamModelEntityMapper()
+    internal var mapper = TeamModelEntityMapper()
 
     override fun updateSpeedRaceOnLap(speedRaceScore: SpeedRaceScore): Mono<DetailedTeam> {
         return Mono.just(speedRaceScore)

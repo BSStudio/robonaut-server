@@ -1,50 +1,43 @@
-package hu.bsstudio.robonaut.team.mapper;
+package hu.bsstudio.robonaut.team.mapper
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.openMocks;
+import hu.bsstudio.robonaut.entity.ScoreEntity
+import hu.bsstudio.robonaut.team.model.Score
+import org.assertj.core.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
-import hu.bsstudio.robonaut.entity.ScoreEntity;
-import hu.bsstudio.robonaut.team.model.Score;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+internal class ScoreEntityMapperTest {
 
-final class ScoreEntityMapperTest {
+    companion object {
+        private const val SCORE = 420
+        private const val SPEED_SCORE = 2021
+        private const val BEST_SPEED_TIME = 999
+        private val MODEL = Score(SPEED_SCORE, BEST_SPEED_TIME, SCORE)
+        private val ENTITY = ScoreEntity(
+            speedScore = SPEED_SCORE,
+            bestSpeedTime = BEST_SPEED_TIME,
+            score = SCORE,
+        )
+    }
 
-    private static final int SCORE = 420;
-    private static final int SPEED_SCORE = 2021;
-    private static final int BEST_SPEED_TIME = 999;
-    public static final Score MODEL = new Score(SPEED_SCORE, BEST_SPEED_TIME, SCORE);
-
-    private ScoreEntityMapper underTest;
-    public static final ScoreEntity ENTITY = createScoreEntity();
+    private lateinit var underTest: ScoreEntityMapper
 
     @BeforeEach
-    void setUp() {
-        openMocks(this);
-        this.underTest = new ScoreEntityMapper();
+    fun setUp() {
+        underTest = ScoreEntityMapper()
     }
 
     @Test
-    void shouldReturnModel() {
+    fun shouldReturnModel() {
+        val result = underTest.toModel(ENTITY)
 
-        final var result = underTest.toModel(ENTITY);
-
-        assertThat(result).isEqualTo(MODEL);
+        Assertions.assertThat(result).isEqualTo(MODEL)
     }
 
     @Test
-    void shouldReturnEntity() {
+    fun shouldReturnEntity() {
+        val result = underTest.toEntity(MODEL)
 
-        final var result = underTest.toEntity(MODEL);
-
-        assertThat(result).isEqualTo(ENTITY);
-    }
-
-    private static ScoreEntity createScoreEntity() {
-        final var entity = new ScoreEntity();
-        entity.setSpeedScore(SPEED_SCORE);
-        entity.setBestSpeedTime(BEST_SPEED_TIME);
-        entity.setScore(SCORE);
-        return entity;
+        Assertions.assertThat(result).isEqualTo(ENTITY)
     }
 }

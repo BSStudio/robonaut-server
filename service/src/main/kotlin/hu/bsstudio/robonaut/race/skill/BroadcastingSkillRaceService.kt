@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono
 
 class BroadcastingSkillRaceService(
     private val template: RabbitTemplate,
-    private val service: SkillRaceService
+    private val service: SkillRaceService,
 ) : SkillRaceService {
 
     override fun updateSkillRaceResultOnGate(gateInformation: GateInformation): Mono<DetailedTeam> {
@@ -24,15 +24,10 @@ class BroadcastingSkillRaceService(
     }
 
     private fun sendGateInfo(gateInfo: GateInformation) {
-        template.convertAndSend(SKILL_GATE_ROUTING_KEY, gateInfo)
+        template.convertAndSend("skill.gate", gateInfo)
     }
 
     private fun sendTeamInfo(detailedTeam: DetailedTeam) {
-        template.convertAndSend(TEAM_TEAM_DATA_ROUTING_KEY, detailedTeam)
-    }
-
-    companion object {
-        const val SKILL_GATE_ROUTING_KEY = "skill.gate"
-        const val TEAM_TEAM_DATA_ROUTING_KEY = "team.teamData"
+        template.convertAndSend("team.teamData", detailedTeam)
     }
 }

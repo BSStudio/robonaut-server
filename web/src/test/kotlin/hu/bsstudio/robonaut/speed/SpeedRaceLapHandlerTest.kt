@@ -31,7 +31,7 @@ internal class SpeedRaceLapHandlerTest {
     @Test
     fun `should return DetailedTeam with OK status`() {
         val speedRaceScore = SpeedRaceScore(0, emptyList())
-        val detailedTeam = DetailedTeam.builder().build()
+        val detailedTeam = DetailedTeam()
         every { mockService.updateSpeedRaceOnLap(speedRaceScore) } returns Mono.just(detailedTeam)
 
         webTestClient.post().uri("/test").bodyValue(speedRaceScore).exchange()

@@ -6,43 +6,40 @@ import lombok.AccessLevel
 import lombok.Setter
 
 class TeamModelEntityMapper {
-    @Setter(AccessLevel.PACKAGE)
-    private val scoreEntityMapper = ScoreEntityMapper()
-    fun toModel(teamEntity: TeamEntity): DetailedTeam {
-        return DetailedTeam(
-            teamId = teamEntity.teamId,
-            year = teamEntity.year,
-            teamName = teamEntity.teamName,
-            teamMembers = teamEntity.teamMembers,
-            teamType = teamEntity.teamType,
-            skillScore = teamEntity.skillScore,
-            numberOfOvertakes = teamEntity.numberOfOvertakes,
-            safetyCarWasFollowed = teamEntity.isSafetyCarWasFollowed,
-            speedTimes = teamEntity.speedTimes,
-            votes = teamEntity.votes,
-            audienceScore = teamEntity.audienceScore,
-            qualificationScore = teamEntity.qualificationScore,
-            combinedScore = scoreEntityMapper.toModel(teamEntity.score),
-            juniorScore = scoreEntityMapper.toModel(teamEntity.juniorScore),
-        )
-    }
 
-    fun toEntity(detailedTeam: DetailedTeam): TeamEntity {
-        val entity = TeamEntity()
-        entity.teamId = detailedTeam.teamId
-        entity.year = detailedTeam.year
-        entity.teamName = detailedTeam.teamName
-        entity.teamMembers = detailedTeam.teamMembers
-        entity.teamType = detailedTeam.teamType
-        entity.skillScore = detailedTeam.skillScore
-        entity.numberOfOvertakes = detailedTeam.numberOfOvertakes
-        entity.isSafetyCarWasFollowed = detailedTeam.safetyCarWasFollowed
-        entity.speedTimes = detailedTeam.speedTimes
-        entity.votes = detailedTeam.votes
-        entity.audienceScore = detailedTeam.audienceScore
-        entity.qualificationScore = detailedTeam.qualificationScore
-        entity.score = scoreEntityMapper.toEntity(detailedTeam.combinedScore)
-        entity.juniorScore = scoreEntityMapper.toEntity(detailedTeam.juniorScore)
-        return entity
-    }
+    internal var scoreEntityMapper = ScoreEntityMapper()
+
+    fun toModel(teamEntity: TeamEntity) = DetailedTeam(
+        teamId = teamEntity.teamId,
+        year = teamEntity.year,
+        teamName = teamEntity.teamName,
+        teamMembers = teamEntity.teamMembers,
+        teamType = teamEntity.teamType,
+        skillScore = teamEntity.skillScore,
+        numberOfOvertakes = teamEntity.numberOfOvertakes,
+        safetyCarWasFollowed = teamEntity.safetyCarWasFollowed,
+        speedTimes = teamEntity.speedTimes,
+        votes = teamEntity.votes,
+        audienceScore = teamEntity.audienceScore,
+        qualificationScore = teamEntity.qualificationScore,
+        combinedScore = scoreEntityMapper.toModel(teamEntity.score),
+        juniorScore = scoreEntityMapper.toModel(teamEntity.juniorScore),
+    )
+
+    fun toEntity(detailedTeam: DetailedTeam) = TeamEntity(
+        teamId = detailedTeam.teamId,
+        year = detailedTeam.year,
+        teamName = detailedTeam.teamName,
+        teamMembers = detailedTeam.teamMembers,
+        teamType = detailedTeam.teamType,
+        skillScore = detailedTeam.skillScore,
+        numberOfOvertakes = detailedTeam.numberOfOvertakes,
+        safetyCarWasFollowed = detailedTeam.safetyCarWasFollowed,
+        speedTimes = detailedTeam.speedTimes,
+        votes = detailedTeam.votes,
+        audienceScore = detailedTeam.audienceScore,
+        qualificationScore = detailedTeam.qualificationScore,
+        score = scoreEntityMapper.toEntity(detailedTeam.combinedScore),
+        juniorScore = scoreEntityMapper.toEntity(detailedTeam.juniorScore),
+    )
 }

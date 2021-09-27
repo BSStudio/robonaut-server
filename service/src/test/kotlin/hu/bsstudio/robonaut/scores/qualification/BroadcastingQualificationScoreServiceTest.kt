@@ -1,47 +1,48 @@
-package hu.bsstudio.robonaut.scores.qualification;
+package hu.bsstudio.robonaut.scores.qualification
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
+import hu.bsstudio.robonaut.scores.qualification.model.QualifiedTeam
+import hu.bsstudio.robonaut.team.model.DetailedTeam
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.verify
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import reactor.core.publisher.Mono
+import reactor.test.StepVerifier
 
-import hu.bsstudio.robonaut.scores.qualification.model.QualifiedTeam;
-import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
+internal class BroadcastingQualificationScoreServiceTest {
 
-final class BroadcastingQualificationScoreServiceTest {
+    @MockK
+    private lateinit var mockTemplate: RabbitTemplate
 
-    private static final QualifiedTeam QUALIFIED_TEAM = new QualifiedTeam(0, 0);
-    private static final DetailedTeam DETAILED_TEAM = DetailedTeam.builder().build();
-    private static final String TEAM_DATA_ROUTING_KEY = "team.teamData";
+    @MockK
+    private lateinit var mockService: QualificationScoreService
 
-    private BroadcastingQualificationScoreService underTest;
-
-    @Mock
-    private RabbitTemplate mockTemplate;
-    @Mock
-    private QualificationScoreService mockService;
+    private lateinit var underTest: BroadcastingQualificationScoreService
 
     @BeforeEach
-    void setUp() {
-        openMocks(this);
-        this.underTest = new BroadcastingQualificationScoreService(mockTemplate, mockService);
+    fun setUp() {
+        MockKAnnotations.init(this)
+        underTest = BroadcastingQualificationScoreService(mockTemplate, mockService)
     }
 
     @Test
-    void shouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
-        when(mockService.updateQualificationScore(QUALIFIED_TEAM))
-            .thenReturn(Mono.just(DETAILED_TEAM));
+    fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
+        every { mockService.updateQualificationScore(QUALIFIED_TEAM) } returns Mono.just(DETAILED_TEAM)
+        every {mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
 
-        final var result = underTest.updateQualificationScore(QUALIFIED_TEAM);
+        val result = underTest.updateQualificationScore(QUALIFIED_TEAM)
 
         StepVerifier.create(result)
             .expectNext(DETAILED_TEAM)
-            .verifyComplete();
-        verify(mockTemplate).convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM);
+            .verifyComplete()
+    }
+
+    companion object {
+        private val QUALIFIED_TEAM = QualifiedTeam(0, 0)
+        private val DETAILED_TEAM: DetailedTeam = DetailedTeam()
+        private const val TEAM_DATA_ROUTING_KEY = "team.teamData"
     }
 }

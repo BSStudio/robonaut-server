@@ -31,7 +31,7 @@ internal class SkillGateHandlerTest {
     @Test
     fun `should return DetailedTeam with OK status`() {
         val gateInfo = GateInformation(0, 0, 0, 0, 0)
-        val detailedTeam = DetailedTeam.builder().build()
+        val detailedTeam = DetailedTeam()
         every { mockService.updateSkillRaceResultOnGate(gateInfo) } returns Mono.just(detailedTeam)
 
         webTestClient.post().uri("/test").bodyValue(gateInfo).exchange()

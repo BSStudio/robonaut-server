@@ -1,7 +1,6 @@
-package hu.bsstudio.robonaut.repository;
+package hu.bsstudio.robonaut.repository
 
-import hu.bsstudio.robonaut.entity.TeamEntity;
-import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository
+import hu.bsstudio.robonaut.entity.TeamEntity
 
-public interface TeamRepository extends ReactiveMongoRepository<TeamEntity, Long> {
-}
+interface TeamRepository : ReactiveMongoRepository<TeamEntity, Long>

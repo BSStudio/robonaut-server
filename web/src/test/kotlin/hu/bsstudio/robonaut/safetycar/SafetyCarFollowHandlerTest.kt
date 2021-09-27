@@ -30,7 +30,7 @@ internal class SafetyCarFollowHandlerTest {
     @Test
     fun `should return DetailedTeam with OK status`() {
         val safetyCarFollowInformation = SafetyCarFollowInformation(0, true)
-        val detailedTeam = DetailedTeam.builder().build()
+        val detailedTeam = DetailedTeam()
         every { mockService.safetyCarWasFollowed(safetyCarFollowInformation) } returns Mono.just(detailedTeam)
 
         webTestClient.post().uri("/test").bodyValue(safetyCarFollowInformation).exchange()

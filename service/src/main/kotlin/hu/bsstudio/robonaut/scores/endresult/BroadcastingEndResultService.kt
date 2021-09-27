@@ -23,10 +23,7 @@ class BroadcastingEndResultService(
     }
 
     private fun sendTeamInfo(detailedTeam: DetailedTeam) {
-        template.convertAndSend(TEAM_TEAM_DATA_ROUTING_KEY, detailedTeam)
+        template.convertAndSend("team.teamData", detailedTeam)
     }
 
-    companion object {
-        const val TEAM_TEAM_DATA_ROUTING_KEY = "team.teamData"
-    }
 }

@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono
 
 class DefaultSafetyCarService(private val repository: TeamRepository) : SafetyCarService {
 
-    var mapper = TeamModelEntityMapper()
+    internal var mapper = TeamModelEntityMapper()
 
     override fun safetyCarWasFollowed(safetyCarFollowInformation: SafetyCarFollowInformation): Mono<DetailedTeam> {
         return Mono.just(safetyCarFollowInformation)
@@ -31,7 +31,7 @@ class DefaultSafetyCarService(private val repository: TeamRepository) : SafetyCa
     }
 
     private fun updateFollowInformation(entity: TeamEntity, followInformation: SafetyCarFollowInformation): TeamEntity {
-        entity.isSafetyCarWasFollowed = followInformation.safetyCarFollowed
+        entity.safetyCarWasFollowed = followInformation.safetyCarFollowed
         return entity
     }
 

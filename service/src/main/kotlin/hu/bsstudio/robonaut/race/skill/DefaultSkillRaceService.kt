@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono
 
 class DefaultSkillRaceService(private val repository: TeamRepository) : SkillRaceService {
 
-    var mapper = TeamModelEntityMapper()
+    internal var mapper = TeamModelEntityMapper()
 
     override fun updateSkillRaceResultOnGate(gateInformation: GateInformation): Mono<DetailedTeam> {
         return Mono.just(gateInformation)

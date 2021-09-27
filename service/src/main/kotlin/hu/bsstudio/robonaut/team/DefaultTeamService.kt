@@ -15,8 +15,8 @@ import reactor.core.publisher.Mono
 @RequiredArgsConstructor
 class DefaultTeamService(private val teamRepository: TeamRepository) : TeamService {
 
-    @Setter(AccessLevel.PACKAGE)
-    private val teamMapper = TeamModelEntityMapper()
+    internal var teamMapper = TeamModelEntityMapper()
+
     override fun addTeam(team: Team): Mono<DetailedTeam> {
         return Mono.just(team)
             .map(this::toEntity)

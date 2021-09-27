@@ -1,13 +1,9 @@
-package hu.bsstudio.robonaut.entity;
+package hu.bsstudio.robonaut.entity
 
-import lombok.Data;
-
-@Data
-public class ScoreEntity {
+data class ScoreEntity(
     // speed
-    private int speedScore;
-    private int bestSpeedTime;
-
+    var speedScore: Int = 0,
+    var bestSpeedTime: Int = 0,
     // calculated
-    private int score;
-}
+    var score: Int = 0,
+)

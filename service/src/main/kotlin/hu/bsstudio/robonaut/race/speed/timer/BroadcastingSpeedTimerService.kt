@@ -15,10 +15,6 @@ class BroadcastingSpeedTimerService(
     }
 
     private fun sendTimerInformation(timer: SpeedTimer) {
-        template.convertAndSend(SPEED_TIMER_ROUTING_KEY, timer)
-    }
-
-    companion object {
-        private const val SPEED_TIMER_ROUTING_KEY = "speed.timer"
+        template.convertAndSend("speed.timer", timer)
     }
 }

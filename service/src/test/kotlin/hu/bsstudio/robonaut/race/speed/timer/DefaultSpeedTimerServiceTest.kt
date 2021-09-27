@@ -1,29 +1,31 @@
-package hu.bsstudio.robonaut.race.speed.timer;
+package hu.bsstudio.robonaut.race.speed.timer
 
-import hu.bsstudio.robonaut.common.model.TimerAction;
-import hu.bsstudio.robonaut.race.speed.timer.model.SpeedTimer;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
+import hu.bsstudio.robonaut.common.model.TimerAction
+import hu.bsstudio.robonaut.race.speed.timer.model.SpeedTimer
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import reactor.core.publisher.Mono
+import reactor.test.StepVerifier
 
-final class DefaultSpeedTimerServiceTest {
+internal class DefaultSpeedTimerServiceTest {
 
-    private static final SpeedTimer SPEED_TIMER = new SpeedTimer(2020, TimerAction.START);
-
-    private DefaultSpeedTimerService underTest;
+    private lateinit var underTest: DefaultSpeedTimerService
 
     @BeforeEach
-    void setUp() {
-        this.underTest = new DefaultSpeedTimerService();
+    fun setUp() {
+        underTest = DefaultSpeedTimerService()
     }
 
     @Test
-    void shouldReturnTimerOnUpdate() {
+    fun shouldReturnTimerOnUpdate() {
         Mono.just(SPEED_TIMER)
             .flatMap(underTest::updateTimer)
-            .as(StepVerifier::create)
+            .let(StepVerifier::create)
             .expectNext(SPEED_TIMER)
-            .verifyComplete();
+            .verifyComplete()
+    }
+
+    companion object {
+        private val SPEED_TIMER = SpeedTimer(2020, TimerAction.START)
     }
 }

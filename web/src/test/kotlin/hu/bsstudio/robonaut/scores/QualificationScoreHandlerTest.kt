@@ -30,7 +30,7 @@ internal class QualificationScoreHandlerTest {
     @Test
     fun `should return DetailedTeam with OK status`() {
         val qualifiedTeam = QualifiedTeam(0, 0)
-        val detailedTeam = DetailedTeam.builder().build()
+        val detailedTeam = DetailedTeam()
         every { mockService.updateQualificationScore(qualifiedTeam) } returns Mono.just(detailedTeam)
         webTestClient.post().uri("/test").bodyValue(qualifiedTeam).exchange()
             .expectStatus().isOk

@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono
 @RequiredArgsConstructor
 class DefaultQualificationScoreService(private val teamRepository: TeamRepository) : QualificationScoreService {
 
-    var mapper = TeamModelEntityMapper()
+    internal var mapper = TeamModelEntityMapper()
 
     override fun updateQualificationScore(qualifiedTeam: QualifiedTeam): Mono<DetailedTeam> {
         return Mono.just(qualifiedTeam)

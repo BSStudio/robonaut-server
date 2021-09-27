@@ -29,15 +29,10 @@ class BroadcastingSpeedRaceService(
     }
 
     private fun sendLapInfo(raceScore: SpeedRaceScore) {
-        template.convertAndSend(SPEED_LAP_ROUTING_KEY, raceScore)
+        template.convertAndSend("speed.lap", raceScore)
     }
 
     private fun sendTeamInfo(detailedTeam: DetailedTeam) {
-        template.convertAndSend(TEAM_TEAM_DATA_ROUTING_KEY, detailedTeam)
-    }
-
-    companion object {
-        const val SPEED_LAP_ROUTING_KEY = "speed.lap"
-        const val TEAM_TEAM_DATA_ROUTING_KEY = "team.teamData"
+        template.convertAndSend("team.teamData", detailedTeam)
     }
 }

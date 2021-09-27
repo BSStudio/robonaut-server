@@ -15,10 +15,6 @@ class BroadcastingSkillTimerService(
     }
 
     private fun sendSkillTimerData(timer: SkillTimer) {
-        template.convertAndSend(SKILL_TIMER_ROUTING_KEY, timer)
-    }
-
-    companion object {
-        const val SKILL_TIMER_ROUTING_KEY = "skill.timer"
+        template.convertAndSend("skill.timer", timer)
     }
 }

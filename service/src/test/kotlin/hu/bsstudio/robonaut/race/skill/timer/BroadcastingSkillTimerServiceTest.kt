@@ -1,45 +1,46 @@
-package hu.bsstudio.robonaut.race.skill.timer;
+package hu.bsstudio.robonaut.race.skill.timer
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
+import hu.bsstudio.robonaut.common.model.TimerAction
+import hu.bsstudio.robonaut.race.skill.timer.model.SkillTimer
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import reactor.core.publisher.Mono
+import reactor.test.StepVerifier
 
-import hu.bsstudio.robonaut.race.skill.timer.model.SkillTimer;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
+internal class BroadcastingSkillTimerServiceTest {
 
-final class BroadcastingSkillTimerServiceTest {
+    @MockK
+    private lateinit var mockTemplate: RabbitTemplate
 
-    private static final SkillTimer SKILL_TIMER = new SkillTimer(0, null);
-    private static final String ROUTING_KEY = "skill.timer";
+    @MockK
+    private lateinit var mockService: SkillTimerService
 
-    private BroadcastingSkillTimerService underTest;
-
-    @Mock
-    private RabbitTemplate mockTemplate;
-    @Mock
-    private SkillTimerService mockService;
+    private lateinit var underTest: BroadcastingSkillTimerService
 
     @BeforeEach
-    void setUp() {
-        openMocks(this);
-        this.underTest = new BroadcastingSkillTimerService(mockTemplate, mockService);
+    fun setUp() {
+        MockKAnnotations.init(this)
+        underTest = BroadcastingSkillTimerService(mockTemplate, mockService)
     }
 
     @Test
-    void shouldReturnSpeedTimerFromUnderLyingServiceAndSendItWhenTimerIsUpdated() {
-        when(mockService.updateTimer(SKILL_TIMER))
-            .thenReturn(Mono.just(SKILL_TIMER));
+    fun shouldReturnSpeedTimerFromUnderLyingServiceAndSendItWhenTimerIsUpdated() {
+        every { mockTemplate.convertAndSend(ROUTING_KEY, SKILL_TIMER) } returns Unit
+        every { mockService.updateTimer(SKILL_TIMER) } returns Mono.just(SKILL_TIMER)
 
         Mono.just(SKILL_TIMER)
             .flatMap(underTest::updateTimer)
-            .as(StepVerifier::create)
+            .let(StepVerifier::create)
             .expectNext(SKILL_TIMER)
-            .verifyComplete();
-        verify(mockTemplate).convertAndSend(ROUTING_KEY, SKILL_TIMER);
+            .verifyComplete()
+    }
+
+    companion object {
+        private val SKILL_TIMER = SkillTimer(0, TimerAction.START)
+        private const val ROUTING_KEY = "skill.timer"
     }
 }

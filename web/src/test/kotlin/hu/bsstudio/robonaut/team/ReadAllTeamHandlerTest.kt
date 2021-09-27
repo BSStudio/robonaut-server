@@ -28,7 +28,7 @@ internal class ReadAllTeamHandlerTest {
 
     @Test
     fun `should return DetailedTeam with OK status`() {
-        val detailedTeam = DetailedTeam.builder().build()
+        val detailedTeam = DetailedTeam()
         every { mockService.findAllTeam() } returns Flux.just(detailedTeam)
 
         webTestClient.post().uri("/test").exchange()

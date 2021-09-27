@@ -1,78 +1,76 @@
-package hu.bsstudio.robonaut.race.speed;
+package hu.bsstudio.robonaut.race.speed
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
+import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult
+import hu.bsstudio.robonaut.race.speed.model.SpeedRaceScore
+import hu.bsstudio.robonaut.team.model.DetailedTeam
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.verify
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import reactor.core.publisher.Mono
+import reactor.test.StepVerifier
 
-import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult;
-import hu.bsstudio.robonaut.race.speed.model.SpeedRaceScore;
-import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import java.util.Collections;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
+internal class BroadcastingSpeedRaceServiceTest {
 
-final class BroadcastingSpeedRaceServiceTest {
+    @MockK
+    private lateinit var mockTemplate: RabbitTemplate
 
-    private static final SpeedRaceResult SPEED_RACE_RESULT = new SpeedRaceResult(0, 0, 0, Collections.emptyList());
-    private static final SpeedRaceScore SPEED_RACE_SCORE = new SpeedRaceScore(0, Collections.emptyList());
-    private static final DetailedTeam DETAILED_TEAM = DetailedTeam.builder().build();
-    private static final String TEAM_DATA_ROUTING_KEY = "team.teamData";
-    private static final String SPEED_LAP_ROUTING_KEY = "speed.lap";
+    @MockK
+    private lateinit var mockService: SpeedRaceService
 
-    private BroadcastingSpeedRaceService underTest;
-
-    @Mock
-    private RabbitTemplate mockTemplate;
-    @Mock
-    private SpeedRaceService mockService;
+    private lateinit var underTest: BroadcastingSpeedRaceService
 
     @BeforeEach
-    void setUp() {
-        openMocks(this);
-        this.underTest = new BroadcastingSpeedRaceService(mockTemplate, mockService);
+    fun setUp() {
+        MockKAnnotations.init(this)
+        underTest = BroadcastingSpeedRaceService(mockTemplate, mockService)
     }
 
     @Test
-    void shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenRaceResultWasSubmittedOnJunior() {
-        when(mockService.updateSpeedRaceJunior(SPEED_RACE_RESULT))
-            .thenReturn(Mono.just(DETAILED_TEAM));
+    fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenRaceResultWasSubmittedOnJunior() {
+        every { mockService.updateSpeedRaceJunior(SPEED_RACE_RESULT) } returns Mono.just(DETAILED_TEAM)
+        every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
 
-        final var result = underTest.updateSpeedRaceJunior(SPEED_RACE_RESULT);
+        val result = underTest.updateSpeedRaceJunior(SPEED_RACE_RESULT)
 
         StepVerifier.create(result)
             .expectNext(DETAILED_TEAM)
-            .verifyComplete();
-        verify(mockTemplate).convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM);
+            .verifyComplete()
     }
 
     @Test
-    void shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenRaceResultWasSubmittedOnSenior() {
-        when(mockService.updateSpeedRaceSenior(SPEED_RACE_RESULT))
-            .thenReturn(Mono.just(DETAILED_TEAM));
+    fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenRaceResultWasSubmittedOnSenior() {
+        every { mockService.updateSpeedRaceSenior(SPEED_RACE_RESULT) } returns Mono.just(DETAILED_TEAM)
+        every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
 
-        final var result = underTest.updateSpeedRaceSenior(SPEED_RACE_RESULT);
+        val result = underTest.updateSpeedRaceSenior(SPEED_RACE_RESULT)
 
         StepVerifier.create(result)
             .expectNext(DETAILED_TEAM)
-            .verifyComplete();
-        verify(mockTemplate).convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM);
+            .verifyComplete()
     }
 
     @Test
-    void shouldSendSpeedRaceScoreThenShouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
-        when(mockService.updateSpeedRaceOnLap(SPEED_RACE_SCORE))
-            .thenReturn(Mono.just(DETAILED_TEAM));
+    fun shouldSendSpeedRaceScoreThenShouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
+        every { mockTemplate.convertAndSend(SPEED_LAP_ROUTING_KEY, SPEED_RACE_SCORE) } returns Unit
+        every { mockService.updateSpeedRaceOnLap(SPEED_RACE_SCORE) } returns Mono.just(DETAILED_TEAM)
+        every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
 
-        final var result = underTest.updateSpeedRaceOnLap(SPEED_RACE_SCORE);
+        val result = underTest.updateSpeedRaceOnLap(SPEED_RACE_SCORE)
 
         StepVerifier.create(result)
             .expectNext(DETAILED_TEAM)
-            .verifyComplete();
-        verify(mockTemplate).convertAndSend(SPEED_LAP_ROUTING_KEY, SPEED_RACE_SCORE);
-        verify(mockTemplate).convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM);
+            .verifyComplete()
+    }
+
+    companion object {
+        private val SPEED_RACE_RESULT = SpeedRaceResult(0, 0, 0, emptyList())
+        private val SPEED_RACE_SCORE = SpeedRaceScore(0, emptyList())
+        private val DETAILED_TEAM: DetailedTeam = DetailedTeam()
+        private const val TEAM_DATA_ROUTING_KEY = "team.teamData"
+        private const val SPEED_LAP_ROUTING_KEY = "speed.lap"
     }
 }

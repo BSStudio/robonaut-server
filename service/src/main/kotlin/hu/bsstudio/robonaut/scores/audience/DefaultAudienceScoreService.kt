@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono
 
 class DefaultAudienceScoreService(private val teamRepository: TeamRepository) : AudienceScoreService {
 
-    var teamModelEntityMapper = TeamModelEntityMapper()
+    internal var teamModelEntityMapper = TeamModelEntityMapper()
 
     override fun updateAudienceScore(audienceScoredTeam: AudienceScoredTeam): Mono<DetailedTeam> {
         return Mono.just(audienceScoredTeam)

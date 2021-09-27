@@ -28,8 +28,9 @@ internal class AdminUpdateTeamHandlerTest {
 
     @Test
     fun `should return DetailedTeam with OK status`() {
-        val detailedTeam = DetailedTeam.builder().build()
+        val detailedTeam = DetailedTeam()
         every { mockService.updateTeam(detailedTeam) } returns Mono.just(detailedTeam)
+
         webTestClient.post().uri("/test").bodyValue(detailedTeam).exchange()
             .expectStatus().isOk
             .expectBody<List<DetailedTeam>>()

@@ -1,70 +1,68 @@
-package hu.bsstudio.robonaut.scores.audience;
+package hu.bsstudio.robonaut.scores.audience
 
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
+import hu.bsstudio.robonaut.entity.TeamEntity
+import hu.bsstudio.robonaut.repository.TeamRepository
+import hu.bsstudio.robonaut.scores.audience.model.AudienceScoredTeam
+import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper
+import hu.bsstudio.robonaut.team.model.DetailedTeam
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import reactor.core.publisher.Mono
+import reactor.test.StepVerifier
 
-import hu.bsstudio.robonaut.entity.TeamEntity;
-import hu.bsstudio.robonaut.repository.TeamRepository;
-import hu.bsstudio.robonaut.scores.audience.model.AudienceScoredTeam;
-import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper;
-import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
+internal class DefaultAudienceScoreServiceTest {
 
-final class DefaultAudienceScoreServiceTest {
+    @MockK
+    private lateinit var mockRepository: TeamRepository
 
-    private static final long TEAM_ID = 42;
-    private static final int VOTES = 420;
-    private static final int AUDIENCE_SCORE = 20;
-    private static final AudienceScoredTeam AUDIENCE_SCORED_TEAM = new AudienceScoredTeam(TEAM_ID, VOTES, AUDIENCE_SCORE);
+    @MockK
+    private lateinit var mockMapper: TeamModelEntityMapper
 
-    private DefaultAudienceScoreService underTest;
-
-    @Mock
-    private TeamRepository mockRepository;
-    @Mock
-    private TeamModelEntityMapper mockMapper;
+    private lateinit var underTest: DefaultAudienceScoreService
 
     @BeforeEach
-    void setUp() {
-        openMocks(this);
-        this.underTest = new DefaultAudienceScoreService(mockRepository);
-        this.underTest.setTeamModelEntityMapper(mockMapper);
+    fun setUp() {
+        MockKAnnotations.init(this)
+        underTest = DefaultAudienceScoreService(mockRepository)
+        underTest.teamModelEntityMapper = mockMapper
     }
 
     @Test
-    void shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdated() {
-        final var foundTeamEntity = new TeamEntity();
-        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundTeamEntity));
-        final var updatedTeamEntity = new TeamEntity();
-        updatedTeamEntity.setAudienceScore(AUDIENCE_SCORE);
-        updatedTeamEntity.setVotes(VOTES);
-        when(mockRepository.save(updatedTeamEntity)).thenReturn(Mono.just(updatedTeamEntity));
-        final var detailedTeam = DetailedTeam.builder().build();
-        when(mockMapper.toModel(updatedTeamEntity)).thenReturn(detailedTeam);
+    fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdated() {
+        val foundTeamEntity = TeamEntity()
+        every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
+        val updatedTeamEntity = TeamEntity(audienceScore = AUDIENCE_SCORE, votes = VOTES)
+        every { mockRepository.save(updatedTeamEntity) } returns Mono.just(updatedTeamEntity)
+        val detailedTeam = DetailedTeam()
+        every { mockMapper.toModel(updatedTeamEntity) } returns detailedTeam
 
-        final var result = underTest.updateAudienceScore(AUDIENCE_SCORED_TEAM);
+        val result = underTest.updateAudienceScore(AUDIENCE_SCORED_TEAM)
 
         StepVerifier.create(result)
             .expectNext(detailedTeam)
-            .verifyComplete();
+            .verifyComplete()
     }
 
     @Test
-    void shouldReturnEmptyWhenEntityWasNotFound() {
-        final var foundTeamEntity = new TeamEntity();
-        when(mockRepository.findById(TEAM_ID)).thenReturn(Mono.just(foundTeamEntity));
-        final var updatedTeamEntity = new TeamEntity();
-        updatedTeamEntity.setAudienceScore(AUDIENCE_SCORE);
-        updatedTeamEntity.setVotes(VOTES);
-        when(mockRepository.save(updatedTeamEntity)).thenReturn(Mono.empty());
+    fun shouldReturnEmptyWhenEntityWasNotFound() {
+        val foundTeamEntity = TeamEntity()
+        every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
+        val updatedTeamEntity = TeamEntity(audienceScore = AUDIENCE_SCORE, votes = VOTES)
+        every { mockRepository.save(updatedTeamEntity) } returns Mono.empty()
 
-        final var result = underTest.updateAudienceScore(AUDIENCE_SCORED_TEAM);
+        val result = underTest.updateAudienceScore(AUDIENCE_SCORED_TEAM)
 
         StepVerifier.create(result)
-            .verifyComplete();
+            .verifyComplete()
+    }
+
+    companion object {
+        private const val TEAM_ID: Long = 42
+        private const val VOTES = 420
+        private const val AUDIENCE_SCORE = 20
+        private val AUDIENCE_SCORED_TEAM = AudienceScoredTeam(TEAM_ID, VOTES, AUDIENCE_SCORE)
     }
 }

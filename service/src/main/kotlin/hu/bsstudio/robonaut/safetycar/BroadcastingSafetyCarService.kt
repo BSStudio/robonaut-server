@@ -26,20 +26,15 @@ class BroadcastingSafetyCarService(
     }
 
     private fun sendSafetyCarFollow(safetyCarFollowInformation: SafetyCarFollowInformation) {
-        template.convertAndSend(SPEED_SAFETY_CAR_FOLLOW_ROUTING_KEY, safetyCarFollowInformation)
+        template.convertAndSend("speed.safetyCar.follow", safetyCarFollowInformation)
     }
 
     private fun sendSafetyCarOvertake(safetyCarOvertakeInformation: SafetyCarOvertakeInformation) {
-        template.convertAndSend(SPEED_SAFETY_CAR_OVERTAKE_ROUTING_KEY, safetyCarOvertakeInformation)
+        template.convertAndSend("speed.safetyCar.overtake", safetyCarOvertakeInformation)
     }
 
     private fun sendTeamData(detailedTeam: DetailedTeam) {
-        template.convertAndSend(TEAM_DATA_ROUTING_KEY, detailedTeam)
+        template.convertAndSend("team.teamData", detailedTeam)
     }
 
-    companion object {
-        const val SPEED_SAFETY_CAR_FOLLOW_ROUTING_KEY = "speed.safetyCar.follow"
-        const val SPEED_SAFETY_CAR_OVERTAKE_ROUTING_KEY = "speed.safetyCar.overtake"
-        const val TEAM_DATA_ROUTING_KEY = "team.teamData"
-    }
 }

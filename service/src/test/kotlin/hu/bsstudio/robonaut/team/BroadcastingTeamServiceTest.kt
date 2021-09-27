@@ -1,90 +1,88 @@
-package hu.bsstudio.robonaut.team;
+package hu.bsstudio.robonaut.team
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
+import hu.bsstudio.robonaut.team.model.DetailedTeam
+import hu.bsstudio.robonaut.team.model.Team
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.verify
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
+import reactor.test.StepVerifier
 
-import hu.bsstudio.robonaut.team.model.DetailedTeam;
-import hu.bsstudio.robonaut.team.model.Team;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
+internal class BroadcastingTeamServiceTest {
 
-final class BroadcastingTeamServiceTest {
+    @MockK
+    private lateinit var mockTemplate: RabbitTemplate
 
-    private static final Team TEAM = Team.builder().build();
-    private static final DetailedTeam DETAILED_TEAM_1 = DetailedTeam.builder().teamId(1).build();
-    private static final DetailedTeam DETAILED_TEAM_2 = DetailedTeam.builder().teamId(2).build();
-    private static final String TEAM_DATA_ROUTING_KEY = "team.teamData";
+    @MockK
+    private lateinit var mockService: TeamService
 
-    private BroadcastingTeamService underTest;
-
-    @Mock
-    private RabbitTemplate mockTemplate;
-    @Mock
-    private TeamService mockService;
+    private lateinit var underTest: BroadcastingTeamService
 
     @BeforeEach
-    void setUp() {
-        openMocks(this);
-        this.underTest = new BroadcastingTeamService(mockTemplate, mockService);
+    fun setUp() {
+        MockKAnnotations.init(this)
+        underTest = BroadcastingTeamService(mockTemplate, mockService)
     }
 
     @Test
-    void shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenTeamIsCreated() {
-        when(mockService.addTeam(TEAM))
-            .thenReturn(Mono.just(DETAILED_TEAM_1));
+    fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenTeamIsCreated() {
+        every { mockService.addTeam(TEAM) } returns Mono.just(DETAILED_TEAM_1)
+        every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_1) } returns Unit
 
-        final var result = underTest.addTeam(TEAM);
+        val result = underTest.addTeam(TEAM)
 
         StepVerifier.create(result)
             .expectNext(DETAILED_TEAM_1)
-            .verifyComplete();
-        verify(mockTemplate).convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_1);
+            .verifyComplete()
     }
 
     @Test
-    void shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenTeamIsUpdated() {
-        when(mockService.updateTeam(TEAM))
-            .thenReturn(Mono.just(DETAILED_TEAM_1));
+    fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenTeamIsUpdated() {
+        every { mockService.updateTeam(TEAM) } returns Mono.just(DETAILED_TEAM_1)
+        every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_1) } returns Unit
 
-        final var result = underTest.updateTeam(TEAM);
+        val result = underTest.updateTeam(TEAM)
 
         StepVerifier.create(result)
             .expectNext(DETAILED_TEAM_1)
-            .verifyComplete();
-        verify(mockTemplate).convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_1);
+            .verifyComplete()
     }
 
     @Test
-    void shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenTeamIsUpdatedByAdmin() {
-        when(mockService.updateTeam(DETAILED_TEAM_1))
-            .thenReturn(Mono.just(DETAILED_TEAM_1));
+    fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenTeamIsUpdatedByAdmin() {
+        every { mockService.updateTeam(DETAILED_TEAM_1) } returns Mono.just(DETAILED_TEAM_1)
+        every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_1) } returns Unit
 
-        final var result = underTest.updateTeam(DETAILED_TEAM_1);
+        val result = underTest.updateTeam(DETAILED_TEAM_1)
 
         StepVerifier.create(result)
             .expectNext(DETAILED_TEAM_1)
-            .verifyComplete();
-        verify(mockTemplate).convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_1);
+            .verifyComplete()
     }
 
     @Test
-    void shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenFindingAllTeam() {
-        when(mockService.findAllTeam())
-            .thenReturn(Flux.just(DETAILED_TEAM_1, DETAILED_TEAM_2));
+    fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenFindingAllTeam() {
+        every { mockService.findAllTeam() } returns Flux.just(DETAILED_TEAM_1, DETAILED_TEAM_2)
+        every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_1) } returns Unit
+        every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_2) } returns Unit
 
-        final var result = underTest.findAllTeam();
+        val result = underTest.findAllTeam()
 
         StepVerifier.create(result)
             .expectNext(DETAILED_TEAM_1)
             .expectNext(DETAILED_TEAM_2)
-            .verifyComplete();
-        verify(mockTemplate).convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_1);
-        verify(mockTemplate).convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_2);
+            .verifyComplete()
+    }
+
+    companion object {
+        private val TEAM: Team = Team()
+        private val DETAILED_TEAM_1: DetailedTeam = DetailedTeam(teamId = 1)
+        private val DETAILED_TEAM_2: DetailedTeam = DetailedTeam(teamId = 2)
+        private const val TEAM_DATA_ROUTING_KEY = "team.teamData"
     }
 }
