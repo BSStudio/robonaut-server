@@ -20,14 +20,13 @@ internal class TeamModelEntityMapperTest {
     private lateinit var underTest: TeamModelEntityMapper
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
-        underTest = TeamModelEntityMapper()
-        underTest.scoreEntityMapper = mockMapper
+        underTest = TeamModelEntityMapper(mockMapper)
     }
 
     @Test
-    fun shouldReturnMappedDetailedTeam() {
+    internal fun shouldReturnMappedDetailedTeam() {
         every { mockMapper.toModel(SCORE_ENTITY) } returns COMBINED_SCORE
         every { mockMapper.toModel(JUNIOR_SCORE_ENTITY) } returns JUNIOR_SCORE
 
@@ -37,7 +36,7 @@ internal class TeamModelEntityMapperTest {
     }
 
     @Test
-    fun shouldReturnMapperEntity() {
+    internal fun shouldReturnMapperEntity() {
         every { mockMapper.toEntity(COMBINED_SCORE) } returns SCORE_ENTITY
         every { mockMapper.toEntity(JUNIOR_SCORE) } returns JUNIOR_SCORE_ENTITY
 

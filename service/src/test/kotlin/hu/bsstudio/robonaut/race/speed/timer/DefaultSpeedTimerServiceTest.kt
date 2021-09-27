@@ -12,12 +12,12 @@ internal class DefaultSpeedTimerServiceTest {
     private lateinit var underTest: DefaultSpeedTimerService
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         underTest = DefaultSpeedTimerService()
     }
 
     @Test
-    fun shouldReturnTimerOnUpdate() {
+    internal fun shouldReturnTimerOnUpdate() {
         Mono.just(SPEED_TIMER)
             .flatMap(underTest::updateTimer)
             .let(StepVerifier::create)

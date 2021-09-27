@@ -2,11 +2,9 @@ package hu.bsstudio.robonaut.scores.qualification
 
 import hu.bsstudio.robonaut.scores.qualification.model.QualifiedTeam
 import hu.bsstudio.robonaut.team.model.DetailedTeam
-import lombok.RequiredArgsConstructor
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import reactor.core.publisher.Mono
 
-@RequiredArgsConstructor
 class BroadcastingQualificationScoreService(
     private val template: RabbitTemplate,
     private val service: QualificationScoreService,

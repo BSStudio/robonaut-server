@@ -2,12 +2,10 @@ package hu.bsstudio.robonaut.team
 
 import hu.bsstudio.robonaut.team.model.DetailedTeam
 import hu.bsstudio.robonaut.team.model.Team
-import lombok.RequiredArgsConstructor
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
-@RequiredArgsConstructor
 class BroadcastingTeamService(
     private val template: RabbitTemplate,
     private val service: TeamService,

@@ -10,10 +10,9 @@ import hu.bsstudio.robonaut.team.model.DetailedTeam
 import reactor.core.publisher.Mono
 
 class DefaultEndResultService(
-    private val teamRepository: TeamRepository
+    private val teamRepository: TeamRepository,
+    private val teamModelEntityMapper: TeamModelEntityMapper = TeamModelEntityMapper(),
 ) : EndResultService {
-
-    internal var teamModelEntityMapper = TeamModelEntityMapper()
 
     override fun updateEndResultSenior(endResultedTeam: EndResultedTeam): Mono<DetailedTeam> {
         return Mono.just(endResultedTeam)

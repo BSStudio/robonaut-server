@@ -23,13 +23,13 @@ internal class BroadcastingSkillRaceServiceTest {
     private lateinit var underTest: BroadcastingSkillRaceService
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
         underTest = BroadcastingSkillRaceService(mockTemplate, mockService)
     }
 
     @Test
-    fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenRaceResultWasSubmitted() {
+    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenRaceResultWasSubmitted() {
         every { mockService.updateSkillRaceResult(SKILL_RACE_RESULT) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_ROUTING_KEY, DETAILED_TEAM) } returns Unit
 
@@ -41,7 +41,7 @@ internal class BroadcastingSkillRaceServiceTest {
     }
 
     @Test
-    fun shouldSendGateInformationThenShouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
+    internal fun shouldSendGateInformationThenShouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
         every { mockTemplate.convertAndSend(GATE_ROUTING_KEY, GATE_INFORMATION) } returns Unit
         every { mockService.updateSkillRaceResultOnGate(GATE_INFORMATION) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_ROUTING_KEY, DETAILED_TEAM) } returns Unit

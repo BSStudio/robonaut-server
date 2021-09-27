@@ -9,9 +9,10 @@ import hu.bsstudio.robonaut.team.model.Team
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
-class DefaultTeamService(private val teamRepository: TeamRepository) : TeamService {
-
-    internal var teamMapper = TeamModelEntityMapper()
+class DefaultTeamService(
+    private val teamRepository: TeamRepository,
+    private val teamMapper: TeamModelEntityMapper = TeamModelEntityMapper()
+) : TeamService {
 
     override fun addTeam(team: Team): Mono<DetailedTeam> {
         return Mono.just(team)

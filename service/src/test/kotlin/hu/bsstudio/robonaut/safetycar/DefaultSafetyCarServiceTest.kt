@@ -25,14 +25,13 @@ internal class DefaultSafetyCarServiceTest {
     private lateinit var underTest: DefaultSafetyCarService
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
-        underTest = DefaultSafetyCarService(mockRepository)
-        underTest.mapper = mockMapper
+        underTest = DefaultSafetyCarService(mockRepository, mockMapper)
     }
 
     @Test
-    fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdatedWhenSafetyCarWasFollowed() {
+    internal fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdatedWhenSafetyCarWasFollowed() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity(safetyCarWasFollowed = SAFETY_CAR_FOLLOWED)
@@ -48,7 +47,7 @@ internal class DefaultSafetyCarServiceTest {
     }
 
     @Test
-    fun shouldReturnEmptyWhenEntityWasNotFoundWhenSafetyCarWasFollowed() {
+    internal fun shouldReturnEmptyWhenEntityWasNotFoundWhenSafetyCarWasFollowed() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity()
@@ -62,7 +61,7 @@ internal class DefaultSafetyCarServiceTest {
     }
 
     @Test
-    fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdatedWhenSafetyCarWasOvertaken() {
+    internal fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdatedWhenSafetyCarWasOvertaken() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity()
@@ -79,7 +78,7 @@ internal class DefaultSafetyCarServiceTest {
     }
 
     @Test
-    fun shouldReturnEmptyWhenEntityWasNotFoundWhenSafetyCarWasOvertaken() {
+    internal fun shouldReturnEmptyWhenEntityWasNotFoundWhenSafetyCarWasOvertaken() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity()

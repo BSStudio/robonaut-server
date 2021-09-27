@@ -28,14 +28,13 @@ internal class DefaultTeamServiceTest {
     private lateinit var underTest: DefaultTeamService
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
-        underTest = DefaultTeamService(mockRepository)
-        underTest.teamMapper = mockMapper
+        underTest = DefaultTeamService(mockRepository, mockMapper)
     }
 
     @Test
-    fun shouldReturnCreatedTeam() {
+    internal fun shouldReturnCreatedTeam() {
         every { mockRepository.insert(TEAM_ENTITY_1) } returns Mono.just(TEAM_ENTITY_1)
         every { mockMapper.toModel(TEAM_ENTITY_1) } returns DETAILED_TEAM_1
 
@@ -47,7 +46,7 @@ internal class DefaultTeamServiceTest {
     }
 
     @Test
-    fun shouldReturnUpdatedTeam() {
+    internal fun shouldReturnUpdatedTeam() {
         every { mockRepository.findById(TEAM_ID_1) } returns Mono.just(OLD_TEAM_ENTITY)
         every { mockRepository.save(TEAM_ENTITY_1) } returns Mono.just(TEAM_ENTITY_1)
         every { mockMapper.toModel(TEAM_ENTITY_1) } returns DETAILED_TEAM_1
@@ -60,7 +59,7 @@ internal class DefaultTeamServiceTest {
     }
 
     @Test
-    fun shouldReturnUpdatedTeamByAdmin() {
+    internal fun shouldReturnUpdatedTeamByAdmin() {
         every { mockMapper.toEntity(DETAILED_TEAM_1) } returns TEAM_ENTITY_1
         every { mockRepository.save(TEAM_ENTITY_1) } returns Mono.just(TEAM_ENTITY_1)
         every { mockMapper.toModel(TEAM_ENTITY_1) } returns DETAILED_TEAM_1
@@ -73,7 +72,7 @@ internal class DefaultTeamServiceTest {
     }
 
     @Test
-    fun shouldReturnAllTeam() {
+    internal fun shouldReturnAllTeam() {
         every { mockRepository.findAll() } returns Flux.just(TEAM_ENTITY_1, TEAM_ENTITY_2)
         every { mockMapper.toModel(TEAM_ENTITY_1) } returns DETAILED_TEAM_1
         every { mockMapper.toModel(TEAM_ENTITY_2) } returns DETAILED_TEAM_2

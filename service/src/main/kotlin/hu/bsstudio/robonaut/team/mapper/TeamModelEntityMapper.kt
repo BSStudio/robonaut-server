@@ -3,9 +3,7 @@ package hu.bsstudio.robonaut.team.mapper
 import hu.bsstudio.robonaut.entity.TeamEntity
 import hu.bsstudio.robonaut.team.model.DetailedTeam
 
-class TeamModelEntityMapper {
-
-    internal var scoreEntityMapper = ScoreEntityMapper()
+class TeamModelEntityMapper(private val scoreEntityMapper: ScoreEntityMapper = ScoreEntityMapper()) {
 
     fun toModel(teamEntity: TeamEntity) = DetailedTeam(
         teamId = teamEntity.teamId,

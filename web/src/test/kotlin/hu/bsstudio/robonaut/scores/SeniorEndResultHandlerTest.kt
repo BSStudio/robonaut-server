@@ -20,7 +20,7 @@ internal class SeniorEndResultHandlerTest {
     private lateinit var webTestClient: WebTestClient
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
         val underTest = SeniorEndResultHandler(mockService)
         val routerFunction = RouterFunctions.route()
@@ -29,7 +29,7 @@ internal class SeniorEndResultHandlerTest {
     }
 
     @Test
-    fun `should return DetailedTeam with OK status`() {
+    internal fun `should return DetailedTeam with OK status`() {
         val endResultedTeam = EndResultedTeam(0, 0)
         val detailedTeam = DetailedTeam()
         every { mockService.updateEndResultSenior(endResultedTeam) } returns Mono.just(detailedTeam)

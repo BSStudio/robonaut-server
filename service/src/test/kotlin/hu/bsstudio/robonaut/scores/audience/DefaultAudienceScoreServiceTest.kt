@@ -24,14 +24,13 @@ internal class DefaultAudienceScoreServiceTest {
     private lateinit var underTest: DefaultAudienceScoreService
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
-        underTest = DefaultAudienceScoreService(mockRepository)
-        underTest.teamModelEntityMapper = mockMapper
+        underTest = DefaultAudienceScoreService(mockRepository, mockMapper)
     }
 
     @Test
-    fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdated() {
+    internal fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdated() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity(audienceScore = AUDIENCE_SCORE, votes = VOTES)
@@ -47,7 +46,7 @@ internal class DefaultAudienceScoreServiceTest {
     }
 
     @Test
-    fun shouldReturnEmptyWhenEntityWasNotFound() {
+    internal fun shouldReturnEmptyWhenEntityWasNotFound() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity(audienceScore = AUDIENCE_SCORE, votes = VOTES)

@@ -10,9 +10,10 @@ import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper
 import hu.bsstudio.robonaut.team.model.DetailedTeam
 import reactor.core.publisher.Mono
 
-class DefaultSpeedRaceService(private val repository: TeamRepository) : SpeedRaceService {
-
-    internal var mapper = TeamModelEntityMapper()
+class DefaultSpeedRaceService(
+    private val repository: TeamRepository,
+    private val mapper: TeamModelEntityMapper = TeamModelEntityMapper()
+) : SpeedRaceService {
 
     override fun updateSpeedRaceOnLap(speedRaceScore: SpeedRaceScore): Mono<DetailedTeam> {
         return Mono.just(speedRaceScore)

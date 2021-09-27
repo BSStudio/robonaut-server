@@ -23,13 +23,13 @@ internal class BroadcastingSafetyCarServiceTest {
     private lateinit var underTest: BroadcastingSafetyCarService
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
         underTest = BroadcastingSafetyCarService(mockTemplate, mockService)
     }
 
     @Test
-    fun shouldSendSafetyCarFollowInformationThenShouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
+    internal fun shouldSendSafetyCarFollowInformationThenShouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
         every { mockTemplate.convertAndSend(FOLLOW_ROUTING_KEY, SAFETY_CAR_FOLLOW_INFORMATION) } returns Unit
         every { mockService.safetyCarWasFollowed(SAFETY_CAR_FOLLOW_INFORMATION) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
@@ -42,7 +42,7 @@ internal class BroadcastingSafetyCarServiceTest {
     }
 
     @Test
-    fun shouldSendSafetyCarOvertakeInformationThenShouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
+    internal fun shouldSendSafetyCarOvertakeInformationThenShouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
         every { mockTemplate.convertAndSend(OVERTAKE_ROUTING_KEY, SAFETY_CAR_OVERTAKE_INFORMATION) } returns Unit
         every { mockService.safetyCarWasOvertaken(SAFETY_CAR_OVERTAKE_INFORMATION) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit

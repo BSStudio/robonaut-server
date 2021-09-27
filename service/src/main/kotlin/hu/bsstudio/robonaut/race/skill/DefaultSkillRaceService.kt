@@ -8,9 +8,10 @@ import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper
 import hu.bsstudio.robonaut.team.model.DetailedTeam
 import reactor.core.publisher.Mono
 
-class DefaultSkillRaceService(private val repository: TeamRepository) : SkillRaceService {
-
-    internal var mapper = TeamModelEntityMapper()
+class DefaultSkillRaceService(
+    private val repository: TeamRepository,
+    private val mapper: TeamModelEntityMapper = TeamModelEntityMapper()
+) : SkillRaceService {
 
     override fun updateSkillRaceResultOnGate(gateInformation: GateInformation): Mono<DetailedTeam> {
         return Mono.just(gateInformation)

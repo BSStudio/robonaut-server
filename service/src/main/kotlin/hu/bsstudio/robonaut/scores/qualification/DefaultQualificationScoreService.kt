@@ -5,13 +5,12 @@ import hu.bsstudio.robonaut.repository.TeamRepository
 import hu.bsstudio.robonaut.scores.qualification.model.QualifiedTeam
 import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper
 import hu.bsstudio.robonaut.team.model.DetailedTeam
-import lombok.RequiredArgsConstructor
 import reactor.core.publisher.Mono
 
-@RequiredArgsConstructor
-class DefaultQualificationScoreService(private val teamRepository: TeamRepository) : QualificationScoreService {
-
-    internal var mapper = TeamModelEntityMapper()
+class DefaultQualificationScoreService(
+    private val teamRepository: TeamRepository,
+    private val mapper: TeamModelEntityMapper = TeamModelEntityMapper()
+) : QualificationScoreService {
 
     override fun updateQualificationScore(qualifiedTeam: QualifiedTeam): Mono<DetailedTeam> {
         return Mono.just(qualifiedTeam)

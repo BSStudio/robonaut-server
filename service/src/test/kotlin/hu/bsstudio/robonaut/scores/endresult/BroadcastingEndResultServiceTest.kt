@@ -22,13 +22,13 @@ internal class BroadcastingEndResultServiceTest {
     private lateinit var underTest: BroadcastingEndResultService
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
         underTest = BroadcastingEndResultService(mockTemplate, mockService)
     }
 
     @Test
-    fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItForSenior() {
+    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItForSenior() {
         every { mockService.updateEndResultSenior(END_RESULTED_TEAM) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
 
@@ -40,7 +40,7 @@ internal class BroadcastingEndResultServiceTest {
     }
 
     @Test
-    fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItForJunior() {
+    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItForJunior() {
         every { mockService.updateEndResultJunior(END_RESULTED_TEAM) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
 

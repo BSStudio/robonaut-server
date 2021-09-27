@@ -21,7 +21,7 @@ internal class SkillGateHandlerTest {
     private lateinit var webTestClient: WebTestClient
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
         val underTest = SkillGateHandler(mockService)
         val routerFunction = RouterFunctions.route()
@@ -30,7 +30,7 @@ internal class SkillGateHandlerTest {
     }
 
     @Test
-    fun `should return DetailedTeam with OK status`() {
+    internal fun `should return DetailedTeam with OK status`() {
         val gateInfo = GateInformation(0, 0, 0, 0, 0)
         val detailedTeam = DetailedTeam()
         every { mockService.updateSkillRaceResultOnGate(gateInfo) } returns Mono.just(detailedTeam)

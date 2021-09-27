@@ -24,14 +24,13 @@ internal class DefaultQualificationScoreServiceTest {
     private lateinit var underTest: DefaultQualificationScoreService
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
-        underTest = DefaultQualificationScoreService(mockRepository)
-        underTest.mapper = mockMapper
+        underTest = DefaultQualificationScoreService(mockRepository, mockMapper)
     }
 
     @Test
-    fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdated() {
+    internal fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdated() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity()
@@ -48,7 +47,7 @@ internal class DefaultQualificationScoreServiceTest {
     }
 
     @Test
-    fun shouldReturnEmptyWhenEntityWasNotFound() {
+    internal fun shouldReturnEmptyWhenEntityWasNotFound() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity()

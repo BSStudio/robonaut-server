@@ -18,7 +18,7 @@ internal class AdminUpdateTeamHandlerTest {
     private lateinit var webTestClient: WebTestClient
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
         val underTest = AdminUpdateTeamHandler(mockService)
         val routerFunction = RouterFunctions.route()
@@ -27,7 +27,7 @@ internal class AdminUpdateTeamHandlerTest {
     }
 
     @Test
-    fun `should return DetailedTeam with OK status`() {
+    internal fun `should return DetailedTeam with OK status`() {
         val detailedTeam = DetailedTeam()
         every { mockService.updateTeam(detailedTeam) } returns Mono.just(detailedTeam)
 

@@ -26,14 +26,13 @@ internal class DefaultEndResultServiceTest {
     private lateinit var underTest: DefaultEndResultService
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
-        underTest = DefaultEndResultService(mockRepository)
-        underTest.teamModelEntityMapper = mockMapper
+        underTest = DefaultEndResultService(mockRepository, mockMapper)
     }
 
     @Test
-    fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdatedOnJunior() {
+    internal fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdatedOnJunior() {
         val foundTeamEntity = TeamEntity(score = ScoreEntity())
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity(score = ScoreEntity(score = POINTS))
@@ -48,7 +47,7 @@ internal class DefaultEndResultServiceTest {
     }
 
     @Test
-    fun shouldReturnEmptyWhenEntityWasNotFoundOnJunior() {
+    internal fun shouldReturnEmptyWhenEntityWasNotFoundOnJunior() {
         every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
 
         Mono.just(END_RESULTED_TEAM)
@@ -58,7 +57,7 @@ internal class DefaultEndResultServiceTest {
     }
 
     @Test
-    fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdatedOnSenior() {
+    internal fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdatedOnSenior() {
         val foundTeamEntity = TeamEntity(
             teamType = TeamType.JUNIOR,
             juniorScore = ScoreEntity(),
@@ -79,7 +78,7 @@ internal class DefaultEndResultServiceTest {
     }
 
     @Test
-    fun shouldReturnEmptyWhenSeniorTeamTriesToUpdateJuniorScore() {
+    internal fun shouldReturnEmptyWhenSeniorTeamTriesToUpdateJuniorScore() {
         val foundTeamEntity = TeamEntity(
             teamType = TeamType.SENIOR,
             juniorScore = ScoreEntity(),
@@ -93,7 +92,7 @@ internal class DefaultEndResultServiceTest {
     }
 
     @Test
-    fun shouldReturnEmptyWhenEntityWasNotFoundOnSenior() {
+    internal fun shouldReturnEmptyWhenEntityWasNotFoundOnSenior() {
         every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
 
         Mono.just(END_RESULTED_TEAM)

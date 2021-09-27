@@ -12,12 +12,12 @@ internal class DefaultSkillTimerServiceTest {
     private lateinit var underTest: DefaultSkillTimerService
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         underTest = DefaultSkillTimerService()
     }
 
     @Test
-    fun shouldReturnSkillTimerWhenTimerIsUpdated() {
+    internal fun shouldReturnSkillTimerWhenTimerIsUpdated() {
         Mono.just(SKILL_TIMER)
             .flatMap(underTest::updateTimer)
             .let(StepVerifier::create)

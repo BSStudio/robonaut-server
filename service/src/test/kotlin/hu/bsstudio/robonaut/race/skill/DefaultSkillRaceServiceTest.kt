@@ -24,14 +24,13 @@ internal class DefaultSkillRaceServiceTest {
     private lateinit var underTest: DefaultSkillRaceService
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
-        underTest = DefaultSkillRaceService(mockRepository)
-        underTest.mapper = mockMapper
+        underTest = DefaultSkillRaceService(mockRepository, mockMapper)
     }
 
     @Test
-    fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdated() {
+    internal fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdated() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity()
@@ -48,7 +47,7 @@ internal class DefaultSkillRaceServiceTest {
     }
 
     @Test
-    fun shouldReturnEmptyWhenEntityWasNotFound() {
+    internal fun shouldReturnEmptyWhenEntityWasNotFound() {
         every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
 
         val result = underTest.updateSkillRaceResultOnGate(GATE_INFO)
@@ -58,7 +57,7 @@ internal class DefaultSkillRaceServiceTest {
     }
 
     @Test
-    fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdatedWhenRaceResultWasSubmitted() {
+    internal fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdatedWhenRaceResultWasSubmitted() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity()
@@ -75,7 +74,7 @@ internal class DefaultSkillRaceServiceTest {
     }
 
     @Test
-    fun shouldReturnEmptyWhenEntityWasNotFoundWhenRaceResultWasSubmitted() {
+    internal fun shouldReturnEmptyWhenEntityWasNotFoundWhenRaceResultWasSubmitted() {
         every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
 
         val result = underTest.updateSkillRaceResult(SKILL_RACE_RESULT)

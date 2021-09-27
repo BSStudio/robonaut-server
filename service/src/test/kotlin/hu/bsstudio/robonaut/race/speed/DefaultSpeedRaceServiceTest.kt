@@ -27,10 +27,9 @@ internal class DefaultSpeedRaceServiceTest {
     private lateinit var underTest: DefaultSpeedRaceService
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
-        underTest = DefaultSpeedRaceService(mockRepository)
-        underTest.mapper = mockMapper
+        underTest = DefaultSpeedRaceService(mockRepository, mockMapper)
     }
 
     @Test

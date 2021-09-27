@@ -22,13 +22,13 @@ internal class QueryTeamDataTest {
     private lateinit var underTest: QueryTeamData
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
         underTest = QueryTeamData(mockService)
     }
 
     @Test
-    fun shouldCallFindAll() {
+    internal fun shouldCallFindAll() {
         every { mockService.findAllTeam() } returns detailedTeamFlux
         every { detailedTeamFlux.subscribe() } returns Disposable { }
 

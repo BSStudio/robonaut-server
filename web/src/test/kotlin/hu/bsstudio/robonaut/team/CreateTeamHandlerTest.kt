@@ -20,7 +20,7 @@ internal class CreateTeamHandlerTest {
     private lateinit var webTestClient: WebTestClient
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
         val underTest = CreateTeamHandler(mockService)
         val routerFunction = RouterFunctions.route()
@@ -29,7 +29,7 @@ internal class CreateTeamHandlerTest {
     }
 
     @Test
-    fun `should return DetailedTeam with OK status`() {
+    internal fun `should return DetailedTeam with OK status`() {
         val team = Team()
         val detailedTeam = DetailedTeam()
         every { mockService.addTeam(team) } returns Mono.just(detailedTeam)

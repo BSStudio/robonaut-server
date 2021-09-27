@@ -20,7 +20,7 @@ internal class QualificationScoreHandlerTest {
     private lateinit var webTestClient: WebTestClient
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
         val underTest = QualificationScoreHandler(mockService)
         val routerFunction = RouterFunctions.route().POST("/test", underTest).build()
@@ -28,7 +28,7 @@ internal class QualificationScoreHandlerTest {
     }
 
     @Test
-    fun `should return DetailedTeam with OK status`() {
+    internal fun `should return DetailedTeam with OK status`() {
         val qualifiedTeam = QualifiedTeam(0, 0)
         val detailedTeam = DetailedTeam()
         every { mockService.updateQualificationScore(qualifiedTeam) } returns Mono.just(detailedTeam)

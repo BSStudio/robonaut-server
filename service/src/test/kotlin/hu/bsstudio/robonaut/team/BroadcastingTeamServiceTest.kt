@@ -23,13 +23,13 @@ internal class BroadcastingTeamServiceTest {
     private lateinit var underTest: BroadcastingTeamService
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
         underTest = BroadcastingTeamService(mockTemplate, mockService)
     }
 
     @Test
-    fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenTeamIsCreated() {
+    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenTeamIsCreated() {
         every { mockService.addTeam(TEAM) } returns Mono.just(DETAILED_TEAM_1)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_1) } returns Unit
 
@@ -41,7 +41,7 @@ internal class BroadcastingTeamServiceTest {
     }
 
     @Test
-    fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenTeamIsUpdated() {
+    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenTeamIsUpdated() {
         every { mockService.updateTeam(TEAM) } returns Mono.just(DETAILED_TEAM_1)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_1) } returns Unit
 
@@ -53,7 +53,7 @@ internal class BroadcastingTeamServiceTest {
     }
 
     @Test
-    fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenTeamIsUpdatedByAdmin() {
+    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenTeamIsUpdatedByAdmin() {
         every { mockService.updateTeam(DETAILED_TEAM_1) } returns Mono.just(DETAILED_TEAM_1)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_1) } returns Unit
 
@@ -65,7 +65,7 @@ internal class BroadcastingTeamServiceTest {
     }
 
     @Test
-    fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenFindingAllTeam() {
+    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenFindingAllTeam() {
         every { mockService.findAllTeam() } returns Flux.just(DETAILED_TEAM_1, DETAILED_TEAM_2)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_1) } returns Unit
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_2) } returns Unit

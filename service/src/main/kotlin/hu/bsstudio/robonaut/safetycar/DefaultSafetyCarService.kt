@@ -8,9 +8,10 @@ import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper
 import hu.bsstudio.robonaut.team.model.DetailedTeam
 import reactor.core.publisher.Mono
 
-class DefaultSafetyCarService(private val repository: TeamRepository) : SafetyCarService {
-
-    internal var mapper = TeamModelEntityMapper()
+class DefaultSafetyCarService(
+    private val repository: TeamRepository,
+    private val mapper: TeamModelEntityMapper = TeamModelEntityMapper()
+) : SafetyCarService {
 
     override fun safetyCarWasFollowed(safetyCarFollowInformation: SafetyCarFollowInformation): Mono<DetailedTeam> {
         return Mono.just(safetyCarFollowInformation)

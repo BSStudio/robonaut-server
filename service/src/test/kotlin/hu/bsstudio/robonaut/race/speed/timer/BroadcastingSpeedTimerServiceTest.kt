@@ -22,13 +22,13 @@ internal class BroadcastingSpeedTimerServiceTest {
     private lateinit var underTest: BroadcastingSpeedTimerService
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
         underTest = BroadcastingSpeedTimerService(mockTemplate, mockService)
     }
 
     @Test
-    fun shouldReturnSpeedTimerFromUnderLyingServiceAndSendItWhenTimerIsUpdated() {
+    internal fun shouldReturnSpeedTimerFromUnderLyingServiceAndSendItWhenTimerIsUpdated() {
         every { mockService.updateTimer(SPEED_TIMER) } returns Mono.just(SPEED_TIMER)
         every { mockTemplate.convertAndSend(ROUTING_KEY, SPEED_TIMER) } returns Unit
 

@@ -19,7 +19,7 @@ internal class SafetyCarFollowHandlerTest {
     private lateinit var webTestClient: WebTestClient
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
         val underTest = SafetyCarFollowHandler(mockService)
         val routerFunction = RouterFunctions.route()
@@ -28,7 +28,7 @@ internal class SafetyCarFollowHandlerTest {
     }
 
     @Test
-    fun `should return DetailedTeam with OK status`() {
+    internal fun `should return DetailedTeam with OK status`() {
         val safetyCarFollowInformation = SafetyCarFollowInformation(0, true)
         val detailedTeam = DetailedTeam()
         every { mockService.safetyCarWasFollowed(safetyCarFollowInformation) } returns Mono.just(detailedTeam)

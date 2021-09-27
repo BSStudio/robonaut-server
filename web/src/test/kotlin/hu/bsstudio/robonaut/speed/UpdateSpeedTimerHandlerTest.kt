@@ -20,7 +20,7 @@ internal class UpdateSpeedTimerHandlerTest {
     private lateinit var webTestClient: WebTestClient
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
         val underTest = UpdateSpeedTimerHandler(mockService)
         val routerFunction = RouterFunctions.route()
@@ -29,7 +29,7 @@ internal class UpdateSpeedTimerHandlerTest {
     }
 
     @Test
-    fun `should return SpeedTimer with OK status`() {
+    internal fun `should return SpeedTimer with OK status`() {
         every { mockService.updateTimer(SPEED_TIMER) } returns Mono.just(SPEED_TIMER)
 
         webTestClient.post().uri("/test")

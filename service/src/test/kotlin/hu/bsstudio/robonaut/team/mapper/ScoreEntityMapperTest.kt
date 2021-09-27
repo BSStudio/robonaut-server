@@ -23,19 +23,19 @@ internal class ScoreEntityMapperTest {
     private lateinit var underTest: ScoreEntityMapper
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         underTest = ScoreEntityMapper()
     }
 
     @Test
-    fun shouldReturnModel() {
+    internal fun shouldReturnModel() {
         val result = underTest.toModel(ENTITY)
 
         Assertions.assertThat(result).isEqualTo(MODEL)
     }
 
     @Test
-    fun shouldReturnEntity() {
+    internal fun shouldReturnEntity() {
         val result = underTest.toEntity(MODEL)
 
         Assertions.assertThat(result).isEqualTo(ENTITY)

@@ -22,13 +22,13 @@ internal class BroadcastingAudienceScoreServiceTest {
     private lateinit var underTest: BroadcastingAudienceScoreService
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
         underTest = BroadcastingAudienceScoreService(mockTemplate, mockService)
     }
 
     @Test
-    fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
+    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
         every { mockService.updateAudienceScore(AUDIENCE_SCORED_TEAM) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
 

@@ -2,11 +2,9 @@ package hu.bsstudio.robonaut.scores.endresult
 
 import hu.bsstudio.robonaut.scores.endresult.model.EndResultedTeam
 import hu.bsstudio.robonaut.team.model.DetailedTeam
-import lombok.RequiredArgsConstructor
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import reactor.core.publisher.Mono
 
-@RequiredArgsConstructor
 class BroadcastingEndResultService(
     private val template: RabbitTemplate,
     private val service: EndResultService,

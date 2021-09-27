@@ -23,13 +23,13 @@ internal class BroadcastingSpeedRaceServiceTest {
     private lateinit var underTest: BroadcastingSpeedRaceService
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
         underTest = BroadcastingSpeedRaceService(mockTemplate, mockService)
     }
 
     @Test
-    fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenRaceResultWasSubmittedOnJunior() {
+    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenRaceResultWasSubmittedOnJunior() {
         every { mockService.updateSpeedRaceJunior(SPEED_RACE_RESULT) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
 
@@ -41,7 +41,7 @@ internal class BroadcastingSpeedRaceServiceTest {
     }
 
     @Test
-    fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenRaceResultWasSubmittedOnSenior() {
+    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenRaceResultWasSubmittedOnSenior() {
         every { mockService.updateSpeedRaceSenior(SPEED_RACE_RESULT) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
 
@@ -53,7 +53,7 @@ internal class BroadcastingSpeedRaceServiceTest {
     }
 
     @Test
-    fun shouldSendSpeedRaceScoreThenShouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
+    internal fun shouldSendSpeedRaceScoreThenShouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
         every { mockTemplate.convertAndSend(SPEED_LAP_ROUTING_KEY, SPEED_RACE_SCORE) } returns Unit
         every { mockService.updateSpeedRaceOnLap(SPEED_RACE_SCORE) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit

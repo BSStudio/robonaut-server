@@ -27,13 +27,13 @@ internal class RobonAuthFilterTest {
     private lateinit var underTest: RobonAuthFilter
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
         underTest = RobonAuthFilter(APPLICATION_SECRET)
     }
 
     @Test
-    fun `should return Unauthorized when application secret is not present`() {
+    internal fun `should return Unauthorized when application secret is not present`() {
         every { request.headers() } returns headers
         every { headers.header(APPLICATION_SECRET_HEADER) } returns emptyList()
 
@@ -47,7 +47,7 @@ internal class RobonAuthFilterTest {
     }
 
     @Test
-    fun `should return Unauthorized when application secret is not matching`() {
+    internal fun `should return Unauthorized when application secret is not matching`() {
         every { request.headers() } returns headers
         every { headers.header(APPLICATION_SECRET_HEADER) } returns listOf(OTHER_APPLICATION_SECRET)
 
@@ -61,7 +61,7 @@ internal class RobonAuthFilterTest {
     }
 
     @Test
-    fun `should return request when user is authenticated`() {
+    internal fun `should return request when user is authenticated`() {
         every { request.headers() } returns headers
         every { headers.header(APPLICATION_SECRET_HEADER) } returns listOf(APPLICATION_SECRET)
         every { handlerFunction.handle(request) } returns Mono.just(mockResponse)

@@ -20,7 +20,7 @@ internal class AudienceScoreHandlerTest {
     private lateinit var webTestClient: WebTestClient
 
     @BeforeEach
-    fun setUp() {
+    internal fun setUp() {
         MockKAnnotations.init(this)
         val underTest = AudienceScoreHandler(mockService)
         val routerFunction = RouterFunctions.route()
@@ -29,7 +29,7 @@ internal class AudienceScoreHandlerTest {
     }
 
     @Test
-    fun `should return DetailedTeam with OK status`() {
+    internal fun `should return DetailedTeam with OK status`() {
         val audienceScoredTeam = AudienceScoredTeam(0, 0, 0)
         val detailedTeam = DetailedTeam()
         every { mockService.updateAudienceScore(audienceScoredTeam) } returns Mono.just(detailedTeam)
