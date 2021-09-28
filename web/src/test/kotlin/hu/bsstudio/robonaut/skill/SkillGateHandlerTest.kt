@@ -17,7 +17,6 @@ internal class SkillGateHandlerTest {
 
     @MockK
     private lateinit var mockService: SkillRaceService
-
     private lateinit var webTestClient: WebTestClient
 
     @BeforeEach

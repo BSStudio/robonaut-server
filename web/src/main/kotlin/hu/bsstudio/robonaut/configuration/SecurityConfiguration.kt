@@ -21,5 +21,5 @@ class SecurityConfiguration(@Value("\${robonauth.api-key}") private val apiKey: 
     }
 
     @Bean
-    fun robonAuthFilter(): RobonAuthFilter = RobonAuthFilter(apiKey)
+    fun robonAuthFilter() = RobonAuthFilter(apiKey)
 }

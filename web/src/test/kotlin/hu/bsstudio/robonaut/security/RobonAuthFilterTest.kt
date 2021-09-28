@@ -40,9 +40,7 @@ internal class RobonAuthFilterTest {
         val response = underTest.filter(request, handlerFunction)
 
         StepVerifier.create(response)
-            .assertNext { serverResponse ->
-                assertThat(serverResponse.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED)
-            }
+            .assertNext { assertThat(it.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED) }
             .verifyComplete()
     }
 
@@ -54,9 +52,7 @@ internal class RobonAuthFilterTest {
         val response = underTest.filter(request, handlerFunction)
 
         StepVerifier.create(response)
-            .assertNext { serverResponse ->
-                assertThat(serverResponse.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED)
-            }
+            .assertNext { assertThat(it.statusCode()).isEqualTo(HttpStatus.UNAUTHORIZED) }
             .verifyComplete()
     }
 
@@ -66,7 +62,7 @@ internal class RobonAuthFilterTest {
         every { headers.header(APPLICATION_SECRET_HEADER) } returns listOf(APPLICATION_SECRET)
         every { handlerFunction.handle(request) } returns Mono.just(mockResponse)
 
-        val response: Mono<ServerResponse> = underTest.filter(request, handlerFunction)
+        val response = underTest.filter(request, handlerFunction)
 
         StepVerifier.create(response)
             .expectNext(mockResponse)

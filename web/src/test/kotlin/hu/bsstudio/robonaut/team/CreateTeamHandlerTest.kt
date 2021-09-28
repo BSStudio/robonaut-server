@@ -16,7 +16,6 @@ internal class CreateTeamHandlerTest {
 
     @MockK
     private lateinit var mockService: TeamService
-
     private lateinit var webTestClient: WebTestClient
 
     @BeforeEach
