@@ -27,7 +27,7 @@ internal class BroadcastingAudienceScoreServiceTest {
     }
 
     @Test
-    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
+    internal fun `should return DetailedTeam from underlying service and send it`() {
         every { mockService.updateAudienceScore(AUDIENCE_SCORED_TEAM) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
 

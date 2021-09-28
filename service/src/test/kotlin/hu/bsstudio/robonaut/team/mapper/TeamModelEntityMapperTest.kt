@@ -26,7 +26,7 @@ internal class TeamModelEntityMapperTest {
     }
 
     @Test
-    internal fun shouldReturnMappedDetailedTeam() {
+    internal fun `should return mapped DetailedTeam`() {
         every { mockMapper.toModel(SCORE_ENTITY) } returns COMBINED_SCORE
         every { mockMapper.toModel(JUNIOR_SCORE_ENTITY) } returns JUNIOR_SCORE
 
@@ -36,7 +36,7 @@ internal class TeamModelEntityMapperTest {
     }
 
     @Test
-    internal fun shouldReturnMapperEntity() {
+    internal fun `should return mapped Entity`() {
         every { mockMapper.toEntity(COMBINED_SCORE) } returns SCORE_ENTITY
         every { mockMapper.toEntity(JUNIOR_SCORE) } returns JUNIOR_SCORE_ENTITY
 

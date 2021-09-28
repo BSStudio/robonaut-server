@@ -27,7 +27,7 @@ internal class BroadcastingQualificationScoreServiceTest {
     }
 
     @Test
-    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
+    internal fun `should return DetailedTeam from under lying service and send it`() {
         every { mockService.updateQualificationScore(QUALIFIED_TEAM) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
 

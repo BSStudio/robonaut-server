@@ -29,11 +29,10 @@ internal class DefaultQualificationScoreServiceTest {
     }
 
     @Test
-    internal fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdated() {
+    internal fun `should return DetailedTeam when Entity was found and successfully was updated`() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
-        val updatedTeamEntity = TeamEntity()
-        updatedTeamEntity.qualificationScore = QUALIFICATION_SCORE
+        val updatedTeamEntity = TeamEntity(qualificationScore = QUALIFICATION_SCORE)
         every { mockRepository.save(updatedTeamEntity) } returns Mono.just(updatedTeamEntity)
         val detailedTeam = DetailedTeam()
         every { mockMapper.toModel(updatedTeamEntity) } returns detailedTeam
@@ -46,11 +45,10 @@ internal class DefaultQualificationScoreServiceTest {
     }
 
     @Test
-    internal fun shouldReturnEmptyWhenEntityWasNotFound() {
+    internal fun `should return empty when Entity was not found`() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
-        val updatedTeamEntity = TeamEntity()
-        updatedTeamEntity.qualificationScore = QUALIFICATION_SCORE
+        val updatedTeamEntity = TeamEntity(qualificationScore = QUALIFICATION_SCORE)
         every { mockRepository.save(updatedTeamEntity) } returns Mono.empty()
 
         val result = underTest.updateQualificationScore(QUALIFIED_TEAM)

@@ -31,7 +31,7 @@ internal class DefaultEndResultServiceTest {
     }
 
     @Test
-    internal fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdatedOnJunior() {
+    internal fun `should return DetailedTeam when Entity was found and successfully was updated on junior`() {
         val foundTeamEntity = TeamEntity(score = ScoreEntity())
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity(score = ScoreEntity(score = POINTS))
@@ -46,7 +46,7 @@ internal class DefaultEndResultServiceTest {
     }
 
     @Test
-    internal fun shouldReturnEmptyWhenEntityWasNotFoundOnJunior() {
+    internal fun `should return empty when Entity was not found on junior`() {
         every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
 
         Mono.just(END_RESULTED_TEAM)
@@ -56,7 +56,7 @@ internal class DefaultEndResultServiceTest {
     }
 
     @Test
-    internal fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdatedOnSenior() {
+    internal fun `should return DetailedTeam when Entity was found and successfully was updated on senior`() {
         val foundTeamEntity = TeamEntity(
             teamType = TeamType.JUNIOR,
             juniorScore = ScoreEntity(),
@@ -77,7 +77,7 @@ internal class DefaultEndResultServiceTest {
     }
 
     @Test
-    internal fun shouldReturnEmptyWhenSeniorTeamTriesToUpdateJuniorScore() {
+    internal fun `should return emptyWhenSeniorTeamTriesToUpdateJuniorScore`() {
         val foundTeamEntity = TeamEntity(
             teamType = TeamType.SENIOR,
             juniorScore = ScoreEntity(),
@@ -91,7 +91,7 @@ internal class DefaultEndResultServiceTest {
     }
 
     @Test
-    internal fun shouldReturnEmptyWhenEntityWasNotFoundOnSenior() {
+    internal fun `should return emptyWhenEntityWasNotFoundOnSenior`() {
         every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
 
         Mono.just(END_RESULTED_TEAM)

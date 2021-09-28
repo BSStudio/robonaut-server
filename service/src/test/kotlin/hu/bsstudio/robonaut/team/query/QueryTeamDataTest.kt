@@ -27,7 +27,7 @@ internal class QueryTeamDataTest {
     }
 
     @Test
-    internal fun shouldCallFindAll() {
+    internal fun `should call findAllTeam`() {
         every { mockService.findAllTeam() } returns detailedTeamFlux
         every { detailedTeamFlux.subscribe() } returns Disposable { }
 

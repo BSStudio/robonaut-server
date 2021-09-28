@@ -29,7 +29,7 @@ internal class DefaultAudienceScoreServiceTest {
     }
 
     @Test
-    internal fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdated() {
+    internal fun `should return DetailedTeam when Entity was found and successfully was updated`() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity(audienceScore = AUDIENCE_SCORE, votes = VOTES)
@@ -45,7 +45,7 @@ internal class DefaultAudienceScoreServiceTest {
     }
 
     @Test
-    internal fun shouldReturnEmptyWhenEntityWasNotFound() {
+    internal fun `should return Empty when entity was not found`() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity(audienceScore = AUDIENCE_SCORE, votes = VOTES)

@@ -33,7 +33,7 @@ internal class DefaultTeamServiceTest {
     }
 
     @Test
-    internal fun shouldReturnCreatedTeam() {
+    internal fun `should return created Team`() {
         every { mockRepository.insert(TEAM_ENTITY_1) } returns Mono.just(TEAM_ENTITY_1)
         every { mockMapper.toModel(TEAM_ENTITY_1) } returns DETAILED_TEAM_1
 
@@ -45,7 +45,7 @@ internal class DefaultTeamServiceTest {
     }
 
     @Test
-    internal fun shouldReturnUpdatedTeam() {
+    internal fun `should return updated Team`() {
         every { mockRepository.findById(TEAM_ID_1) } returns Mono.just(OLD_TEAM_ENTITY)
         every { mockRepository.save(TEAM_ENTITY_1) } returns Mono.just(TEAM_ENTITY_1)
         every { mockMapper.toModel(TEAM_ENTITY_1) } returns DETAILED_TEAM_1
@@ -58,7 +58,7 @@ internal class DefaultTeamServiceTest {
     }
 
     @Test
-    internal fun shouldReturnUpdatedTeamByAdmin() {
+    internal fun `should return updated Team by admin`() {
         every { mockMapper.toEntity(DETAILED_TEAM_1) } returns TEAM_ENTITY_1
         every { mockRepository.save(TEAM_ENTITY_1) } returns Mono.just(TEAM_ENTITY_1)
         every { mockMapper.toModel(TEAM_ENTITY_1) } returns DETAILED_TEAM_1
@@ -71,7 +71,7 @@ internal class DefaultTeamServiceTest {
     }
 
     @Test
-    internal fun shouldReturnAllTeam() {
+    internal fun `should return all Team`() {
         every { mockRepository.findAll() } returns Flux.just(TEAM_ENTITY_1, TEAM_ENTITY_2)
         every { mockMapper.toModel(TEAM_ENTITY_1) } returns DETAILED_TEAM_1
         every { mockMapper.toModel(TEAM_ENTITY_2) } returns DETAILED_TEAM_2

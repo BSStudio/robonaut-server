@@ -28,7 +28,7 @@ internal class BroadcastingSafetyCarServiceTest {
     }
 
     @Test
-    internal fun shouldSendSafetyCarFollowInformationThenShouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
+    internal fun `should send SafetyCarFollowInformation then should return DetailedTeam from underlying service and send it`() {
         every { mockTemplate.convertAndSend(FOLLOW_ROUTING_KEY, SAFETY_CAR_FOLLOW_INFORMATION) } returns Unit
         every { mockService.safetyCarWasFollowed(SAFETY_CAR_FOLLOW_INFORMATION) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
@@ -41,7 +41,7 @@ internal class BroadcastingSafetyCarServiceTest {
     }
 
     @Test
-    internal fun shouldSendSafetyCarOvertakeInformationThenShouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
+    internal fun `should send SafetyCarOvertakeInformation then should return DetailedTeam from underlying service and send it`() {
         every { mockTemplate.convertAndSend(OVERTAKE_ROUTING_KEY, SAFETY_CAR_OVERTAKE_INFORMATION) } returns Unit
         every { mockService.safetyCarWasOvertaken(SAFETY_CAR_OVERTAKE_INFORMATION) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit

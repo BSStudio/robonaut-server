@@ -30,7 +30,7 @@ internal class DefaultSafetyCarServiceTest {
     }
 
     @Test
-    internal fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdatedWhenSafetyCarWasFollowed() {
+    internal fun `should return DetailedTeam when Entity was found and successfully was updated when safety car was followed`() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity(safetyCarWasFollowed = SAFETY_CAR_FOLLOWED)
@@ -46,7 +46,7 @@ internal class DefaultSafetyCarServiceTest {
     }
 
     @Test
-    internal fun shouldReturnEmptyWhenEntityWasNotFoundWhenSafetyCarWasFollowed() {
+    internal fun `should return Empty when Entity was not found when safety car was followed`() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity()
@@ -60,7 +60,7 @@ internal class DefaultSafetyCarServiceTest {
     }
 
     @Test
-    internal fun shouldReturnDetailedTeamWhenEntityWasFoundAndSuccessfullyWasUpdatedWhenSafetyCarWasOvertaken() {
+    internal fun `should return DetailedTeam when Entity was found and successfully was updated when safety car was overtaken`() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity()
@@ -77,7 +77,7 @@ internal class DefaultSafetyCarServiceTest {
     }
 
     @Test
-    internal fun shouldReturnEmptyWhenEntityWasNotFoundWhenSafetyCarWasOvertaken() {
+    internal fun `should return Empty when Entity was not found when safety car was overtaken`() {
         val foundTeamEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
         val updatedTeamEntity = TeamEntity()

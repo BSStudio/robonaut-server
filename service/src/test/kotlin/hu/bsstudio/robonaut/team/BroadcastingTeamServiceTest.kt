@@ -28,7 +28,7 @@ internal class BroadcastingTeamServiceTest {
     }
 
     @Test
-    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenTeamIsCreated() {
+    internal fun `should return DetailedTeam from underlying service and send it when Team is created`() {
         every { mockService.addTeam(TEAM) } returns Mono.just(DETAILED_TEAM_1)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_1) } returns Unit
 
@@ -40,7 +40,7 @@ internal class BroadcastingTeamServiceTest {
     }
 
     @Test
-    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenTeamIsUpdated() {
+    internal fun `should return DetailedTeam from underlying service and send it when Team is updated`() {
         every { mockService.updateTeam(TEAM) } returns Mono.just(DETAILED_TEAM_1)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_1) } returns Unit
 
@@ -52,7 +52,7 @@ internal class BroadcastingTeamServiceTest {
     }
 
     @Test
-    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenTeamIsUpdatedByAdmin() {
+    internal fun `should return DetailedTeam from underlying service and send it when Team is updated by admin`() {
         every { mockService.updateTeam(DETAILED_TEAM_1) } returns Mono.just(DETAILED_TEAM_1)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_1) } returns Unit
 
@@ -64,7 +64,7 @@ internal class BroadcastingTeamServiceTest {
     }
 
     @Test
-    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenFindingAllTeam() {
+    internal fun `should return DetailedTeam from underlying service and send it when finding all Team`() {
         every { mockService.findAllTeam() } returns Flux.just(DETAILED_TEAM_1, DETAILED_TEAM_2)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_1) } returns Unit
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM_2) } returns Unit

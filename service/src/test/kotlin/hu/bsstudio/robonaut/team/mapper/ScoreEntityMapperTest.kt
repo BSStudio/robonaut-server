@@ -16,14 +16,14 @@ internal class ScoreEntityMapperTest {
     }
 
     @Test
-    internal fun shouldReturnModel() {
+    internal fun `should return Model`() {
         val result = underTest.toModel(ENTITY)
 
         assertThat(result).isEqualTo(MODEL)
     }
 
     @Test
-    internal fun shouldReturnEntity() {
+    internal fun `should return Entity`() {
         val result = underTest.toEntity(MODEL)
 
         assertThat(result).isEqualTo(ENTITY)
