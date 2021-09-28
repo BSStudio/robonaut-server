@@ -11,7 +11,7 @@ class BroadcastingSkillTimerService(
 
     override fun updateTimer(skillTimer: SkillTimer): Mono<SkillTimer> {
         return service.updateTimer(skillTimer)
-            .doOnNext(this::sendSkillTimerData)
+            .doOnNext(::sendSkillTimerData)
     }
 
     private fun sendSkillTimerData(timer: SkillTimer) {

@@ -28,7 +28,7 @@ class RobonAuthFilter(private val apiKey: String) : HandlerFilterFunction<Server
 
     companion object {
         private val UNAUTHORIZED_RESPONSE = ServerResponse.status(HttpStatus.UNAUTHORIZED).build()
-        private val LOG = LoggerFactory.getLogger(RobonAuthFilter::class.java)
+        private val LOG = LoggerFactory.getLogger(this::class.java)
         private const val AUTH_API_KEY_HEADER = "RobonAuth-Api-Key"
     }
 }

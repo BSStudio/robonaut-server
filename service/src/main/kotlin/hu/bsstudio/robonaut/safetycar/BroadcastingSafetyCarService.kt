@@ -13,16 +13,16 @@ class BroadcastingSafetyCarService(
 
     override fun safetyCarWasFollowed(safetyCarFollowInformation: SafetyCarFollowInformation): Mono<DetailedTeam> {
         return Mono.just(safetyCarFollowInformation)
-            .doOnNext(this::sendSafetyCarFollow)
+            .doOnNext(::sendSafetyCarFollow)
             .flatMap(service::safetyCarWasFollowed)
-            .doOnNext(this::sendTeamData)
+            .doOnNext(::sendTeamData)
     }
 
     override fun safetyCarWasOvertaken(safetyCarOvertakeInformation: SafetyCarOvertakeInformation): Mono<DetailedTeam> {
         return Mono.just(safetyCarOvertakeInformation)
-            .doOnNext(this::sendSafetyCarOvertake)
+            .doOnNext(::sendSafetyCarOvertake)
             .flatMap(service::safetyCarWasOvertaken)
-            .doOnNext(this::sendTeamData)
+            .doOnNext(::sendTeamData)
     }
 
     private fun sendSafetyCarFollow(safetyCarFollowInformation: SafetyCarFollowInformation) {

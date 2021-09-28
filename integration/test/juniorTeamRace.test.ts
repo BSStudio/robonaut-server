@@ -94,7 +94,7 @@ describe('test a likely path of events for a junior team', () => {
     teamType: 'JUNIOR',
     year: 2022,
   }
-  it('should update the senior team  to a junior team', () =>
+  it('should update the senior team to a junior team', () =>
     request(appBaseUrl)
       .put('/api/team')
       .set('RobonAuth-Api-Key', 'BSS')

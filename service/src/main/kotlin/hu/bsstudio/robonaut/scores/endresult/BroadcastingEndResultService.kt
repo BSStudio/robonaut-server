@@ -12,12 +12,12 @@ class BroadcastingEndResultService(
 
     override fun updateEndResultSenior(endResultedTeam: EndResultedTeam): Mono<DetailedTeam> {
         return service.updateEndResultSenior(endResultedTeam)
-            .doOnNext(this::sendTeamInfo)
+            .doOnNext(::sendTeamInfo)
     }
 
     override fun updateEndResultJunior(endResultedTeam: EndResultedTeam): Mono<DetailedTeam> {
         return service.updateEndResultJunior(endResultedTeam)
-            .doOnNext(this::sendTeamInfo)
+            .doOnNext(::sendTeamInfo)
     }
 
     private fun sendTeamInfo(detailedTeam: DetailedTeam) {

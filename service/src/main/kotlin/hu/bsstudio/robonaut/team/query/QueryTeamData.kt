@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class QueryTeamData @Autowired constructor(private val teamService: TeamService) {
+class QueryTeamData(@Autowired private val teamService: TeamService) {
 
     @RabbitListener(queues = ["general.teamData"])
     fun sendTeamData(requester: Requester) {

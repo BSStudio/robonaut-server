@@ -13,14 +13,14 @@ class BroadcastingSkillRaceService(
 
     override fun updateSkillRaceResultOnGate(gateInformation: GateInformation): Mono<DetailedTeam> {
         return Mono.just(gateInformation)
-            .doOnNext(this::sendGateInfo)
+            .doOnNext(::sendGateInfo)
             .flatMap(service::updateSkillRaceResultOnGate)
-            .doOnNext(this::sendTeamInfo)
+            .doOnNext(::sendTeamInfo)
     }
 
     override fun updateSkillRaceResult(skillRaceResult: SkillRaceResult): Mono<DetailedTeam> {
         return service.updateSkillRaceResult(skillRaceResult)
-            .doOnNext(this::sendTeamInfo)
+            .doOnNext(::sendTeamInfo)
     }
 
     private fun sendGateInfo(gateInfo: GateInformation) {

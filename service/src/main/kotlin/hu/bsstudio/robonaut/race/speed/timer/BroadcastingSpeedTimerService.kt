@@ -11,7 +11,7 @@ class BroadcastingSpeedTimerService(
 
     override fun updateTimer(speedTimer: SpeedTimer): Mono<SpeedTimer> {
         return service.updateTimer(speedTimer)
-            .doOnNext(this::sendTimerInformation)
+            .doOnNext(::sendTimerInformation)
     }
 
     private fun sendTimerInformation(timer: SpeedTimer) {

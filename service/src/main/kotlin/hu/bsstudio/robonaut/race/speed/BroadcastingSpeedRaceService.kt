@@ -13,19 +13,19 @@ class BroadcastingSpeedRaceService(
 
     override fun updateSpeedRaceOnLap(speedRaceScore: SpeedRaceScore): Mono<DetailedTeam> {
         return Mono.just(speedRaceScore)
-            .doOnNext(this::sendLapInfo)
+            .doOnNext(::sendLapInfo)
             .flatMap(service::updateSpeedRaceOnLap)
-            .doOnNext(this::sendTeamInfo)
+            .doOnNext(::sendTeamInfo)
     }
 
     override fun updateSpeedRaceJunior(speedRaceResult: SpeedRaceResult): Mono<DetailedTeam> {
         return service.updateSpeedRaceJunior(speedRaceResult)
-            .doOnNext(this::sendTeamInfo)
+            .doOnNext(::sendTeamInfo)
     }
 
     override fun updateSpeedRaceSenior(speedRaceResult: SpeedRaceResult): Mono<DetailedTeam> {
         return service.updateSpeedRaceSenior(speedRaceResult)
-            .doOnNext(this::sendTeamInfo)
+            .doOnNext(::sendTeamInfo)
     }
 
     private fun sendLapInfo(raceScore: SpeedRaceScore) {

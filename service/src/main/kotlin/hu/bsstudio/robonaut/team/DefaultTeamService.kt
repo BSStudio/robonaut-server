@@ -16,7 +16,7 @@ class DefaultTeamService(
 
     override fun addTeam(team: Team): Mono<DetailedTeam> {
         return Mono.just(team)
-            .map(this::toEntity)
+            .map(::toEntity)
             .flatMap(teamRepository::insert)
             .map(teamMapper::toModel)
     }
@@ -42,19 +42,16 @@ class DefaultTeamService(
             .map(teamMapper::toModel)
     }
 
-    private fun toEntity(team: Team): TeamEntity {
-        val defaultScore = ScoreEntity()
-        val entity = TeamEntity()
-        entity.teamId = team.teamId
-        entity.year = team.year
-        entity.teamName = team.teamName
-        entity.teamMembers = team.teamMembers
-        entity.teamType = team.teamType
-        entity.speedTimes = emptyList()
-        entity.score = defaultScore
-        entity.juniorScore = defaultScore
-        return entity
-    }
+    private fun toEntity(team: Team) = TeamEntity(
+        teamId = team.teamId,
+        year = team.year,
+        teamName = team.teamName,
+        teamMembers = team.teamMembers,
+        teamType = team.teamType,
+        speedTimes = emptyList(),
+        score = ScoreEntity(),
+        juniorScore = ScoreEntity(),
+    )
 
     private fun updateBasicTeamInfo(entity: TeamEntity, team: Team): TeamEntity {
         entity.teamId = team.teamId

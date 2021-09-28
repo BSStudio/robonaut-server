@@ -12,7 +12,7 @@ class BroadcastingAudienceScoreService(
 
     override fun updateAudienceScore(audienceScoredTeam: AudienceScoredTeam): Mono<DetailedTeam> {
         return service.updateAudienceScore(audienceScoredTeam)
-            .doOnNext(this::sendTeamInfo)
+            .doOnNext(::sendTeamInfo)
     }
 
     private fun sendTeamInfo(detailedTeam: DetailedTeam) {

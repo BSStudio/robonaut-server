@@ -12,7 +12,7 @@ class BroadcastingQualificationScoreService(
 
     override fun updateQualificationScore(qualifiedTeam: QualifiedTeam): Mono<DetailedTeam> {
         return service.updateQualificationScore(qualifiedTeam)
-            .doOnNext(this::sendTeamInfo)
+            .doOnNext(::sendTeamInfo)
     }
 
     private fun sendTeamInfo(detailedTeam: DetailedTeam?) {
