@@ -1,6 +1,5 @@
 package hu.bsstudio.robonaut.team
 
-import hu.bsstudio.robonaut.entity.ScoreEntity
 import hu.bsstudio.robonaut.entity.TeamEntity
 import hu.bsstudio.robonaut.repository.TeamRepository
 import hu.bsstudio.robonaut.team.mapper.TeamModelEntityMapper
@@ -48,9 +47,6 @@ class DefaultTeamService(
         teamName = team.teamName,
         teamMembers = team.teamMembers,
         teamType = team.teamType,
-        speedTimes = emptyList(),
-        score = ScoreEntity(),
-        juniorScore = ScoreEntity(),
     )
 
     private fun updateBasicTeamInfo(entity: TeamEntity, team: Team): TeamEntity {
@@ -59,7 +55,6 @@ class DefaultTeamService(
         entity.teamName = team.teamName
         entity.teamMembers = team.teamMembers
         entity.teamType = team.teamType
-        entity.speedTimes = emptyList()
         return entity
     }
 }

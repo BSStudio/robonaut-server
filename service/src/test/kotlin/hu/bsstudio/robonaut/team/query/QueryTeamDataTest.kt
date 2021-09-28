@@ -15,7 +15,6 @@ internal class QueryTeamDataTest {
 
     @MockK
     private lateinit var mockService: TeamService
-
     @MockK
     private lateinit var detailedTeamFlux: Flux<DetailedTeam>
 

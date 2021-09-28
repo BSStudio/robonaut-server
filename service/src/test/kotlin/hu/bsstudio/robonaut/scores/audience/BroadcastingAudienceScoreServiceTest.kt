@@ -15,7 +15,6 @@ internal class BroadcastingAudienceScoreServiceTest {
 
     @MockK
     private lateinit var mockTemplate: RabbitTemplate
-
     @MockK
     private lateinit var mockService: AudienceScoreService
 

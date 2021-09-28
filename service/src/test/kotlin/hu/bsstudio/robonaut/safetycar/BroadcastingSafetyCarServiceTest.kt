@@ -16,7 +16,6 @@ internal class BroadcastingSafetyCarServiceTest {
 
     @MockK
     private lateinit var mockTemplate: RabbitTemplate
-
     @MockK
     private lateinit var mockService: SafetyCarService
 

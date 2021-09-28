@@ -15,7 +15,7 @@ class BroadcastingQualificationScoreService(
             .doOnNext(::sendTeamInfo)
     }
 
-    private fun sendTeamInfo(detailedTeam: DetailedTeam?) {
-        template.convertAndSend("team.teamData", detailedTeam!!)
+    private fun sendTeamInfo(detailedTeam: DetailedTeam) {
+        template.convertAndSend("team.teamData", detailedTeam)
     }
 }

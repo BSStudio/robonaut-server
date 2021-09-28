@@ -19,7 +19,6 @@ internal class DefaultEndResultServiceTest {
 
     @MockK
     private lateinit var mockRepository: TeamRepository
-
     @MockK
     private lateinit var mockMapper: TeamModelEntityMapper
 

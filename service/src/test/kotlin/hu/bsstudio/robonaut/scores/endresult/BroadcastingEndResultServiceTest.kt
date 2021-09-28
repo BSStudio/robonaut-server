@@ -15,7 +15,6 @@ internal class BroadcastingEndResultServiceTest {
 
     @MockK
     private lateinit var mockTemplate: RabbitTemplate
-
     @MockK
     private lateinit var mockService: EndResultService
 

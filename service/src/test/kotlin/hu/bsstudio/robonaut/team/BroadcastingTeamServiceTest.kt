@@ -16,7 +16,6 @@ internal class BroadcastingTeamServiceTest {
 
     @MockK
     private lateinit var mockTemplate: RabbitTemplate
-
     @MockK
     private lateinit var mockService: TeamService
 

@@ -16,7 +16,6 @@ internal class BroadcastingSkillRaceServiceTest {
 
     @MockK
     private lateinit var mockTemplate: RabbitTemplate
-
     @MockK
     private lateinit var mockService: SkillRaceService
 
