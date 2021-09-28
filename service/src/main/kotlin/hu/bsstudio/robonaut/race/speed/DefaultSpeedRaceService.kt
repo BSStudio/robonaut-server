@@ -1,6 +1,5 @@
 package hu.bsstudio.robonaut.race.speed
 
-import hu.bsstudio.robonaut.entity.ScoreEntity
 import hu.bsstudio.robonaut.entity.TeamEntity
 import hu.bsstudio.robonaut.entity.TeamType
 import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult
@@ -49,20 +48,16 @@ class DefaultSpeedRaceService(
     }
 
     private fun updateSpeedScoreJunior(entity: TeamEntity, result: SpeedRaceResult): TeamEntity {
-        entity.juniorScore = updateScore(result, entity.juniorScore)
+        entity.juniorScore.speedScore = result.speedScore
+        entity.juniorScore.bestSpeedTime = result.bestSpeedTime
         entity.speedTimes = result.speedTimes
         return entity
     }
 
     private fun updateSpeedScoreSenior(entity: TeamEntity, result: SpeedRaceResult): TeamEntity {
-        entity.score = updateScore(result, entity.score)
+        entity.score.speedScore = result.speedScore
+        entity.score.bestSpeedTime = result.bestSpeedTime
         entity.speedTimes = result.speedTimes
         return entity
-    }
-
-    private fun updateScore(result: SpeedRaceResult, score: ScoreEntity): ScoreEntity {
-        score.speedScore = result.speedScore
-        score.bestSpeedTime = result.bestSpeedTime
-        return score
     }
 }

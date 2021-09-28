@@ -13,7 +13,7 @@ class BroadcastingTeamService(
 
     override fun addTeam(team: Team): Mono<DetailedTeam> {
         return service.addTeam(team)
-            .doOnNext { detailedTeam: DetailedTeam -> sendTeamInfo(detailedTeam) }
+            .doOnNext(::sendTeamInfo)
     }
 
     override fun updateTeam(team: Team): Mono<DetailedTeam> {
@@ -28,7 +28,7 @@ class BroadcastingTeamService(
 
     override fun findAllTeam(): Flux<DetailedTeam> {
         return service.findAllTeam()
-            .doOnNext { detailedTeam: DetailedTeam -> sendTeamInfo(detailedTeam) }
+            .doOnNext(::sendTeamInfo)
     }
 
     private fun sendTeamInfo(detailedTeam: DetailedTeam) {
