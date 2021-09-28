@@ -27,6 +27,7 @@ internal class DefaultEndResultServiceTest {
     @BeforeEach
     internal fun setUp() {
         MockKAnnotations.init(this)
+        underTest = DefaultEndResultService(mockRepository)
         underTest = DefaultEndResultService(mockRepository, mockMapper)
     }
 

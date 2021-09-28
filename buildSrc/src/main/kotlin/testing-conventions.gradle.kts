@@ -22,11 +22,6 @@ tasks.check {
     finalizedBy(tasks.jacocoTestCoverageVerification)
 }
 
-tasks.jacocoTestReport {
-    // tests are required to run before generating the report
-    dependsOn(tasks.test)
-}
-
 val excluded = setOf(
     "**/model/**",
     "**/entity/**",
@@ -35,13 +30,27 @@ val excluded = setOf(
     "**/exception/**"
 )
 
+tasks.jacocoTestReport {
+    // tests are required to run before generating the report
+    dependsOn(tasks.test)
+    classDirectories.setFrom(
+        files(
+            classDirectories.files.map {
+                fileTree(it) {
+                    exclude(excluded)
+                }
+            }
+        )
+    )
+}
+
 tasks.jacocoTestCoverageVerification {
     // tests are required to run before generating the coverage verification
     dependsOn(tasks.test)
     violationRules {
         rule {
             limit {
-                minimum = BigDecimal("0.92")
+                minimum = BigDecimal("1.00")
             }
         }
     }

@@ -26,6 +26,7 @@ internal class DefaultSafetyCarServiceTest {
     @BeforeEach
     internal fun setUp() {
         MockKAnnotations.init(this)
+        underTest = DefaultSafetyCarService(mockRepository)
         underTest = DefaultSafetyCarService(mockRepository, mockMapper)
     }
 

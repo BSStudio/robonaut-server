@@ -29,6 +29,7 @@ internal class DefaultTeamServiceTest {
     @BeforeEach
     internal fun setUp() {
         MockKAnnotations.init(this)
+        underTest = DefaultTeamService(mockRepository)
         underTest = DefaultTeamService(mockRepository, mockMapper)
     }
 

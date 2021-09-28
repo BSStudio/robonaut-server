@@ -25,6 +25,7 @@ internal class DefaultAudienceScoreServiceTest {
     @BeforeEach
     internal fun setUp() {
         MockKAnnotations.init(this)
+        underTest = DefaultAudienceScoreService(mockRepository)
         underTest = DefaultAudienceScoreService(mockRepository, mockMapper)
     }
 

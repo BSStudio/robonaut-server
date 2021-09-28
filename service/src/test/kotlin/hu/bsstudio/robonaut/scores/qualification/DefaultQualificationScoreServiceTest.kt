@@ -25,6 +25,7 @@ internal class DefaultQualificationScoreServiceTest {
     @BeforeEach
     internal fun setUp() {
         MockKAnnotations.init(this)
+        underTest = DefaultQualificationScoreService(mockRepository)
         underTest = DefaultQualificationScoreService(mockRepository, mockMapper)
     }
 
