@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.MongoId
 @Document
 data class TeamEntity(
     @MongoId
-    var teamId: Long = 0,
+    var teamId: Long? = 0,
     var year: Int = 0,
 
     @Indexed
