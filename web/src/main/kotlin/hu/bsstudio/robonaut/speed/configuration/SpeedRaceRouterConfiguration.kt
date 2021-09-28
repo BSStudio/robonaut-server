@@ -38,14 +38,14 @@ class SpeedRaceRouterConfiguration(
     }
 
     @Bean
-    fun updateSpeedTimerHandler(): UpdateSpeedTimerHandler = UpdateSpeedTimerHandler(speedTimerService)
+    fun updateSpeedTimerHandler() = UpdateSpeedTimerHandler(speedTimerService)
 
     @Bean
-    fun speedRaceLapHandler(): SpeedRaceLapHandler = SpeedRaceLapHandler(speedRaceService)
+    fun speedRaceLapHandler() = SpeedRaceLapHandler(speedRaceService)
 
     @Bean
-    fun juniorSpeedRaceResultHandler(): JuniorSpeedRaceResultHandler = JuniorSpeedRaceResultHandler(speedRaceService)
+    fun juniorSpeedRaceResultHandler() = JuniorSpeedRaceResultHandler(speedRaceService)
 
     @Bean
-    fun seniorSpeedRaceResultHandler(): SeniorSpeedRaceResultHandler = SeniorSpeedRaceResultHandler(speedRaceService)
+    fun seniorSpeedRaceResultHandler() = SeniorSpeedRaceResultHandler(speedRaceService)
 }

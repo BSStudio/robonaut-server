@@ -40,14 +40,14 @@ class ScoreRouterConfiguration(
     }
 
     @Bean
-    fun qualificationScoreHandler(): QualificationScoreHandler = QualificationScoreHandler(qualificationScoreService)
+    fun qualificationScoreHandler() = QualificationScoreHandler(qualificationScoreService)
 
     @Bean
-    fun audienceScoreHandler(): AudienceScoreHandler = AudienceScoreHandler(audienceScoreService)
+    fun audienceScoreHandler() = AudienceScoreHandler(audienceScoreService)
 
     @Bean
-    fun seniorEndResultHandler(): SeniorEndResultHandler = SeniorEndResultHandler(endResultService)
+    fun seniorEndResultHandler() = SeniorEndResultHandler(endResultService)
 
     @Bean
-    fun juniorEndResultHandler(): JuniorEndResultHandler = JuniorEndResultHandler(endResultService)
+    fun juniorEndResultHandler() = JuniorEndResultHandler(endResultService)
 }

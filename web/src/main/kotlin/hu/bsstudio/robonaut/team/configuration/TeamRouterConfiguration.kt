@@ -36,14 +36,14 @@ class TeamRouterConfiguration(
     }
 
     @Bean
-    fun createTeamHandler(): CreateTeamHandler = CreateTeamHandler(teamService)
+    fun createTeamHandler() = CreateTeamHandler(teamService)
 
     @Bean
-    fun readAllTeamHandler(): ReadAllTeamHandler = ReadAllTeamHandler(teamService)
+    fun readAllTeamHandler() = ReadAllTeamHandler(teamService)
 
     @Bean
-    fun updateTeamHandler(): UpdateTeamHandler = UpdateTeamHandler(teamService)
+    fun updateTeamHandler() = UpdateTeamHandler(teamService)
 
     @Bean
-    fun adminUpdateTeamHandler(): AdminUpdateTeamHandler = AdminUpdateTeamHandler(teamService)
+    fun adminUpdateTeamHandler() = AdminUpdateTeamHandler(teamService)
 }

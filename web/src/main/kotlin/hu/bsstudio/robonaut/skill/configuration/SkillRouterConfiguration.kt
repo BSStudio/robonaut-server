@@ -35,11 +35,11 @@ class SkillRouterConfiguration(
     }
 
     @Bean
-    fun updateSkillTimerHandler(): UpdateSkillTimerHandler = UpdateSkillTimerHandler(skillTimerService)
+    fun updateSkillTimerHandler() = UpdateSkillTimerHandler(skillTimerService)
 
     @Bean
-    fun skillGateHandler(): SkillGateHandler = SkillGateHandler(skillRaceService)
+    fun skillGateHandler() = SkillGateHandler(skillRaceService)
 
     @Bean
-    fun skillRaceResultHandler(): SkillRaceResultHandler = SkillRaceResultHandler(skillRaceService)
+    fun skillRaceResultHandler() = SkillRaceResultHandler(skillRaceService)
 }

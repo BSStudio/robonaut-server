@@ -30,8 +30,8 @@ class SafetyCarRouterConfiguration(
     }
 
     @Bean
-    fun safetyCarFollowHandler(): SafetyCarFollowHandler = SafetyCarFollowHandler(safetyCarService)
+    fun safetyCarFollowHandler() = SafetyCarFollowHandler(safetyCarService)
 
     @Bean
-    fun safetyCarOvertakeHandler(): SafetyCarOvertakeHandler = SafetyCarOvertakeHandler(safetyCarService)
+    fun safetyCarOvertakeHandler() = SafetyCarOvertakeHandler(safetyCarService)
 }
