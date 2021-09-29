@@ -28,7 +28,7 @@ internal class BroadcastingSkillRaceServiceTest {
     }
 
     @Test
-    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenRaceResultWasSubmitted() {
+    internal fun `should return DetailedTeam from underlying service and send it when race result was submitted`() {
         every { mockService.updateSkillRaceResult(SKILL_RACE_RESULT) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_ROUTING_KEY, DETAILED_TEAM) } returns Unit
 
@@ -40,7 +40,7 @@ internal class BroadcastingSkillRaceServiceTest {
     }
 
     @Test
-    internal fun shouldSendGateInformationThenShouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
+    internal fun `should send GateInformation then should return DetailedTeam from underlying service and send it`() {
         every { mockTemplate.convertAndSend(GATE_ROUTING_KEY, GATE_INFORMATION) } returns Unit
         every { mockService.updateSkillRaceResultOnGate(GATE_INFORMATION) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_ROUTING_KEY, DETAILED_TEAM) } returns Unit

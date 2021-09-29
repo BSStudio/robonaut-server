@@ -27,7 +27,7 @@ internal class BroadcastingSkillTimerServiceTest {
     }
 
     @Test
-    internal fun shouldReturnSpeedTimerFromUnderLyingServiceAndSendItWhenTimerIsUpdated() {
+    internal fun `should return SpeedTimer from underlying service and send it when timer is updated`() {
         every { mockTemplate.convertAndSend(ROUTING_KEY, SKILL_TIMER) } returns Unit
         every { mockService.updateTimer(SKILL_TIMER) } returns Mono.just(SKILL_TIMER)
 

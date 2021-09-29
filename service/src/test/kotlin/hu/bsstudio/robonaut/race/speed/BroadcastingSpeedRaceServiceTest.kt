@@ -28,7 +28,7 @@ internal class BroadcastingSpeedRaceServiceTest {
     }
 
     @Test
-    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenRaceResultWasSubmittedOnJunior() {
+    internal fun `should return DetailedTeam from underlying service and send it when RaceResult was submitted on junior`() {
         every { mockService.updateSpeedRaceJunior(SPEED_RACE_RESULT) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
 
@@ -40,7 +40,7 @@ internal class BroadcastingSpeedRaceServiceTest {
     }
 
     @Test
-    internal fun shouldReturnDetailedTeamFromUnderLyingServiceAndSendItWhenRaceResultWasSubmittedOnSenior() {
+    internal fun `should return DetailedTeam from underlying service and send it when RaceResult was submitted on senior`() {
         every { mockService.updateSpeedRaceSenior(SPEED_RACE_RESULT) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
 
@@ -52,7 +52,7 @@ internal class BroadcastingSpeedRaceServiceTest {
     }
 
     @Test
-    internal fun shouldSendSpeedRaceScoreThenShouldReturnDetailedTeamFromUnderLyingServiceAndSendIt() {
+    internal fun `should send SpeedRaceScore then should return DetailedTeam from underLying service and send it`() {
         every { mockTemplate.convertAndSend(SPEED_LAP_ROUTING_KEY, SPEED_RACE_SCORE) } returns Unit
         every { mockService.updateSpeedRaceOnLap(SPEED_RACE_SCORE) } returns Mono.just(DETAILED_TEAM)
         every { mockTemplate.convertAndSend(TEAM_DATA_ROUTING_KEY, DETAILED_TEAM) } returns Unit
