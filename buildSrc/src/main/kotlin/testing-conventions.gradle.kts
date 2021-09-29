@@ -2,8 +2,13 @@ plugins {
     id("dependency-management")
     jacoco
 }
+
 dependencies {
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(module = "mockito-core")
+        exclude(module = "hamcrest")
+    }
+    testImplementation("io.mockk:mockk:${property("mockkVersion")}")
 }
 
 tasks.test {
@@ -17,11 +22,6 @@ tasks.check {
     finalizedBy(tasks.jacocoTestCoverageVerification)
 }
 
-tasks.jacocoTestReport {
-    // tests are required to run before generating the report
-    dependsOn(tasks.test)
-}
-
 val excluded = setOf(
     "**/model/**",
     "**/entity/**",
@@ -30,21 +30,37 @@ val excluded = setOf(
     "**/exception/**"
 )
 
+tasks.jacocoTestReport {
+    // tests are required to run before generating the report
+    dependsOn(tasks.test)
+    classDirectories.setFrom(
+        files(
+            classDirectories.files.map {
+                fileTree(it) {
+                    exclude(excluded)
+                }
+            }
+        )
+    )
+}
+
 tasks.jacocoTestCoverageVerification {
     // tests are required to run before generating the coverage verification
     dependsOn(tasks.test)
     violationRules {
         rule {
             limit {
-                minimum = BigDecimal(1.00)
+                minimum = BigDecimal("1.00")
             }
         }
     }
     classDirectories.setFrom(
-        files(classDirectories.files.map {
-            fileTree(it) {
-                exclude(excluded)
+        files(
+            classDirectories.files.map {
+                fileTree(it) {
+                    exclude(excluded)
+                }
             }
-        })
+        )
     )
 }

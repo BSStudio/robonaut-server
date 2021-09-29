@@ -33,6 +33,7 @@
   },
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
-    "test": "jest --runInBand"
+    "test": "jest --runInBand",
+    "test-local": "jest --runInBand --config=jest.local.config.js"
   }
 }

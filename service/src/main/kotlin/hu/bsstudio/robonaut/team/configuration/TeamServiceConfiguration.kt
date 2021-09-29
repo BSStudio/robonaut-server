@@ -1,0 +1,25 @@
+package hu.bsstudio.robonaut.team.configuration
+
+import hu.bsstudio.robonaut.repository.TeamRepository
+import hu.bsstudio.robonaut.team.BroadcastingTeamService
+import hu.bsstudio.robonaut.team.DefaultTeamService
+import hu.bsstudio.robonaut.team.TeamService
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+
+@Configuration
+class TeamServiceConfiguration(
+    @Autowired private val rabbitTemplate: RabbitTemplate,
+    @Autowired private val teamRepository: TeamRepository,
+) {
+
+    @Bean
+    fun teamService(defaultTeamService: TeamService): TeamService {
+        return BroadcastingTeamService(rabbitTemplate, defaultTeamService)
+    }
+
+    @Bean
+    fun defaultTeamService(): TeamService = DefaultTeamService(teamRepository)
+}

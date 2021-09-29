@@ -1,0 +1,25 @@
+package hu.bsstudio.robonaut.scores.qualification.configuration
+
+import hu.bsstudio.robonaut.repository.TeamRepository
+import hu.bsstudio.robonaut.scores.qualification.BroadcastingQualificationScoreService
+import hu.bsstudio.robonaut.scores.qualification.DefaultQualificationScoreService
+import hu.bsstudio.robonaut.scores.qualification.QualificationScoreService
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+
+@Configuration
+class QualificationScoreServiceConfiguration(
+    @Autowired private val rabbitTemplate: RabbitTemplate,
+    @Autowired private val repository: TeamRepository,
+) {
+
+    @Bean
+    fun qualificationScoreService(defaultQualificationScoreService: QualificationScoreService): QualificationScoreService {
+        return BroadcastingQualificationScoreService(rabbitTemplate, defaultQualificationScoreService)
+    }
+
+    @Bean
+    fun defaultQualificationScoreService(): QualificationScoreService = DefaultQualificationScoreService(repository)
+}
