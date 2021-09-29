@@ -20,6 +20,7 @@ internal class DefaultSpeedRaceServiceTest {
 
     @MockK
     private lateinit var mockRepository: TeamRepository
+
     @MockK
     private lateinit var mockMapper: TeamModelEntityMapper
 
@@ -33,11 +34,10 @@ internal class DefaultSpeedRaceServiceTest {
     }
 
     @Test
-    fun onLap() {
+    internal fun `should find, update and return DetailedTeam team on lap`() {
         val foundEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundEntity)
-        val updatedEntity = TeamEntity()
-        updatedEntity.speedTimes = SPEED_TIMES
+        val updatedEntity = TeamEntity(speedTimes = SPEED_TIMES)
         every { mockRepository.save(updatedEntity) } returns Mono.just(updatedEntity)
         every { mockMapper.toModel(updatedEntity) } returns DETAILED_TEAM
 
@@ -49,11 +49,10 @@ internal class DefaultSpeedRaceServiceTest {
     }
 
     @Test
-    fun onLapNotFound() {
+    internal fun `should return empty when repository returns empty on lap`() {
         val foundEntity = TeamEntity()
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundEntity)
-        val updatedEntity = TeamEntity()
-        updatedEntity.speedTimes = SPEED_TIMES
+        val updatedEntity = TeamEntity(speedTimes = SPEED_TIMES)
         every { mockRepository.save(updatedEntity) } returns Mono.empty()
 
         Mono.just(SPEED_RACE_SCORE)
@@ -63,14 +62,13 @@ internal class DefaultSpeedRaceServiceTest {
     }
 
     @Test
-    fun junior() {
-        val juniorScore = ScoreEntity()
-        val foundEntity = TeamEntity(teamType = TeamType.JUNIOR, juniorScore = juniorScore)
+    internal fun `should find, update and return DetailedTeam on junior speed race`() {
+        val foundEntity = TeamEntity(teamType = TeamType.JUNIOR, juniorScore = ScoreEntity())
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundEntity)
-        val updatedEntity = TeamEntity(teamType = TeamType.JUNIOR, speedTimes = SPEED_TIMES)
-        juniorScore.speedScore = SPEED_SCORE
-        juniorScore.bestSpeedTime = BEST_SPEED_TIME
-        updatedEntity.juniorScore = juniorScore
+        val updatedEntity = TeamEntity(
+            teamType = TeamType.JUNIOR, speedTimes = SPEED_TIMES,
+            juniorScore = ScoreEntity(speedScore = SPEED_SCORE, bestSpeedTime = BEST_SPEED_TIME)
+        )
         every { mockRepository.save(updatedEntity) } returns Mono.just(updatedEntity)
         every { mockMapper.toModel(updatedEntity) } returns DETAILED_TEAM
 
@@ -82,7 +80,7 @@ internal class DefaultSpeedRaceServiceTest {
     }
 
     @Test
-    fun juniorNotFound() {
+    internal fun `should return empty when team was not found on junior`() {
         every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
         Mono.just(SPEED_RACE_RESULT)
             .flatMap(underTest::updateSpeedRaceJunior)
@@ -91,11 +89,8 @@ internal class DefaultSpeedRaceServiceTest {
     }
 
     @Test
-    fun juniorWhenSenior() {
-        val foundEntity = TeamEntity()
-        foundEntity.teamType = TeamType.SENIOR
-        val juniorScore = ScoreEntity()
-        foundEntity.juniorScore = juniorScore
+    internal fun `should return empty when senior team tries to update junior result`() {
+        val foundEntity = TeamEntity(teamType = TeamType.SENIOR, juniorScore = ScoreEntity())
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundEntity)
         Mono.just(SPEED_RACE_RESULT)
             .flatMap(underTest::updateSpeedRaceJunior)
@@ -104,15 +99,13 @@ internal class DefaultSpeedRaceServiceTest {
     }
 
     @Test
-    fun senior() {
-        val scoreEntity = ScoreEntity()
-        val foundEntity = TeamEntity(score = scoreEntity)
+    internal fun `should find, update and return DetailedTeam on senior speed race`() {
+        val foundEntity = TeamEntity(score = ScoreEntity())
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundEntity)
-        val updatedEntity = TeamEntity()
-        updatedEntity.speedTimes = SPEED_TIMES
-        scoreEntity.speedScore = SPEED_SCORE
-        scoreEntity.bestSpeedTime = BEST_SPEED_TIME
-        updatedEntity.score = scoreEntity
+        val updatedEntity = TeamEntity(
+            speedTimes = SPEED_TIMES,
+            score = ScoreEntity(speedScore = SPEED_SCORE, bestSpeedTime = BEST_SPEED_TIME)
+        )
         every { mockRepository.save(updatedEntity) } returns Mono.just(updatedEntity)
         every { mockMapper.toModel(updatedEntity) } returns DETAILED_TEAM
 
@@ -124,14 +117,14 @@ internal class DefaultSpeedRaceServiceTest {
     }
 
     @Test
-    fun seniorNotFound() {
+    internal fun `should return empty when team was not found on senior`() {
         every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
 
         Mono.just(SPEED_RACE_RESULT)
             .flatMap(underTest::updateSpeedRaceSenior)
             .let(StepVerifier::create)
             .verifyComplete()
-    } // todo rename
+    }
 
     companion object {
         private const val TEAM_ID: Long = 1
