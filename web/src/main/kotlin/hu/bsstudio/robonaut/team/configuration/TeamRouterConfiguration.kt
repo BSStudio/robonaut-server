@@ -6,7 +6,6 @@ import hu.bsstudio.robonaut.team.CreateTeamHandler
 import hu.bsstudio.robonaut.team.ReadAllTeamHandler
 import hu.bsstudio.robonaut.team.TeamService
 import hu.bsstudio.robonaut.team.UpdateTeamHandler
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.server.RouterFunction
@@ -15,8 +14,8 @@ import org.springframework.web.reactive.function.server.ServerResponse
 
 @Configuration
 class TeamRouterConfiguration(
-    @Autowired private val teamService: TeamService,
-    @Autowired private val robonAuthFilter: RobonAuthFilter
+    private val teamService: TeamService,
+    private val robonAuthFilter: RobonAuthFilter
 ) {
 
     @Bean

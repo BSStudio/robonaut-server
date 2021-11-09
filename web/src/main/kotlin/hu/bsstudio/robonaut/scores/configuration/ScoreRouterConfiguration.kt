@@ -8,7 +8,6 @@ import hu.bsstudio.robonaut.scores.audience.AudienceScoreService
 import hu.bsstudio.robonaut.scores.endresult.EndResultService
 import hu.bsstudio.robonaut.scores.qualification.QualificationScoreService
 import hu.bsstudio.robonaut.security.RobonAuthFilter
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.server.RouterFunction
@@ -17,10 +16,10 @@ import org.springframework.web.reactive.function.server.ServerResponse
 
 @Configuration
 class ScoreRouterConfiguration(
-    @Autowired private val robonAuthFilter: RobonAuthFilter,
-    @Autowired private val qualificationScoreService: QualificationScoreService,
-    @Autowired private val audienceScoreService: AudienceScoreService,
-    @Autowired private val endResultService: EndResultService
+    private val robonAuthFilter: RobonAuthFilter,
+    private val qualificationScoreService: QualificationScoreService,
+    private val audienceScoreService: AudienceScoreService,
+    private val endResultService: EndResultService
 ) {
 
     @Bean

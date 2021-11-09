@@ -5,14 +5,13 @@ import hu.bsstudio.robonaut.scores.endresult.BroadcastingEndResultService
 import hu.bsstudio.robonaut.scores.endresult.DefaultEndResultService
 import hu.bsstudio.robonaut.scores.endresult.EndResultService
 import org.springframework.amqp.rabbit.core.RabbitTemplate
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
 class EndResultServiceConfiguration(
-    @Autowired private val rabbitTemplate: RabbitTemplate,
-    @Autowired private val teamRepository: TeamRepository
+    private val rabbitTemplate: RabbitTemplate,
+    private val teamRepository: TeamRepository
 ) {
 
     @Bean

@@ -5,14 +5,13 @@ import hu.bsstudio.robonaut.safetycar.BroadcastingSafetyCarService
 import hu.bsstudio.robonaut.safetycar.DefaultSafetyCarService
 import hu.bsstudio.robonaut.safetycar.SafetyCarService
 import org.springframework.amqp.rabbit.core.RabbitTemplate
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
 class SafetyCarServiceConfiguration(
-    @Autowired private val repository: TeamRepository,
-    @Autowired private val rabbitTemplate: RabbitTemplate,
+    private val repository: TeamRepository,
+    private val rabbitTemplate: RabbitTemplate,
 ) {
 
     @Bean

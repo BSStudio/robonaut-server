@@ -12,9 +12,9 @@ export default class TestEnvironment extends NodeEnvironment {
     await super.setup()
 
     // get the urls
-    const app = await TestEnvironment.readTempFile('appBaseUrl')
-    const amqp = await TestEnvironment.readTempFile('amqpBaseUrl')
-    const mongo = await TestEnvironment.readTempFile('mongoBaseUrl')
+    const app = await TestEnvironment.readTempFile('app')
+    const amqp = await TestEnvironment.readTempFile('amqp')
+    const mongo = await TestEnvironment.readTempFile('mongo')
 
     if (!app || !amqp || !mongo) {
       throw new Error('baseUrls not found')
