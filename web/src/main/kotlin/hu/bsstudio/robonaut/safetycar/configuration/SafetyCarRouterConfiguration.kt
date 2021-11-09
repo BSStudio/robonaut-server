@@ -4,7 +4,6 @@ import hu.bsstudio.robonaut.safetycar.SafetyCarFollowHandler
 import hu.bsstudio.robonaut.safetycar.SafetyCarOvertakeHandler
 import hu.bsstudio.robonaut.safetycar.SafetyCarService
 import hu.bsstudio.robonaut.security.RobonAuthFilter
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.server.RouterFunction
@@ -13,8 +12,8 @@ import org.springframework.web.reactive.function.server.ServerResponse
 
 @Configuration
 class SafetyCarRouterConfiguration(
-    @Autowired private val robonAuthFilter: RobonAuthFilter,
-    @Autowired private val safetyCarService: SafetyCarService
+    private val robonAuthFilter: RobonAuthFilter,
+    private val safetyCarService: SafetyCarService
 ) {
 
     @Bean

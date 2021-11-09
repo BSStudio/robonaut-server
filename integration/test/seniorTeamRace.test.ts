@@ -285,7 +285,7 @@ describe('test a likely path of events for a senior team', () => {
       .send(speedResult)
       .then((response) => {
         expect(response.status).toBe(200)
-        expect(response.body).toStrictEqual('')
+        expect(response.body).toBe('')
       }))
 
   const qualifiedTeam = {

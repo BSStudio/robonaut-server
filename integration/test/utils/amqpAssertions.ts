@@ -3,7 +3,7 @@ import amqp = require('amqplib')
 function assertQueue(
   amqpHost: string,
   queueName: string,
-  expected: any
+  expected: unknown
 ): Promise<never> {
   let _connection
   return amqp

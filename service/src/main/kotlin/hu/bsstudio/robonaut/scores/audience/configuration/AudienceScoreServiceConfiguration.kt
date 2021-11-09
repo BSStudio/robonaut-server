@@ -5,14 +5,13 @@ import hu.bsstudio.robonaut.scores.audience.AudienceScoreService
 import hu.bsstudio.robonaut.scores.audience.BroadcastingAudienceScoreService
 import hu.bsstudio.robonaut.scores.audience.DefaultAudienceScoreService
 import org.springframework.amqp.rabbit.core.RabbitTemplate
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
 class AudienceScoreServiceConfiguration(
-    @Autowired private val rabbitTemplate: RabbitTemplate,
-    @Autowired private val teamRepository: TeamRepository,
+    private val rabbitTemplate: RabbitTemplate,
+    private val teamRepository: TeamRepository,
 ) {
 
     @Bean

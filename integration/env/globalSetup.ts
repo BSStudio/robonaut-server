@@ -31,11 +31,9 @@ export default async function () {
 
   // use the file system to expose the baseUrls for TestEnvironments
   mkdirp.sync(jestTempDir)
-  return Promise.all([
-    writeToTempFile('appBaseUrl', baseUrl.app),
-    writeToTempFile('amqpBaseUrl', baseUrl.amqp),
-    writeToTempFile('mongoBaseUrl', baseUrl.mongo),
-  ])
+  return Promise.all(
+      Object.entries(baseUrl).map(([filename, content]) => writeToTempFile(filename, content))
+  )
 }
 
 function writeToTempFile(fileName: string, content: string) {
