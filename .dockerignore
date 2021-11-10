@@ -122,4 +122,7 @@ fabric.properties
 hs_err_pid*
 
 # Skip integration test folder
+.git
+.circleci
+.github
 integration
