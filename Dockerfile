@@ -1,4 +1,4 @@
-FROM openjdk:11.0.13 as jdk
+FROM openjdk:11.0.14 as jdk
 
 FROM jdk as build
 # cache dependencies
