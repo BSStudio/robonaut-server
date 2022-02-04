@@ -1,22 +1,20 @@
 version: "3.8"
 services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      robonauth.api-key: BSS
+      spring.data.mongodb.host: mongo
+      spring.rabbitmq.host: rabbitmq
+    ports:
+    - "8080:8080" # change it to "127.0.0.1:8080:8080" for localhost only
   rabbitmq:
     image: rabbitmq:3.9.13-management-alpine
     ports:
-    - "5672:5672"
-    healthcheck:
-      test: rabbitmq-diagnostics -q ping
-      interval: 30s
-      timeout: 30s
-      retries: 5
-      start_period: 40s
+    - "5672:5672" # change it to "127.0.0.1:5672:5672" for localhost only
   mongo:
     image: mongo:4.4.6-bionic
     ports:
-    - "27017:27017"
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet
-      interval: 10s
-      timeout: 10s
-      retries: 5
-      start_period: 40s
+    - "27017:27017" # change it to "127.0.0.1:27017:27017" for localhost only
