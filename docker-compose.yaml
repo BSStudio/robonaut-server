@@ -17,7 +17,7 @@ services:
       retries: 5
       start_period: 40s
   rabbitmq:
-    image: rabbitmq:3.8.16-management-alpine
+    image: rabbitmq:3.9.13-management-alpine
     ports:
     - "5672"
     healthcheck:
