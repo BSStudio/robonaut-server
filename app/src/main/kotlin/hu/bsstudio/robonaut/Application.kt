@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication(scanBasePackages = [ "hu.bsstudio.robonaut" ])
-class DemoApplication
+class RobonautServerApplication
 
 fun main(args: Array<String>) {
-    runApplication<DemoApplication>(*args)
+    runApplication<RobonautServerApplication>(*args)
 }

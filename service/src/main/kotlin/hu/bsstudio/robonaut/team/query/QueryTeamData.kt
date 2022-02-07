@@ -1,7 +1,6 @@
 package hu.bsstudio.robonaut.team.query
 
 import hu.bsstudio.robonaut.team.TeamService
-import hu.bsstudio.robonaut.team.query.model.Requester
 import org.slf4j.LoggerFactory
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.stereotype.Component
@@ -10,8 +9,8 @@ import org.springframework.stereotype.Component
 class QueryTeamData(private val teamService: TeamService) {
 
     @RabbitListener(queues = ["general.teamData"])
-    fun sendTeamData(requester: Requester) {
-        LOG.info("Teams were requested by {}", requester)
+    fun sendTeamData() {
+        LOG.info("Teams were requested.")
         teamService.findAllTeam()
             .subscribe()
     }

@@ -14,6 +14,7 @@ services:
     image: rabbitmq:3.9.13-management-alpine
     ports:
     - "5672:5672" # change it to "127.0.0.1:5672:5672" for localhost only
+    - "8081:15672" # change it to "127.0.0.1:8081:15672" for localhost only
   mongo:
     image: mongo:4.4.6-bionic
     ports:
