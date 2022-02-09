@@ -1,8 +1,7 @@
-import amqp = require('amqplib')
-import PurgeQueue = amqp.Replies.PurgeQueue
+import amqp, { Connection } from 'amqplib'
 
-export default (amqpBaseUrl: string, queue: string): Promise<PurgeQueue> => {
-  let _connection
+export default (amqpBaseUrl: string, queue: string) => {
+  let _connection: Connection
   return amqp
     .connect(amqpBaseUrl)
     .then((connection) => {

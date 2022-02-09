@@ -1,10 +1,10 @@
-import { assertQueue, expectQueuesToBeEmpty } from './utils/amqpAssertions'
-import purgeQueue from './utils/purgeQueue'
+import { assertQueue, expectQueuesToBeEmpty } from '../utils/amqp-assertions'
+import purgeQueue from '../utils/purge-queue'
 import request = require('supertest')
 
 describe('test a likely path of events for speed timer', () => {
-  const appBaseUrl = global.__BASE_URL__.app as string
-  const amqpBaseUrl = global.__BASE_URL__.amqp as string
+  const appBaseUrl = globalThis.__BASE_URL__.app as string
+  const amqpBaseUrl = globalThis.__BASE_URL__.amqp as string
 
   beforeAll(() => purgeQueue(amqpBaseUrl, 'speed.timer'))
   afterAll(() => expectQueuesToBeEmpty(amqpBaseUrl))

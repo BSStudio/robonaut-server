@@ -1,7 +1,7 @@
 import * as fs from 'fs/promises'
 import NodeEnvironment = require('jest-environment-node')
 import * as path from 'path'
-import jestTempDir from './jestTempDir'
+import jestTempDir from '../jest-temp-dir'
 
 export default class TestEnvironment extends NodeEnvironment {
   private static readTempFile(name: string) {

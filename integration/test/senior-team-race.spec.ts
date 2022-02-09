@@ -1,12 +1,12 @@
-import { assertQueue, expectQueuesToBeEmpty } from './utils/amqpAssertions'
-import dropMongoDb from './utils/dropMongoDb'
-import purgeQueue from './utils/purgeQueue'
+import { assertQueue, expectQueuesToBeEmpty } from '../utils/amqp-assertions'
+import dropMongoDb from '../utils/drop-mongo-db'
+import purgeQueue from '../utils/purge-queue'
 import request = require('supertest')
 
 describe('test a likely path of events for a senior team', () => {
-  const appBaseUrl = global.__BASE_URL__.app
-  const amqpBaseUrl = global.__BASE_URL__.amqp
-  const mongoBaseUrl = global.__BASE_URL__.mongo
+  const appBaseUrl = globalThis.__BASE_URL__.app
+  const amqpBaseUrl = globalThis.__BASE_URL__.amqp
+  const mongoBaseUrl = globalThis.__BASE_URL__.mongo
 
   beforeAll(async () => {
     await dropMongoDb(mongoBaseUrl)

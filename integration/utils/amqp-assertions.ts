@@ -1,11 +1,7 @@
-import amqp = require('amqplib')
+import amqp, { Channel, Connection } from 'amqplib'
 
-function assertQueue(
-  amqpHost: string,
-  queueName: string,
-  expected: unknown
-): Promise<never> {
-  let _connection
+function assertQueue(amqpHost: string, queueName: string, expected: unknown) {
+  let _connection: Connection
   return amqp
     .connect(amqpHost)
     .then((connection) => {
@@ -20,13 +16,16 @@ function assertQueue(
     .finally(() => _connection.close())
 }
 
-async function expectQueueToHaveNoMessages(channel, queueName) {
+async function expectQueueToHaveNoMessages(
+  channel: Channel,
+  queueName: string
+) {
   const queue = await channel.checkQueue(queueName)
   expect(queue).toHaveProperty('messageCount', 0)
 }
 
 function expectQueuesToBeEmpty(amqpHost: string) {
-  let _connection
+  let _connection: Connection
   return amqp
     .connect(amqpHost)
     .then((connection) => {

@@ -1,9 +1,9 @@
 import rimraf = require('rimraf')
-import jestTempDir from './jestTempDir'
+import jestTempDir from '../jest-temp-dir'
 
 module.exports = async function () {
   // remove temp folder
   rimraf.sync(jestTempDir)
   // stop containers
-  await global.dockerComposeEnvironment.down()
+  await globalThis.dockerComposeEnvironment.down()
 }
