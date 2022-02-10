@@ -8,10 +8,7 @@ const BUILD_CONTEXT = path.resolve(__dirname, './../../..')
 const COMPOSE_FILE = 'docker-compose.yaml'
 
 export default async function () {
-  const dockerComposeEnvironment = await new DockerComposeEnvironment(
-    BUILD_CONTEXT,
-    COMPOSE_FILE
-  )
+  const dockerComposeEnvironment = await new DockerComposeEnvironment(BUILD_CONTEXT, COMPOSE_FILE)
     .withWaitStrategy('rabbitmq_1', Wait.forHealthCheck())
     .withWaitStrategy('mongo_1', Wait.forHealthCheck())
     .withWaitStrategy('app_1', Wait.forHealthCheck())
@@ -31,11 +28,7 @@ export default async function () {
 
   // use the file system to expose the baseUrls for TestEnvironments
   mkdirp.sync(jestTempDir)
-  return Promise.all(
-    Object.entries(baseUrl).map(([filename, content]) =>
-      writeToTempFile(filename, content)
-    )
-  )
+  return Promise.all(Object.entries(baseUrl).map(([filename, content]) => writeToTempFile(filename, content)))
 }
 
 function writeToTempFile(fileName: string, content: string) {

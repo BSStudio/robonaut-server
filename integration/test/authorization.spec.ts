@@ -1,7 +1,7 @@
-import request = require('supertest')
+import request from 'supertest'
 
 describe('authorization test', () => {
-  const appBaseUrl = globalThis.__BASE_URL__.app
+  const apiRequest = request(globalThis.__BASE_URL__.app)
 
   const postEndpoint = [
     '/api/team',
@@ -19,31 +19,22 @@ describe('authorization test', () => {
     '/api/scores/endResult/senior',
     '/api/scores/endResult/junior',
   ]
-  it.each(postEndpoint)(
-    'endpoint POST %p should return unauthorized',
-    (endpoint) =>
-      request(appBaseUrl)
-        .post(endpoint)
-        .then((response) => {
-          expect(response.status).toBe(401)
-        })
-  )
+  it.each(postEndpoint)('endpoint POST %p should return unauthorized', async (endpoint) => {
+    expect.assertions(1)
+    const response = await apiRequest.post(endpoint)
+    expect(response.status).toBe(401)
+  })
 
-  it('endpoint GET "/api/team" should return unauthorized', () =>
-    request(appBaseUrl)
-      .get('/api/team')
-      .then((response) => {
-        expect(response.status).toBe(401)
-      }))
+  it('endpoint GET "/api/team" should return unauthorized', async () => {
+    expect.assertions(1)
+    const response = await apiRequest.get('/api/team')
+    expect(response.status).toBe(401)
+  })
 
   const putEndpoints = ['/api/admin/team', '/api/team']
-  it.each(putEndpoints)(
-    'endpoint PUT %p should return unauthorized',
-    (endpoint) =>
-      request(appBaseUrl)
-        .put(endpoint)
-        .then((response) => {
-          expect(response.status).toBe(401)
-        })
-  )
+  it.each(putEndpoints)('endpoint PUT %p should return unauthorized', async (endpoint) => {
+    expect.assertions(1)
+    const response = await apiRequest.put(endpoint)
+    expect(response.status).toBe(401)
+  })
 })

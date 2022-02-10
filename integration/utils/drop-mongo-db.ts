@@ -1,9 +1,9 @@
 import { MongoClient } from 'mongodb'
 
-export default (mongoUri: string): Promise<boolean> => {
-  const mongoClient = new MongoClient(mongoUri)
-  return mongoClient
-    .connect()
-    .then((client) => client.db().dropDatabase())
-    .finally(() => mongoClient.close())
+export default async (): Promise<boolean> => {
+  const mongoClient = new MongoClient(globalThis.__BASE_URL__.mongo)
+  const client = await mongoClient.connect()
+  const success = await client.db().dropDatabase()
+  await client.close()
+  return success
 }

@@ -1,13 +1,9 @@
-import amqp, { Connection } from 'amqplib'
+import amqp from 'amqplib'
 
-export default (amqpBaseUrl: string, queue: string) => {
-  let _connection: Connection
-  return amqp
-    .connect(amqpBaseUrl)
-    .then((connection) => {
-      _connection = connection
-      return connection.createChannel()
-    })
-    .then((channel) => channel.purgeQueue(queue))
-    .finally(() => _connection.close())
+export default async (queue: string) => {
+  const connection = await amqp.connect(globalThis.__BASE_URL__.amqp)
+  const channel = await connection.createChannel()
+  const purgeReply = await channel.purgeQueue(queue)
+  await connection.close()
+  return purgeReply
 }
