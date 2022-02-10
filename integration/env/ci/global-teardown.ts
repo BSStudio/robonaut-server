@@ -1,4 +1,4 @@
-import rimraf = require('rimraf')
+import rimraf from 'rimraf'
 import jestTempDir from '../jest-temp-dir'
 
 module.exports = async function () {

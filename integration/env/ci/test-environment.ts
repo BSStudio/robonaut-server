@@ -1,11 +1,11 @@
-import * as fs from 'fs/promises'
+import * as fs from 'fs'
 import NodeEnvironment = require('jest-environment-node')
 import * as path from 'path'
 import jestTempDir from '../jest-temp-dir'
 
 export default class TestEnvironment extends NodeEnvironment {
   private static readTempFile(name: string) {
-    return fs.readFile(path.join(jestTempDir, name), 'utf8')
+    return fs.promises.readFile(path.join(jestTempDir, name), 'utf8')
   }
 
   async setup(): Promise<void> {

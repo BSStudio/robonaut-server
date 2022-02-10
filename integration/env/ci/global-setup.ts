@@ -1,5 +1,5 @@
 import { DockerComposeEnvironment, Wait } from 'testcontainers'
-import * as fs from 'fs/promises'
+import * as fs from 'fs'
 import mkdirp = require('mkdirp')
 import * as path from 'path'
 import jestTempDir from '../jest-temp-dir'
@@ -33,5 +33,5 @@ export default async function () {
 
 function writeToTempFile(fileName: string, content: string) {
   const filePath = path.join(jestTempDir, fileName)
-  return fs.writeFile(filePath, content)
+  return fs.promises.writeFile(filePath, content)
 }

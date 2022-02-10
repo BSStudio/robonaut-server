@@ -1,7 +1,7 @@
-import { assertQueue, expectQueuesToBeEmpty } from '../utils/amqp-assertions'
+import { getMessageCountSum, getQueueResponse } from '../utils/amqp-assertions'
 import dropMongoDb from '../utils/drop-mongo-db'
 import purgeQueue from '../utils/purge-queue'
-import request = require('supertest')
+import request from 'supertest'
 
 describe('test a likely path of events for a senior team', () => {
   const apiRequest = request(globalThis.__BASE_URL__.app)
@@ -17,7 +17,10 @@ describe('test a likely path of events for a senior team', () => {
       purgeQueue('team.teamData'),
     ])
   )
-  afterAll(() => expectQueuesToBeEmpty())
+  afterAll(async () => {
+    // eslint-disable-next-line jest/no-standalone-expect
+    await expect(getMessageCountSum()).resolves.toBe(0)
+  })
 
   it('should contain no teams in the start', async () => {
     expect.assertions(2)
@@ -62,7 +65,7 @@ describe('test a likely path of events for a senior team', () => {
     const response = await apiRequest.post('/api/team').set('RobonAuth-Api-Key', 'BSS').send(newTeam)
     expect(response.status).toBe(200)
     expect(response.body).toStrictEqual(createdTeam)
-    await assertQueue('team.teamData', createdTeam)
+    await expect(getQueueResponse('team.teamData')).resolves.toStrictEqual(createdTeam)
   })
 
   it('should display the new team', async () => {
@@ -70,7 +73,7 @@ describe('test a likely path of events for a senior team', () => {
     const response = await apiRequest.get('/api/team').set('RobonAuth-Api-Key', 'BSS')
     expect(response.status).toBe(200)
     expect(response.body).toStrictEqual([createdTeam])
-    await assertQueue('team.teamData', createdTeam)
+    await expect(getQueueResponse('team.teamData')).resolves.toStrictEqual(createdTeam)
   })
 
   const updateTeam = {
@@ -92,7 +95,7 @@ describe('test a likely path of events for a senior team', () => {
     const response = await apiRequest.put('/api/team').set('RobonAuth-Api-Key', 'BSS').send(updateTeam)
     expect(response.status).toBe(200)
     expect(response.body).toStrictEqual(updatedTeam)
-    await assertQueue('team.teamData', updatedTeam)
+    await expect(getQueueResponse('team.teamData')).resolves.toStrictEqual(updatedTeam)
   })
 
   it('should display the updated team', async () => {
@@ -100,7 +103,7 @@ describe('test a likely path of events for a senior team', () => {
     const response = await apiRequest.get('/api/team').set('RobonAuth-Api-Key', 'BSS')
     expect(response.status).toBe(200)
     expect(response.body).toStrictEqual([updatedTeam])
-    await assertQueue('team.teamData', updatedTeam)
+    await expect(getQueueResponse('team.teamData')).resolves.toStrictEqual(updatedTeam)
   })
 
   const gateInformation = {
@@ -119,8 +122,8 @@ describe('test a likely path of events for a senior team', () => {
     const response = await apiRequest.post('/api/skill/gate').set('RobonAuth-Api-Key', 'BSS').send(gateInformation)
     expect(response.status).toBe(200)
     expect(response.body).toStrictEqual(updatedTeamWithGateInformation)
-    await assertQueue('skill.gate', gateInformation)
-    await assertQueue('team.teamData', updatedTeamWithGateInformation)
+    await expect(getQueueResponse('skill.gate')).resolves.toStrictEqual(gateInformation)
+    await expect(getQueueResponse('team.teamData')).resolves.toStrictEqual(updatedTeamWithGateInformation)
   })
 
   const skillResult = {
@@ -136,7 +139,7 @@ describe('test a likely path of events for a senior team', () => {
     const response = await apiRequest.post('/api/skill/result').set('RobonAuth-Api-Key', 'BSS').send(skillResult)
     expect(response.status).toBe(200)
     expect(response.body).toStrictEqual(updatedTeamAfterSkillRace)
-    await assertQueue('team.teamData', updatedTeamAfterSkillRace)
+    await expect(getQueueResponse('team.teamData')).resolves.toStrictEqual(updatedTeamAfterSkillRace)
   })
 
   const safetyCarFollowInformation = {
@@ -155,8 +158,8 @@ describe('test a likely path of events for a senior team', () => {
       .send(safetyCarFollowInformation)
     expect(response.status).toBe(200)
     expect(response.body).toStrictEqual(updatedTeamAfterSafetyCarFollow)
-    await assertQueue('team.teamData', updatedTeamAfterSafetyCarFollow)
-    await assertQueue('speed.safetyCar.follow', safetyCarFollowInformation)
+    await expect(getQueueResponse('team.teamData')).resolves.toStrictEqual(updatedTeamAfterSafetyCarFollow)
+    await expect(getQueueResponse('speed.safetyCar.follow')).resolves.toStrictEqual(safetyCarFollowInformation)
   })
 
   const safetyCarOvertakeInformation = {
@@ -175,8 +178,8 @@ describe('test a likely path of events for a senior team', () => {
       .send(safetyCarOvertakeInformation)
     expect(response.status).toBe(200)
     expect(response.body).toStrictEqual(updatedTeamAfterSafetyCarOvertake)
-    await assertQueue('team.teamData', updatedTeamAfterSafetyCarOvertake)
-    await assertQueue('speed.safetyCar.overtake', safetyCarOvertakeInformation)
+    await expect(getQueueResponse('team.teamData')).resolves.toStrictEqual(updatedTeamAfterSafetyCarOvertake)
+    await expect(getQueueResponse('speed.safetyCar.overtake')).resolves.toStrictEqual(safetyCarOvertakeInformation)
   })
 
   const speedLapScore = {
@@ -192,8 +195,8 @@ describe('test a likely path of events for a senior team', () => {
     const response = await apiRequest.post('/api/speed/lap').set('RobonAuth-Api-Key', 'BSS').send(speedLapScore)
     expect(response.status).toBe(200)
     expect(response.body).toStrictEqual(updatedTeamWithLapInformation)
-    await assertQueue('speed.lap', speedLapScore)
-    await assertQueue('team.teamData', updatedTeamWithLapInformation)
+    await expect(getQueueResponse('speed.lap')).resolves.toStrictEqual(speedLapScore)
+    await expect(getQueueResponse('team.teamData')).resolves.toStrictEqual(updatedTeamWithLapInformation)
   })
 
   const speedResult = {
@@ -215,7 +218,7 @@ describe('test a likely path of events for a senior team', () => {
     const response = await apiRequest.post('/api/speed/result/senior').set('RobonAuth-Api-Key', 'BSS').send(speedResult)
     expect(response.status).toBe(200)
     expect(response.body).toStrictEqual(updatedTeamAfterSpeedRace)
-    await assertQueue('team.teamData', updatedTeamAfterSpeedRace)
+    await expect(getQueueResponse('team.teamData')).resolves.toStrictEqual(updatedTeamAfterSpeedRace)
   })
 
   it('should not update junior score for senior team', async () => {
@@ -241,7 +244,7 @@ describe('test a likely path of events for a senior team', () => {
       .send(qualifiedTeam)
     expect(response.status).toBe(200)
     expect(response.body).toStrictEqual([updatedTeamAfterQualification])
-    await assertQueue('team.teamData', updatedTeamAfterQualification)
+    await expect(getQueueResponse('team.teamData')).resolves.toStrictEqual(updatedTeamAfterQualification)
   })
 
   const audienceScoredTeam = {
@@ -262,7 +265,7 @@ describe('test a likely path of events for a senior team', () => {
       .send(audienceScoredTeam)
     expect(response.status).toBe(200)
     expect(response.body).toStrictEqual([updatedTeamAfterAudienceScores])
-    await assertQueue('team.teamData', updatedTeamAfterAudienceScores)
+    await expect(getQueueResponse('team.teamData')).resolves.toStrictEqual(updatedTeamAfterAudienceScores)
   })
 
   const endResultedTeam = {
@@ -286,7 +289,7 @@ describe('test a likely path of events for a senior team', () => {
       .send(endResultedTeam)
     expect(response.status).toBe(200)
     expect(response.body).toStrictEqual([updatedTeamAfterEndResults])
-    await assertQueue('team.teamData', updatedTeamAfterEndResults)
+    await expect(getQueueResponse('team.teamData')).resolves.toStrictEqual(updatedTeamAfterEndResults)
   })
 
   it('should not update junior end result scores for junior team', async () => {
@@ -328,6 +331,6 @@ describe('test a likely path of events for a senior team', () => {
     const response = await apiRequest.put('/api/admin/team').set('RobonAuth-Api-Key', 'BSS').send(adminUpdatedTeam)
     expect(response.status).toBe(200)
     expect(response.body).toStrictEqual([adminUpdatedTeam])
-    await assertQueue('team.teamData', adminUpdatedTeam)
+    await expect(getQueueResponse('team.teamData')).resolves.toStrictEqual(adminUpdatedTeam)
   })
 })

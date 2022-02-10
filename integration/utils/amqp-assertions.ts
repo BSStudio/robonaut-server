@@ -1,6 +1,6 @@
 import amqp, { Channel } from 'amqplib'
 
-async function assertQueue(queueName: string, expected: unknown) {
+async function getQueueResponse(queueName: string) {
   const connection = await amqp.connect(globalThis.__BASE_URL__.amqp)
   const channel = await connection.createChannel()
   const message = await channel.get(queueName, { noAck: true })
@@ -8,28 +8,29 @@ async function assertQueue(queueName: string, expected: unknown) {
   if (!message) {
     return Promise.reject('No message')
   }
-  expect(JSON.parse(message.content.toString())).toStrictEqual(expected)
+  return JSON.parse(message.content.toString())
 }
 
-async function expectQueueToHaveNoMessages(channel: Channel, queueName: string) {
+async function getQueueMessageCount(channel: Channel, queueName: string) {
   const queue = await channel.checkQueue(queueName)
-  expect(queue).toHaveProperty('messageCount', 0)
+  return queue.messageCount
 }
 
-async function expectQueuesToBeEmpty() {
+async function getMessageCountSum() {
   const connection = await amqp.connect(globalThis.__BASE_URL__.amqp)
   const channel = await connection.createChannel()
-  await Promise.all([
-    expectQueueToHaveNoMessages(channel, 'general.teamData'),
-    expectQueueToHaveNoMessages(channel, 'skill.gate'),
-    expectQueueToHaveNoMessages(channel, 'skill.timer'),
-    expectQueueToHaveNoMessages(channel, 'speed.lap'),
-    expectQueueToHaveNoMessages(channel, 'speed.timer'),
-    expectQueueToHaveNoMessages(channel, 'speed.safetyCar.follow'),
-    expectQueueToHaveNoMessages(channel, 'speed.safetyCar.overtake'),
-    expectQueueToHaveNoMessages(channel, 'team.teamData'),
+  const counts = await Promise.all([
+    getQueueMessageCount(channel, 'general.teamData'),
+    getQueueMessageCount(channel, 'skill.gate'),
+    getQueueMessageCount(channel, 'skill.timer'),
+    getQueueMessageCount(channel, 'speed.lap'),
+    getQueueMessageCount(channel, 'speed.timer'),
+    getQueueMessageCount(channel, 'speed.safetyCar.follow'),
+    getQueueMessageCount(channel, 'speed.safetyCar.overtake'),
+    getQueueMessageCount(channel, 'team.teamData'),
   ])
   await connection.close()
+  return counts.reduce((previousValue, currentValue) => previousValue + currentValue, 0)
 }
 
-export { assertQueue, expectQueuesToBeEmpty }
+export { getQueueResponse, getMessageCountSum }
