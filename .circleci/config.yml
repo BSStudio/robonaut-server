@@ -104,6 +104,11 @@ jobs:
           keys:
             - v1-npm-deps-{{ checksum "integration/package-lock.json" }}
       - run:
+          name: Install Node 16
+          command: |
+            nvm install 16
+            nvm use 16
+      - run:
           command: npm install --no-fund --no-audit
           working_directory: integration
       - save_cache:
