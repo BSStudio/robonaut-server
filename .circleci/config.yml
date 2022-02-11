@@ -61,15 +61,16 @@ jobs:
           path: data/build/reports
   docker-build:
     working_directory: ~/project
-    machine:
-      image: ubuntu-2004:202111-02
-      docker_layer_caching: true
+    docker:
+      - image: docker:20.10.12
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 20.10.11
       - run:
           name: Build application Docker image
-          command: |
-            docker build .
+          command: docker build .
   lint-integration-test:
     docker:
       - image: cimg/node:16.14
