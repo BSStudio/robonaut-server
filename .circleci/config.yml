@@ -3,8 +3,6 @@ jobs:
   lint:
     docker:
       - image: cimg/openjdk:11.0.13
-        environment:
-          GRADLE_USER_HOME: ./
     steps:
       - checkout
       - restore_cache:
@@ -17,9 +15,7 @@ jobs:
       - run: ./gradlew ktlintCheck --parallel
   test:
     docker:
-      - image: cimg/openjdk:11.0.13
-        environment:
-          GRADLE_USER_HOME: ./.gradle
+      - image: cimg/openjdk:11.0.13.gradle
     steps:
       - checkout
       - restore_cache:
@@ -45,8 +41,6 @@ jobs:
   coverage:
     docker:
       - image: cimg/openjdk:11.0.13
-        environment:
-          GRADLE_USER_HOME: ./
     steps:
       - checkout
       - restore_cache:
