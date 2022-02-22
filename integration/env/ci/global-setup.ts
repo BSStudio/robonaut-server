@@ -5,7 +5,7 @@ import * as path from 'path'
 import jestTempDir from '../jest-temp-dir'
 
 const BUILD_CONTEXT = path.resolve(__dirname, './../../..')
-const COMPOSE_FILE = 'docker-compose.yaml'
+const COMPOSE_FILE = 'docker-compose.ci.yaml'
 
 export default async function () {
   const dockerComposeEnvironment = await new DockerComposeEnvironment(BUILD_CONTEXT, COMPOSE_FILE)
