@@ -9,7 +9,7 @@ services:
       spring.data.mongodb.host: mongo
       spring.rabbitmq.host: rabbitmq
     ports:
-    - "8080:8080"
+    - "8080"
     healthcheck:
       test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
       interval: 20s
@@ -19,7 +19,7 @@ services:
   rabbitmq:
     image: rabbitmq:3.9.13-management-alpine
     ports:
-    - "5672:5672"
+    - "5672"
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 30s
@@ -29,7 +29,7 @@ services:
   mongo:
     image: mongo:4.4.6-bionic
     ports:
-    - "127.0.0.1:27017:27017"
+    - "27017"
     volumes:
       - "./db:/data/db"
     healthcheck:

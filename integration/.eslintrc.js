@@ -7,13 +7,8 @@ module.exports = {
   parserOptions: {
     sourceType: 'module',
   },
-  extends: [
-    'prettier',
-    'plugin:prettier/recommended',
-    'plugin:jest/all',
-    'plugin:@typescript-eslint/recommended',
-  ],
-  plugins: ['prettier', 'jest'],
+  extends: ['plugin:prettier/recommended', 'plugin:jest/all', 'plugin:@typescript-eslint/recommended', 'prettier'],
+  plugins: ['jest', 'prettier'],
   rules: {
     'jest/no-hooks': 'off',
   },
