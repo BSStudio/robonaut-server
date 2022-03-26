@@ -9,7 +9,7 @@
   "devDependencies": {
     "@tsconfig/node16": "1.0.2",
     "@types/amqplib": "0.8.2",
-    "@types/jest": "27.4.0",
+    "@types/jest": "27.4.1",
     "@types/mkdirp": "1.0.2",
     "@types/mongodb": "4.0.7",
     "@types/node": "16.11.25",
