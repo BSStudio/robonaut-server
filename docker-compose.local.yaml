@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.9"
 services:
   app:
     build:
@@ -11,11 +11,11 @@ services:
     ports:
     - "127.0.0.1:8080:8080"
   rabbitmq:
-    image: rabbitmq:3.9.13-management-alpine
+    image: rabbitmq:3.10.5-management-alpine
     ports:
     - "127.0.0.1:5672:5672"
     - "127.0.0.1:8081:15672"
   mongo:
-    image: mongo:4.4.6-bionic
+    image: mongo:5.0.9-focal
     ports:
     - "127.0.0.1:27017:27017"

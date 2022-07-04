@@ -6,13 +6,14 @@ repositories {
     gradlePluginPortal()
 }
 
-extra["springBootVersion"] = "2.6.3"
-extra["springDependencyManagement"] = "1.0.11.RELEASE"
-
 dependencies {
-    implementation("org.springframework.boot:spring-boot-gradle-plugin:${property("springBootVersion")}")
-    implementation("io.spring.gradle:dependency-management-plugin:${property("springDependencyManagement")}")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
-    implementation("org.jetbrains.kotlin:kotlin-allopen")
-    implementation("org.jlleitschuh.gradle:ktlint-gradle:10.2.1")
+    implementation(libs.plugin.springBoot)
+    implementation(libs.plugin.springDependencyManagement)
+    implementation(libs.plugin.ktlint)
+    implementation(kotlin("allopen"))
+    implementation(kotlin("gradle-plugin"))
+    // required for kotlin plugin jpa
+    implementation(kotlin("reflect"))
+    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("noarg"))
 }
