@@ -1,6 +1,5 @@
 # RobonAUT Server
 ![CircleCI](https://circleci.com/gh/BSStudio/robonaut-server/tree/main.svg?style=svg)
-[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=BSStudio/robonaut-server)](https://dependabot.com)
 ***
 [RobonAUT](http://robonaut.aut.bme.hu/) is an annual robot competition organized by the Faculty of Electrical Engineering and Informatics of Budapest University of Technology and Economics, dating back more than a decade.
 The event is livestreamed by BSS, one of the university student-operated video studios.
