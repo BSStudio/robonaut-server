@@ -16,9 +16,9 @@ export default async function () {
 
   globalThis.dockerComposeEnvironment = dockerComposeEnvironment
 
-  const rabbitMQ = dockerComposeEnvironment.getContainer('rabbitmq_1')
-  const mongo = dockerComposeEnvironment.getContainer('mongo_1')
-  const app = dockerComposeEnvironment.getContainer('app_1')
+  const rabbitMQ = dockerComposeEnvironment.getContainer('rabbitmq-1')
+  const mongo = dockerComposeEnvironment.getContainer('mongo-1')
+  const app = dockerComposeEnvironment.getContainer('app-1')
 
   const baseUrl = {
     app: `http://${app.getHost()}:${app.getMappedPort(8080)}`,
