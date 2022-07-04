@@ -5,7 +5,7 @@ COPY ./gradlew                    ./
 COPY ./settings.gradle.kts        ./
 COPY ./gradle                     ./gradle/
 COPY ./buildSrc/src               ./buildSrc/src/
-COPY ./buildSrc/build.gradle.kts  ./buildSrc/
+COPY ./buildSrc/*.gradle.kts      ./buildSrc/
 COPY ./web/build.gradle.kts       ./web/
 COPY ./service/build.gradle.kts   ./service/
 COPY ./messaging/build.gradle.kts ./messaging/
