@@ -11,7 +11,7 @@ services:
     ports:
     - "127.0.0.1:8080:8080"
   rabbitmq:
-    image: rabbitmq:3.10.5-management-alpine
+    image: rabbitmq:3.10.6-management-alpine
     ports:
     - "127.0.0.1:5672:5672"
     - "127.0.0.1:8081:15672"
