@@ -2,7 +2,7 @@
   "name": "robonaut-server-integration-test",
   "private": true,
   "dependencies": {
-    "amqplib": "0.10.1",
+    "amqplib": "0.10.2",
     "mongodb": "4.8.1",
     "supertest": "6.2.4"
   },
