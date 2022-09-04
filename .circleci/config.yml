@@ -45,12 +45,12 @@ commands:
           command: |
             set +o pipefail
             docker load -i ~/caches/image.tar | true
-      - run: docker build .
+      - run: docker build . --tag app
       - run:
           name: Save Docker image layer cache
           command: |
             mkdir -p ~/caches
-            docker save -o ~/caches/image.tar
+            docker save -o ~/caches/image.tar app
       - save_cache:
           paths:
             - ~/cache/image.tar
