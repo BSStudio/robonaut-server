@@ -45,23 +45,16 @@ commands:
           command: |
             set +o pipefail
             docker load -i ~/caches/image.tar | true
-      - run: docker build . --file <<parameters.filename>> --tag $DOCKERHUB_USERNAME/$IMAGE_NAME:<<parameters.tag>>
+      - run: docker build .
       - run:
           name: Save Docker image layer cache
           command: |
             mkdir -p ~/caches
-            docker save -o ~/caches/image.tar $DOCKERHUB_USERNAME/$IMAGE_NAME:<<parameters.tag>>
+            docker save -o ~/caches/image.tar
       - save_cache:
           paths:
             - ~/cache/image.tar
-          key: v3-docker-image-{{ .Branch }}-{{ checksum <<parameters.filename>> }}
-    parameters:
-      tag:
-        type: string
-        default: latest
-      filename:
-        type: string
-        default: Dockerfile
+          key: v3-docker-image-{{ .Branch }}-{{ checksum Dockerfile }}
 executors:
   jdk:
     docker:
