@@ -11,6 +11,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
 import org.springframework.web.reactive.function.server.RouterFunctions
 import reactor.core.publisher.Mono
+import java.time.Duration
 
 internal class SafetyCarFollowHandlerTest {
 
@@ -24,7 +25,12 @@ internal class SafetyCarFollowHandlerTest {
         val underTest = SafetyCarFollowHandler(mockService)
         val routerFunction = RouterFunctions.route()
             .POST("/test", underTest).build()
-        webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
+        webTestClient = WebTestClient
+            .bindToRouterFunction(routerFunction)
+            .build()
+            .mutate()
+            .responseTimeout(Duration.ofMinutes(1L))
+            .build()
     }
 
     @Test
