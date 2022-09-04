@@ -8,7 +8,7 @@ async function getQueueResponse(queueName: string) {
   if (!message) {
     return Promise.reject('No message')
   }
-  return JSON.parse(message.content.toString())
+  return JSON.parse(message.content.toString()) as unknown
 }
 
 async function getQueueMessageCount(channel: Channel, queueName: string) {

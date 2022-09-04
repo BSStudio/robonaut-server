@@ -1,6 +1,7 @@
 plugins {
     id("kotlin-conventions")
     id("io.spring.dependency-management")
+    id("com.dorongold.task-tree")
 }
 
 repositories {
