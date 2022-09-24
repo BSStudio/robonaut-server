@@ -1,10 +1,10 @@
 [versions]
-mockk = "1.12.7"
+mockk = "1.13.1"
 springdoc = "1.6.11"
-springBoot = "2.7.3"
-springCloud = "2021.0.3"
+springBoot = "2.7.4"
+springCloud = "2021.0.4"
 gradleKtlintPlugin = "11.0.0"
-springDependencyManagementPlugin = "1.0.13.RELEASE"
+springDependencyManagementPlugin = "1.0.14.RELEASE"
 
 [libraries]
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
