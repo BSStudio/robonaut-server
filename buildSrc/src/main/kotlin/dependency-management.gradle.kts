@@ -8,8 +8,8 @@ repositories {
 }
 
 // todo get version from libs.version.toml
-extra["springCloudVersion"] = "2021.0.3"
-extra["mockkVersion"] = "1.12.4"
+extra["springCloudVersion"] = "2021.0.4"
+extra["mockkVersion"] = "1.13.1"
 
 dependencyManagement {
     imports {
