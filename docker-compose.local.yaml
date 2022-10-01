@@ -11,11 +11,11 @@ services:
     ports:
     - "127.0.0.1:8080:8080"
   rabbitmq:
-    image: "rabbitmq:3.10.7-management-alpine"
+    image: "rabbitmq:3.11.0-management-alpine"
     ports:
     - "127.0.0.1:5672:5672"
     - "127.0.0.1:8081:15672"
   mongo:
-    image: "mongo:6.0.1-focal"
+    image: "mongo:6.0.2-focal"
     ports:
     - "127.0.0.1:27017:27017"
