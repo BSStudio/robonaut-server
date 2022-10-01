@@ -114,7 +114,7 @@ jobs:
           command: npm run test:ci -- --ci
           working_directory: integration
           environment:
-            DEBUG: testcontainers*
+            DEBUG: testcontainers
       - store_test_results:
           path: integration/out/jest
   docker-build:
