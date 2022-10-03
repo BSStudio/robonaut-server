@@ -1,12 +1,12 @@
 package hu.bsstudio.robonaut.entity
 
+import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.data.mongodb.core.mapping.MongoId
 
 @Document
 data class TeamEntity(
-    @MongoId
+    @Id
     var teamId: Long? = 0,
     var year: Int = 0,
 
