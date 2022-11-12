@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17.0.4_8-jdk-alpine as build
+FROM eclipse-temurin:17.0.5_8-jdk-alpine as build
 WORKDIR /usr/src/app
 # cache dependencies
 COPY ./gradlew                    ./
@@ -17,7 +17,7 @@ COPY ./ ./
 ARG BUILD_ARG="bootJar --parallel"
 RUN ./gradlew $BUILD_ARG
 
-FROM eclipse-temurin:17.0.4_8-jre-alpine as app
+FROM eclipse-temurin:17.0.5_8-jre-alpine as app
 # use non-root user
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
