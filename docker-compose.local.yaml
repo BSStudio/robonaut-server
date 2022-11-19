@@ -16,6 +16,6 @@ services:
     - "127.0.0.1:5672:5672"
     - "127.0.0.1:8081:15672"
   mongo:
-    image: "mongo:6.0.2-focal"
+    image: "mongo:6.0.3-focal"
     ports:
     - "127.0.0.1:27017:27017"
