@@ -5,10 +5,10 @@ import * as path from 'path'
 import jestTempDir from '../jest-temp-dir'
 
 const BUILD_CONTEXT = path.resolve(__dirname, './../../..')
-const COMPOSE_FILE = 'docker-compose.ci.yaml'
+const COMPOSE_FILES = ['docker-compose.yaml', 'docker-compose.ci.yaml']
 
 export default async function () {
-  const dockerComposeEnvironment = await new DockerComposeEnvironment(BUILD_CONTEXT, COMPOSE_FILE)
+  const dockerComposeEnvironment = await new DockerComposeEnvironment(BUILD_CONTEXT, COMPOSE_FILES)
     .withWaitStrategy('rabbitmq_1', Wait.forHealthCheck())
     .withWaitStrategy('mongo_1', Wait.forHealthCheck())
     .withWaitStrategy('app_1', Wait.forHealthCheck())
@@ -25,7 +25,6 @@ export default async function () {
     amqp: `amqp://${rabbitMQ.getHost()}:${rabbitMQ.getMappedPort(5672)}`,
     mongo: `mongodb://${mongo.getHost()}:${mongo.getMappedPort(27017)}/`,
   }
-
   // use the file system to expose the baseUrls for TestEnvironments
   mkdirp.sync(jestTempDir)
   return Promise.all(Object.entries(baseUrl).map(([filename, content]) => writeToTempFile(filename, content)))
