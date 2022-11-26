@@ -24,7 +24,6 @@ export default async function () {
     app: `http://${app.getHost()}:${app.getMappedPort(8080)}`,
     amqp: `amqp://${rabbitMQ.getHost()}:${rabbitMQ.getMappedPort(5672)}`,
     mongo: `mongodb://${mongo.getHost()}:${mongo.getMappedPort(27017)}/`,
-
   }
   // use the file system to expose the baseUrls for TestEnvironments
   mkdirp.sync(jestTempDir)
