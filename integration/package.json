@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "amqplib": "0.10.3",
-    "mongodb": "4.12.1",
+    "mongodb": "5.0.0",
     "supertest": "6.3.3"
   },
   "devDependencies": {
