@@ -1,6 +1,6 @@
 import { DockerComposeEnvironment, Wait } from 'testcontainers'
 import * as fs from 'fs'
-import * as mkdirp from 'mkdirp'
+import { mkdirp } from 'mkdirp'
 import * as path from 'path'
 import jestTempDir from '../jest-temp-dir'
 
@@ -26,7 +26,7 @@ export default async function () {
     mongo: `mongodb://${mongo.getHost()}:${mongo.getMappedPort(27017)}/`,
   }
   // use the file system to expose the baseUrls for TestEnvironments
-  mkdirp.sync(jestTempDir)
+  await mkdirp(jestTempDir)
   return Promise.all(Object.entries(baseUrl).map(([filename, content]) => writeToTempFile(filename, content)))
 }
 
