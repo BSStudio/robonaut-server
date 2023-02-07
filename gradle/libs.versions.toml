@@ -1,9 +1,9 @@
 [versions]
 # update in buildSrc/src/main/kotlin/testing-convations.gradle.kts
-mockk = "1.13.3"
+mockk = "1.13.4"
 springdoc = "1.6.14"
-springBoot = "3.0.0"
-gradleKtlintPlugin = "11.0.0"
+springBoot = "3.0.2"
+gradleKtlintPlugin = "11.1.0"
 springDependencyManagementPlugin = "1.1.0"
 
 [libraries]
