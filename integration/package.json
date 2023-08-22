@@ -7,7 +7,7 @@
     "supertest": "6.3.3"
   },
   "devDependencies": {
-    "@tsconfig/node16": "1.0.3",
+    "@tsconfig/node16": "16.1.1",
     "@types/amqplib": "0.10.1",
     "@types/jest": "29.4.0",
     "@types/node": "18.14.0",
