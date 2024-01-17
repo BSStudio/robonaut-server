@@ -1,14 +1,11 @@
 [versions]
-# update in buildSrc/src/main/kotlin/testing-convations.gradle.kts
-mockk = "1.13.9"
-springdoc = "1.7.0"
+springdoc = "2.3.0"
 springBoot = "3.2.1"
 gradleKtlintPlugin = "12.1.0"
 springDependencyManagementPlugin = "1.1.4"
 
 [libraries]
-mockk = { module = "io.mockk:mockk-jvm", version.ref = "mockk" }
-springdoc = { module = "org.springdoc:springdoc-openapi-webflux-ui", version.ref = "springdoc" }
+springdoc = { module = "org.springdoc:springdoc-openapi-starter-webflux-ui", version.ref = "springdoc" }
 
 plugin-springBoot = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "springBoot" }
 plugin-springDependencyManagement = { module = "io.spring.gradle:dependency-management-plugin", version.ref = "springDependencyManagementPlugin" }
