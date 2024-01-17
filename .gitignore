@@ -145,3 +145,6 @@ fabric.properties
 **/application*.yml
 **/application*.yaml
 **/application*.properties
+
+## Ignore mongo data folder
+/db/**

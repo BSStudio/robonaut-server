@@ -107,3 +107,6 @@ docker-compose**.yaml
 
 ### User template
 integration/
+
+## MongoDB files
+db/**
