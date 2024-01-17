@@ -27,7 +27,7 @@ services:
       retries: 5
       start_period: 40s
   mongo:
-    image: "mongo:6.0.4-focal"
+    image: "mongo:4.4.1"
     ports:
     - "127.0.0.1:27017:27017"
     volumes:
