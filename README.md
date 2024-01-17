@@ -9,21 +9,27 @@ To display the events, we created software that uses [CasparCG](https://casparcg
 
 This program persisted the events of the tournament and broadcasted the details of the events to the playout software.
 
-```
-+----------+    +---------+    +----------+    +----------+    +--------------+
-| CasparCG |<-->| Playout |<-->| RabbitMQ |<-->| RobonAUT |<-->| Race control |
-|          |    | Server  |    |          |    |  Server  |    | software     |
-+----------+    +---------+    +----------+    +----------+    +--------------+
-                                                     |
-                                               +----------+
-                                               | Mongo DB |
-                                               +----------+
+```mermaid
+---
+title: Architecture
+---
+graph RL
+rcs["Race Control Software"]
+server["Robonaut Server"]
+db["MongoDB"]
+playout["Playout Server"]
+cg["Caspar CG"]
+
+rcs --> server
+db <--> server
+server <-- Rabbit MQ --> playout
+playout --> cg
 ```
 
 ## Run the application
 ### Using docker compose
 ```shell
-docker-compose up .
+docker compose up -d
 ```
 
 ### Using gradle
