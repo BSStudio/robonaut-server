@@ -11,9 +11,8 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class EndResultServiceConfiguration(
     private val rabbitTemplate: RabbitTemplate,
-    private val teamRepository: TeamRepository
+    private val teamRepository: TeamRepository,
 ) {
-
     @Bean
     fun endResultService(defaultEndResultService: EndResultService): EndResultService {
         return BroadcastingEndResultService(rabbitTemplate, defaultEndResultService)

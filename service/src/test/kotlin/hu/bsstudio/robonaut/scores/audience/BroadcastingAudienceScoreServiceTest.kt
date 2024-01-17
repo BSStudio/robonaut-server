@@ -12,9 +12,9 @@ import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 
 internal class BroadcastingAudienceScoreServiceTest {
-
     @MockK
     private lateinit var mockTemplate: RabbitTemplate
+
     @MockK
     private lateinit var mockService: AudienceScoreService
 

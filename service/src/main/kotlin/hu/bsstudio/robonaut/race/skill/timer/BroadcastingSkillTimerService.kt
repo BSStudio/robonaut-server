@@ -6,9 +6,8 @@ import reactor.core.publisher.Mono
 
 class BroadcastingSkillTimerService(
     private val template: RabbitTemplate,
-    private val service: SkillTimerService
+    private val service: SkillTimerService,
 ) : SkillTimerService {
-
     override fun updateTimer(skillTimer: SkillTimer): Mono<SkillTimer> {
         return service.updateTimer(skillTimer)
             .doOnNext(::sendSkillTimerData)

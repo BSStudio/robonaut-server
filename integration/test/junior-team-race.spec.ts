@@ -15,7 +15,7 @@ describe('test a likely path of events for a junior team', () => {
       purgeQueue('speed.safetyCar.follow'),
       purgeQueue('speed.safetyCar.overtake'),
       purgeQueue('team.teamData'),
-    ])
+    ]),
   )
   afterAll(async () => {
     // eslint-disable-next-line jest/no-standalone-expect

@@ -13,7 +13,6 @@ class AudienceScoreServiceConfiguration(
     private val rabbitTemplate: RabbitTemplate,
     private val teamRepository: TeamRepository,
 ) {
-
     @Bean
     fun audienceScoreService(defaultAudienceScoreService: AudienceScoreService): AudienceScoreService {
         return BroadcastingAudienceScoreService(rabbitTemplate, defaultAudienceScoreService)

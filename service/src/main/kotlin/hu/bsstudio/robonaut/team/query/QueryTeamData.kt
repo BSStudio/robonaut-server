@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component
 
 @Component
 class QueryTeamData(private val teamService: TeamService) {
-
     @RabbitListener(queues = ["general.teamData"])
     fun sendTeamData() {
         LOG.info("Teams were requested.")

@@ -14,7 +14,6 @@ import reactor.core.publisher.Mono
 import java.time.Duration
 
 internal class SafetyCarFollowHandlerTest {
-
     @MockK
     private lateinit var mockService: SafetyCarService
     private lateinit var webTestClient: WebTestClient
@@ -23,14 +22,16 @@ internal class SafetyCarFollowHandlerTest {
     internal fun setUp() {
         MockKAnnotations.init(this)
         val underTest = SafetyCarFollowHandler(mockService)
-        val routerFunction = RouterFunctions.route()
-            .POST("/test", underTest).build()
-        webTestClient = WebTestClient
-            .bindToRouterFunction(routerFunction)
-            .build()
-            .mutate()
-            .responseTimeout(Duration.ofMinutes(1L))
-            .build()
+        val routerFunction =
+            RouterFunctions.route()
+                .POST("/test", underTest).build()
+        webTestClient =
+            WebTestClient
+                .bindToRouterFunction(routerFunction)
+                .build()
+                .mutate()
+                .responseTimeout(Duration.ofMinutes(1L))
+                .build()
     }
 
     @Test

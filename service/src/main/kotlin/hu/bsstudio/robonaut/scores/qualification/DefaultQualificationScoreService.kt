@@ -9,9 +9,8 @@ import reactor.core.publisher.Mono
 
 class DefaultQualificationScoreService(
     private val teamRepository: TeamRepository,
-    private val mapper: TeamModelEntityMapper = TeamModelEntityMapper()
+    private val mapper: TeamModelEntityMapper = TeamModelEntityMapper(),
 ) : QualificationScoreService {
-
     override fun updateQualificationScore(qualifiedTeam: QualifiedTeam): Mono<DetailedTeam> {
         return Mono.just(qualifiedTeam)
             .map(QualifiedTeam::teamId)
@@ -21,7 +20,10 @@ class DefaultQualificationScoreService(
             .map(mapper::toModel)
     }
 
-    private fun addQualificationScore(entity: TeamEntity, qualifiedTeam: QualifiedTeam): TeamEntity {
+    private fun addQualificationScore(
+        entity: TeamEntity,
+        qualifiedTeam: QualifiedTeam,
+    ): TeamEntity {
         entity.qualificationScore = qualifiedTeam.qualificationScore
         return entity
     }

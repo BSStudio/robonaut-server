@@ -13,9 +13,9 @@ import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 
 internal class BroadcastingTeamServiceTest {
-
     @MockK
     private lateinit var mockTemplate: RabbitTemplate
+
     @MockK
     private lateinit var mockService: TeamService
 

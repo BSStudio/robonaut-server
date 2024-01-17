@@ -10,13 +10,14 @@ import org.springframework.security.web.server.SecurityWebFilterChain
 
 @Configuration
 @EnableWebFluxSecurity
-class SecurityConfiguration(@Value("\${robonauth.api-key}") private val apiKey: String) {
-
+class SecurityConfiguration(
+    @Value("\${robonauth.api-key}") private val apiKey: String,
+) {
     @Bean
     fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
-        return http.httpBasic().disable()
-            .cors().disable()
-            .csrf().disable()
+        return http.httpBasic { it.disable() }
+            .cors { it.disable() }
+            .csrf { it.disable() }
             .build()
     }
 

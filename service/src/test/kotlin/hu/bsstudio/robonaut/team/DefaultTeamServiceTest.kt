@@ -18,9 +18,9 @@ import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 
 internal class DefaultTeamServiceTest {
-
     @MockK
     private lateinit var mockRepository: TeamRepository
+
     @MockK
     private lateinit var mockMapper: TeamModelEntityMapper
 
@@ -99,25 +99,28 @@ internal class DefaultTeamServiceTest {
         private val OLD_TEAM_ENTITY = createTeamEntity(TEAM_ID_1, YEAR_2, TEAM_NAME_2, TEAM_MEMBERS_2, TEAM_TYPE_2)
         private val TEAM_ENTITY_1 = createTeamEntity(TEAM_ID_1, YEAR_1, TEAM_NAME_1, TEAM_MEMBERS_1, TEAM_TYPE_1)
         private val TEAM_ENTITY_2 = createTeamEntity(TEAM_ID_2, YEAR_2, TEAM_NAME_2, TEAM_MEMBERS_2, TEAM_TYPE_2)
-        private val TEAM_1: Team = Team(
-            teamId = TEAM_ID_1,
-            teamMembers = TEAM_MEMBERS_1,
-            teamName = TEAM_NAME_1,
-            teamType = TEAM_TYPE_1,
-            year = YEAR_1,
-        )
-        private val DETAILED_TEAM_1: DetailedTeam = DetailedTeam(
-            teamId = TEAM_ID_1,
-            combinedScore = Score(0, 0, 0),
-            juniorScore = Score(0, 0, 0),
-        )
+        private val TEAM_1: Team =
+            Team(
+                teamId = TEAM_ID_1,
+                teamMembers = TEAM_MEMBERS_1,
+                teamName = TEAM_NAME_1,
+                teamType = TEAM_TYPE_1,
+                year = YEAR_1,
+            )
+        private val DETAILED_TEAM_1: DetailedTeam =
+            DetailedTeam(
+                teamId = TEAM_ID_1,
+                combinedScore = Score(0, 0, 0),
+                juniorScore = Score(0, 0, 0),
+            )
         private val DETAILED_TEAM_2 = DetailedTeam(teamId = TEAM_ID_2)
+
         private fun createTeamEntity(
             teamId: Long,
             year: Int,
             teamName: String,
             teamMembers: List<String>,
-            teamType: TeamType
+            teamType: TeamType,
         ): TeamEntity {
             val defaultScore = ScoreEntity()
             return TeamEntity(

@@ -9,7 +9,6 @@ class BroadcastingEndResultService(
     private val template: RabbitTemplate,
     private val service: EndResultService,
 ) : EndResultService {
-
     override fun updateEndResultSenior(endResultedTeam: EndResultedTeam): Mono<DetailedTeam> {
         return service.updateEndResultSenior(endResultedTeam)
             .doOnNext(::sendTeamInfo)

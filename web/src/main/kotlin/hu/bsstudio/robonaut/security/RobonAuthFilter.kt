@@ -9,8 +9,10 @@ import org.springframework.web.reactive.function.server.ServerResponse
 import reactor.core.publisher.Mono
 
 class RobonAuthFilter(private val apiKey: String) : HandlerFilterFunction<ServerResponse, ServerResponse> {
-
-    override fun filter(request: ServerRequest, handlerFunction: HandlerFunction<ServerResponse>): Mono<ServerResponse> {
+    override fun filter(
+        request: ServerRequest,
+        handlerFunction: HandlerFunction<ServerResponse>,
+    ): Mono<ServerResponse> {
         if (apiKeyDoesNotMatchOrEmpty(request)) {
             LOG.error("Api key does not match or empty")
             return UNAUTHORIZED_RESPONSE
@@ -22,7 +24,10 @@ class RobonAuthFilter(private val apiKey: String) : HandlerFilterFunction<Server
         return !getHeaderValues(request, AUTH_API_KEY_HEADER).contains(apiKey)
     }
 
-    private fun getHeaderValues(request: ServerRequest, headerName: String): List<String> {
+    private fun getHeaderValues(
+        request: ServerRequest,
+        headerName: String,
+    ): List<String> {
         return request.headers().header(headerName)
     }
 

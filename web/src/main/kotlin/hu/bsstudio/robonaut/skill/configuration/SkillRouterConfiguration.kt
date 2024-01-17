@@ -16,14 +16,13 @@ import org.springframework.web.reactive.function.server.ServerResponse
 class SkillRouterConfiguration(
     private val robonAuthFilter: RobonAuthFilter,
     private val skillTimerService: SkillTimerService,
-    private val skillRaceService: SkillRaceService
+    private val skillRaceService: SkillRaceService,
 ) {
-
     @Bean
     fun skillRouterFunction(
         updateSkillTimerHandler: UpdateSkillTimerHandler,
         skillGateHandler: SkillGateHandler,
-        skillRaceResultHandler: SkillRaceResultHandler
+        skillRaceResultHandler: SkillRaceResultHandler,
     ): RouterFunction<ServerResponse> {
         return RouterFunctions.route()
             .filter(robonAuthFilter)

@@ -14,13 +14,15 @@ import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 
 internal class RobonAuthFilterTest {
-
     @MockK
     private lateinit var request: ServerRequest
+
     @MockK
     private lateinit var handlerFunction: HandlerFunction<ServerResponse>
+
     @MockK
     private lateinit var mockResponse: ServerResponse
+
     @MockK
     private lateinit var headers: ServerRequest.Headers
 

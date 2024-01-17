@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class RabbitConfiguration {
-
     @Bean
     fun generalTeamDataQueue() = Queue("general.teamData")
 

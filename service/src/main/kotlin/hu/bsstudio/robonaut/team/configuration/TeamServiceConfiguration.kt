@@ -13,7 +13,6 @@ class TeamServiceConfiguration(
     private val rabbitTemplate: RabbitTemplate,
     private val teamRepository: TeamRepository,
 ) {
-
     @Bean
     fun teamService(defaultTeamService: TeamService): TeamService {
         return BroadcastingTeamService(rabbitTemplate, defaultTeamService)

@@ -13,7 +13,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class TeamModelEntityMapperTest {
-
     @MockK
     private lateinit var mockMapper: ScoreEntityMapper
 
@@ -65,37 +64,39 @@ internal class TeamModelEntityMapperTest {
         private val SCORE_ENTITY = ScoreEntity(SPEED_SCORE, BEST_SPEED_TIME, TOTAL_SCORE)
         private val JUNIOR_SCORE = Score(SPEED_SCORE, BEST_SPEED_TIME, TOTAL_SCORE)
         private val JUNIOR_SCORE_ENTITY = ScoreEntity(SPEED_SCORE, BEST_SPEED_TIME, TOTAL_SCORE)
-        private val DETAILED_TEAM = DetailedTeam(
-            teamId = TEAM_ID,
-            year = YEAR,
-            teamName = TEAM_NAME,
-            teamMembers = TEAM_MEMBERS,
-            teamType = TEAM_TYPE,
-            skillScore = SKILL_SCORE,
-            numberOfOvertakes = NUMBER_OF_OVERTAKES,
-            safetyCarWasFollowed = SAFETY_CAR_WAS_FOLLOWED,
-            speedTimes = SPEED_TIMES,
-            votes = VOTES,
-            audienceScore = AUDIENCE_SCORE,
-            qualificationScore = QUALIFICATION_SCORE,
-            combinedScore = COMBINED_SCORE,
-            juniorScore = JUNIOR_SCORE,
-        )
-        private val TEAM_ENTITY = TeamEntity(
-            teamId = TEAM_ID,
-            year = YEAR,
-            teamName = TEAM_NAME,
-            teamMembers = TEAM_MEMBERS,
-            teamType = TEAM_TYPE,
-            skillScore = SKILL_SCORE,
-            numberOfOvertakes = NUMBER_OF_OVERTAKES,
-            safetyCarWasFollowed = SAFETY_CAR_WAS_FOLLOWED,
-            speedTimes = SPEED_TIMES,
-            votes = VOTES,
-            audienceScore = AUDIENCE_SCORE,
-            qualificationScore = QUALIFICATION_SCORE,
-            score = SCORE_ENTITY,
-            juniorScore = JUNIOR_SCORE_ENTITY,
-        )
+        private val DETAILED_TEAM =
+            DetailedTeam(
+                teamId = TEAM_ID,
+                year = YEAR,
+                teamName = TEAM_NAME,
+                teamMembers = TEAM_MEMBERS,
+                teamType = TEAM_TYPE,
+                skillScore = SKILL_SCORE,
+                numberOfOvertakes = NUMBER_OF_OVERTAKES,
+                safetyCarWasFollowed = SAFETY_CAR_WAS_FOLLOWED,
+                speedTimes = SPEED_TIMES,
+                votes = VOTES,
+                audienceScore = AUDIENCE_SCORE,
+                qualificationScore = QUALIFICATION_SCORE,
+                combinedScore = COMBINED_SCORE,
+                juniorScore = JUNIOR_SCORE,
+            )
+        private val TEAM_ENTITY =
+            TeamEntity(
+                teamId = TEAM_ID,
+                year = YEAR,
+                teamName = TEAM_NAME,
+                teamMembers = TEAM_MEMBERS,
+                teamType = TEAM_TYPE,
+                skillScore = SKILL_SCORE,
+                numberOfOvertakes = NUMBER_OF_OVERTAKES,
+                safetyCarWasFollowed = SAFETY_CAR_WAS_FOLLOWED,
+                speedTimes = SPEED_TIMES,
+                votes = VOTES,
+                audienceScore = AUDIENCE_SCORE,
+                qualificationScore = QUALIFICATION_SCORE,
+                score = SCORE_ENTITY,
+                juniorScore = JUNIOR_SCORE_ENTITY,
+            )
     }
 }

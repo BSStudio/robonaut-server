@@ -14,9 +14,9 @@ import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 
 internal class DefaultAudienceScoreServiceTest {
-
     @MockK
     private lateinit var mockRepository: TeamRepository
+
     @MockK
     private lateinit var mockMapper: TeamModelEntityMapper
 

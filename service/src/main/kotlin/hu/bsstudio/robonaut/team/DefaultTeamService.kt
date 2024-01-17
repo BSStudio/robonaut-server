@@ -10,9 +10,8 @@ import reactor.core.publisher.Mono
 
 class DefaultTeamService(
     private val teamRepository: TeamRepository,
-    private val teamMapper: TeamModelEntityMapper = TeamModelEntityMapper()
+    private val teamMapper: TeamModelEntityMapper = TeamModelEntityMapper(),
 ) : TeamService {
-
     override fun addTeam(team: Team): Mono<DetailedTeam> {
         return Mono.just(team)
             .map(::toEntity)
@@ -41,15 +40,19 @@ class DefaultTeamService(
             .map(teamMapper::toModel)
     }
 
-    private fun toEntity(team: Team) = TeamEntity(
-        teamId = team.teamId,
-        year = team.year,
-        teamName = team.teamName,
-        teamMembers = team.teamMembers,
-        teamType = team.teamType,
-    )
+    private fun toEntity(team: Team) =
+        TeamEntity(
+            teamId = team.teamId,
+            year = team.year,
+            teamName = team.teamName,
+            teamMembers = team.teamMembers,
+            teamType = team.teamType,
+        )
 
-    private fun updateBasicTeamInfo(entity: TeamEntity, team: Team): TeamEntity {
+    private fun updateBasicTeamInfo(
+        entity: TeamEntity,
+        team: Team,
+    ): TeamEntity {
         entity.teamId = team.teamId
         entity.year = team.year
         entity.teamName = team.teamName

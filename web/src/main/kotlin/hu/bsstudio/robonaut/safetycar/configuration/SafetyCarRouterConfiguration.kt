@@ -13,13 +13,12 @@ import org.springframework.web.reactive.function.server.ServerResponse
 @Configuration
 class SafetyCarRouterConfiguration(
     private val robonAuthFilter: RobonAuthFilter,
-    private val safetyCarService: SafetyCarService
+    private val safetyCarService: SafetyCarService,
 ) {
-
     @Bean
     fun safetyCarRouterFunction(
         safetyCarFollowHandler: SafetyCarFollowHandler,
-        safetyCarOvertakeHandler: SafetyCarOvertakeHandler
+        safetyCarOvertakeHandler: SafetyCarOvertakeHandler,
     ): RouterFunction<ServerResponse> {
         return RouterFunctions.route()
             .filter(robonAuthFilter)

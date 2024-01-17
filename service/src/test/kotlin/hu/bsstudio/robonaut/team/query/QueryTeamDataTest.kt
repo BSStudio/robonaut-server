@@ -11,9 +11,9 @@ import reactor.core.Disposable
 import reactor.core.publisher.Flux
 
 internal class QueryTeamDataTest {
-
     @MockK
     private lateinit var mockService: TeamService
+
     @MockK
     private lateinit var detailedTeamFlux: Flux<DetailedTeam>
 

@@ -9,7 +9,6 @@ import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
 class CreateTeamHandler(private val teamService: TeamService) : HandlerFunction<ServerResponse> {
-
     override fun handle(request: ServerRequest): Mono<ServerResponse> {
         return request.bodyToMono<Team>()
             .flatMap(teamService::addTeam)

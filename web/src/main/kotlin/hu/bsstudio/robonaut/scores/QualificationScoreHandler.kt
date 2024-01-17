@@ -10,7 +10,6 @@ import org.springframework.web.reactive.function.server.bodyToFlux
 import reactor.core.publisher.Mono
 
 class QualificationScoreHandler(private val service: QualificationScoreService) : HandlerFunction<ServerResponse> {
-
     override fun handle(request: ServerRequest): Mono<ServerResponse> {
         return request.bodyToFlux<QualifiedTeam>()
             .flatMap(service::updateQualificationScore)

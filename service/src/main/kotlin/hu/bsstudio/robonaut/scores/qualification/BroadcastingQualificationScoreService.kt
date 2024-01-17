@@ -9,7 +9,6 @@ class BroadcastingQualificationScoreService(
     private val template: RabbitTemplate,
     private val service: QualificationScoreService,
 ) : QualificationScoreService {
-
     override fun updateQualificationScore(qualifiedTeam: QualifiedTeam): Mono<DetailedTeam> {
         return service.updateQualificationScore(qualifiedTeam)
             .doOnNext(::sendTeamInfo)

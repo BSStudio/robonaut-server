@@ -11,9 +11,8 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class SpeedRaceServiceConfiguration(
     private val repository: TeamRepository,
-    private val rabbitTemplate: RabbitTemplate
+    private val rabbitTemplate: RabbitTemplate,
 ) {
-
     @Bean
     fun speedRaceService(defaultSpeedRaceService: SpeedRaceService): SpeedRaceService {
         return BroadcastingSpeedRaceService(rabbitTemplate, defaultSpeedRaceService)

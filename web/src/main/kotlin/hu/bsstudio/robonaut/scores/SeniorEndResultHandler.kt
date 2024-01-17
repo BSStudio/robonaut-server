@@ -10,7 +10,6 @@ import org.springframework.web.reactive.function.server.bodyToFlux
 import reactor.core.publisher.Mono
 
 class SeniorEndResultHandler(private val service: EndResultService) : HandlerFunction<ServerResponse> {
-
     override fun handle(request: ServerRequest): Mono<ServerResponse> {
         return request.bodyToFlux<EndResultedTeam>()
             .flatMap(service::updateEndResultSenior)

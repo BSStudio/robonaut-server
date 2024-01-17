@@ -11,9 +11,8 @@ import reactor.core.publisher.Mono
 
 class DefaultSpeedRaceService(
     private val repository: TeamRepository,
-    private val mapper: TeamModelEntityMapper = TeamModelEntityMapper()
+    private val mapper: TeamModelEntityMapper = TeamModelEntityMapper(),
 ) : SpeedRaceService {
-
     override fun updateSpeedRaceOnLap(speedRaceScore: SpeedRaceScore): Mono<DetailedTeam> {
         return Mono.just(speedRaceScore)
             .map(SpeedRaceScore::teamId)
@@ -42,19 +41,28 @@ class DefaultSpeedRaceService(
             .map(mapper::toModel)
     }
 
-    private fun updateSpeedScore(entity: TeamEntity, score: SpeedRaceScore): TeamEntity {
+    private fun updateSpeedScore(
+        entity: TeamEntity,
+        score: SpeedRaceScore,
+    ): TeamEntity {
         entity.speedTimes = score.speedTimes
         return entity
     }
 
-    private fun updateSpeedScoreJunior(entity: TeamEntity, result: SpeedRaceResult): TeamEntity {
+    private fun updateSpeedScoreJunior(
+        entity: TeamEntity,
+        result: SpeedRaceResult,
+    ): TeamEntity {
         entity.juniorScore.speedScore = result.speedScore
         entity.juniorScore.bestSpeedTime = result.bestSpeedTime
         entity.speedTimes = result.speedTimes
         return entity
     }
 
-    private fun updateSpeedScoreSenior(entity: TeamEntity, result: SpeedRaceResult): TeamEntity {
+    private fun updateSpeedScoreSenior(
+        entity: TeamEntity,
+        result: SpeedRaceResult,
+    ): TeamEntity {
         entity.score.speedScore = result.speedScore
         entity.score.bestSpeedTime = result.bestSpeedTime
         entity.speedTimes = result.speedTimes

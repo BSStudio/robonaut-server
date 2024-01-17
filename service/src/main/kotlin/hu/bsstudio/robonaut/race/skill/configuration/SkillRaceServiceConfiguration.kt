@@ -11,9 +11,8 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class SkillRaceServiceConfiguration(
     private val rabbitTemplate: RabbitTemplate,
-    private val repository: TeamRepository
+    private val repository: TeamRepository,
 ) {
-
     @Bean
     fun skillRaceService(defaultSkillRaceService: SkillRaceService): SkillRaceService {
         return BroadcastingSkillRaceService(rabbitTemplate, defaultSkillRaceService)
