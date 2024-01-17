@@ -10,7 +10,7 @@
     "@tsconfig/node18": "18.2.2",
     "@types/amqplib": "0.10.4",
     "@types/jest": "29.5.11",
-    "@types/node": "18.15.3",
+    "@types/node": "20.11.5",
     "@types/supertest": "6.0.2",
     "@typescript-eslint/eslint-plugin": "6.19.0",
     "@typescript-eslint/parser": "6.19.0",
