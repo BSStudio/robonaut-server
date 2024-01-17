@@ -61,7 +61,7 @@ executors:
       - image: cimg/openjdk:17.0.9
   node:
     docker:
-      - image: cimg/node:20.11.0
+      - image: cimg/node:21.6.0
   ubuntu-docker:
     environment:
       IMAGE_NAME: bss-web-admin-backend
