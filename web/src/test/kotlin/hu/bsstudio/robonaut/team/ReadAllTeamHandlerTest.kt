@@ -12,7 +12,6 @@ import org.springframework.web.reactive.function.server.RouterFunctions
 import reactor.core.publisher.Flux
 
 internal class ReadAllTeamHandlerTest {
-
     @MockK
     private lateinit var mockService: TeamService
     private lateinit var webTestClient: WebTestClient
@@ -21,8 +20,9 @@ internal class ReadAllTeamHandlerTest {
     internal fun setUp() {
         MockKAnnotations.init(this)
         val underTest = ReadAllTeamHandler(mockService)
-        val routerFunction = RouterFunctions.route()
-            .POST("/test", underTest).build()
+        val routerFunction =
+            RouterFunctions.route()
+                .POST("/test", underTest).build()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
     }
 

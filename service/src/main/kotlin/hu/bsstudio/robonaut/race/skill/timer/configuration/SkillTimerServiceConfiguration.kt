@@ -9,9 +9,8 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class SkillTimerServiceConfiguration(
-    private val rabbitTemplate: RabbitTemplate
+    private val rabbitTemplate: RabbitTemplate,
 ) {
-
     @Bean
     fun skillTimerService(defaultSkillTimerService: SkillTimerService): SkillTimerService {
         return BroadcastingSkillTimerService(rabbitTemplate, defaultSkillTimerService)

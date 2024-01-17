@@ -15,15 +15,14 @@ import org.springframework.web.reactive.function.server.ServerResponse
 @Configuration
 class TeamRouterConfiguration(
     private val teamService: TeamService,
-    private val robonAuthFilter: RobonAuthFilter
+    private val robonAuthFilter: RobonAuthFilter,
 ) {
-
     @Bean
     fun teamRouterFunction(
         createTeamHandler: CreateTeamHandler,
         readAllTeamHandler: ReadAllTeamHandler,
         adminUpdateTeamHandler: AdminUpdateTeamHandler,
-        updateTeamHandler: UpdateTeamHandler
+        updateTeamHandler: UpdateTeamHandler,
     ): RouterFunction<ServerResponse> {
         return RouterFunctions.route()
             .filter(robonAuthFilter)

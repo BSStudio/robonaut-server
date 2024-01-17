@@ -10,7 +10,6 @@ class BroadcastingTeamService(
     private val template: RabbitTemplate,
     private val service: TeamService,
 ) : TeamService {
-
     override fun addTeam(team: Team): Mono<DetailedTeam> {
         return service.addTeam(team)
             .doOnNext(::sendTeamInfo)

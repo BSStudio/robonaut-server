@@ -10,9 +10,8 @@ import reactor.core.publisher.Mono
 
 class DefaultSkillRaceService(
     private val repository: TeamRepository,
-    private val mapper: TeamModelEntityMapper = TeamModelEntityMapper()
+    private val mapper: TeamModelEntityMapper = TeamModelEntityMapper(),
 ) : SkillRaceService {
-
     override fun updateSkillRaceResultOnGate(gateInformation: GateInformation): Mono<DetailedTeam> {
         return Mono.just(gateInformation)
             .map(GateInformation::teamId)
@@ -31,12 +30,18 @@ class DefaultSkillRaceService(
             .map(mapper::toModel)
     }
 
-    private fun updateSkillRaceInfo(entity: TeamEntity, gateInformation: GateInformation): TeamEntity {
+    private fun updateSkillRaceInfo(
+        entity: TeamEntity,
+        gateInformation: GateInformation,
+    ): TeamEntity {
         entity.skillScore = gateInformation.totalSkillScore
         return entity
     }
 
-    private fun updateSkillRaceInfo(entity: TeamEntity, skillRaceResult: SkillRaceResult): TeamEntity {
+    private fun updateSkillRaceInfo(
+        entity: TeamEntity,
+        skillRaceResult: SkillRaceResult,
+    ): TeamEntity {
         entity.skillScore = skillRaceResult.skillScore
         return entity
     }

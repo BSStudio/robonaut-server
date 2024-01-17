@@ -13,7 +13,6 @@ class DefaultEndResultService(
     private val teamRepository: TeamRepository,
     private val teamModelEntityMapper: TeamModelEntityMapper = TeamModelEntityMapper(),
 ) : EndResultService {
-
     override fun updateEndResultSenior(endResultedTeam: EndResultedTeam): Mono<DetailedTeam> {
         return Mono.just(endResultedTeam)
             .map(EndResultedTeam::teamId)
@@ -33,19 +32,28 @@ class DefaultEndResultService(
             .map(teamModelEntityMapper::toModel)
     }
 
-    private fun addEndResultSenior(entity: TeamEntity, endResultedTeam: EndResultedTeam): TeamEntity {
+    private fun addEndResultSenior(
+        entity: TeamEntity,
+        endResultedTeam: EndResultedTeam,
+    ): TeamEntity {
         val score = updateTotalScore(endResultedTeam, entity.score)
         entity.score = score
         return entity
     }
 
-    private fun addEndResultJunior(entity: TeamEntity, endResultedTeam: EndResultedTeam): TeamEntity {
+    private fun addEndResultJunior(
+        entity: TeamEntity,
+        endResultedTeam: EndResultedTeam,
+    ): TeamEntity {
         val juniorScore = updateTotalScore(endResultedTeam, entity.juniorScore)
         entity.juniorScore = juniorScore
         return entity
     }
 
-    private fun updateTotalScore(endResultedTeam: EndResultedTeam, score: ScoreEntity): ScoreEntity {
+    private fun updateTotalScore(
+        endResultedTeam: EndResultedTeam,
+        score: ScoreEntity,
+    ): ScoreEntity {
         score.score = endResultedTeam.totalScore
         return score
     }

@@ -13,7 +13,6 @@ import org.springframework.web.reactive.function.server.RouterFunctions
 import reactor.core.publisher.Mono
 
 internal class SafetyCarOvertakeHandlerTest {
-
     @MockK
     private lateinit var mockService: SafetyCarService
     private lateinit var webTestClient: WebTestClient
@@ -22,8 +21,9 @@ internal class SafetyCarOvertakeHandlerTest {
     internal fun setUp() {
         MockKAnnotations.init(this)
         val underTest = SafetyCarOvertakeHandler(mockService)
-        val routerFunction = RouterFunctions.route()
-            .POST(URI, underTest).build()
+        val routerFunction =
+            RouterFunctions.route()
+                .POST(URI, underTest).build()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
     }
 

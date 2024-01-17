@@ -3,7 +3,7 @@
 mockk = "1.13.4"
 springdoc = "1.6.14"
 springBoot = "3.0.2"
-gradleKtlintPlugin = "11.1.0"
+gradleKtlintPlugin = "12.1.0"
 springDependencyManagementPlugin = "1.1.0"
 
 [libraries]

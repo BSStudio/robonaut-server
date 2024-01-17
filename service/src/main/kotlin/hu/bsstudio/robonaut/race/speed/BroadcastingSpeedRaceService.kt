@@ -8,9 +8,8 @@ import reactor.core.publisher.Mono
 
 class BroadcastingSpeedRaceService(
     private val template: RabbitTemplate,
-    private val service: SpeedRaceService
+    private val service: SpeedRaceService,
 ) : SpeedRaceService {
-
     override fun updateSpeedRaceOnLap(speedRaceScore: SpeedRaceScore): Mono<DetailedTeam> {
         return Mono.just(speedRaceScore)
             .doOnNext(::sendLapInfo)

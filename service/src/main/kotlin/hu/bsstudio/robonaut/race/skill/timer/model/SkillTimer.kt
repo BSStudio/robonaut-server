@@ -4,5 +4,5 @@ import hu.bsstudio.robonaut.common.model.TimerAction
 
 data class SkillTimer(
     val timerAt: Int,
-    val timerAction: TimerAction
+    val timerAction: TimerAction,
 )

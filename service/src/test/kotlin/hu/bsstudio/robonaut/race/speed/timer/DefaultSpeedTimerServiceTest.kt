@@ -8,7 +8,6 @@ import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 
 internal class DefaultSpeedTimerServiceTest {
-
     private lateinit var underTest: DefaultSpeedTimerService
 
     @BeforeEach

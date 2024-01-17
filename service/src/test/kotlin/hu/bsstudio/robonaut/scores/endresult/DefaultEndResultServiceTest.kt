@@ -16,9 +16,9 @@ import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 
 internal class DefaultEndResultServiceTest {
-
     @MockK
     private lateinit var mockRepository: TeamRepository
+
     @MockK
     private lateinit var mockMapper: TeamModelEntityMapper
 
@@ -58,15 +58,17 @@ internal class DefaultEndResultServiceTest {
 
     @Test
     internal fun `should return DetailedTeam when Entity was found and successfully was updated on senior`() {
-        val foundTeamEntity = TeamEntity(
-            teamType = TeamType.JUNIOR,
-            juniorScore = ScoreEntity(),
-        )
+        val foundTeamEntity =
+            TeamEntity(
+                teamType = TeamType.JUNIOR,
+                juniorScore = ScoreEntity(),
+            )
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
-        val updatedTeamEntity = TeamEntity(
-            juniorScore = ScoreEntity(score = POINTS),
-            teamType = TeamType.JUNIOR,
-        )
+        val updatedTeamEntity =
+            TeamEntity(
+                juniorScore = ScoreEntity(score = POINTS),
+                teamType = TeamType.JUNIOR,
+            )
         every { mockRepository.save(updatedTeamEntity) } returns Mono.just(updatedTeamEntity)
         every { mockMapper.toModel(updatedTeamEntity) } returns DETAILED_TEAM
 
@@ -79,10 +81,11 @@ internal class DefaultEndResultServiceTest {
 
     @Test
     internal fun `should return emptyWhenSeniorTeamTriesToUpdateJuniorScore`() {
-        val foundTeamEntity = TeamEntity(
-            teamType = TeamType.SENIOR,
-            juniorScore = ScoreEntity(),
-        )
+        val foundTeamEntity =
+            TeamEntity(
+                teamType = TeamType.SENIOR,
+                juniorScore = ScoreEntity(),
+            )
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
 
         Mono.just(END_RESULTED_TEAM)

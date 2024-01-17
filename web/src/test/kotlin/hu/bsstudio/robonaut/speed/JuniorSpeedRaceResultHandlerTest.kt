@@ -14,7 +14,6 @@ import org.springframework.web.reactive.function.server.RouterFunctions
 import reactor.core.publisher.Mono
 
 internal class JuniorSpeedRaceResultHandlerTest {
-
     @MockK
     private lateinit var mockService: SpeedRaceService
     private lateinit var webTestClient: WebTestClient
@@ -23,8 +22,9 @@ internal class JuniorSpeedRaceResultHandlerTest {
     internal fun setUp() {
         MockKAnnotations.init(this)
         val underTest = JuniorSpeedRaceResultHandler(mockService)
-        val routerFunction = RouterFunctions.route()
-            .POST("/test", underTest).build()
+        val routerFunction =
+            RouterFunctions.route()
+                .POST("/test", underTest).build()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
     }
 

@@ -10,8 +10,9 @@ import org.springframework.security.web.server.SecurityWebFilterChain
 
 @Configuration
 @EnableWebFluxSecurity
-class SecurityConfiguration(@Value("\${robonauth.api-key}") private val apiKey: String) {
-
+class SecurityConfiguration(
+    @Value("\${robonauth.api-key}") private val apiKey: String,
+) {
     @Bean
     fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
         return http.httpBasic().disable()

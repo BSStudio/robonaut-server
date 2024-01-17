@@ -14,7 +14,6 @@ import org.springframework.web.reactive.function.server.RouterFunctions
 import reactor.core.publisher.Mono
 
 internal class QualificationScoreHandlerTest {
-
     @MockK
     private lateinit var mockService: QualificationScoreService
     private lateinit var webTestClient: WebTestClient

@@ -7,5 +7,6 @@ import reactor.core.publisher.Mono
 
 interface SkillRaceService {
     fun updateSkillRaceResultOnGate(gateInformation: GateInformation): Mono<DetailedTeam>
+
     fun updateSkillRaceResult(skillRaceResult: SkillRaceResult): Mono<DetailedTeam>
 }

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class ScoreEntityMapperTest {
-
     private lateinit var underTest: ScoreEntityMapper
 
     @BeforeEach
@@ -34,10 +33,11 @@ internal class ScoreEntityMapperTest {
         private const val SPEED_SCORE = 2021
         private const val BEST_SPEED_TIME = 999
         private val MODEL = Score(SPEED_SCORE, BEST_SPEED_TIME, SCORE)
-        private val ENTITY = ScoreEntity(
-            speedScore = SPEED_SCORE,
-            bestSpeedTime = BEST_SPEED_TIME,
-            score = SCORE,
-        )
+        private val ENTITY =
+            ScoreEntity(
+                speedScore = SPEED_SCORE,
+                bestSpeedTime = BEST_SPEED_TIME,
+                score = SCORE,
+            )
     }
 }

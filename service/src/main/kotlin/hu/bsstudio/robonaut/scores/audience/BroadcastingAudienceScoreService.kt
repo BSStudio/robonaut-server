@@ -9,7 +9,6 @@ class BroadcastingAudienceScoreService(
     private val template: RabbitTemplate,
     private val service: AudienceScoreService,
 ) : AudienceScoreService {
-
     override fun updateAudienceScore(audienceScoredTeam: AudienceScoredTeam): Mono<DetailedTeam> {
         return service.updateAudienceScore(audienceScoredTeam)
             .doOnNext(::sendTeamInfo)

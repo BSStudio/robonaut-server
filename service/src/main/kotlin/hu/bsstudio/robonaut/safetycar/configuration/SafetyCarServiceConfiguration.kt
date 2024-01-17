@@ -13,7 +13,6 @@ class SafetyCarServiceConfiguration(
     private val repository: TeamRepository,
     private val rabbitTemplate: RabbitTemplate,
 ) {
-
     @Bean
     fun safetyCarService(defaultSafetyCarService: SafetyCarService): SafetyCarService {
         return BroadcastingSafetyCarService(rabbitTemplate, defaultSafetyCarService)

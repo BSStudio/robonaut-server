@@ -7,5 +7,6 @@ import reactor.core.publisher.Mono
 
 interface SafetyCarService {
     fun safetyCarWasFollowed(safetyCarFollowInformation: SafetyCarFollowInformation): Mono<DetailedTeam>
+
     fun safetyCarWasOvertaken(safetyCarOvertakeInformation: SafetyCarOvertakeInformation): Mono<DetailedTeam>
 }

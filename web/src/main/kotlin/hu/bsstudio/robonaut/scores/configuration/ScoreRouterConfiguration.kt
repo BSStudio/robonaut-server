@@ -19,15 +19,14 @@ class ScoreRouterConfiguration(
     private val robonAuthFilter: RobonAuthFilter,
     private val qualificationScoreService: QualificationScoreService,
     private val audienceScoreService: AudienceScoreService,
-    private val endResultService: EndResultService
+    private val endResultService: EndResultService,
 ) {
-
     @Bean
     fun scoreRouterFunction(
         qualificationScoreHandler: QualificationScoreHandler,
         audienceScoreHandler: AudienceScoreHandler,
         seniorEndResultHandler: SeniorEndResultHandler,
-        juniorEndResultHandler: JuniorEndResultHandler
+        juniorEndResultHandler: JuniorEndResultHandler,
     ): RouterFunction<ServerResponse> {
         return RouterFunctions.route()
             .filter(robonAuthFilter)

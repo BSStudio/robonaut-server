@@ -17,15 +17,14 @@ import org.springframework.web.reactive.function.server.ServerResponse
 class SpeedRaceRouterConfiguration(
     private val robonAuthFilter: RobonAuthFilter,
     private val speedTimerService: SpeedTimerService,
-    private val speedRaceService: SpeedRaceService
+    private val speedRaceService: SpeedRaceService,
 ) {
-
     @Bean
     fun speedRaceRouterFunction(
         updateSpeedTimerHandler: UpdateSpeedTimerHandler,
         speedRaceLapHandler: SpeedRaceLapHandler,
         juniorSpeedRaceResultHandler: JuniorSpeedRaceResultHandler,
-        seniorSpeedRaceResultHandler: SeniorSpeedRaceResultHandler
+        seniorSpeedRaceResultHandler: SeniorSpeedRaceResultHandler,
     ): RouterFunction<ServerResponse> {
         return RouterFunctions.route()
             .filter(robonAuthFilter)

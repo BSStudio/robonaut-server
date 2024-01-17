@@ -15,9 +15,9 @@ import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 
 internal class DefaultSkillRaceServiceTest {
-
     @MockK
     private lateinit var mockRepository: TeamRepository
+
     @MockK
     private lateinit var mockMapper: TeamModelEntityMapper
 

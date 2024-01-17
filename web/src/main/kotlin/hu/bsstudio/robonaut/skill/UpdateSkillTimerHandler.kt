@@ -10,7 +10,6 @@ import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
 class UpdateSkillTimerHandler(private val service: SkillTimerService) : HandlerFunction<ServerResponse> {
-
     override fun handle(request: ServerRequest): Mono<ServerResponse> {
         return request.bodyToMono<SkillTimer>()
             .flatMap(service::updateTimer)

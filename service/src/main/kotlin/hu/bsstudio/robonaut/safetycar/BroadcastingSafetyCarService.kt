@@ -10,7 +10,6 @@ class BroadcastingSafetyCarService(
     private val template: RabbitTemplate,
     private val service: SafetyCarService,
 ) : SafetyCarService {
-
     override fun safetyCarWasFollowed(safetyCarFollowInformation: SafetyCarFollowInformation): Mono<DetailedTeam> {
         return Mono.just(safetyCarFollowInformation)
             .doOnNext(::sendSafetyCarFollow)

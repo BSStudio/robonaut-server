@@ -10,9 +10,8 @@ import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
 class SpeedRaceLapHandler(private val service: SpeedRaceService) : HandlerFunction<ServerResponse> {
-
     override fun handle(request: ServerRequest): Mono<ServerResponse> {
-        return request.bodyToMono< SpeedRaceScore>()
+        return request.bodyToMono<SpeedRaceScore>()
             .flatMap(service::updateSpeedRaceOnLap)
             .let { detailedTeam -> ServerResponse.ok().body(detailedTeam) }
     }
