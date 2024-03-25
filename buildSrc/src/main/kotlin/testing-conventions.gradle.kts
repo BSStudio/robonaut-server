@@ -8,7 +8,7 @@ dependencies {
         exclude(module = "mockito-core")
         exclude(module = "hamcrest")
     }
-    testImplementation("io.mockk:mockk-jvm:1.13.9")
+    testImplementation("io.mockk:mockk-jvm:1.13.10")
 }
 
 tasks.test {
