@@ -15,7 +15,7 @@ COPY ./server/data/build.gradle.kts      ./server/data/
 COPY ./server/build.gradle.kts           ./server/
 RUN ./gradlew
 # build
-COPY ./ ./
+COPY ./server ./server
 RUN ./gradlew bootJar
 
 FROM bellsoft/liberica-openjre-alpine-musl:21.0.1-12 AS app
