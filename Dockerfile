@@ -28,3 +28,6 @@ ARG BUILD_ROOT=/usr/src/app
 ARG BOOT_JAR=$BUILD_ROOT/server/build/libs/*.jar
 COPY --from=build $BOOT_JAR ./app.jar
 ENTRYPOINT ["java","-jar","./app.jar"]
+LABEL org.opencontainers.image.source="https://github.com/BSStudio/robonaut-server"
+LABEL org.opencontainers.image.description="BSS Robonaut Server"
+LABEL org.opencontainers.image.licenses="GPL-3.0"
