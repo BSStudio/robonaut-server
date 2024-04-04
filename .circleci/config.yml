@@ -43,6 +43,17 @@ jobs:
       - github-cli/setup:
           version: 2.43.1
       - run: gh release create << pipeline.git.tag >> -t << pipeline.git.tag >> --generate-notes
+  integration_test:
+    executor: node-machine
+    steps:
+      - checkout
+      - node/install-packages:
+          app-dir: ~/project/integration
+      - run:
+          command: npm run test:ci
+          working_directory: ~/project/integration
+      - store_test_results:
+          path: ~/project/integration/out/jest
 workflows:
   Build app:
     jobs:
@@ -62,10 +73,8 @@ workflows:
           name: Lint Integration test
           app-dir: ~/project/integration
           npm-run: lint
-      - node/run:
+      - integration_test:
           name: Integration test
-          app-dir: ~/project/integration
-          npm-run: test:ci
       - docker/hadolint:
           name: Lint Dockerfile
       - docker/publish:
