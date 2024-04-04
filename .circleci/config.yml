@@ -64,23 +64,26 @@ jobs:
       - run: gh release create << pipeline.git.tag >> -t << pipeline.git.tag >> --generate-notes
   integration_test:
     executor: node-machine
-    working_directory: ~/project/integration
     steps:
       - checkout
-      - node/install-packages
+      - node/install-packages:
+          app-dir: ~/project/integration
       - run:
           command: npm run test:ci
+          workdir: ~/project/integration
           environment:
             DEBUG: testcontainers
       - store_test_results:
-          path: ./out/jest
+          path: ~/project/integration/out/jest
   lint_integration:
     executor: node
-    working_directory: ~/project/integration
     steps:
       - checkout
-      - node/install-packages
-      - run: npm run lint:ci
+      - node/install-packages:
+          app-dir: ~/project/integration
+      - run:
+          command: npm run lint:ci
+          workdir: ~/project/integration
 workflows:
   Build app:
     jobs:
