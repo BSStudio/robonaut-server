@@ -33,6 +33,22 @@ defaults:
       tags:
         only: /.*/
 jobs:
+  gradle:
+    parameters:
+      command:
+        type: string
+      after:
+        type: steps
+        default: []
+    executor: jdk
+    steps:
+      - checkout
+      - gradle/with_cache:
+          deps_checksum_file: build.gradle.kts
+          cache_key: v2
+          steps:
+            - run: ./gradlew << parameters.command >>
+      - steps: << parameters.after >>
   github_release:
     docker:
       - image: cimg/base:stable
@@ -52,6 +68,8 @@ jobs:
       - run:
           command: npm run test:ci
           working_directory: ~/project/integration
+          environment:
+            DEBUG: testcontainers
       - store_test_results:
           path: ~/project/integration/out/jest
 workflows:
@@ -65,10 +83,18 @@ workflows:
           name: Build boot jar
           command: bootJar
           <<: *gradle
-      - gradle/run:
+      - gradle:
           name: Unit test
-          command: test
-          <<: *gradle
+          command: test --continue
+          after:
+            - run:
+                name: Save test results
+                command: |
+                  mkdir -p test-results/junit/
+                  find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} test-results/junit/ \;
+            - gradle/collect_test_results:
+                reports_path: server/build/reports
+                test_results_path: test-results
       - node/run:
           name: Lint Integration test
           app-dir: ~/project/integration
