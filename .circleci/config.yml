@@ -8,7 +8,7 @@ executors:
   jdk:
     docker:
       - image: cimg/openjdk:21.0.2
-  jdk-machine:
+  node-machine:
     machine:
       image: ubuntu-2204:current
       docker_layer_caching: true
@@ -42,6 +42,7 @@ jobs:
       - github-cli/setup:
           version: 2.43.1
       - run: gh release create << pipeline.git.tag >> -t << pipeline.git.tag >> --generate-notes
+      - gradle/cache-save
 workflows:
   Build app:
     jobs:
@@ -53,6 +54,18 @@ workflows:
           name: Build boot jar
           command: bootJar
           <<: *gradle
+      - gradle/run:
+          name: Unit test
+          command: test
+          <<: *gradle
+      - node/run:
+          name: Lint Integration test
+          app-dir: ~/project/integration
+          npm-run: lint
+      - node/run:
+          name: Integration test
+          app-dir: ~/project/integration
+          npm-run: test:ci
       - docker/hadolint:
           name: Lint Dockerfile
       - docker/publish:
