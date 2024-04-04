@@ -4,6 +4,7 @@ orbs:
   gradle: circleci/gradle@3.0.0
   docker: circleci/docker@2.5.0
   github-cli: circleci/github-cli@2.3.0
+  node: circleci/node@5.2.0
 executors:
   jdk:
     docker:
