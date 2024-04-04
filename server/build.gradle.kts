@@ -1,9 +1,9 @@
 plugins {
     id("spring-app-conventions")
-    id("ktlint-conventions")
+    id("spotless-conventions")
 }
 
 dependencies {
-    api(project(":web"))
+    api(project(":server:web"))
     implementation("org.springframework.boot:spring-boot-starter")
 }

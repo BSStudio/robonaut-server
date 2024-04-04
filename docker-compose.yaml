@@ -1,9 +1,7 @@
 version: "3.9"
 services:
   app:
-    build:
-      context: ./
-      dockerfile: Dockerfile
+    build: ./
     environment:
       robonauth.api-key: BSS
       spring.data.mongodb.host: mongo
