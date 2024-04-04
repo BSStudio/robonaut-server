@@ -4,11 +4,7 @@ plugins {
 }
 
 dependencies {
-    testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude(module = "mockito-core")
-        exclude(module = "hamcrest")
-    }
-    testImplementation("io.mockk:mockk-jvm:1.13.9")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks.test {
@@ -33,6 +29,11 @@ val excluded = setOf(
 tasks.jacocoTestReport {
     // tests are required to run before generating the report
     dependsOn(tasks.test)
+    // require xml report
+    reports {
+        xml.required.set(true)
+    }
+    // exclude excluded packages from test report
     classDirectories.setFrom(
         files(
             classDirectories.files.map {
@@ -47,6 +48,7 @@ tasks.jacocoTestReport {
 tasks.jacocoTestCoverageVerification {
     // tests are required to run before generating the coverage verification
     dependsOn(tasks.test)
+    // set required coverage to 100%
     violationRules {
         rule {
             limit {
@@ -54,6 +56,7 @@ tasks.jacocoTestCoverageVerification {
             }
         }
     }
+    // exclude excluded packages from test coverage verification
     classDirectories.setFrom(
         files(
             classDirectories.files.map {

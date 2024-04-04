@@ -1,6 +1,6 @@
 plugins {
     id("spring-app-conventions")
-    id("ktlint-conventions")
+    id("spotless-conventions")
 }
 
 dependencies {

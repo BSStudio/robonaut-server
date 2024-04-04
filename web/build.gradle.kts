@@ -1,7 +1,7 @@
 plugins {
     id("spring-module-conventions")
-    id("testing-conventions")
-    id("ktlint-conventions")
+    id("kotlin-testing-conventions")
+    id("spotless-conventions")
 }
 
 dependencies {
