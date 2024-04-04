@@ -5,8 +5,8 @@ plugins {
 }
 
 dependencies {
-    api(project(":data"))
-    api(project(":messaging"))
+    api(project(":server:data"))
+    api(project(":server:messaging"))
     implementation("org.springframework:spring-context")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
     implementation("org.springframework.boot:spring-boot-starter-amqp")

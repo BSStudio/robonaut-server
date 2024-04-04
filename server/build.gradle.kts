@@ -4,6 +4,6 @@ plugins {
 }
 
 dependencies {
-    api(project(":web"))
+    api(project(":server:web"))
     implementation("org.springframework.boot:spring-boot-starter")
 }
