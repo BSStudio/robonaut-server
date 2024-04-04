@@ -84,6 +84,8 @@ jobs:
       - run:
           command: npm run lint:ci
           workdir: ~/project/integration
+      - store_test_results:
+          path: ~/project/integration/out/eslint
 workflows:
   Build app:
     jobs:
@@ -107,6 +109,12 @@ workflows:
             - gradle/collect_test_results:
                 reports_path: server/build/reports
                 test_results_path: test-results
+      - gradle:
+          name: Coverage
+          command: jacocoTestCoverageVerification
+          after:
+            - codecov/upload:
+                flags: unit
       - lint_integration:
           name: Lint Integration test
       - integration_test:
