@@ -73,7 +73,7 @@ jobs:
     executor: jdk
     steps:
       - init_gradle
-      - run: ./gradlew ktlintCheck --parallel
+      - run: ./gradlew spotlessCheck --parallel
   test:
     executor: jdk
     steps:

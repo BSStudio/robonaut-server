@@ -1,17 +1,17 @@
 FROM bellsoft/liberica-openjdk-alpine-musl:21.0.1-16 AS build
 WORKDIR /usr/src/app
 # cache dependencies
-COPY ./gradlew                    ./
-COPY ./settings.gradle.kts        ./
-COPY ./gradle.properties          ./
-COPY ./gradle                     ./gradle/
-COPY ./buildSrc/src               ./buildSrc/src/
-COPY ./buildSrc/*.gradle.kts      ./buildSrc/
-COPY ./web/build.gradle.kts       ./web/
-COPY ./service/build.gradle.kts   ./service/
-COPY ./messaging/build.gradle.kts ./messaging/
-COPY ./data/build.gradle.kts      ./data/
-COPY ./app/build.gradle.kts       ./app/
+COPY ./gradlew                           ./
+COPY ./settings.gradle.kts               ./
+COPY ./gradle.properties                 ./
+COPY ./gradle                            ./gradle/
+COPY ./buildSrc/src                      ./buildSrc/src/
+COPY ./buildSrc/*.gradle.kts             ./buildSrc/
+COPY ./server/web/build.gradle.kts       ./server/web/
+COPY ./server/service/build.gradle.kts   ./server/service/
+COPY ./server/messaging/build.gradle.kts ./server/messaging/
+COPY ./server/data/build.gradle.kts      ./server/data/
+COPY ./server/build.gradle.kts           ./server/
 RUN ./gradlew
 # build
 COPY ./ ./
