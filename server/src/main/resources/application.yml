@@ -1,0 +1,11 @@
+server:
+  http2:
+    enabled: true
+spring:
+  application:
+    name: Robonaut Server
+springdoc:
+  swagger-ui:
+    url: /open-api.yaml
+    path: /
+    display-request-duration: true
