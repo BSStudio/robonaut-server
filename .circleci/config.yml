@@ -61,17 +61,23 @@ jobs:
       - run: gh release create << pipeline.git.tag >> -t << pipeline.git.tag >> --generate-notes
   integration_test:
     executor: node-machine
+    working_directory: ~/project/integration
     steps:
       - checkout
-      - node/install-packages:
-          app-dir: ~/project/integration
+      - node/install-packages
       - run:
           command: npm run test:ci
-          working_directory: ~/project/integration
           environment:
             DEBUG: testcontainers
       - store_test_results:
-          path: ~/project/integration/out/jest
+          path: ./out/jest
+  lint_integration:
+    executor: node
+    working_directory: ~/project/integration
+    steps:
+      - checkout
+      - node/install-packages
+      - run: npm run lint:ci
 workflows:
   Build app:
     jobs:
@@ -95,10 +101,8 @@ workflows:
             - gradle/collect_test_results:
                 reports_path: server/build/reports
                 test_results_path: test-results
-      - node/run:
+      - lint_integration:
           name: Lint Integration test
-          app-dir: ~/project/integration
-          npm-run: lint
       - integration_test:
           name: Integration test
       - docker/hadolint:
