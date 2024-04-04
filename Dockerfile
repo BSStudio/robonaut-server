@@ -24,6 +24,6 @@ USER spring:spring
 WORKDIR /home/spring
 # copy jar and run it
 ARG BUILD_ROOT=/usr/src/app
-ARG BOOT_JAR=$BUILD_ROOT/app/build/libs/*.jar
+ARG BOOT_JAR=$BUILD_ROOT/server/build/libs/*.jar
 COPY --from=build $BOOT_JAR ./app.jar
 ENTRYPOINT ["java","-jar","./app.jar"]
