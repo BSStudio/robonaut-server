@@ -69,6 +69,7 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
+          cache-version: v2
           app-dir: ~/project/integration
       - run:
           command: npm run test:ci
@@ -82,6 +83,7 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
+          cache-version: v2
           app-dir: ~/project/integration
       - run:
           command: npm run lint
