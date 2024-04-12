@@ -84,7 +84,7 @@ jobs:
       - node/install-packages:
           app-dir: ~/project/integration
       - run:
-          command: npm run lint:ci
+          command: npm run lint
           workdir: ~/project/integration
 workflows:
   Build app:
