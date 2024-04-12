@@ -76,7 +76,7 @@ jobs:
           environment:
             DEBUG: testcontainers
       - store_test_results:
-          path: ~/project/integration/out/jest
+          path: ~/project/integration/reports
   lint_integration:
     executor: node
     steps:
@@ -84,10 +84,8 @@ jobs:
       - node/install-packages:
           app-dir: ~/project/integration
       - run:
-          command: npm run lint:ci
+          command: npm run lint
           workdir: ~/project/integration
-      - store_test_results:
-          path: ~/project/integration/out/eslint
 workflows:
   Build app:
     jobs:
