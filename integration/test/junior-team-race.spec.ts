@@ -17,7 +17,6 @@ describe('test a likely path of events for a junior team', () => {
       amqpUtil.purgeQueue('speed.safetyCar.overtake'),
       amqpUtil.purgeQueue('team.teamData'),
     ])
-    return
   })
   afterAll(async () => {
     await expect(amqpUtil.getMessageCountSum()).resolves.toBe(0)

@@ -8,11 +8,9 @@ describe('test a likely path of events for speed timer', () => {
 
   beforeAll(async () => {
     await amqpUtil.purgeQueue('speed.timer')
-    return
   })
   afterAll(async () => {
     await expect(amqpUtil.getMessageCountSum()).resolves.toBe(0)
-    return
   })
 
   const speedTimerUpdate = { timerAt: 2000, timerAction: 'START' }

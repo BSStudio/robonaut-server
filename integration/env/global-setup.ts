@@ -26,11 +26,11 @@ export async function setup({ provide }: GlobalSetupContext) {
     BUILD_CONTEXT,
     COMPOSE_FILES,
   )
+    .withBuild()
     .withWaitStrategy('rabbitmq_1', Wait.forHealthCheck())
     .withWaitStrategy('mongo_1', Wait.forHealthCheck())
     .withWaitStrategy('app_1', Wait.forHealthCheck())
   const compose = await dockerComposeEnvironment.up()
-  await new Promise((resolve) => setTimeout(resolve, 20000))
 
   globalThis.compose = compose
 

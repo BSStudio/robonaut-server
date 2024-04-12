@@ -8,11 +8,9 @@ describe('test a likely path of events for skill timer', () => {
 
   beforeAll(async () => {
     await amqpUtil.purgeQueue('skill.timer')
-    return
   })
   afterAll(async () => {
     await expect(amqpUtil.getMessageCountSum()).resolves.toBe(0)
-    return
   })
 
   const skillTimerUpdate = { timerAt: 2000, timerAction: 'START' }
