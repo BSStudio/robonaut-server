@@ -7,7 +7,7 @@
     "mkdirp": "3.0.1",
     "mongodb": "6.5.0",
     "supertest": "6.3.4",
-    "testcontainers": "10.8.2",
+    "testcontainers": "10.9.0",
     "rimraf": "5.0.5"
   },
   "devDependencies": {
