@@ -11,7 +11,7 @@
     "rimraf": "5.0.5"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.7.1",
+    "@biomejs/biome": "1.7.2",
     "@vitest/ui": "1.5.3",
     "vitest": "1.5.3",
     "@tsconfig/node20": "20.1.4",
