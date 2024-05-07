@@ -5,7 +5,7 @@
   "dependencies": {
     "amqplib": "0.10.4",
     "mkdirp": "3.0.1",
-    "mongodb": "6.6.0",
+    "mongodb": "6.6.1",
     "supertest": "7.0.0",
     "testcontainers": "10.9.0",
     "rimraf": "5.0.5"
