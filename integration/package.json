@@ -8,7 +8,7 @@
     "mongodb": "6.6.1",
     "supertest": "7.0.0",
     "testcontainers": "10.9.0",
-    "rimraf": "5.0.6"
+    "rimraf": "5.0.7"
   },
   "devDependencies": {
     "@biomejs/biome": "1.7.3",
