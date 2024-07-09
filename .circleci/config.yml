@@ -11,7 +11,7 @@ executors:
       - image: cimg/openjdk:21.0.2
   node:
     docker:
-      - image: cimg/node:22.4.0
+      - image: cimg/node:22.4.1
   node-machine:
     machine:
       image: ubuntu-2204:current
