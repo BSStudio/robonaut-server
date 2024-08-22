@@ -15,5 +15,5 @@ dependencies {
     // required for kotlin plugin jpa
     implementation(kotlin("reflect", "2.0.20"))
     implementation(kotlin("stdlib-jdk8", "2.0.20"))
-    implementation(kotlin("noarg", "2.0.10"))
+    implementation(kotlin("noarg", "2.0.20"))
 }
