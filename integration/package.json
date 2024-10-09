@@ -18,7 +18,7 @@
     "@types/amqplib": "0.10.5",
     "@types/node": "20.16.11",
     "@types/supertest": "6.0.2",
-    "typescript": "5.6.2"
+    "typescript": "5.6.3"
   },
   "scripts": {
     "lint": "biome format .",
