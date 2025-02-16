@@ -2,7 +2,7 @@
 springdoc = "2.6.0"
 springBoot = "3.3.6"
 springDependencyManagementPlugin = "1.1.7"
-spotless = "6.25.0"
+spotless = "7.0.2"
 
 [libraries]
 springdoc = { module = "org.springdoc:springdoc-openapi-starter-webflux-ui", version.ref = "springdoc" }
