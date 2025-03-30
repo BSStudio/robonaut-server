@@ -34,7 +34,8 @@ internal class BroadcastingTeamServiceTest {
 
         val result = underTest.addTeam(TEAM)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM_1)
             .verifyComplete()
     }
@@ -46,7 +47,8 @@ internal class BroadcastingTeamServiceTest {
 
         val result = underTest.updateTeam(TEAM)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM_1)
             .verifyComplete()
     }
@@ -58,7 +60,8 @@ internal class BroadcastingTeamServiceTest {
 
         val result = underTest.updateTeam(DETAILED_TEAM_1)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM_1)
             .verifyComplete()
     }
@@ -71,7 +74,8 @@ internal class BroadcastingTeamServiceTest {
 
         val result = underTest.findAllTeam()
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM_1)
             .expectNext(DETAILED_TEAM_2)
             .verifyComplete()

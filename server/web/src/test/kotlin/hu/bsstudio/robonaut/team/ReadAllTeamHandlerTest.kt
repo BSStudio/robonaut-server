@@ -21,8 +21,10 @@ internal class ReadAllTeamHandlerTest {
         MockKAnnotations.init(this)
         val underTest = ReadAllTeamHandler(mockService)
         val routerFunction =
-            RouterFunctions.route()
-                .POST("/test", underTest).build()
+            RouterFunctions
+                .route()
+                .POST("/test", underTest)
+                .build()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
     }
 
@@ -31,8 +33,12 @@ internal class ReadAllTeamHandlerTest {
         val detailedTeam = DetailedTeam()
         every { mockService.findAllTeam() } returns Flux.just(detailedTeam)
 
-        webTestClient.post().uri("/test").exchange()
-            .expectStatus().isOk
+        webTestClient
+            .post()
+            .uri("/test")
+            .exchange()
+            .expectStatus()
+            .isOk
             .expectBody<List<DetailedTeam>>()
             .isEqualTo(listOf(detailedTeam))
     }

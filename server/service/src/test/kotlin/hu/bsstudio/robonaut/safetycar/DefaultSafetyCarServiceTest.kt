@@ -41,7 +41,8 @@ internal class DefaultSafetyCarServiceTest {
 
         val result = underTest.safetyCarWasFollowed(FOLLOW_INFORMATION)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(detailedTeam)
             .verifyComplete()
     }
@@ -56,7 +57,8 @@ internal class DefaultSafetyCarServiceTest {
 
         val result = underTest.safetyCarWasFollowed(FOLLOW_INFORMATION)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .verifyComplete()
     }
 
@@ -72,7 +74,8 @@ internal class DefaultSafetyCarServiceTest {
 
         val result = underTest.safetyCarWasOvertaken(SAFETY_CAR_OVERTAKE_INFORMATION)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(detailedTeam)
             .verifyComplete()
     }
@@ -85,7 +88,8 @@ internal class DefaultSafetyCarServiceTest {
         updatedTeamEntity.numberOfOvertakes = NUMBER_OF_OVERTAKES
         every { mockRepository.save(updatedTeamEntity) } returns Mono.empty()
         val result = underTest.safetyCarWasOvertaken(SAFETY_CAR_OVERTAKE_INFORMATION)
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .verifyComplete()
     }
 

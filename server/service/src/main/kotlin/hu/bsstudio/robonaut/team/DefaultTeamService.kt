@@ -12,33 +12,33 @@ class DefaultTeamService(
     private val teamRepository: TeamRepository,
     private val teamMapper: TeamModelEntityMapper = TeamModelEntityMapper(),
 ) : TeamService {
-    override fun addTeam(team: Team): Mono<DetailedTeam> {
-        return Mono.just(team)
+    override fun addTeam(team: Team): Mono<DetailedTeam> =
+        Mono
+            .just(team)
             .map(::toEntity)
             .flatMap(teamRepository::insert)
             .map(teamMapper::toModel)
-    }
 
-    override fun updateTeam(team: Team): Mono<DetailedTeam> {
-        return Mono.just(team)
+    override fun updateTeam(team: Team): Mono<DetailedTeam> =
+        Mono
+            .just(team)
             .map(Team::teamId)
             .flatMap(teamRepository::findById)
             .map { updateBasicTeamInfo(it, team) }
             .flatMap(teamRepository::save)
             .map(teamMapper::toModel)
-    }
 
-    override fun updateTeam(detailedTeam: DetailedTeam): Mono<DetailedTeam> {
-        return Mono.just(detailedTeam)
+    override fun updateTeam(detailedTeam: DetailedTeam): Mono<DetailedTeam> =
+        Mono
+            .just(detailedTeam)
             .map(teamMapper::toEntity)
             .flatMap(teamRepository::save)
             .map(teamMapper::toModel)
-    }
 
-    override fun findAllTeam(): Flux<DetailedTeam> {
-        return teamRepository.findAll()
+    override fun findAllTeam(): Flux<DetailedTeam> =
+        teamRepository
+            .findAll()
             .map(teamMapper::toModel)
-    }
 
     private fun toEntity(team: Team) =
         TeamEntity(

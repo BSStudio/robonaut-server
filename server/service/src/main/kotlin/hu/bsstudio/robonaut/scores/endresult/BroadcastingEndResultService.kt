@@ -9,15 +9,15 @@ class BroadcastingEndResultService(
     private val template: RabbitTemplate,
     private val service: EndResultService,
 ) : EndResultService {
-    override fun updateEndResultSenior(endResultedTeam: EndResultedTeam): Mono<DetailedTeam> {
-        return service.updateEndResultSenior(endResultedTeam)
+    override fun updateEndResultSenior(endResultedTeam: EndResultedTeam): Mono<DetailedTeam> =
+        service
+            .updateEndResultSenior(endResultedTeam)
             .doOnNext(::sendTeamInfo)
-    }
 
-    override fun updateEndResultJunior(endResultedTeam: EndResultedTeam): Mono<DetailedTeam> {
-        return service.updateEndResultJunior(endResultedTeam)
+    override fun updateEndResultJunior(endResultedTeam: EndResultedTeam): Mono<DetailedTeam> =
+        service
+            .updateEndResultJunior(endResultedTeam)
             .doOnNext(::sendTeamInfo)
-    }
 
     private fun sendTeamInfo(detailedTeam: DetailedTeam) {
         template.convertAndSend("team.teamData", detailedTeam)

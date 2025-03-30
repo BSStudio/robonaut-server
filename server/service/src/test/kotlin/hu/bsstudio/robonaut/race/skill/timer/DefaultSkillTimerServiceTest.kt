@@ -17,7 +17,8 @@ internal class DefaultSkillTimerServiceTest {
 
     @Test
     internal fun `should return SkillTimer when timer is updated`() {
-        Mono.just(SKILL_TIMER)
+        Mono
+            .just(SKILL_TIMER)
             .flatMap(underTest::updateTimer)
             .let(StepVerifier::create)
             .expectNext(SKILL_TIMER)

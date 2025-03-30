@@ -6,11 +6,14 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.stereotype.Component
 
 @Component
-class QueryTeamData(private val teamService: TeamService) {
+class QueryTeamData(
+    private val teamService: TeamService,
+) {
     @RabbitListener(queues = ["general.teamData"])
     fun sendTeamData() {
         LOG.info("Teams were requested.")
-        teamService.findAllTeam()
+        teamService
+            .findAllTeam()
             .subscribe()
     }
 

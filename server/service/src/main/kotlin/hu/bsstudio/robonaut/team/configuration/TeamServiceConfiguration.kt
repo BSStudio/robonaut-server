@@ -14,9 +14,7 @@ class TeamServiceConfiguration(
     private val teamRepository: TeamRepository,
 ) {
     @Bean
-    fun teamService(defaultTeamService: TeamService): TeamService {
-        return BroadcastingTeamService(rabbitTemplate, defaultTeamService)
-    }
+    fun teamService(defaultTeamService: TeamService): TeamService = BroadcastingTeamService(rabbitTemplate, defaultTeamService)
 
     @Bean
     fun defaultTeamService(): TeamService = DefaultTeamService(teamRepository)

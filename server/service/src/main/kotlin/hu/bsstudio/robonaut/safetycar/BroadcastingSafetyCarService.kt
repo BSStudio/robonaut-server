@@ -10,19 +10,19 @@ class BroadcastingSafetyCarService(
     private val template: RabbitTemplate,
     private val service: SafetyCarService,
 ) : SafetyCarService {
-    override fun safetyCarWasFollowed(safetyCarFollowInformation: SafetyCarFollowInformation): Mono<DetailedTeam> {
-        return Mono.just(safetyCarFollowInformation)
+    override fun safetyCarWasFollowed(safetyCarFollowInformation: SafetyCarFollowInformation): Mono<DetailedTeam> =
+        Mono
+            .just(safetyCarFollowInformation)
             .doOnNext(::sendSafetyCarFollow)
             .flatMap(service::safetyCarWasFollowed)
             .doOnNext(::sendTeamData)
-    }
 
-    override fun safetyCarWasOvertaken(safetyCarOvertakeInformation: SafetyCarOvertakeInformation): Mono<DetailedTeam> {
-        return Mono.just(safetyCarOvertakeInformation)
+    override fun safetyCarWasOvertaken(safetyCarOvertakeInformation: SafetyCarOvertakeInformation): Mono<DetailedTeam> =
+        Mono
+            .just(safetyCarOvertakeInformation)
             .doOnNext(::sendSafetyCarOvertake)
             .flatMap(service::safetyCarWasOvertaken)
             .doOnNext(::sendTeamData)
-    }
 
     private fun sendSafetyCarFollow(safetyCarFollowInformation: SafetyCarFollowInformation) {
         template.convertAndSend("speed.safetyCar.follow", safetyCarFollowInformation)

@@ -33,7 +33,8 @@ internal class BroadcastingAudienceScoreServiceTest {
 
         val result = underTest.updateAudienceScore(AUDIENCE_SCORED_TEAM)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM)
             .verifyComplete()
     }

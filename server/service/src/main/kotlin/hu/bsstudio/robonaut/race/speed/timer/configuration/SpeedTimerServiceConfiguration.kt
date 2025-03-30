@@ -12,9 +12,8 @@ class SpeedTimerServiceConfiguration(
     private val rabbitTemplate: RabbitTemplate,
 ) {
     @Bean
-    fun speedTimerService(defaultSpeedTimerService: SpeedTimerService): SpeedTimerService {
-        return BroadcastingSpeedTimerService(rabbitTemplate, defaultSpeedTimerService)
-    }
+    fun speedTimerService(defaultSpeedTimerService: SpeedTimerService): SpeedTimerService =
+        BroadcastingSpeedTimerService(rabbitTemplate, defaultSpeedTimerService)
 
     @Bean
     fun defaultSpeedTimerService(): SpeedTimerService = DefaultSpeedTimerService()

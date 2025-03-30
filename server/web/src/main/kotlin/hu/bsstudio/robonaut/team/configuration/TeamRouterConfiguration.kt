@@ -23,15 +23,15 @@ class TeamRouterConfiguration(
         readAllTeamHandler: ReadAllTeamHandler,
         adminUpdateTeamHandler: AdminUpdateTeamHandler,
         updateTeamHandler: UpdateTeamHandler,
-    ): RouterFunction<ServerResponse> {
-        return RouterFunctions.route()
+    ): RouterFunction<ServerResponse> =
+        RouterFunctions
+            .route()
             .filter(robonAuthFilter)
             .POST("/api/team", createTeamHandler)
             .GET("/api/team", readAllTeamHandler)
             .PUT("/api/team", updateTeamHandler)
             .PUT("/api/admin/team", adminUpdateTeamHandler)
             .build()
-    }
 
     @Bean
     fun createTeamHandler() = CreateTeamHandler(teamService)

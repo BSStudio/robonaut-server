@@ -39,7 +39,8 @@ internal class DefaultEndResultServiceTest {
         every { mockRepository.save(updatedTeamEntity) } returns Mono.just(updatedTeamEntity)
         every { mockMapper.toModel(updatedTeamEntity) } returns DETAILED_TEAM
 
-        Mono.just(END_RESULTED_TEAM)
+        Mono
+            .just(END_RESULTED_TEAM)
             .flatMap(underTest::updateEndResultSenior)
             .let(StepVerifier::create)
             .expectNext(DETAILED_TEAM)
@@ -50,7 +51,8 @@ internal class DefaultEndResultServiceTest {
     internal fun `should return empty when Entity was not found on junior`() {
         every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
 
-        Mono.just(END_RESULTED_TEAM)
+        Mono
+            .just(END_RESULTED_TEAM)
             .flatMap(underTest::updateEndResultSenior)
             .let(StepVerifier::create)
             .verifyComplete()
@@ -72,7 +74,8 @@ internal class DefaultEndResultServiceTest {
         every { mockRepository.save(updatedTeamEntity) } returns Mono.just(updatedTeamEntity)
         every { mockMapper.toModel(updatedTeamEntity) } returns DETAILED_TEAM
 
-        Mono.just(END_RESULTED_TEAM)
+        Mono
+            .just(END_RESULTED_TEAM)
             .flatMap(underTest::updateEndResultJunior)
             .let(StepVerifier::create)
             .expectNext(DETAILED_TEAM)
@@ -88,7 +91,8 @@ internal class DefaultEndResultServiceTest {
             )
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
 
-        Mono.just(END_RESULTED_TEAM)
+        Mono
+            .just(END_RESULTED_TEAM)
             .flatMap(underTest::updateEndResultJunior)
             .let(StepVerifier::create)
             .verifyComplete()
@@ -98,7 +102,8 @@ internal class DefaultEndResultServiceTest {
     internal fun `should return emptyWhenEntityWasNotFoundOnSenior`() {
         every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
 
-        Mono.just(END_RESULTED_TEAM)
+        Mono
+            .just(END_RESULTED_TEAM)
             .flatMap(underTest::updateEndResultJunior)
             .let(StepVerifier::create)
             .verifyComplete()

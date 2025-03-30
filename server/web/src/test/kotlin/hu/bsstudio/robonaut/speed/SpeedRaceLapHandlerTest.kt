@@ -23,8 +23,10 @@ internal class SpeedRaceLapHandlerTest {
         MockKAnnotations.init(this)
         val underTest = SpeedRaceLapHandler(mockService)
         val routerFunction =
-            RouterFunctions.route()
-                .POST("/test", underTest).build()
+            RouterFunctions
+                .route()
+                .POST("/test", underTest)
+                .build()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
     }
 
@@ -34,8 +36,14 @@ internal class SpeedRaceLapHandlerTest {
         val detailedTeam = DetailedTeam()
         every { mockService.updateSpeedRaceOnLap(speedRaceScore) } returns Mono.just(detailedTeam)
 
-        webTestClient.post().uri("/test").bodyValue(speedRaceScore).exchange()
-            .expectStatus().isOk
-            .expectBody<DetailedTeam>().isEqualTo(detailedTeam)
+        webTestClient
+            .post()
+            .uri("/test")
+            .bodyValue(speedRaceScore)
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody<DetailedTeam>()
+            .isEqualTo(detailedTeam)
     }
 }

@@ -31,8 +31,13 @@ internal class QualificationScoreHandlerTest {
         val qualifiedTeam = QualifiedTeam(0, 0)
         val detailedTeam = DetailedTeam()
         every { mockService.updateQualificationScore(qualifiedTeam) } returns Mono.just(detailedTeam)
-        webTestClient.post().uri("/test").bodyValue(qualifiedTeam).exchange()
-            .expectStatus().isOk
+        webTestClient
+            .post()
+            .uri("/test")
+            .bodyValue(qualifiedTeam)
+            .exchange()
+            .expectStatus()
+            .isOk
             .expectBody<List<DetailedTeam>>()
             .isEqualTo(listOf(detailedTeam))
     }

@@ -23,8 +23,10 @@ internal class AudienceScoreHandlerTest {
         MockKAnnotations.init(this)
         val underTest = AudienceScoreHandler(mockService)
         val routerFunction =
-            RouterFunctions.route()
-                .POST("/test", underTest).build()
+            RouterFunctions
+                .route()
+                .POST("/test", underTest)
+                .build()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
     }
 
@@ -34,8 +36,13 @@ internal class AudienceScoreHandlerTest {
         val detailedTeam = DetailedTeam()
         every { mockService.updateAudienceScore(audienceScoredTeam) } returns Mono.just(detailedTeam)
 
-        webTestClient.post().uri("/test").bodyValue(listOf(audienceScoredTeam)).exchange()
-            .expectStatus().isOk
+        webTestClient
+            .post()
+            .uri("/test")
+            .bodyValue(listOf(audienceScoredTeam))
+            .exchange()
+            .expectStatus()
+            .isOk
             .expectBody<List<DetailedTeam>>()
             .isEqualTo(listOf(detailedTeam))
     }

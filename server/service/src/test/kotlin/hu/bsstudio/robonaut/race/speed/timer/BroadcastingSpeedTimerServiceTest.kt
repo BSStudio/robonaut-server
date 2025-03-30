@@ -31,7 +31,8 @@ internal class BroadcastingSpeedTimerServiceTest {
         every { mockService.updateTimer(SPEED_TIMER) } returns Mono.just(SPEED_TIMER)
         every { mockTemplate.convertAndSend(ROUTING_KEY, SPEED_TIMER) } returns Unit
 
-        Mono.just(SPEED_TIMER)
+        Mono
+            .just(SPEED_TIMER)
             .flatMap(underTest::updateTimer)
             .let(StepVerifier::create)
             .expectNext(SPEED_TIMER)

@@ -12,23 +12,23 @@ class DefaultSkillRaceService(
     private val repository: TeamRepository,
     private val mapper: TeamModelEntityMapper = TeamModelEntityMapper(),
 ) : SkillRaceService {
-    override fun updateSkillRaceResultOnGate(gateInformation: GateInformation): Mono<DetailedTeam> {
-        return Mono.just(gateInformation)
+    override fun updateSkillRaceResultOnGate(gateInformation: GateInformation): Mono<DetailedTeam> =
+        Mono
+            .just(gateInformation)
             .map(GateInformation::teamId)
             .flatMap(repository::findById)
             .map { updateSkillRaceInfo(it, gateInformation) }
             .flatMap(repository::save)
             .map(mapper::toModel)
-    }
 
-    override fun updateSkillRaceResult(skillRaceResult: SkillRaceResult): Mono<DetailedTeam> {
-        return Mono.just(skillRaceResult)
+    override fun updateSkillRaceResult(skillRaceResult: SkillRaceResult): Mono<DetailedTeam> =
+        Mono
+            .just(skillRaceResult)
             .map(SkillRaceResult::teamId)
             .flatMap(repository::findById)
             .map { updateSkillRaceInfo(it, skillRaceResult) }
             .flatMap(repository::save)
             .map(mapper::toModel)
-    }
 
     private fun updateSkillRaceInfo(
         entity: TeamEntity,

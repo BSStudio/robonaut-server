@@ -9,10 +9,10 @@ class BroadcastingAudienceScoreService(
     private val template: RabbitTemplate,
     private val service: AudienceScoreService,
 ) : AudienceScoreService {
-    override fun updateAudienceScore(audienceScoredTeam: AudienceScoredTeam): Mono<DetailedTeam> {
-        return service.updateAudienceScore(audienceScoredTeam)
+    override fun updateAudienceScore(audienceScoredTeam: AudienceScoredTeam): Mono<DetailedTeam> =
+        service
+            .updateAudienceScore(audienceScoredTeam)
             .doOnNext(::sendTeamInfo)
-    }
 
     private fun sendTeamInfo(detailedTeam: DetailedTeam) {
         template.convertAndSend("team.teamData", detailedTeam)

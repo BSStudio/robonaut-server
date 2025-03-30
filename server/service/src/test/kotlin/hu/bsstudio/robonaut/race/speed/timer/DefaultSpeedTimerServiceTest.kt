@@ -17,7 +17,8 @@ internal class DefaultSpeedTimerServiceTest {
 
     @Test
     internal fun `should return timer on update`() {
-        Mono.just(SPEED_TIMER)
+        Mono
+            .just(SPEED_TIMER)
             .flatMap(underTest::updateTimer)
             .let(StepVerifier::create)
             .expectNext(SPEED_TIMER)

@@ -23,8 +23,10 @@ internal class SkillGateHandlerTest {
         MockKAnnotations.init(this)
         val underTest = SkillGateHandler(mockService)
         val routerFunction =
-            RouterFunctions.route()
-                .POST("/test", underTest).build()
+            RouterFunctions
+                .route()
+                .POST("/test", underTest)
+                .build()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
     }
 
@@ -34,8 +36,14 @@ internal class SkillGateHandlerTest {
         val detailedTeam = DetailedTeam()
         every { mockService.updateSkillRaceResultOnGate(gateInfo) } returns Mono.just(detailedTeam)
 
-        webTestClient.post().uri("/test").bodyValue(gateInfo).exchange()
-            .expectStatus().isOk
-            .expectBody<DetailedTeam>().isEqualTo(detailedTeam)
+        webTestClient
+            .post()
+            .uri("/test")
+            .bodyValue(gateInfo)
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody<DetailedTeam>()
+            .isEqualTo(detailedTeam)
     }
 }

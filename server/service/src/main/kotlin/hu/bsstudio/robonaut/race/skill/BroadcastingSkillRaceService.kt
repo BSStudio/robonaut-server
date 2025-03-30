@@ -10,17 +10,17 @@ class BroadcastingSkillRaceService(
     private val template: RabbitTemplate,
     private val service: SkillRaceService,
 ) : SkillRaceService {
-    override fun updateSkillRaceResultOnGate(gateInformation: GateInformation): Mono<DetailedTeam> {
-        return Mono.just(gateInformation)
+    override fun updateSkillRaceResultOnGate(gateInformation: GateInformation): Mono<DetailedTeam> =
+        Mono
+            .just(gateInformation)
             .doOnNext(::sendGateInfo)
             .flatMap(service::updateSkillRaceResultOnGate)
             .doOnNext(::sendTeamInfo)
-    }
 
-    override fun updateSkillRaceResult(skillRaceResult: SkillRaceResult): Mono<DetailedTeam> {
-        return service.updateSkillRaceResult(skillRaceResult)
+    override fun updateSkillRaceResult(skillRaceResult: SkillRaceResult): Mono<DetailedTeam> =
+        service
+            .updateSkillRaceResult(skillRaceResult)
             .doOnNext(::sendTeamInfo)
-    }
 
     private fun sendGateInfo(gateInfo: GateInformation) {
         template.convertAndSend("skill.gate", gateInfo)

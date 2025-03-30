@@ -42,7 +42,8 @@ internal class DefaultSkillRaceServiceTest {
 
         val result = underTest.updateSkillRaceResultOnGate(GATE_INFO)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(detailedTeam)
             .verifyComplete()
     }
@@ -53,7 +54,8 @@ internal class DefaultSkillRaceServiceTest {
 
         val result = underTest.updateSkillRaceResultOnGate(GATE_INFO)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .verifyComplete()
     }
 
@@ -69,7 +71,8 @@ internal class DefaultSkillRaceServiceTest {
 
         val result = underTest.updateSkillRaceResult(SKILL_RACE_RESULT)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(detailedTeam)
             .verifyComplete()
     }
@@ -80,7 +83,8 @@ internal class DefaultSkillRaceServiceTest {
 
         val result = underTest.updateSkillRaceResult(SKILL_RACE_RESULT)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .verifyComplete()
     }
 

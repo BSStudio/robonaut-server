@@ -23,8 +23,10 @@ internal class SafetyCarFollowHandlerTest {
         MockKAnnotations.init(this)
         val underTest = SafetyCarFollowHandler(mockService)
         val routerFunction =
-            RouterFunctions.route()
-                .POST("/test", underTest).build()
+            RouterFunctions
+                .route()
+                .POST("/test", underTest)
+                .build()
         webTestClient =
             WebTestClient
                 .bindToRouterFunction(routerFunction)
@@ -40,8 +42,14 @@ internal class SafetyCarFollowHandlerTest {
         val detailedTeam = DetailedTeam()
         every { mockService.safetyCarWasFollowed(safetyCarFollowInformation) } returns Mono.just(detailedTeam)
 
-        webTestClient.post().uri("/test").bodyValue(safetyCarFollowInformation).exchange()
-            .expectStatus().isOk
-            .expectBody<DetailedTeam>().isEqualTo(detailedTeam)
+        webTestClient
+            .post()
+            .uri("/test")
+            .bodyValue(safetyCarFollowInformation)
+            .exchange()
+            .expectStatus()
+            .isOk
+            .expectBody<DetailedTeam>()
+            .isEqualTo(detailedTeam)
     }
 }

@@ -8,7 +8,9 @@ import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import reactor.core.publisher.Mono
 
-class RobonAuthFilter(private val apiKey: String) : HandlerFilterFunction<ServerResponse, ServerResponse> {
+class RobonAuthFilter(
+    private val apiKey: String,
+) : HandlerFilterFunction<ServerResponse, ServerResponse> {
     override fun filter(
         request: ServerRequest,
         handlerFunction: HandlerFunction<ServerResponse>,
@@ -20,16 +22,12 @@ class RobonAuthFilter(private val apiKey: String) : HandlerFilterFunction<Server
         return handlerFunction.handle(request)
     }
 
-    private fun apiKeyDoesNotMatchOrEmpty(request: ServerRequest): Boolean {
-        return !getHeaderValues(request, AUTH_API_KEY_HEADER).contains(apiKey)
-    }
+    private fun apiKeyDoesNotMatchOrEmpty(request: ServerRequest): Boolean = !getHeaderValues(request, AUTH_API_KEY_HEADER).contains(apiKey)
 
     private fun getHeaderValues(
         request: ServerRequest,
         headerName: String,
-    ): List<String> {
-        return request.headers().header(headerName)
-    }
+    ): List<String> = request.headers().header(headerName)
 
     companion object {
         private val UNAUTHORIZED_RESPONSE = ServerResponse.status(HttpStatus.UNAUTHORIZED).build()
