@@ -34,7 +34,8 @@ internal class BroadcastingSkillRaceServiceTest {
 
         val result = underTest.updateSkillRaceResult(SKILL_RACE_RESULT)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM)
             .verifyComplete()
     }
@@ -47,7 +48,8 @@ internal class BroadcastingSkillRaceServiceTest {
 
         val result = underTest.updateSkillRaceResultOnGate(GATE_INFORMATION)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM)
             .verifyComplete()
     }

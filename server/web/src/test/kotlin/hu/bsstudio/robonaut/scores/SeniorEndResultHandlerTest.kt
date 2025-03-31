@@ -23,8 +23,10 @@ internal class SeniorEndResultHandlerTest {
         MockKAnnotations.init(this)
         val underTest = SeniorEndResultHandler(mockService)
         val routerFunction =
-            RouterFunctions.route()
-                .POST("/test", underTest).build()
+            RouterFunctions
+                .route()
+                .POST("/test", underTest)
+                .build()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
     }
 
@@ -34,8 +36,13 @@ internal class SeniorEndResultHandlerTest {
         val detailedTeam = DetailedTeam()
         every { mockService.updateEndResultSenior(endResultedTeam) } returns Mono.just(detailedTeam)
 
-        webTestClient.post().uri("/test").bodyValue(endResultedTeam).exchange()
-            .expectStatus().isOk
+        webTestClient
+            .post()
+            .uri("/test")
+            .bodyValue(endResultedTeam)
+            .exchange()
+            .expectStatus()
+            .isOk
             .expectBody<List<DetailedTeam>>()
             .isEqualTo(listOf(detailedTeam))
     }

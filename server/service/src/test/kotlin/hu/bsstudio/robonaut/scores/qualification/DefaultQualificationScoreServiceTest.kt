@@ -40,7 +40,8 @@ internal class DefaultQualificationScoreServiceTest {
 
         val result = underTest.updateQualificationScore(QUALIFIED_TEAM)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(detailedTeam)
             .verifyComplete()
     }
@@ -54,7 +55,8 @@ internal class DefaultQualificationScoreServiceTest {
 
         val result = underTest.updateQualificationScore(QUALIFIED_TEAM)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .verifyComplete()
     }
 

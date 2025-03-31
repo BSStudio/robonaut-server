@@ -35,7 +35,8 @@ internal class BroadcastingSafetyCarServiceTest {
 
         val result = underTest.safetyCarWasFollowed(SAFETY_CAR_FOLLOW_INFORMATION)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM)
             .verifyComplete()
     }
@@ -48,7 +49,8 @@ internal class BroadcastingSafetyCarServiceTest {
 
         val result = underTest.safetyCarWasOvertaken(SAFETY_CAR_OVERTAKE_INFORMATION)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM)
             .verifyComplete()
     }

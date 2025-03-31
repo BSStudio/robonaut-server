@@ -34,7 +34,8 @@ internal class BroadcastingSpeedRaceServiceTest {
 
         val result = underTest.updateSpeedRaceJunior(SPEED_RACE_RESULT)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM)
             .verifyComplete()
     }
@@ -46,7 +47,8 @@ internal class BroadcastingSpeedRaceServiceTest {
 
         val result = underTest.updateSpeedRaceSenior(SPEED_RACE_RESULT)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM)
             .verifyComplete()
     }
@@ -59,7 +61,8 @@ internal class BroadcastingSpeedRaceServiceTest {
 
         val result = underTest.updateSpeedRaceOnLap(SPEED_RACE_SCORE)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM)
             .verifyComplete()
     }

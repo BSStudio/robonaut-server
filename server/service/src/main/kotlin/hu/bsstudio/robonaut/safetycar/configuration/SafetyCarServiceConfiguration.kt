@@ -14,12 +14,9 @@ class SafetyCarServiceConfiguration(
     private val rabbitTemplate: RabbitTemplate,
 ) {
     @Bean
-    fun safetyCarService(defaultSafetyCarService: SafetyCarService): SafetyCarService {
-        return BroadcastingSafetyCarService(rabbitTemplate, defaultSafetyCarService)
-    }
+    fun safetyCarService(defaultSafetyCarService: SafetyCarService): SafetyCarService =
+        BroadcastingSafetyCarService(rabbitTemplate, defaultSafetyCarService)
 
     @Bean
-    fun defaultSafetyCarService(): SafetyCarService {
-        return DefaultSafetyCarService(repository)
-    }
+    fun defaultSafetyCarService(): SafetyCarService = DefaultSafetyCarService(repository)
 }

@@ -14,9 +14,8 @@ class AudienceScoreServiceConfiguration(
     private val teamRepository: TeamRepository,
 ) {
     @Bean
-    fun audienceScoreService(defaultAudienceScoreService: AudienceScoreService): AudienceScoreService {
-        return BroadcastingAudienceScoreService(rabbitTemplate, defaultAudienceScoreService)
-    }
+    fun audienceScoreService(defaultAudienceScoreService: AudienceScoreService): AudienceScoreService =
+        BroadcastingAudienceScoreService(rabbitTemplate, defaultAudienceScoreService)
 
     @Bean
     fun defaultAudienceScoreService(): AudienceScoreService = DefaultAudienceScoreService(teamRepository)

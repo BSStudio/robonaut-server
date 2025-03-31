@@ -9,10 +9,12 @@ import org.springframework.web.reactive.function.server.body
 import org.springframework.web.reactive.function.server.bodyToFlux
 import reactor.core.publisher.Mono
 
-class AudienceScoreHandler(private val service: AudienceScoreService) : HandlerFunction<ServerResponse> {
-    override fun handle(request: ServerRequest): Mono<ServerResponse> {
-        return request.bodyToFlux<AudienceScoredTeam>()
+class AudienceScoreHandler(
+    private val service: AudienceScoreService,
+) : HandlerFunction<ServerResponse> {
+    override fun handle(request: ServerRequest): Mono<ServerResponse> =
+        request
+            .bodyToFlux<AudienceScoredTeam>()
             .flatMap(service::updateAudienceScore)
             .let { detailedTeam -> ServerResponse.ok().body(detailedTeam) }
-    }
 }

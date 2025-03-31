@@ -21,8 +21,10 @@ internal class AdminUpdateTeamHandlerTest {
         MockKAnnotations.init(this)
         val underTest = AdminUpdateTeamHandler(mockService)
         val routerFunction =
-            RouterFunctions.route()
-                .POST("/test", underTest).build()
+            RouterFunctions
+                .route()
+                .POST("/test", underTest)
+                .build()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
     }
 
@@ -31,8 +33,13 @@ internal class AdminUpdateTeamHandlerTest {
         val detailedTeam = DetailedTeam()
         every { mockService.updateTeam(detailedTeam) } returns Mono.just(detailedTeam)
 
-        webTestClient.post().uri("/test").bodyValue(detailedTeam).exchange()
-            .expectStatus().isOk
+        webTestClient
+            .post()
+            .uri("/test")
+            .bodyValue(detailedTeam)
+            .exchange()
+            .expectStatus()
+            .isOk
             .expectBody<List<DetailedTeam>>()
             .isEqualTo(listOf(detailedTeam))
     }

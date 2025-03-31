@@ -33,7 +33,8 @@ internal class BroadcastingQualificationScoreServiceTest {
 
         val result = underTest.updateQualificationScore(QUALIFIED_TEAM)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM)
             .verifyComplete()
     }

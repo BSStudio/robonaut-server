@@ -40,7 +40,8 @@ internal class DefaultTeamServiceTest {
 
         val result = underTest.addTeam(TEAM_1)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM_1)
             .verifyComplete()
     }
@@ -53,7 +54,8 @@ internal class DefaultTeamServiceTest {
 
         val result = underTest.updateTeam(TEAM_1)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM_1)
             .verifyComplete()
     }
@@ -66,7 +68,8 @@ internal class DefaultTeamServiceTest {
 
         val result = underTest.updateTeam(DETAILED_TEAM_1)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM_1)
             .verifyComplete()
     }
@@ -79,7 +82,8 @@ internal class DefaultTeamServiceTest {
 
         val result = underTest.findAllTeam()
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM_1)
             .expectNext(DETAILED_TEAM_2)
             .verifyComplete()

@@ -37,7 +37,5 @@ class RabbitConfiguration {
     fun jackson2JsonMessageConverter() = Jackson2JsonMessageConverter()
 
     @Bean
-    fun connectionNameStrategy(): ConnectionNameStrategy {
-        return SimplePropertyValueConnectionNameStrategy("spring.application.name")
-    }
+    fun connectionNameStrategy(): ConnectionNameStrategy = SimplePropertyValueConnectionNameStrategy("spring.application.name")
 }

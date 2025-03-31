@@ -14,9 +14,8 @@ class SpeedRaceServiceConfiguration(
     private val rabbitTemplate: RabbitTemplate,
 ) {
     @Bean
-    fun speedRaceService(defaultSpeedRaceService: SpeedRaceService): SpeedRaceService {
-        return BroadcastingSpeedRaceService(rabbitTemplate, defaultSpeedRaceService)
-    }
+    fun speedRaceService(defaultSpeedRaceService: SpeedRaceService): SpeedRaceService =
+        BroadcastingSpeedRaceService(rabbitTemplate, defaultSpeedRaceService)
 
     @Bean
     fun defaultSpeedRaceService(): SpeedRaceService = DefaultSpeedRaceService(repository)

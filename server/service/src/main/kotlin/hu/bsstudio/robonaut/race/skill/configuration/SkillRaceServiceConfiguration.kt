@@ -14,9 +14,8 @@ class SkillRaceServiceConfiguration(
     private val repository: TeamRepository,
 ) {
     @Bean
-    fun skillRaceService(defaultSkillRaceService: SkillRaceService): SkillRaceService {
-        return BroadcastingSkillRaceService(rabbitTemplate, defaultSkillRaceService)
-    }
+    fun skillRaceService(defaultSkillRaceService: SkillRaceService): SkillRaceService =
+        BroadcastingSkillRaceService(rabbitTemplate, defaultSkillRaceService)
 
     @Bean
     fun defaultSkillRaceService(): SkillRaceService = DefaultSkillRaceService(repository)

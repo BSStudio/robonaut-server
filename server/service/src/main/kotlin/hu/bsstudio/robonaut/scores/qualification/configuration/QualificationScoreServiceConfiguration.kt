@@ -14,9 +14,8 @@ class QualificationScoreServiceConfiguration(
     private val repository: TeamRepository,
 ) {
     @Bean
-    fun qualificationScoreService(defaultQualificationScoreService: QualificationScoreService): QualificationScoreService {
-        return BroadcastingQualificationScoreService(rabbitTemplate, defaultQualificationScoreService)
-    }
+    fun qualificationScoreService(defaultQualificationScoreService: QualificationScoreService): QualificationScoreService =
+        BroadcastingQualificationScoreService(rabbitTemplate, defaultQualificationScoreService)
 
     @Bean
     fun defaultQualificationScoreService(): QualificationScoreService = DefaultQualificationScoreService(repository)

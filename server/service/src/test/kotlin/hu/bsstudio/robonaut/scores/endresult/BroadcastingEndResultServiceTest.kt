@@ -33,7 +33,8 @@ internal class BroadcastingEndResultServiceTest {
 
         val result = underTest.updateEndResultSenior(END_RESULTED_TEAM)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM)
             .verifyComplete()
     }
@@ -45,7 +46,8 @@ internal class BroadcastingEndResultServiceTest {
 
         val result = underTest.updateEndResultJunior(END_RESULTED_TEAM)
 
-        StepVerifier.create(result)
+        StepVerifier
+            .create(result)
             .expectNext(DETAILED_TEAM)
             .verifyComplete()
     }

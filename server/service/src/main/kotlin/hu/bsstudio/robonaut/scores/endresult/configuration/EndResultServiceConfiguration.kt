@@ -14,9 +14,8 @@ class EndResultServiceConfiguration(
     private val teamRepository: TeamRepository,
 ) {
     @Bean
-    fun endResultService(defaultEndResultService: EndResultService): EndResultService {
-        return BroadcastingEndResultService(rabbitTemplate, defaultEndResultService)
-    }
+    fun endResultService(defaultEndResultService: EndResultService): EndResultService =
+        BroadcastingEndResultService(rabbitTemplate, defaultEndResultService)
 
     @Bean
     fun defaultEndResultService(): EndResultService = DefaultEndResultService(teamRepository)

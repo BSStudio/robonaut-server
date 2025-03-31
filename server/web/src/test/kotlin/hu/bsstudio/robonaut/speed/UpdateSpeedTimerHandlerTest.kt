@@ -23,8 +23,10 @@ internal class UpdateSpeedTimerHandlerTest {
         MockKAnnotations.init(this)
         val underTest = UpdateSpeedTimerHandler(mockService)
         val routerFunction =
-            RouterFunctions.route()
-                .POST("/test", underTest).build()
+            RouterFunctions
+                .route()
+                .POST("/test", underTest)
+                .build()
         webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
     }
 
@@ -32,11 +34,15 @@ internal class UpdateSpeedTimerHandlerTest {
     internal fun `should return SpeedTimer with OK status`() {
         every { mockService.updateTimer(speedTimer) } returns Mono.just(speedTimer)
 
-        webTestClient.post().uri("/test")
+        webTestClient
+            .post()
+            .uri("/test")
             .bodyValue(speedTimer)
             .exchange()
-            .expectStatus().isOk
-            .expectBody<SpeedTimer>().isEqualTo(speedTimer)
+            .expectStatus()
+            .isOk
+            .expectBody<SpeedTimer>()
+            .isEqualTo(speedTimer)
     }
 
     companion object {

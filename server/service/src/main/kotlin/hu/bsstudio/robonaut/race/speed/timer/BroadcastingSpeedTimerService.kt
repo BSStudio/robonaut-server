@@ -8,10 +8,10 @@ class BroadcastingSpeedTimerService(
     private val template: RabbitTemplate,
     private val service: SpeedTimerService,
 ) : SpeedTimerService {
-    override fun updateTimer(speedTimer: SpeedTimer): Mono<SpeedTimer> {
-        return service.updateTimer(speedTimer)
+    override fun updateTimer(speedTimer: SpeedTimer): Mono<SpeedTimer> =
+        service
+            .updateTimer(speedTimer)
             .doOnNext(::sendTimerInformation)
-    }
 
     private fun sendTimerInformation(timer: SpeedTimer) {
         template.convertAndSend("speed.timer", timer)

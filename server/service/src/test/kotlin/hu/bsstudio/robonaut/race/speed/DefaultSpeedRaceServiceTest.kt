@@ -40,7 +40,8 @@ internal class DefaultSpeedRaceServiceTest {
         every { mockRepository.save(updatedEntity) } returns Mono.just(updatedEntity)
         every { mockMapper.toModel(updatedEntity) } returns DETAILED_TEAM
 
-        Mono.just(SPEED_RACE_SCORE)
+        Mono
+            .just(SPEED_RACE_SCORE)
             .flatMap(underTest::updateSpeedRaceOnLap)
             .let(StepVerifier::create)
             .expectNext(DETAILED_TEAM)
@@ -54,7 +55,8 @@ internal class DefaultSpeedRaceServiceTest {
         val updatedEntity = TeamEntity(speedTimes = SPEED_TIMES)
         every { mockRepository.save(updatedEntity) } returns Mono.empty()
 
-        Mono.just(SPEED_RACE_SCORE)
+        Mono
+            .just(SPEED_RACE_SCORE)
             .flatMap(underTest::updateSpeedRaceOnLap)
             .let(StepVerifier::create)
             .verifyComplete()
@@ -73,7 +75,8 @@ internal class DefaultSpeedRaceServiceTest {
         every { mockRepository.save(updatedEntity) } returns Mono.just(updatedEntity)
         every { mockMapper.toModel(updatedEntity) } returns DETAILED_TEAM
 
-        Mono.just(SPEED_RACE_RESULT)
+        Mono
+            .just(SPEED_RACE_RESULT)
             .flatMap(underTest::updateSpeedRaceJunior)
             .let(StepVerifier::create)
             .expectNext(DETAILED_TEAM)
@@ -83,7 +86,8 @@ internal class DefaultSpeedRaceServiceTest {
     @Test
     internal fun `should return empty when team was not found on junior`() {
         every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
-        Mono.just(SPEED_RACE_RESULT)
+        Mono
+            .just(SPEED_RACE_RESULT)
             .flatMap(underTest::updateSpeedRaceJunior)
             .let(StepVerifier::create)
             .verifyComplete()
@@ -93,7 +97,8 @@ internal class DefaultSpeedRaceServiceTest {
     internal fun `should return empty when senior team tries to update junior result`() {
         val foundEntity = TeamEntity(teamType = TeamType.SENIOR, juniorScore = ScoreEntity())
         every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundEntity)
-        Mono.just(SPEED_RACE_RESULT)
+        Mono
+            .just(SPEED_RACE_RESULT)
             .flatMap(underTest::updateSpeedRaceJunior)
             .let(StepVerifier::create)
             .verifyComplete()
@@ -111,7 +116,8 @@ internal class DefaultSpeedRaceServiceTest {
         every { mockRepository.save(updatedEntity) } returns Mono.just(updatedEntity)
         every { mockMapper.toModel(updatedEntity) } returns DETAILED_TEAM
 
-        Mono.just(SPEED_RACE_RESULT)
+        Mono
+            .just(SPEED_RACE_RESULT)
             .flatMap(underTest::updateSpeedRaceSenior)
             .let(StepVerifier::create)
             .expectNext(DETAILED_TEAM)
@@ -122,7 +128,8 @@ internal class DefaultSpeedRaceServiceTest {
     internal fun `should return empty when team was not found on senior`() {
         every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
 
-        Mono.just(SPEED_RACE_RESULT)
+        Mono
+            .just(SPEED_RACE_RESULT)
             .flatMap(underTest::updateSpeedRaceSenior)
             .let(StepVerifier::create)
             .verifyComplete()
