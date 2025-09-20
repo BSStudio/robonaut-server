@@ -18,7 +18,7 @@ RUN ./gradlew
 COPY ./server ./server
 RUN ./gradlew bootJar
 
-FROM bellsoft/liberica-openjre-alpine-musl:21.0.1-12 AS app
+FROM bellsoft/liberica-openjre-alpine-musl:21.0.8-12 AS app
 # use non-root user
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
