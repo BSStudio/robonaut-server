@@ -1,0 +1,85 @@
+name: Docker
+
+on:
+  pull_request:
+  workflow_dispatch:
+  merge_group:
+  schedule:
+    - cron: "0 0 * * *"
+  push:
+    branches: [ "main" ]
+  release:
+    types: [ published ]
+
+permissions: read-all
+
+jobs:
+  lint:
+    name: Lint Dockerfile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: hadolint/hadolint-action@3fc49fb50d59c6ab7917a2e4195dba633e515b29 # v3.2.0
+
+  build:
+    name: Build and publish
+    runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+      security-events: write
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3.6.0
+      - uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
+      - uses: docker/metadata-action@c1e51972afc2121e065aed6d45c65596fe445f3f # v5.8.0
+        id: meta
+        env:
+          DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=schedule
+            type=semver,pattern={{raw}}
+            type=semver,pattern=v{{major}}.{{minor}}
+            type=semver,pattern=v{{major}}
+            type=ref,event=branch
+            type=ref,event=pr
+          # on.schedule: nightly
+          # on.push:tag: latest (auto), v1.2.3, v.1,2, v.1
+          # on.push.branch: branchName
+          # on.pull_request: pr-number (won't be pushed)
+
+      - uses: docker/bake-action@3acf805d94d93a86cce4ca44798a76464a75b88c # v6.9.0
+        with:
+          push: ${{ github.event_name != 'pull_request' && github.event_name != 'merge_group' }}
+          files: |
+            cwd://${{ steps.meta.outputs.bake-file }}
+            cwd://${{ steps.meta.outputs.bake-file-annotations }}
+            ./docker-bake.hcl
+          sbom: true
+          provenance: true
+          set: |
+            *.cache-from=type=gha
+            *.cache-to=type=gha,mode=max
+
+      - uses: anchore/scan-action@1638637db639e0ade3258b51db49a9a137574c3e # v6.5.1
+        id: scan
+        if: ${{ github.event_name != 'pull_request' && github.event_name != 'merge_group' }}
+        with:
+          image: "ghcr.io/bsstudio/robonaut-server:${{ env.DOCKER_METADATA_OUTPUT_VERSION }}"
+          cache-db: true
+          severity-cutoff: 'high'
+          fail-build: false
+
+      - uses: github/codeql-action/upload-sarif@192325c86100d080feab897ff886c34abd4c83a3 # v3.30.3
+        if: ${{ github.event_name != 'pull_request' && github.event_name != 'merge_group' }}
+        with:
+          sarif_file: ${{ steps.scan.outputs.sarif }}
