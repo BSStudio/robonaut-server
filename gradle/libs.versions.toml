@@ -1,6 +1,6 @@
 [versions]
 springdoc = "2.6.0"
-springBoot = "3.3.6"
+springBoot = "3.5.6"
 springDependencyManagementPlugin = "1.1.7"
 spotless = "6.25.0"
 
