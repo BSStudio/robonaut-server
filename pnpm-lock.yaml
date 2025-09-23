@@ -15,8 +15,8 @@ importers:
   integration:
     dependencies:
       amqplib:
-        specifier: 0.10.7
-        version: 0.10.7
+        specifier: 0.10.9
+        version: 0.10.9
       mkdirp:
         specifier: 3.0.1
         version: 3.0.1
@@ -691,8 +691,8 @@ packages:
     resolution: {integrity: sha512-gOsf2YwSlleG6IjRYG2A7k0HmBMEo6qVNk9Bp/EaLgAJT5ngH6PXbqa4ItvnEwCm/velL5jAnQgsHsWnjhGmvw==}
     engines: {node: '>=18'}
 
-  amqplib@0.10.7:
-    resolution: {integrity: sha512-7xPSYKSX2kj/bT6iHZ3MlctzxdCW1Ds9xyN0EmuRi2DZxHztwwoG1YkZrgmLyuPNjfxlRiMdWJPQscmoa3Vgdg==}
+  amqplib@0.10.9:
+    resolution: {integrity: sha512-jwSftI4QjS3mizvnSnOrPGYiUnm1vI2OP1iXeOUz5pb74Ua0nbf6nPyyTzuiCLEE3fMpaJORXh2K/TQ08H5xGA==}
     engines: {node: '>=10'}
 
   ansi-escapes@7.0.0:
@@ -3081,7 +3081,7 @@ snapshots:
       clean-stack: 5.2.0
       indent-string: 5.0.0
 
-  amqplib@0.10.7:
+  amqplib@0.10.9:
     dependencies:
       buffer-more-ints: 1.0.0
       url-parse: 1.5.10
