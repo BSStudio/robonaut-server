@@ -5,6 +5,7 @@ plugins {
 spotless {
     kotlin {
         ktlint()
+            .setEditorConfigPath(layout.settingsDirectory.file(".editorconfig"))
         toggleOffOn()
     }
     java {
