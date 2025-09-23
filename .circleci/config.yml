@@ -40,8 +40,9 @@ jobs:
     executor: node-machine
     steps:
       - checkout
-      - node/install-packages:
+      - node/install-pnpm:
           pkg-manager: pnpm
+          cache-version: v2
       - run:
           command: pnpm run -r test:ci
           environment:
@@ -52,8 +53,9 @@ jobs:
     executor: node
     steps:
       - checkout
-      - node/install-packages:
+      - node/install-pnpm:
           pkg-manager: pnpm
+          cache-version: v2
       - run:
           command: pnpm run -r lint
 workflows:
