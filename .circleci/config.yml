@@ -40,7 +40,7 @@ jobs:
     executor: node-machine
     steps:
       - checkout
-      - node/install-package:
+      - node/install-packages:
           pkg-manager: pnpm
           cache-version: v2
       - run:
@@ -53,7 +53,7 @@ jobs:
     executor: node
     steps:
       - checkout
-      - node/install-package:
+      - node/install-packages:
           pkg-manager: pnpm
           cache-version: v2
       - run:
