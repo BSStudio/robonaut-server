@@ -1,9 +1,12 @@
+import org.gradle.kotlin.dsl.invoke
+
 plugins {
     id("dependency-management")
     jacoco
 }
 
 dependencies {
+    runtimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

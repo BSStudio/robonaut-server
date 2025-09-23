@@ -12,24 +12,24 @@ import org.springframework.web.reactive.function.server.ServerResponse
 
 @Configuration
 class SafetyCarRouterConfiguration(
-    private val robonAuthFilter: RobonAuthFilter,
-    private val safetyCarService: SafetyCarService,
+  private val robonAuthFilter: RobonAuthFilter,
+  private val safetyCarService: SafetyCarService,
 ) {
-    @Bean
-    fun safetyCarRouterFunction(
-        safetyCarFollowHandler: SafetyCarFollowHandler,
-        safetyCarOvertakeHandler: SafetyCarOvertakeHandler,
-    ): RouterFunction<ServerResponse> {
-        return RouterFunctions.route()
-            .filter(robonAuthFilter)
-            .POST("/api/speed/safetyCar/follow", safetyCarFollowHandler)
-            .POST("/api/speed/safetyCar/overtake", safetyCarOvertakeHandler)
-            .build()
-    }
+  @Bean
+  fun safetyCarRouterFunction(
+    safetyCarFollowHandler: SafetyCarFollowHandler,
+    safetyCarOvertakeHandler: SafetyCarOvertakeHandler,
+  ): RouterFunction<ServerResponse> =
+    RouterFunctions
+      .route()
+      .filter(robonAuthFilter)
+      .POST("/api/speed/safetyCar/follow", safetyCarFollowHandler)
+      .POST("/api/speed/safetyCar/overtake", safetyCarOvertakeHandler)
+      .build()
 
-    @Bean
-    fun safetyCarFollowHandler() = SafetyCarFollowHandler(safetyCarService)
+  @Bean
+  fun safetyCarFollowHandler() = SafetyCarFollowHandler(safetyCarService)
 
-    @Bean
-    fun safetyCarOvertakeHandler() = SafetyCarOvertakeHandler(safetyCarService)
+  @Bean
+  fun safetyCarOvertakeHandler() = SafetyCarOvertakeHandler(safetyCarService)
 }

@@ -9,35 +9,33 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class RabbitConfiguration {
-    @Bean
-    fun generalTeamDataQueue() = Queue("general.teamData")
+  @Bean
+  fun generalTeamDataQueue() = Queue("general.teamData")
 
-    @Bean
-    fun startSkillTimerQueue() = Queue("skill.timer")
+  @Bean
+  fun startSkillTimerQueue() = Queue("skill.timer")
 
-    @Bean
-    fun skillRaceGateQueue() = Queue("skill.gate")
+  @Bean
+  fun skillRaceGateQueue() = Queue("skill.gate")
 
-    @Bean
-    fun safetyCarFollowQueue() = Queue("speed.safetyCar.follow")
+  @Bean
+  fun safetyCarFollowQueue() = Queue("speed.safetyCar.follow")
 
-    @Bean
-    fun safetyCarOvertakeQueue() = Queue("speed.safetyCar.overtake")
+  @Bean
+  fun safetyCarOvertakeQueue() = Queue("speed.safetyCar.overtake")
 
-    @Bean
-    fun startSpeedTimerQueue() = Queue("speed.timer")
+  @Bean
+  fun startSpeedTimerQueue() = Queue("speed.timer")
 
-    @Bean
-    fun speedRaceLapQueue() = Queue("speed.lap")
+  @Bean
+  fun speedRaceLapQueue() = Queue("speed.lap")
 
-    @Bean
-    fun teamDataQueue() = Queue("team.teamData")
+  @Bean
+  fun teamDataQueue() = Queue("team.teamData")
 
-    @Bean
-    fun jackson2JsonMessageConverter() = Jackson2JsonMessageConverter()
+  @Bean
+  fun jackson2JsonMessageConverter() = Jackson2JsonMessageConverter()
 
-    @Bean
-    fun connectionNameStrategy(): ConnectionNameStrategy {
-        return SimplePropertyValueConnectionNameStrategy("spring.application.name")
-    }
+  @Bean
+  fun connectionNameStrategy(): ConnectionNameStrategy = SimplePropertyValueConnectionNameStrategy("spring.application.name")
 }

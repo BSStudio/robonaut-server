@@ -10,51 +10,51 @@ import hu.bsstudio.robonaut.team.model.DetailedTeam
 import reactor.core.publisher.Mono
 
 class DefaultEndResultService(
-    private val teamRepository: TeamRepository,
-    private val teamModelEntityMapper: TeamModelEntityMapper = TeamModelEntityMapper(),
+  private val teamRepository: TeamRepository,
+  private val teamModelEntityMapper: TeamModelEntityMapper = TeamModelEntityMapper(),
 ) : EndResultService {
-    override fun updateEndResultSenior(endResultedTeam: EndResultedTeam): Mono<DetailedTeam> {
-        return Mono.just(endResultedTeam)
-            .map(EndResultedTeam::teamId)
-            .flatMap(teamRepository::findById)
-            .map { addEndResultSenior(it, endResultedTeam) }
-            .flatMap(teamRepository::save)
-            .map(teamModelEntityMapper::toModel)
-    }
+  override fun updateEndResultSenior(endResultedTeam: EndResultedTeam): Mono<DetailedTeam> =
+    Mono
+      .just(endResultedTeam)
+      .map(EndResultedTeam::teamId)
+      .flatMap(teamRepository::findById)
+      .map { addEndResultSenior(it, endResultedTeam) }
+      .flatMap(teamRepository::save)
+      .map(teamModelEntityMapper::toModel)
 
-    override fun updateEndResultJunior(endResultedTeam: EndResultedTeam): Mono<DetailedTeam> {
-        return Mono.just(endResultedTeam)
-            .map(EndResultedTeam::teamId)
-            .flatMap(teamRepository::findById)
-            .filter { it.teamType == TeamType.JUNIOR }
-            .map { addEndResultJunior(it, endResultedTeam) }
-            .flatMap(teamRepository::save)
-            .map(teamModelEntityMapper::toModel)
-    }
+  override fun updateEndResultJunior(endResultedTeam: EndResultedTeam): Mono<DetailedTeam> =
+    Mono
+      .just(endResultedTeam)
+      .map(EndResultedTeam::teamId)
+      .flatMap(teamRepository::findById)
+      .filter { it.teamType == TeamType.JUNIOR }
+      .map { addEndResultJunior(it, endResultedTeam) }
+      .flatMap(teamRepository::save)
+      .map(teamModelEntityMapper::toModel)
 
-    private fun addEndResultSenior(
-        entity: TeamEntity,
-        endResultedTeam: EndResultedTeam,
-    ): TeamEntity {
-        val score = updateTotalScore(endResultedTeam, entity.score)
-        entity.score = score
-        return entity
-    }
+  private fun addEndResultSenior(
+    entity: TeamEntity,
+    endResultedTeam: EndResultedTeam,
+  ): TeamEntity {
+    val score = updateTotalScore(endResultedTeam, entity.score)
+    entity.score = score
+    return entity
+  }
 
-    private fun addEndResultJunior(
-        entity: TeamEntity,
-        endResultedTeam: EndResultedTeam,
-    ): TeamEntity {
-        val juniorScore = updateTotalScore(endResultedTeam, entity.juniorScore)
-        entity.juniorScore = juniorScore
-        return entity
-    }
+  private fun addEndResultJunior(
+    entity: TeamEntity,
+    endResultedTeam: EndResultedTeam,
+  ): TeamEntity {
+    val juniorScore = updateTotalScore(endResultedTeam, entity.juniorScore)
+    entity.juniorScore = juniorScore
+    return entity
+  }
 
-    private fun updateTotalScore(
-        endResultedTeam: EndResultedTeam,
-        score: ScoreEntity,
-    ): ScoreEntity {
-        score.score = endResultedTeam.totalScore
-        return score
-    }
+  private fun updateTotalScore(
+    endResultedTeam: EndResultedTeam,
+    score: ScoreEntity,
+  ): ScoreEntity {
+    score.score = endResultedTeam.totalScore
+    return score
+  }
 }

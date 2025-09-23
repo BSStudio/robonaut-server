@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class RobonautServerApplication
 
 fun main(args: Array<String>) {
-    runApplication<RobonautServerApplication>(*args)
+  runApplication<RobonautServerApplication>(*args)
 }

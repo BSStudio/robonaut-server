@@ -10,16 +10,13 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class SafetyCarServiceConfiguration(
-    private val repository: TeamRepository,
-    private val rabbitTemplate: RabbitTemplate,
+  private val repository: TeamRepository,
+  private val rabbitTemplate: RabbitTemplate,
 ) {
-    @Bean
-    fun safetyCarService(defaultSafetyCarService: SafetyCarService): SafetyCarService {
-        return BroadcastingSafetyCarService(rabbitTemplate, defaultSafetyCarService)
-    }
+  @Bean
+  fun safetyCarService(defaultSafetyCarService: SafetyCarService): SafetyCarService =
+    BroadcastingSafetyCarService(rabbitTemplate, defaultSafetyCarService)
 
-    @Bean
-    fun defaultSafetyCarService(): SafetyCarService {
-        return DefaultSafetyCarService(repository)
-    }
+  @Bean
+  fun defaultSafetyCarService(): SafetyCarService = DefaultSafetyCarService(repository)
 }

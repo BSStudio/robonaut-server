@@ -12,34 +12,35 @@ import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 
 internal class BroadcastingSpeedTimerServiceTest {
-    @MockK
-    private lateinit var mockTemplate: RabbitTemplate
+  @MockK
+  private lateinit var mockTemplate: RabbitTemplate
 
-    @MockK
-    private lateinit var mockService: SpeedTimerService
+  @MockK
+  private lateinit var mockService: SpeedTimerService
 
-    private lateinit var underTest: BroadcastingSpeedTimerService
+  private lateinit var underTest: BroadcastingSpeedTimerService
 
-    @BeforeEach
-    internal fun setUp() {
-        MockKAnnotations.init(this)
-        underTest = BroadcastingSpeedTimerService(mockTemplate, mockService)
-    }
+  @BeforeEach
+  internal fun setUp() {
+    MockKAnnotations.init(this)
+    underTest = BroadcastingSpeedTimerService(mockTemplate, mockService)
+  }
 
-    @Test
-    internal fun `should return SpeedTimer from underlying service and send it when timer is updated`() {
-        every { mockService.updateTimer(SPEED_TIMER) } returns Mono.just(SPEED_TIMER)
-        every { mockTemplate.convertAndSend(ROUTING_KEY, SPEED_TIMER) } returns Unit
+  @Test
+  internal fun `should return SpeedTimer from underlying service and send it when timer is updated`() {
+    every { mockService.updateTimer(SPEED_TIMER) } returns Mono.just(SPEED_TIMER)
+    every { mockTemplate.convertAndSend(ROUTING_KEY, SPEED_TIMER) } returns Unit
 
-        Mono.just(SPEED_TIMER)
-            .flatMap(underTest::updateTimer)
-            .let(StepVerifier::create)
-            .expectNext(SPEED_TIMER)
-            .verifyComplete()
-    }
+    Mono
+      .just(SPEED_TIMER)
+      .flatMap(underTest::updateTimer)
+      .let(StepVerifier::create)
+      .expectNext(SPEED_TIMER)
+      .verifyComplete()
+  }
 
-    companion object {
-        private val SPEED_TIMER = SpeedTimer(0, TimerAction.START)
-        private const val ROUTING_KEY = "speed.timer"
-    }
+  companion object {
+    private val SPEED_TIMER = SpeedTimer(0, TimerAction.START)
+    private const val ROUTING_KEY = "speed.timer"
+  }
 }

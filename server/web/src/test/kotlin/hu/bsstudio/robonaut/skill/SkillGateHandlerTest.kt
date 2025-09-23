@@ -14,28 +14,36 @@ import org.springframework.web.reactive.function.server.RouterFunctions
 import reactor.core.publisher.Mono
 
 internal class SkillGateHandlerTest {
-    @MockK
-    private lateinit var mockService: SkillRaceService
-    private lateinit var webTestClient: WebTestClient
+  @MockK
+  private lateinit var mockService: SkillRaceService
+  private lateinit var webTestClient: WebTestClient
 
-    @BeforeEach
-    internal fun setUp() {
-        MockKAnnotations.init(this)
-        val underTest = SkillGateHandler(mockService)
-        val routerFunction =
-            RouterFunctions.route()
-                .POST("/test", underTest).build()
-        webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-    }
+  @BeforeEach
+  internal fun setUp() {
+    MockKAnnotations.init(this)
+    val underTest = SkillGateHandler(mockService)
+    val routerFunction =
+      RouterFunctions
+        .route()
+        .POST("/test", underTest)
+        .build()
+    webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
+  }
 
-    @Test
-    internal fun `should return DetailedTeam with OK status`() {
-        val gateInfo = GateInformation(0, 0, 0, 0, 0)
-        val detailedTeam = DetailedTeam()
-        every { mockService.updateSkillRaceResultOnGate(gateInfo) } returns Mono.just(detailedTeam)
+  @Test
+  internal fun `should return DetailedTeam with OK status`() {
+    val gateInfo = GateInformation(0, 0, 0, 0, 0)
+    val detailedTeam = DetailedTeam()
+    every { mockService.updateSkillRaceResultOnGate(gateInfo) } returns Mono.just(detailedTeam)
 
-        webTestClient.post().uri("/test").bodyValue(gateInfo).exchange()
-            .expectStatus().isOk
-            .expectBody<DetailedTeam>().isEqualTo(detailedTeam)
-    }
+    webTestClient
+      .post()
+      .uri("/test")
+      .bodyValue(gateInfo)
+      .exchange()
+      .expectStatus()
+      .isOk
+      .expectBody<DetailedTeam>()
+      .isEqualTo(detailedTeam)
+  }
 }

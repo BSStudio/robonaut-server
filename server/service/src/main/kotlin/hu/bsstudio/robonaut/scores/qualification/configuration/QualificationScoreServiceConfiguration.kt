@@ -10,14 +10,13 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class QualificationScoreServiceConfiguration(
-    private val rabbitTemplate: RabbitTemplate,
-    private val repository: TeamRepository,
+  private val rabbitTemplate: RabbitTemplate,
+  private val repository: TeamRepository,
 ) {
-    @Bean
-    fun qualificationScoreService(defaultQualificationScoreService: QualificationScoreService): QualificationScoreService {
-        return BroadcastingQualificationScoreService(rabbitTemplate, defaultQualificationScoreService)
-    }
+  @Bean
+  fun qualificationScoreService(defaultQualificationScoreService: QualificationScoreService): QualificationScoreService =
+    BroadcastingQualificationScoreService(rabbitTemplate, defaultQualificationScoreService)
 
-    @Bean
-    fun defaultQualificationScoreService(): QualificationScoreService = DefaultQualificationScoreService(repository)
+  @Bean
+  fun defaultQualificationScoreService(): QualificationScoreService = DefaultQualificationScoreService(repository)
 }

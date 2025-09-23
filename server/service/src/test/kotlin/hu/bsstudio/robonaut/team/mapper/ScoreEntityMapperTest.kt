@@ -7,37 +7,37 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class ScoreEntityMapperTest {
-    private lateinit var underTest: ScoreEntityMapper
+  private lateinit var underTest: ScoreEntityMapper
 
-    @BeforeEach
-    internal fun setUp() {
-        underTest = ScoreEntityMapper()
-    }
+  @BeforeEach
+  internal fun setUp() {
+    underTest = ScoreEntityMapper()
+  }
 
-    @Test
-    internal fun `should return Model`() {
-        val result = underTest.toModel(ENTITY)
+  @Test
+  internal fun `should return Model`() {
+    val result = underTest.toModel(ENTITY)
 
-        assertThat(result).isEqualTo(MODEL)
-    }
+    assertThat(result).isEqualTo(MODEL)
+  }
 
-    @Test
-    internal fun `should return Entity`() {
-        val result = underTest.toEntity(MODEL)
+  @Test
+  internal fun `should return Entity`() {
+    val result = underTest.toEntity(MODEL)
 
-        assertThat(result).isEqualTo(ENTITY)
-    }
+    assertThat(result).isEqualTo(ENTITY)
+  }
 
-    companion object {
-        private const val SCORE = 420
-        private const val SPEED_SCORE = 2021
-        private const val BEST_SPEED_TIME = 999
-        private val MODEL = Score(SPEED_SCORE, BEST_SPEED_TIME, SCORE)
-        private val ENTITY =
-            ScoreEntity(
-                speedScore = SPEED_SCORE,
-                bestSpeedTime = BEST_SPEED_TIME,
-                score = SCORE,
-            )
-    }
+  companion object {
+    private const val SCORE = 420
+    private const val SPEED_SCORE = 2021
+    private const val BEST_SPEED_TIME = 999
+    private val MODEL = Score(SPEED_SCORE, BEST_SPEED_TIME, SCORE)
+    private val ENTITY =
+      ScoreEntity(
+        speedScore = SPEED_SCORE,
+        bestSpeedTime = BEST_SPEED_TIME,
+        score = SCORE,
+      )
+  }
 }
