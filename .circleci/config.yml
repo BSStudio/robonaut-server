@@ -41,10 +41,9 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          app-dir: ~/project/integration
+          pkg-manager: pnpm
       - run:
-          command: npm run test:ci
-          workdir: ~/project/integration
+          command: pnpm run -r test:ci
           environment:
             DEBUG: testcontainers
       - store_test_results:
@@ -54,9 +53,9 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          app-dir: ~/project/integration
+          pkg-manager: pnpm
       - run:
-          command: npm run lint
+          command: pnpm run -r lint
           workdir: ~/project/integration
 workflows:
   Build app:
