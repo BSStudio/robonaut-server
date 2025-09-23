@@ -2,14 +2,14 @@ version: 2.1
 orbs:
   codecov: codecov/codecov@4.2.0
   gradle: circleci/gradle@3.0.0
-  node: circleci/node@6.3.0
+  node: circleci/node@7.2.0
 executors:
   jdk:
     docker:
-      - image: cimg/openjdk:21.0.6
+      - image: cimg/openjdk:21.0.8
   node:
     docker:
-      - image: cimg/node:22.15.0
+      - image: cimg/node:22.19.0
   node-machine:
     machine:
       image: ubuntu-2204:current
@@ -40,11 +40,11 @@ jobs:
     executor: node-machine
     steps:
       - checkout
+      - node/install-pnpm
       - node/install-packages:
-          app-dir: ~/project/integration
+          pkg-manager: pnpm
       - run:
-          command: npm run test:ci
-          workdir: ~/project/integration
+          command: pnpm run -r test:ci
           environment:
             DEBUG: testcontainers
       - store_test_results:
@@ -54,10 +54,9 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          app-dir: ~/project/integration
+          pkg-manager: pnpm
       - run:
-          command: npm run lint
-          workdir: ~/project/integration
+          command: pnpm run -r lint
 workflows:
   Build app:
     jobs:
