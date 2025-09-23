@@ -56,7 +56,6 @@ jobs:
           pkg-manager: pnpm
       - run:
           command: pnpm run -r lint
-          workdir: ~/project/integration
 workflows:
   Build app:
     jobs:
