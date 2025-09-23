@@ -7,26 +7,26 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate
 import reactor.core.publisher.Mono
 
 class BroadcastingSkillRaceService(
-    private val template: RabbitTemplate,
-    private val service: SkillRaceService,
+  private val template: RabbitTemplate,
+  private val service: SkillRaceService,
 ) : SkillRaceService {
-    override fun updateSkillRaceResultOnGate(gateInformation: GateInformation): Mono<DetailedTeam> {
-        return Mono.just(gateInformation)
-            .doOnNext(::sendGateInfo)
-            .flatMap(service::updateSkillRaceResultOnGate)
-            .doOnNext(::sendTeamInfo)
-    }
+  override fun updateSkillRaceResultOnGate(gateInformation: GateInformation): Mono<DetailedTeam> =
+    Mono
+      .just(gateInformation)
+      .doOnNext(::sendGateInfo)
+      .flatMap(service::updateSkillRaceResultOnGate)
+      .doOnNext(::sendTeamInfo)
 
-    override fun updateSkillRaceResult(skillRaceResult: SkillRaceResult): Mono<DetailedTeam> {
-        return service.updateSkillRaceResult(skillRaceResult)
-            .doOnNext(::sendTeamInfo)
-    }
+  override fun updateSkillRaceResult(skillRaceResult: SkillRaceResult): Mono<DetailedTeam> =
+    service
+      .updateSkillRaceResult(skillRaceResult)
+      .doOnNext(::sendTeamInfo)
 
-    private fun sendGateInfo(gateInfo: GateInformation) {
-        template.convertAndSend("skill.gate", gateInfo)
-    }
+  private fun sendGateInfo(gateInfo: GateInformation) {
+    template.convertAndSend("skill.gate", gateInfo)
+  }
 
-    private fun sendTeamInfo(detailedTeam: DetailedTeam) {
-        template.convertAndSend("team.teamData", detailedTeam)
-    }
+  private fun sendTeamInfo(detailedTeam: DetailedTeam) {
+    template.convertAndSend("team.teamData", detailedTeam)
+  }
 }

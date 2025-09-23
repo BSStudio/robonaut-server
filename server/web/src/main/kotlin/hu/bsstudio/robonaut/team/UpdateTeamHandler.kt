@@ -8,10 +8,12 @@ import org.springframework.web.reactive.function.server.body
 import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
-class UpdateTeamHandler(private val teamService: TeamService) : HandlerFunction<ServerResponse> {
-    override fun handle(request: ServerRequest): Mono<ServerResponse> {
-        return request.bodyToMono<Team>()
-            .flatMap(teamService::updateTeam)
-            .let { detailedTeam -> ServerResponse.ok().body(detailedTeam) }
-    }
+class UpdateTeamHandler(
+  private val teamService: TeamService,
+) : HandlerFunction<ServerResponse> {
+  override fun handle(request: ServerRequest): Mono<ServerResponse> =
+    request
+      .bodyToMono<Team>()
+      .flatMap(teamService::updateTeam)
+      .let { detailedTeam -> ServerResponse.ok().body(detailedTeam) }
 }

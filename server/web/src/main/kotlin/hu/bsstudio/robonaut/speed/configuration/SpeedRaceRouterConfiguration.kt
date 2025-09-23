@@ -15,35 +15,35 @@ import org.springframework.web.reactive.function.server.ServerResponse
 
 @Configuration
 class SpeedRaceRouterConfiguration(
-    private val robonAuthFilter: RobonAuthFilter,
-    private val speedTimerService: SpeedTimerService,
-    private val speedRaceService: SpeedRaceService,
+  private val robonAuthFilter: RobonAuthFilter,
+  private val speedTimerService: SpeedTimerService,
+  private val speedRaceService: SpeedRaceService,
 ) {
-    @Bean
-    fun speedRaceRouterFunction(
-        updateSpeedTimerHandler: UpdateSpeedTimerHandler,
-        speedRaceLapHandler: SpeedRaceLapHandler,
-        juniorSpeedRaceResultHandler: JuniorSpeedRaceResultHandler,
-        seniorSpeedRaceResultHandler: SeniorSpeedRaceResultHandler,
-    ): RouterFunction<ServerResponse> {
-        return RouterFunctions.route()
-            .filter(robonAuthFilter)
-            .POST("/api/speed/timer", updateSpeedTimerHandler)
-            .POST("/api/speed/lap", speedRaceLapHandler)
-            .POST("/api/speed/result/junior", juniorSpeedRaceResultHandler)
-            .POST("/api/speed/result/senior", seniorSpeedRaceResultHandler)
-            .build()
-    }
+  @Bean
+  fun speedRaceRouterFunction(
+    updateSpeedTimerHandler: UpdateSpeedTimerHandler,
+    speedRaceLapHandler: SpeedRaceLapHandler,
+    juniorSpeedRaceResultHandler: JuniorSpeedRaceResultHandler,
+    seniorSpeedRaceResultHandler: SeniorSpeedRaceResultHandler,
+  ): RouterFunction<ServerResponse> =
+    RouterFunctions
+      .route()
+      .filter(robonAuthFilter)
+      .POST("/api/speed/timer", updateSpeedTimerHandler)
+      .POST("/api/speed/lap", speedRaceLapHandler)
+      .POST("/api/speed/result/junior", juniorSpeedRaceResultHandler)
+      .POST("/api/speed/result/senior", seniorSpeedRaceResultHandler)
+      .build()
 
-    @Bean
-    fun updateSpeedTimerHandler() = UpdateSpeedTimerHandler(speedTimerService)
+  @Bean
+  fun updateSpeedTimerHandler() = UpdateSpeedTimerHandler(speedTimerService)
 
-    @Bean
-    fun speedRaceLapHandler() = SpeedRaceLapHandler(speedRaceService)
+  @Bean
+  fun speedRaceLapHandler() = SpeedRaceLapHandler(speedRaceService)
 
-    @Bean
-    fun juniorSpeedRaceResultHandler() = JuniorSpeedRaceResultHandler(speedRaceService)
+  @Bean
+  fun juniorSpeedRaceResultHandler() = JuniorSpeedRaceResultHandler(speedRaceService)
 
-    @Bean
-    fun seniorSpeedRaceResultHandler() = SeniorSpeedRaceResultHandler(speedRaceService)
+  @Bean
+  fun seniorSpeedRaceResultHandler() = SeniorSpeedRaceResultHandler(speedRaceService)
 }

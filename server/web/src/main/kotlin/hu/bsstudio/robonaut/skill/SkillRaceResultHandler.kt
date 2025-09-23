@@ -9,10 +9,12 @@ import org.springframework.web.reactive.function.server.body
 import org.springframework.web.reactive.function.server.bodyToMono
 import reactor.core.publisher.Mono
 
-class SkillRaceResultHandler(private val service: SkillRaceService) : HandlerFunction<ServerResponse> {
-    override fun handle(request: ServerRequest): Mono<ServerResponse> {
-        return request.bodyToMono<SkillRaceResult>()
-            .flatMap(service::updateSkillRaceResult)
-            .let { detailedTeam -> ServerResponse.ok().body(detailedTeam) }
-    }
+class SkillRaceResultHandler(
+  private val service: SkillRaceService,
+) : HandlerFunction<ServerResponse> {
+  override fun handle(request: ServerRequest): Mono<ServerResponse> =
+    request
+      .bodyToMono<SkillRaceResult>()
+      .flatMap(service::updateSkillRaceResult)
+      .let { detailedTeam -> ServerResponse.ok().body(detailedTeam) }
 }

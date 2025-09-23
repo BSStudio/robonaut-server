@@ -15,85 +15,89 @@ import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 
 internal class DefaultSafetyCarServiceTest {
-    @MockK
-    private lateinit var mockRepository: TeamRepository
+  @MockK
+  private lateinit var mockRepository: TeamRepository
 
-    @MockK
-    private lateinit var mockMapper: TeamModelEntityMapper
+  @MockK
+  private lateinit var mockMapper: TeamModelEntityMapper
 
-    private lateinit var underTest: DefaultSafetyCarService
+  private lateinit var underTest: DefaultSafetyCarService
 
-    @BeforeEach
-    internal fun setUp() {
-        MockKAnnotations.init(this)
-        underTest = DefaultSafetyCarService(mockRepository)
-        underTest = DefaultSafetyCarService(mockRepository, mockMapper)
-    }
+  @BeforeEach
+  internal fun setUp() {
+    MockKAnnotations.init(this)
+    underTest = DefaultSafetyCarService(mockRepository)
+    underTest = DefaultSafetyCarService(mockRepository, mockMapper)
+  }
 
-    @Test
-    internal fun `should return DetailedTeam when Entity was found and successfully was updated when safety car was followed`() {
-        val foundTeamEntity = TeamEntity()
-        every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
-        val updatedTeamEntity = TeamEntity(safetyCarWasFollowed = SAFETY_CAR_FOLLOWED)
-        every { mockRepository.save(updatedTeamEntity) } returns Mono.just(updatedTeamEntity)
-        val detailedTeam = DetailedTeam()
-        every { mockMapper.toModel(updatedTeamEntity) } returns detailedTeam
+  @Test
+  internal fun `should return DetailedTeam when Entity was found and successfully was updated when safety car was followed`() {
+    val foundTeamEntity = TeamEntity()
+    every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
+    val updatedTeamEntity = TeamEntity(safetyCarWasFollowed = SAFETY_CAR_FOLLOWED)
+    every { mockRepository.save(updatedTeamEntity) } returns Mono.just(updatedTeamEntity)
+    val detailedTeam = DetailedTeam()
+    every { mockMapper.toModel(updatedTeamEntity) } returns detailedTeam
 
-        val result = underTest.safetyCarWasFollowed(FOLLOW_INFORMATION)
+    val result = underTest.safetyCarWasFollowed(FOLLOW_INFORMATION)
 
-        StepVerifier.create(result)
-            .expectNext(detailedTeam)
-            .verifyComplete()
-    }
+    StepVerifier
+      .create(result)
+      .expectNext(detailedTeam)
+      .verifyComplete()
+  }
 
-    @Test
-    internal fun `should return Empty when Entity was not found when safety car was followed`() {
-        val foundTeamEntity = TeamEntity()
-        every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
-        val updatedTeamEntity = TeamEntity()
-        updatedTeamEntity.safetyCarWasFollowed = SAFETY_CAR_FOLLOWED
-        every { mockRepository.save(updatedTeamEntity) } returns Mono.empty()
+  @Test
+  internal fun `should return Empty when Entity was not found when safety car was followed`() {
+    val foundTeamEntity = TeamEntity()
+    every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
+    val updatedTeamEntity = TeamEntity()
+    updatedTeamEntity.safetyCarWasFollowed = SAFETY_CAR_FOLLOWED
+    every { mockRepository.save(updatedTeamEntity) } returns Mono.empty()
 
-        val result = underTest.safetyCarWasFollowed(FOLLOW_INFORMATION)
+    val result = underTest.safetyCarWasFollowed(FOLLOW_INFORMATION)
 
-        StepVerifier.create(result)
-            .verifyComplete()
-    }
+    StepVerifier
+      .create(result)
+      .verifyComplete()
+  }
 
-    @Test
-    internal fun `should return DetailedTeam when Entity was found and successfully was updated when safety car was overtaken`() {
-        val foundTeamEntity = TeamEntity()
-        every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
-        val updatedTeamEntity = TeamEntity()
-        updatedTeamEntity.numberOfOvertakes = NUMBER_OF_OVERTAKES
-        every { mockRepository.save(updatedTeamEntity) } returns Mono.just(updatedTeamEntity)
-        val detailedTeam = DetailedTeam()
-        every { mockMapper.toModel(updatedTeamEntity) } returns detailedTeam
+  @Test
+  internal fun `should return DetailedTeam when Entity was found and successfully was updated when safety car was overtaken`() {
+    val foundTeamEntity = TeamEntity()
+    every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
+    val updatedTeamEntity = TeamEntity()
+    updatedTeamEntity.numberOfOvertakes = NUMBER_OF_OVERTAKES
+    every { mockRepository.save(updatedTeamEntity) } returns Mono.just(updatedTeamEntity)
+    val detailedTeam = DetailedTeam()
+    every { mockMapper.toModel(updatedTeamEntity) } returns detailedTeam
 
-        val result = underTest.safetyCarWasOvertaken(SAFETY_CAR_OVERTAKE_INFORMATION)
+    val result = underTest.safetyCarWasOvertaken(SAFETY_CAR_OVERTAKE_INFORMATION)
 
-        StepVerifier.create(result)
-            .expectNext(detailedTeam)
-            .verifyComplete()
-    }
+    StepVerifier
+      .create(result)
+      .expectNext(detailedTeam)
+      .verifyComplete()
+  }
 
-    @Test
-    internal fun `should return Empty when Entity was not found when safety car was overtaken`() {
-        val foundTeamEntity = TeamEntity()
-        every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
-        val updatedTeamEntity = TeamEntity()
-        updatedTeamEntity.numberOfOvertakes = NUMBER_OF_OVERTAKES
-        every { mockRepository.save(updatedTeamEntity) } returns Mono.empty()
-        val result = underTest.safetyCarWasOvertaken(SAFETY_CAR_OVERTAKE_INFORMATION)
-        StepVerifier.create(result)
-            .verifyComplete()
-    }
+  @Test
+  internal fun `should return Empty when Entity was not found when safety car was overtaken`() {
+    val foundTeamEntity = TeamEntity()
+    every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
+    val updatedTeamEntity = TeamEntity()
+    updatedTeamEntity.numberOfOvertakes = NUMBER_OF_OVERTAKES
+    every { mockRepository.save(updatedTeamEntity) } returns Mono.empty()
+    val result = underTest.safetyCarWasOvertaken(SAFETY_CAR_OVERTAKE_INFORMATION)
+    StepVerifier
+      .create(result)
+      .verifyComplete()
+  }
 
-    companion object {
-        private const val TEAM_ID: Long = 42
-        private const val SAFETY_CAR_FOLLOWED = true
-        private const val NUMBER_OF_OVERTAKES = 5
-        private val FOLLOW_INFORMATION = SafetyCarFollowInformation(TEAM_ID, SAFETY_CAR_FOLLOWED)
-        private val SAFETY_CAR_OVERTAKE_INFORMATION = SafetyCarOvertakeInformation(TEAM_ID, NUMBER_OF_OVERTAKES)
-    }
+  companion object {
+    private const val TEAM_ID: Long = 42
+    private const val SAFETY_CAR_FOLLOWED = true
+    private const val NUMBER_OF_OVERTAKES = 5
+    private val FOLLOW_INFORMATION = SafetyCarFollowInformation(TEAM_ID, SAFETY_CAR_FOLLOWED)
+    private val SAFETY_CAR_OVERTAKE_INFORMATION = SafetyCarOvertakeInformation(TEAM_ID, NUMBER_OF_OVERTAKES)
+  }
 }

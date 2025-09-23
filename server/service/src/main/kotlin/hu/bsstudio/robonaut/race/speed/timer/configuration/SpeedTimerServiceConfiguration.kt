@@ -9,13 +9,12 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class SpeedTimerServiceConfiguration(
-    private val rabbitTemplate: RabbitTemplate,
+  private val rabbitTemplate: RabbitTemplate,
 ) {
-    @Bean
-    fun speedTimerService(defaultSpeedTimerService: SpeedTimerService): SpeedTimerService {
-        return BroadcastingSpeedTimerService(rabbitTemplate, defaultSpeedTimerService)
-    }
+  @Bean
+  fun speedTimerService(defaultSpeedTimerService: SpeedTimerService): SpeedTimerService =
+    BroadcastingSpeedTimerService(rabbitTemplate, defaultSpeedTimerService)
 
-    @Bean
-    fun defaultSpeedTimerService(): SpeedTimerService = DefaultSpeedTimerService()
+  @Bean
+  fun defaultSpeedTimerService(): SpeedTimerService = DefaultSpeedTimerService()
 }

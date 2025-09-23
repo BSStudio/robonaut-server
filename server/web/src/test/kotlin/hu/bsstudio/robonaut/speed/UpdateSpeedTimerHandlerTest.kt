@@ -14,32 +14,38 @@ import org.springframework.web.reactive.function.server.RouterFunctions
 import reactor.core.publisher.Mono
 
 internal class UpdateSpeedTimerHandlerTest {
-    @MockK
-    private lateinit var mockService: SpeedTimerService
-    private lateinit var webTestClient: WebTestClient
+  @MockK
+  private lateinit var mockService: SpeedTimerService
+  private lateinit var webTestClient: WebTestClient
 
-    @BeforeEach
-    internal fun setUp() {
-        MockKAnnotations.init(this)
-        val underTest = UpdateSpeedTimerHandler(mockService)
-        val routerFunction =
-            RouterFunctions.route()
-                .POST("/test", underTest).build()
-        webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-    }
+  @BeforeEach
+  internal fun setUp() {
+    MockKAnnotations.init(this)
+    val underTest = UpdateSpeedTimerHandler(mockService)
+    val routerFunction =
+      RouterFunctions
+        .route()
+        .POST("/test", underTest)
+        .build()
+    webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
+  }
 
-    @Test
-    internal fun `should return SpeedTimer with OK status`() {
-        every { mockService.updateTimer(speedTimer) } returns Mono.just(speedTimer)
+  @Test
+  internal fun `should return SpeedTimer with OK status`() {
+    every { mockService.updateTimer(speedTimer) } returns Mono.just(speedTimer)
 
-        webTestClient.post().uri("/test")
-            .bodyValue(speedTimer)
-            .exchange()
-            .expectStatus().isOk
-            .expectBody<SpeedTimer>().isEqualTo(speedTimer)
-    }
+    webTestClient
+      .post()
+      .uri("/test")
+      .bodyValue(speedTimer)
+      .exchange()
+      .expectStatus()
+      .isOk
+      .expectBody<SpeedTimer>()
+      .isEqualTo(speedTimer)
+  }
 
-    companion object {
-        private var speedTimer = SpeedTimer(0, TimerAction.START)
-    }
+  companion object {
+    private var speedTimer = SpeedTimer(0, TimerAction.START)
+  }
 }

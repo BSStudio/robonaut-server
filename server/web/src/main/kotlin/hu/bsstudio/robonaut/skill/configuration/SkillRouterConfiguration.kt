@@ -14,30 +14,30 @@ import org.springframework.web.reactive.function.server.ServerResponse
 
 @Configuration
 class SkillRouterConfiguration(
-    private val robonAuthFilter: RobonAuthFilter,
-    private val skillTimerService: SkillTimerService,
-    private val skillRaceService: SkillRaceService,
+  private val robonAuthFilter: RobonAuthFilter,
+  private val skillTimerService: SkillTimerService,
+  private val skillRaceService: SkillRaceService,
 ) {
-    @Bean
-    fun skillRouterFunction(
-        updateSkillTimerHandler: UpdateSkillTimerHandler,
-        skillGateHandler: SkillGateHandler,
-        skillRaceResultHandler: SkillRaceResultHandler,
-    ): RouterFunction<ServerResponse> {
-        return RouterFunctions.route()
-            .filter(robonAuthFilter)
-            .POST("/api/skill/timer", updateSkillTimerHandler)
-            .POST("/api/skill/gate", skillGateHandler)
-            .POST("/api/skill/result", skillRaceResultHandler)
-            .build()
-    }
+  @Bean
+  fun skillRouterFunction(
+    updateSkillTimerHandler: UpdateSkillTimerHandler,
+    skillGateHandler: SkillGateHandler,
+    skillRaceResultHandler: SkillRaceResultHandler,
+  ): RouterFunction<ServerResponse> =
+    RouterFunctions
+      .route()
+      .filter(robonAuthFilter)
+      .POST("/api/skill/timer", updateSkillTimerHandler)
+      .POST("/api/skill/gate", skillGateHandler)
+      .POST("/api/skill/result", skillRaceResultHandler)
+      .build()
 
-    @Bean
-    fun updateSkillTimerHandler() = UpdateSkillTimerHandler(skillTimerService)
+  @Bean
+  fun updateSkillTimerHandler() = UpdateSkillTimerHandler(skillTimerService)
 
-    @Bean
-    fun skillGateHandler() = SkillGateHandler(skillRaceService)
+  @Bean
+  fun skillGateHandler() = SkillGateHandler(skillRaceService)
 
-    @Bean
-    fun skillRaceResultHandler() = SkillRaceResultHandler(skillRaceService)
+  @Bean
+  fun skillRaceResultHandler() = SkillRaceResultHandler(skillRaceService)
 }

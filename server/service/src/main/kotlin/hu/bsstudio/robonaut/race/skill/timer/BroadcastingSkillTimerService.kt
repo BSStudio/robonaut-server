@@ -5,15 +5,15 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate
 import reactor.core.publisher.Mono
 
 class BroadcastingSkillTimerService(
-    private val template: RabbitTemplate,
-    private val service: SkillTimerService,
+  private val template: RabbitTemplate,
+  private val service: SkillTimerService,
 ) : SkillTimerService {
-    override fun updateTimer(skillTimer: SkillTimer): Mono<SkillTimer> {
-        return service.updateTimer(skillTimer)
-            .doOnNext(::sendSkillTimerData)
-    }
+  override fun updateTimer(skillTimer: SkillTimer): Mono<SkillTimer> =
+    service
+      .updateTimer(skillTimer)
+      .doOnNext(::sendSkillTimerData)
 
-    private fun sendSkillTimerData(timer: SkillTimer) {
-        template.convertAndSend("skill.timer", timer)
-    }
+  private fun sendSkillTimerData(timer: SkillTimer) {
+    template.convertAndSend("skill.timer", timer)
+  }
 }

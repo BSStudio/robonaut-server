@@ -9,55 +9,55 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 class DefaultTeamService(
-    private val teamRepository: TeamRepository,
-    private val teamMapper: TeamModelEntityMapper = TeamModelEntityMapper(),
+  private val teamRepository: TeamRepository,
+  private val teamMapper: TeamModelEntityMapper = TeamModelEntityMapper(),
 ) : TeamService {
-    override fun addTeam(team: Team): Mono<DetailedTeam> {
-        return Mono.just(team)
-            .map(::toEntity)
-            .flatMap(teamRepository::insert)
-            .map(teamMapper::toModel)
-    }
+  override fun addTeam(team: Team): Mono<DetailedTeam> =
+    Mono
+      .just(team)
+      .map(::toEntity)
+      .flatMap(teamRepository::insert)
+      .map(teamMapper::toModel)
 
-    override fun updateTeam(team: Team): Mono<DetailedTeam> {
-        return Mono.just(team)
-            .map(Team::teamId)
-            .flatMap(teamRepository::findById)
-            .map { updateBasicTeamInfo(it, team) }
-            .flatMap(teamRepository::save)
-            .map(teamMapper::toModel)
-    }
+  override fun updateTeam(team: Team): Mono<DetailedTeam> =
+    Mono
+      .just(team)
+      .map(Team::teamId)
+      .flatMap(teamRepository::findById)
+      .map { updateBasicTeamInfo(it, team) }
+      .flatMap(teamRepository::save)
+      .map(teamMapper::toModel)
 
-    override fun updateTeam(detailedTeam: DetailedTeam): Mono<DetailedTeam> {
-        return Mono.just(detailedTeam)
-            .map(teamMapper::toEntity)
-            .flatMap(teamRepository::save)
-            .map(teamMapper::toModel)
-    }
+  override fun updateTeam(detailedTeam: DetailedTeam): Mono<DetailedTeam> =
+    Mono
+      .just(detailedTeam)
+      .map(teamMapper::toEntity)
+      .flatMap(teamRepository::save)
+      .map(teamMapper::toModel)
 
-    override fun findAllTeam(): Flux<DetailedTeam> {
-        return teamRepository.findAll()
-            .map(teamMapper::toModel)
-    }
+  override fun findAllTeam(): Flux<DetailedTeam> =
+    teamRepository
+      .findAll()
+      .map(teamMapper::toModel)
 
-    private fun toEntity(team: Team) =
-        TeamEntity(
-            teamId = team.teamId,
-            year = team.year,
-            teamName = team.teamName,
-            teamMembers = team.teamMembers,
-            teamType = team.teamType,
-        )
+  private fun toEntity(team: Team) =
+    TeamEntity(
+      teamId = team.teamId,
+      year = team.year,
+      teamName = team.teamName,
+      teamMembers = team.teamMembers,
+      teamType = team.teamType,
+    )
 
-    private fun updateBasicTeamInfo(
-        entity: TeamEntity,
-        team: Team,
-    ): TeamEntity {
-        entity.teamId = team.teamId
-        entity.year = team.year
-        entity.teamName = team.teamName
-        entity.teamMembers = team.teamMembers
-        entity.teamType = team.teamType
-        return entity
-    }
+  private fun updateBasicTeamInfo(
+    entity: TeamEntity,
+    team: Team,
+  ): TeamEntity {
+    entity.teamId = team.teamId
+    entity.year = team.year
+    entity.teamName = team.teamName
+    entity.teamMembers = team.teamMembers
+    entity.teamType = team.teamType
+    return entity
+  }
 }

@@ -14,28 +14,36 @@ import org.springframework.web.reactive.function.server.RouterFunctions
 import reactor.core.publisher.Mono
 
 internal class SpeedRaceLapHandlerTest {
-    @MockK
-    private lateinit var mockService: SpeedRaceService
-    private lateinit var webTestClient: WebTestClient
+  @MockK
+  private lateinit var mockService: SpeedRaceService
+  private lateinit var webTestClient: WebTestClient
 
-    @BeforeEach
-    internal fun setUp() {
-        MockKAnnotations.init(this)
-        val underTest = SpeedRaceLapHandler(mockService)
-        val routerFunction =
-            RouterFunctions.route()
-                .POST("/test", underTest).build()
-        webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-    }
+  @BeforeEach
+  internal fun setUp() {
+    MockKAnnotations.init(this)
+    val underTest = SpeedRaceLapHandler(mockService)
+    val routerFunction =
+      RouterFunctions
+        .route()
+        .POST("/test", underTest)
+        .build()
+    webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
+  }
 
-    @Test
-    internal fun `should return DetailedTeam with OK status`() {
-        val speedRaceScore = SpeedRaceScore(0, emptyList())
-        val detailedTeam = DetailedTeam()
-        every { mockService.updateSpeedRaceOnLap(speedRaceScore) } returns Mono.just(detailedTeam)
+  @Test
+  internal fun `should return DetailedTeam with OK status`() {
+    val speedRaceScore = SpeedRaceScore(0, emptyList())
+    val detailedTeam = DetailedTeam()
+    every { mockService.updateSpeedRaceOnLap(speedRaceScore) } returns Mono.just(detailedTeam)
 
-        webTestClient.post().uri("/test").bodyValue(speedRaceScore).exchange()
-            .expectStatus().isOk
-            .expectBody<DetailedTeam>().isEqualTo(detailedTeam)
-    }
+    webTestClient
+      .post()
+      .uri("/test")
+      .bodyValue(speedRaceScore)
+      .exchange()
+      .expectStatus()
+      .isOk
+      .expectBody<DetailedTeam>()
+      .isEqualTo(detailedTeam)
+  }
 }

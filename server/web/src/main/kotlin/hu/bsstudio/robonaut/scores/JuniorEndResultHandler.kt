@@ -9,10 +9,12 @@ import org.springframework.web.reactive.function.server.body
 import org.springframework.web.reactive.function.server.bodyToFlux
 import reactor.core.publisher.Mono
 
-class JuniorEndResultHandler(private val service: EndResultService) : HandlerFunction<ServerResponse> {
-    override fun handle(request: ServerRequest): Mono<ServerResponse> {
-        return request.bodyToFlux<EndResultedTeam>()
-            .flatMap(service::updateEndResultJunior)
-            .let { detailedTeam -> ServerResponse.ok().body(detailedTeam) }
-    }
+class JuniorEndResultHandler(
+  private val service: EndResultService,
+) : HandlerFunction<ServerResponse> {
+  override fun handle(request: ServerRequest): Mono<ServerResponse> =
+    request
+      .bodyToFlux<EndResultedTeam>()
+      .flatMap(service::updateEndResultJunior)
+      .let { detailedTeam -> ServerResponse.ok().body(detailedTeam) }
 }
