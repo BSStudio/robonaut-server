@@ -148,3 +148,6 @@ fabric.properties
 
 ## Ignore mongo data folder
 /db/**
+
+### Node template
+node_modules/
