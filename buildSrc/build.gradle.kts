@@ -8,8 +8,8 @@ repositories {
 
 dependencies {
     implementation(libs.plugin.springBoot)
-    implementation(libs.plugin.springDependencyManagement)
     implementation(libs.plugin.spotless)
+    implementation(libs.plugin.detekt)
     implementation(kotlin("allopen", "2.2.20"))
     implementation(kotlin("gradle-plugin", "2.2.20"))
     // required for kotlin plugin jpa
