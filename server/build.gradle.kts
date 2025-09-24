@@ -1,9 +1,18 @@
 plugins {
-  id("spring-app-conventions")
-  id("spotless-conventions")
+  id("hu.bsstudio.gradle.java-convention")
+  id("hu.bsstudio.gradle.dependency-management")
+  id("hu.bsstudio.gradle.spotless-convention")
+  id("hu.bsstudio.gradle.kotlin-convention")
+  id("hu.bsstudio.gradle.spring-app-convention")
+  `jacoco-report-aggregation`
+  `test-report-aggregation`
 }
 
 dependencies {
-  api(project(":server:web"))
-  implementation("org.springframework.boot:spring-boot-starter")
+  implementation(project(":server:web"))
+}
+
+tasks.test {
+  finalizedBy(tasks.testAggregateTestReport)
+  finalizedBy(tasks.testCodeCoverageReport)
 }
