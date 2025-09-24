@@ -280,7 +280,7 @@ describe('test a likely path of events for a senior team', () => {
       .set('RobonAuth-Api-Key', 'BSS')
       .send(speedResult);
     expect(response.status).toBe(200);
-    expect(response.body).toBe('');
+    expect(response.body).toBe({});
   });
 
   const qualifiedTeam = {
