@@ -18,14 +18,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Team'
+              $ref: "#/components/schemas/Team"
       responses:
         "200":
           description: Team was created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailedTeam'
+                $ref: "#/components/schemas/DetailedTeam"
     get:
       tags:
       - team
@@ -41,7 +41,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DetailedTeam'
+                  $ref: "#/components/schemas/DetailedTeam"
     put:
       tags:
       - team
@@ -53,14 +53,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Team'
+              $ref: "#/components/schemas/Team"
       responses:
         "200":
           description: Updated team
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailedTeam'
+                $ref: "#/components/schemas/DetailedTeam"
   /api/admin/team:
     put:
       tags:
@@ -73,15 +73,15 @@ paths:
               oneOf:
               - type: array
                 items:
-                  $ref: '#/components/schemas/DetailedTeam'
-              - $ref: '#/components/schemas/DetailedTeam'
+                  $ref: "#/components/schemas/DetailedTeam"
+              - $ref: "#/components/schemas/DetailedTeam"
       responses:
         "200":
           description: Updated team
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailedTeam'
+                $ref: "#/components/schemas/DetailedTeam"
   /api/skill/timer:
     post:
       tags:
@@ -94,14 +94,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Timer'
+              $ref: "#/components/schemas/Timer"
       responses:
         "200":
           description: Timer state
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Timer'
+                $ref: "#/components/schemas/Timer"
   /api/skill/gate:
     post:
       tags:
@@ -114,14 +114,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/GateInfo'
+              $ref: "#/components/schemas/GateInfo"
       responses:
         "200":
           description: Team updated with skill race information
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailedTeam'
+                $ref: "#/components/schemas/DetailedTeam"
   /api/skill/result:
     post:
       tags:
@@ -134,14 +134,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SkillRaceResult'
+              $ref: "#/components/schemas/SkillRaceResult"
       responses:
         "200":
           description: Team updated with skill race information
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailedTeam'
+                $ref: "#/components/schemas/DetailedTeam"
   /api/speed/safetyCar/follow:
     post:
       tags:
@@ -155,14 +155,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SafetyCarFollowInformation'
+              $ref: "#/components/schemas/SafetyCarFollowInformation"
       responses:
         "200":
           description: The updated team
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailedTeam'
+                $ref: "#/components/schemas/DetailedTeam"
   /api/speed/safetyCar/overtake:
     post:
       tags:
@@ -176,14 +176,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SafetyCarOvertakeInformation'
+              $ref: "#/components/schemas/SafetyCarOvertakeInformation"
       responses:
         "200":
           description: The updated team
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailedTeam'
+                $ref: "#/components/schemas/DetailedTeam"
   /api/speed/timer:
     post:
       tags:
@@ -196,14 +196,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Timer'
+              $ref: "#/components/schemas/Timer"
       responses:
         "200":
           description: Timer state
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Timer'
+                $ref: "#/components/schemas/Timer"
   /api/speed/lap:
     post:
       tags:
@@ -218,14 +218,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SpeedRaceScore'
+              $ref: "#/components/schemas/SpeedRaceScore"
       responses:
         "200":
           description: The updated team
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailedTeam'
+                $ref: "#/components/schemas/DetailedTeam"
   /api/speed/result/senior:
     post:
       tags:
@@ -240,14 +240,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SpeedRaceResult'
+              $ref: "#/components/schemas/SpeedRaceResult"
       responses:
         "200":
           description: The updated team
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailedTeam'
+                $ref: "#/components/schemas/DetailedTeam"
   /api/speed/result/junior:
     post:
       tags:
@@ -262,14 +262,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SpeedRaceResult'
+              $ref: "#/components/schemas/SpeedRaceResult"
       responses:
         "200":
           description: The updated team
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailedTeam'
+                $ref: "#/components/schemas/DetailedTeam"
   /api/scores/qualification:
     post:
       tags:
@@ -285,15 +285,15 @@ paths:
               oneOf:
               - type: array
                 items:
-                  $ref: '#/components/schemas/QualifiedTeam'
-              - $ref: '#/components/schemas/QualifiedTeam'
+                  $ref: "#/components/schemas/QualifiedTeam"
+              - $ref: "#/components/schemas/QualifiedTeam"
       responses:
         "200":
           description: The updated teams
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailedTeam'
+                $ref: "#/components/schemas/DetailedTeam"
   /api/scores/audience:
     post:
       tags:
@@ -306,14 +306,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AudienceScoredTeam'
+              $ref: "#/components/schemas/AudienceScoredTeam"
       responses:
         "200":
           description: The updated teams
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailedTeam'
+                $ref: "#/components/schemas/DetailedTeam"
   /api/scores/endResult/senior:
     post:
       tags:
@@ -326,14 +326,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EndResultedTeam'
+              $ref: "#/components/schemas/EndResultedTeam"
       responses:
         "200":
           description: The updated teams
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailedTeam'
+                $ref: "#/components/schemas/DetailedTeam"
   /api/scores/endResult/junior:
     post:
       tags:
@@ -346,14 +346,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EndResultedTeam'
+              $ref: "#/components/schemas/EndResultedTeam"
       responses:
         "200":
           description: The updated teams
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DetailedTeam'
+                $ref: "#/components/schemas/DetailedTeam"
 components:
   schemas:
     Team:
@@ -388,7 +388,7 @@ components:
     DetailedTeam:
       type: object
       allOf:
-      - $ref: '#/components/schemas/Team'
+      - $ref: "#/components/schemas/Team"
       - type: object
         properties:
           skillScore:
@@ -415,9 +415,9 @@ components:
             type: integer
             default: 0
           combinedScore:
-            $ref: '#/components/schemas/Score'
+            $ref: "#/components/schemas/Score"
           juniorScore:
-            $ref: '#/components/schemas/Score'
+            $ref: "#/components/schemas/Score"
     Score:
       type: object
       required:
