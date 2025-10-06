@@ -1,22 +1,24 @@
 FROM bellsoft/liberica-runtime-container:jdk-21.0.8_13-crac-cds-musl@sha256:2cc50469908e34f6b957516f1e89928b9aeed83b978fe48a89f8c62456f53db0 AS build
 WORKDIR /usr/src/app
 # cache dependencies
-COPY ./gradlew                           ./
-COPY ./settings.gradle.kts               ./
-COPY ./gradle.properties                 ./
-COPY ./gradle                            ./gradle/
+COPY ./buildSrc/*.gradle.kts             ./buildSrc/
 COPY ./buildSrc/src                      ./buildSrc/src/
-COPY ./buildSrc/build.gradle.kts         ./buildSrc/
-COPY ./buildSrc/settings.gradle.kts      ./buildSrc/
-COPY ./server/web/build.gradle.kts       ./server/web/
-COPY ./server/service/build.gradle.kts   ./server/service/
-COPY ./server/messaging/build.gradle.kts ./server/messaging/
-COPY ./server/data/build.gradle.kts      ./server/data/
+COPY ./gradle                            ./gradle/
 COPY ./server/build.gradle.kts           ./server/
-RUN ./gradlew
+COPY ./server/data/build.gradle.kts      ./server/data/
+COPY ./server/messaging/build.gradle.kts ./server/messaging/
+COPY ./server/service/build.gradle.kts   ./server/service/
+COPY ./server/web/build.gradle.kts       ./server/web/
+COPY ./gradlew                           ./
+COPY ./gradle.properties                 ./
+COPY ./settings.gradle.kts               ./
+RUN --mount=type=cache,target=/root/.gradle \
+    ./gradlew
 # build
 COPY ./server ./server
-RUN ./gradlew bootJar
+ARG BUILD_ARG="bootJar"
+RUN --mount=type=cache,target=/root/.gradle \
+    ./gradlew ${BUILD_ARG}
 
 FROM bellsoft/liberica-runtime-container:jre-25-cds-musl@sha256:dfba02c9de055cd89f1c3e860425bef21cd88129a49a874e6024b953d9060d05 AS app
 # use non-root user
@@ -28,6 +30,3 @@ ARG BUILD_ROOT=/usr/src/app
 ARG BOOT_JAR=$BUILD_ROOT/server/build/libs/*.jar
 COPY --from=build $BOOT_JAR ./app.jar
 ENTRYPOINT ["java","-jar","./app.jar"]
-LABEL org.opencontainers.image.source="https://github.com/BSStudio/robonaut-server"
-LABEL org.opencontainers.image.description="BSS Robonaut Server"
-LABEL org.opencontainers.image.licenses="GPL-3.0"
