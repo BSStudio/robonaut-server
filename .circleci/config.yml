@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   codecov: codecov/codecov@5.4.3
   gradle: circleci/gradle@4.0.0
-  node: circleci/node@7.2.0
+  node: circleci/node@7.2.1
 executors:
   jdk:
     docker:
