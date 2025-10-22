@@ -30,8 +30,8 @@ importers:
         specifier: 7.1.4
         version: 7.1.4
       testcontainers:
-        specifier: 11.7.1
-        version: 11.7.1
+        specifier: 11.7.2
+        version: 11.7.2
     devDependencies:
       '@biomejs/biome':
         specifier: 2.2.6
@@ -1049,8 +1049,8 @@ packages:
     resolution: {integrity: sha512-ens7BiayssQz/uAxGzH8zGXCtiV24rRWXdjNha5V4zSOcxmAZsfGVm/PPFbwQdqEkDnhG+SyR9E3zSHUbOKXBQ==}
     engines: {node: '>= 8.0'}
 
-  dockerode@4.0.8:
-    resolution: {integrity: sha512-HdPBprWmwfHMHi12AVIFDhXIqIS+EpiOVkZaAZxgML4xf5McqEZjJZtahTPkLDxWOt84ApfWPAH9EoQwOiaAIQ==}
+  dockerode@4.0.9:
+    resolution: {integrity: sha512-iND4mcOWhPaCNh54WmK/KoSb35AFqPAUWFMffTQcp52uQt36b5uNwEJTSXntJZBbeGad72Crbi/hvDIv6us/6Q==}
     engines: {node: '>= 8.0'}
 
   dot-prop@5.3.0:
@@ -2199,8 +2199,8 @@ packages:
     resolution: {integrity: sha512-7jDLIdD2Zp0bDe5r3D2qtkd1QOCacylBuL7oa4udvN6v2pqr4+LcCr67C8DR1zkpaZ8XosF5m1yQSabKAW6f2g==}
     engines: {node: '>=14.16'}
 
-  testcontainers@11.7.1:
-    resolution: {integrity: sha512-fjut+07G4Avp6Lly/6hQePpUpQFv9ZyQd+7JC5iCDKg+dWa2Sw7fXD3pBrkzslYFfKqGx9M6kyIaLpg9VeMsjw==}
+  testcontainers@11.7.2:
+    resolution: {integrity: sha512-jeFzeyzLhIouRAbLnQNapJ2esBs/mvXkkYvO1/vSZehT3/7+Q557qaNxwKwMqAbfxfSh7gcx1OLlMsQUZ9JLdA==}
 
   text-decoder@1.2.3:
     resolution: {integrity: sha512-3/o9z3X0X0fTupwsYvR03pJ/DjWuqqrfwBgTQzdWDiQSm9KitAyz/9WqsT2JQW7KV2m+bC2ol/zqpW37NHxLaA==}
@@ -3426,7 +3426,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  dockerode@4.0.8:
+  dockerode@4.0.9:
     dependencies:
       '@balena/dockerignore': 1.0.2
       '@grpc/grpc-js': 1.14.0
@@ -4570,7 +4570,7 @@ snapshots:
       type-fest: 2.19.0
       unique-string: 3.0.0
 
-  testcontainers@11.7.1:
+  testcontainers@11.7.2:
     dependencies:
       '@balena/dockerignore': 1.0.2
       '@types/dockerode': 3.3.44
@@ -4579,7 +4579,7 @@ snapshots:
       byline: 5.0.0
       debug: 4.4.3
       docker-compose: 1.3.0
-      dockerode: 4.0.8
+      dockerode: 4.0.9
       get-port: 7.1.0
       proper-lockfile: 4.1.2
       properties-reader: 2.3.0
