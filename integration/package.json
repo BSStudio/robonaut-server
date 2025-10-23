@@ -12,8 +12,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.7",
-    "@vitest/ui": "4.0.1",
-    "vitest": "4.0.1",
+    "@vitest/ui": "4.0.2",
+    "vitest": "4.0.2",
     "@tsconfig/node22": "22.0.2",
     "@types/amqplib": "0.10.7",
     "@types/node": "22.18.12",
