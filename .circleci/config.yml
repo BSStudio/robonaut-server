@@ -9,7 +9,7 @@ executors:
       - image: cimg/openjdk:21.0.8@sha256:4a801120973f503e4e2c2c83b8ee25f1fec7935c1fa3c455fb61f5773b5af7ae
   node:
     docker:
-      - image: cimg/node:22.21.1@sha256:118f55b7a525f31aea3e51fc2028643135256cc6e26e27517df45bde9a2fb1a3
+      - image: cimg/node:24.11.0@sha256:ce8ea97273fa258a4a3bdd6c85031f414eae99da644a7f404a3579f128d1554b
   node-machine:
     machine:
       image: ubuntu-2204:current
