@@ -6,7 +6,7 @@ orbs:
 executors:
   jdk:
     docker:
-      - image: cimg/openjdk:21.0.9@sha256:488f1b4f69e50aed578889c302ae9812479ae43924fa02eafc55055f779ea8dd
+      - image: cimg/openjdk:25.0@sha256:68904aab56332053f83310682a30d455a6c785600d6d25b7fa9f91ccc66d8c72
   node:
     docker:
       - image: cimg/node:22.21.1@sha256:118f55b7a525f31aea3e51fc2028643135256cc6e26e27517df45bde9a2fb1a3
