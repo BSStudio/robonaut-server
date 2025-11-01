@@ -1,7 +1,7 @@
 {
   "name": "robonaut-server",
   "engines": {
-    "node": "22.21.1"
+    "node": "24.11.0"
   },
   "scripts": {
     "release": "semantic-release"
