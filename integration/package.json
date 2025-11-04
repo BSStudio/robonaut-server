@@ -21,7 +21,6 @@
   "scripts": {
     "lint": "biome check .",
     "lint:fix": "biome check . --write --unsafe",
-    "test": "vitest",
-    "test:ci": "vitest --run --reporter=verbose --reporter=junit --outputFile.junit=reports/test-results.xml"
+    "test": "vitest"
   }
 }
