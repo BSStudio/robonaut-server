@@ -14,7 +14,7 @@
     "mongodb": "7.0.0",
     "rimraf": "6.1.0",
     "supertest": "7.1.4",
-    "testcontainers": "11.8.0",
+    "testcontainers": "11.8.1",
     "typescript": "5.9.3",
     "vitest": "4.0.8"
   },
