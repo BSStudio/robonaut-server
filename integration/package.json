@@ -11,14 +11,15 @@
     "rimraf": "6.0.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.4",
-    "@vitest/ui": "2.1.9",
-    "vitest": "2.1.9",
-    "@tsconfig/node22": "22.0.2",
-    "@types/amqplib": "0.10.7",
-    "@types/node": "20.19.17",
+    "@biomejs/biome": "2.3.6",
+    "@vitest/ui": "4.0.10",
+    "vitest": "4.0.10",
+    "@tsconfig/node24": "24.0.3",
+    "@tsconfig/strictest": "2.0.8",
+    "@types/amqplib": "0.10.8",
+    "@types/node": "24.10.1",
     "@types/supertest": "6.0.3",
-    "typescript": "5.9.2"
+    "typescript": "5.9.3"
   },
   "scripts": {
     "lint": "biome format .",

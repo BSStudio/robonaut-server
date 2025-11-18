@@ -1,13 +1,17 @@
 {
   "name": "robonaut-server",
-  "engines": {
-    "node": "22.19.0"
-  },
   "scripts": {
     "release": "semantic-release"
   },
   "devDependencies": {
     "semantic-release": "24.2.9"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/github"
+    ]
   },
   "author": "csikb",
   "license": "LGPL-3.0-only",
