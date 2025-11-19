@@ -6,6 +6,13 @@
   "devDependencies": {
     "semantic-release": "25.0.2"
   },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/github"
+    ]
+  },
   "author": "csikb",
   "license": "LGPL-3.0-only",
   "packageManager": "pnpm@10.22.0"

@@ -21,14 +21,13 @@ describe('authorization test', () => {
     '/api/scores/endResult/senior',
     '/api/scores/endResult/junior',
   ];
-  test.each(postEndpoint)(
-    'endpoint POST %s should return unauthorized',
-    async (endpoint) => {
-      expect.assertions(1);
-      const response = await apiRequest.post(endpoint);
-      expect(response.status).toBe(401);
-    },
-  );
+  test.each(
+    postEndpoint,
+  )('endpoint POST %s should return unauthorized', async (endpoint) => {
+    expect.assertions(1);
+    const response = await apiRequest.post(endpoint);
+    expect(response.status).toBe(401);
+  });
 
   test('endpoint GET "/api/team" should return unauthorized', async () => {
     expect.assertions(1);
@@ -37,12 +36,11 @@ describe('authorization test', () => {
   });
 
   const putEndpoints = ['/api/admin/team', '/api/team'];
-  test.each(putEndpoints)(
-    'endpoint PUT %s should return unauthorized',
-    async (endpoint) => {
-      expect.assertions(1);
-      const response = await apiRequest.put(endpoint);
-      expect(response.status).toBe(401);
-    },
-  );
+  test.each(
+    putEndpoints,
+  )('endpoint PUT %s should return unauthorized', async (endpoint) => {
+    expect.assertions(1);
+    const response = await apiRequest.put(endpoint);
+    expect(response.status).toBe(401);
+  });
 });

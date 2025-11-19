@@ -105,6 +105,9 @@ docker-compose**.yaml
 ### Git template
 .git/
 
+### Node template
+node_modules/
+
 ### User template
 integration/
 

@@ -141,6 +141,9 @@ fabric.properties
 # Ignore IntelliJ folder
 .idea
 
+### Node template
+node_modules/
+
 # Ignore local application profiles
 **/application*.yml
 **/application*.yaml

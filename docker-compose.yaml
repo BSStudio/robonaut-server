@@ -6,6 +6,8 @@ services:
       robonauth.api-key: BSS
       spring.data.mongodb.host: mongo
       spring.rabbitmq.host: rabbitmq
+    profiles:
+      - app
     ports:
     - "8080:8080"
     healthcheck:
