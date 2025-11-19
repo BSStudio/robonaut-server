@@ -26,6 +26,7 @@ export async function setup({ provide }: GlobalSetupContext) {
     BUILD_CONTEXT,
     COMPOSE_FILES,
   )
+    .withProfiles("app")
     .withBuild()
     .withWaitStrategy('rabbitmq_1', Wait.forHealthCheck())
     .withWaitStrategy('mongo_1', Wait.forHealthCheck())
