@@ -1,4 +1,4 @@
-name: Build
+name: Integration
 
 on:
   workflow_dispatch:
@@ -10,8 +10,8 @@ on:
 permissions: read-all
 
 jobs:
-  integration:
-    name: Integration test
+  test:
+    name: Test
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
