@@ -4,7 +4,7 @@ import {
   type StartedDockerComposeEnvironment,
   Wait,
 } from 'testcontainers';
-import type { GlobalSetupContext } from 'vitest/node';
+import type { TestProject } from 'vitest/node';
 
 declare module 'vitest' {
   export interface ProvidedContext {
@@ -21,7 +21,7 @@ declare global {
 const BUILD_CONTEXT = path.resolve(__dirname, './../..');
 const COMPOSE_FILES = ['docker-compose.yaml', 'docker-compose.ci.yaml'];
 
-export async function setup({ provide }: GlobalSetupContext) {
+export async function setup({ provide }: TestProject) {
   const dockerComposeEnvironment = new DockerComposeEnvironment(
     BUILD_CONTEXT,
     COMPOSE_FILES,
