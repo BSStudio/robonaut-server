@@ -1,7 +1,7 @@
 [versions]
 springdoc = "2.8.14"
 springBoot = "3.5.7"
-spotless = "8.0.0"
+spotless = "8.1.0"
 detekt = "1.23.8"
 
 [libraries]
