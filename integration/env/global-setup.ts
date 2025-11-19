@@ -26,7 +26,7 @@ export async function setup({ provide }: TestProject) {
     BUILD_CONTEXT,
     COMPOSE_FILES,
   )
-    .withProfiles("app")
+    .withProfiles('app')
     .withBuild()
     .withWaitStrategy('rabbitmq_1', Wait.forHealthCheck())
     .withWaitStrategy('mongo_1', Wait.forHealthCheck())
