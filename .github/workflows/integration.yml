@@ -22,7 +22,7 @@ jobs:
           cache: 'pnpm'
           cache-dependency-path: 'pnpm-lock.yaml'
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run -r test:ci
+      - run: pnpm run -r test
         env:
           DEBUG: testcontainers:compose
 
