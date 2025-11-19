@@ -31,11 +31,12 @@ jobs:
 
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
-          node-version-file: package.json
+          node-version-file: 'package.json'
           cache: 'pnpm'
+          cache-dependency-path: 'pnpm-lock.yaml'
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm run release
+      - run: pnpm run -r release
         env:
           GH_TOKEN: ${{ steps.release-token.outputs.token }}
