@@ -6,11 +6,11 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 interface TeamService {
-    fun addTeam(team: Team): Mono<DetailedTeam>
+  fun addTeam(team: Team): Mono<DetailedTeam>
 
-    fun updateTeam(team: Team): Mono<DetailedTeam>
+  fun updateTeam(team: Team): Mono<DetailedTeam>
 
-    fun updateTeam(detailedTeam: DetailedTeam): Mono<DetailedTeam>
+  fun updateTeam(detailedTeam: DetailedTeam): Mono<DetailedTeam>
 
-    fun findAllTeam(): Flux<DetailedTeam>
+  fun findAllTeam(): Flux<DetailedTeam>
 }

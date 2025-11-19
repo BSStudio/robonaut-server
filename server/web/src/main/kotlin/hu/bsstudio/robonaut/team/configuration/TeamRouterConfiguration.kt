@@ -14,34 +14,34 @@ import org.springframework.web.reactive.function.server.ServerResponse
 
 @Configuration
 class TeamRouterConfiguration(
-    private val teamService: TeamService,
-    private val robonAuthFilter: RobonAuthFilter,
+  private val teamService: TeamService,
+  private val robonAuthFilter: RobonAuthFilter,
 ) {
-    @Bean
-    fun teamRouterFunction(
-        createTeamHandler: CreateTeamHandler,
-        readAllTeamHandler: ReadAllTeamHandler,
-        adminUpdateTeamHandler: AdminUpdateTeamHandler,
-        updateTeamHandler: UpdateTeamHandler,
-    ): RouterFunction<ServerResponse> {
-        return RouterFunctions.route()
-            .filter(robonAuthFilter)
-            .POST("/api/team", createTeamHandler)
-            .GET("/api/team", readAllTeamHandler)
-            .PUT("/api/team", updateTeamHandler)
-            .PUT("/api/admin/team", adminUpdateTeamHandler)
-            .build()
-    }
+  @Bean
+  fun teamRouterFunction(
+    createTeamHandler: CreateTeamHandler,
+    readAllTeamHandler: ReadAllTeamHandler,
+    adminUpdateTeamHandler: AdminUpdateTeamHandler,
+    updateTeamHandler: UpdateTeamHandler,
+  ): RouterFunction<ServerResponse> =
+    RouterFunctions
+      .route()
+      .filter(robonAuthFilter)
+      .POST("/api/team", createTeamHandler)
+      .GET("/api/team", readAllTeamHandler)
+      .PUT("/api/team", updateTeamHandler)
+      .PUT("/api/admin/team", adminUpdateTeamHandler)
+      .build()
 
-    @Bean
-    fun createTeamHandler() = CreateTeamHandler(teamService)
+  @Bean
+  fun createTeamHandler() = CreateTeamHandler(teamService)
 
-    @Bean
-    fun readAllTeamHandler() = ReadAllTeamHandler(teamService)
+  @Bean
+  fun readAllTeamHandler() = ReadAllTeamHandler(teamService)
 
-    @Bean
-    fun updateTeamHandler() = UpdateTeamHandler(teamService)
+  @Bean
+  fun updateTeamHandler() = UpdateTeamHandler(teamService)
 
-    @Bean
-    fun adminUpdateTeamHandler() = AdminUpdateTeamHandler(teamService)
+  @Bean
+  fun adminUpdateTeamHandler() = AdminUpdateTeamHandler(teamService)
 }

@@ -16,98 +16,103 @@ import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 
 internal class DefaultEndResultServiceTest {
-    @MockK
-    private lateinit var mockRepository: TeamRepository
+  @MockK
+  private lateinit var mockRepository: TeamRepository
 
-    @MockK
-    private lateinit var mockMapper: TeamModelEntityMapper
+  @MockK
+  private lateinit var mockMapper: TeamModelEntityMapper
 
-    private lateinit var underTest: DefaultEndResultService
+  private lateinit var underTest: DefaultEndResultService
 
-    @BeforeEach
-    internal fun setUp() {
-        MockKAnnotations.init(this)
-        underTest = DefaultEndResultService(mockRepository)
-        underTest = DefaultEndResultService(mockRepository, mockMapper)
-    }
+  @BeforeEach
+  internal fun setUp() {
+    MockKAnnotations.init(this)
+    underTest = DefaultEndResultService(mockRepository)
+    underTest = DefaultEndResultService(mockRepository, mockMapper)
+  }
 
-    @Test
-    internal fun `should return DetailedTeam when Entity was found and successfully was updated on junior`() {
-        val foundTeamEntity = TeamEntity(score = ScoreEntity())
-        every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
-        val updatedTeamEntity = TeamEntity(score = ScoreEntity(score = POINTS))
-        every { mockRepository.save(updatedTeamEntity) } returns Mono.just(updatedTeamEntity)
-        every { mockMapper.toModel(updatedTeamEntity) } returns DETAILED_TEAM
+  @Test
+  internal fun `should return DetailedTeam when Entity was found and successfully was updated on junior`() {
+    val foundTeamEntity = TeamEntity(score = ScoreEntity())
+    every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
+    val updatedTeamEntity = TeamEntity(score = ScoreEntity(score = POINTS))
+    every { mockRepository.save(updatedTeamEntity) } returns Mono.just(updatedTeamEntity)
+    every { mockMapper.toModel(updatedTeamEntity) } returns DETAILED_TEAM
 
-        Mono.just(END_RESULTED_TEAM)
-            .flatMap(underTest::updateEndResultSenior)
-            .let(StepVerifier::create)
-            .expectNext(DETAILED_TEAM)
-            .verifyComplete()
-    }
+    Mono
+      .just(END_RESULTED_TEAM)
+      .flatMap(underTest::updateEndResultSenior)
+      .let(StepVerifier::create)
+      .expectNext(DETAILED_TEAM)
+      .verifyComplete()
+  }
 
-    @Test
-    internal fun `should return empty when Entity was not found on junior`() {
-        every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
+  @Test
+  internal fun `should return empty when Entity was not found on junior`() {
+    every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
 
-        Mono.just(END_RESULTED_TEAM)
-            .flatMap(underTest::updateEndResultSenior)
-            .let(StepVerifier::create)
-            .verifyComplete()
-    }
+    Mono
+      .just(END_RESULTED_TEAM)
+      .flatMap(underTest::updateEndResultSenior)
+      .let(StepVerifier::create)
+      .verifyComplete()
+  }
 
-    @Test
-    internal fun `should return DetailedTeam when Entity was found and successfully was updated on senior`() {
-        val foundTeamEntity =
-            TeamEntity(
-                teamType = TeamType.JUNIOR,
-                juniorScore = ScoreEntity(),
-            )
-        every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
-        val updatedTeamEntity =
-            TeamEntity(
-                juniorScore = ScoreEntity(score = POINTS),
-                teamType = TeamType.JUNIOR,
-            )
-        every { mockRepository.save(updatedTeamEntity) } returns Mono.just(updatedTeamEntity)
-        every { mockMapper.toModel(updatedTeamEntity) } returns DETAILED_TEAM
+  @Test
+  internal fun `should return DetailedTeam when Entity was found and successfully was updated on senior`() {
+    val foundTeamEntity =
+      TeamEntity(
+        teamType = TeamType.JUNIOR,
+        juniorScore = ScoreEntity(),
+      )
+    every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
+    val updatedTeamEntity =
+      TeamEntity(
+        juniorScore = ScoreEntity(score = POINTS),
+        teamType = TeamType.JUNIOR,
+      )
+    every { mockRepository.save(updatedTeamEntity) } returns Mono.just(updatedTeamEntity)
+    every { mockMapper.toModel(updatedTeamEntity) } returns DETAILED_TEAM
 
-        Mono.just(END_RESULTED_TEAM)
-            .flatMap(underTest::updateEndResultJunior)
-            .let(StepVerifier::create)
-            .expectNext(DETAILED_TEAM)
-            .verifyComplete()
-    }
+    Mono
+      .just(END_RESULTED_TEAM)
+      .flatMap(underTest::updateEndResultJunior)
+      .let(StepVerifier::create)
+      .expectNext(DETAILED_TEAM)
+      .verifyComplete()
+  }
 
-    @Test
-    internal fun `should return emptyWhenSeniorTeamTriesToUpdateJuniorScore`() {
-        val foundTeamEntity =
-            TeamEntity(
-                teamType = TeamType.SENIOR,
-                juniorScore = ScoreEntity(),
-            )
-        every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
+  @Test
+  internal fun `should return emptyWhenSeniorTeamTriesToUpdateJuniorScore`() {
+    val foundTeamEntity =
+      TeamEntity(
+        teamType = TeamType.SENIOR,
+        juniorScore = ScoreEntity(),
+      )
+    every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
 
-        Mono.just(END_RESULTED_TEAM)
-            .flatMap(underTest::updateEndResultJunior)
-            .let(StepVerifier::create)
-            .verifyComplete()
-    }
+    Mono
+      .just(END_RESULTED_TEAM)
+      .flatMap(underTest::updateEndResultJunior)
+      .let(StepVerifier::create)
+      .verifyComplete()
+  }
 
-    @Test
-    internal fun `should return emptyWhenEntityWasNotFoundOnSenior`() {
-        every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
+  @Test
+  internal fun `should return emptyWhenEntityWasNotFoundOnSenior`() {
+    every { mockRepository.findById(TEAM_ID) } returns Mono.empty()
 
-        Mono.just(END_RESULTED_TEAM)
-            .flatMap(underTest::updateEndResultJunior)
-            .let(StepVerifier::create)
-            .verifyComplete()
-    }
+    Mono
+      .just(END_RESULTED_TEAM)
+      .flatMap(underTest::updateEndResultJunior)
+      .let(StepVerifier::create)
+      .verifyComplete()
+  }
 
-    companion object {
-        private const val TEAM_ID: Long = 42
-        private const val POINTS = 420
-        private val END_RESULTED_TEAM = EndResultedTeam(TEAM_ID, POINTS)
-        private val DETAILED_TEAM: DetailedTeam = DetailedTeam()
-    }
+  companion object {
+    private const val TEAM_ID: Long = 42
+    private const val POINTS = 420
+    private val END_RESULTED_TEAM = EndResultedTeam(TEAM_ID, POINTS)
+    private val DETAILED_TEAM: DetailedTeam = DetailedTeam()
+  }
 }

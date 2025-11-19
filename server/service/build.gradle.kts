@@ -1,16 +1,20 @@
 plugins {
-    id("spring-module-conventions")
-    id("kotlin-testing-conventions")
-    id("spotless-conventions")
+  id("hu.bsstudio.gradle.java-library-convention")
+  id("hu.bsstudio.gradle.dependency-management")
+  id("hu.bsstudio.gradle.kotlin-convention")
+  id("hu.bsstudio.gradle.spotless-convention")
+  id("hu.bsstudio.gradle.test-convention")
+  id("hu.bsstudio.gradle.jacoco-convention")
+  id("hu.bsstudio.gradle.detekt-convention")
 }
 
 dependencies {
-    api(project(":server:data"))
-    api(project(":server:messaging"))
-    implementation("org.springframework:spring-context")
-    implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
-    implementation("org.springframework.boot:spring-boot-starter-amqp")
-    implementation("org.springframework.boot:spring-boot-starter-logging")
-    implementation("io.projectreactor:reactor-core")
-    testImplementation("io.projectreactor:reactor-test")
+  api(project(":server:data"))
+  api(project(":server:messaging"))
+  implementation("org.springframework:spring-context")
+  implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
+  implementation("org.springframework.boot:spring-boot-starter-amqp")
+  implementation("org.springframework.boot:spring-boot-starter-logging")
+  implementation("io.projectreactor:reactor-core")
+  testImplementation("io.projectreactor:reactor-test")
 }

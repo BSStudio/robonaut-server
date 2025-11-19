@@ -16,36 +16,36 @@ import org.springframework.web.reactive.function.server.ServerResponse
 
 @Configuration
 class ScoreRouterConfiguration(
-    private val robonAuthFilter: RobonAuthFilter,
-    private val qualificationScoreService: QualificationScoreService,
-    private val audienceScoreService: AudienceScoreService,
-    private val endResultService: EndResultService,
+  private val robonAuthFilter: RobonAuthFilter,
+  private val qualificationScoreService: QualificationScoreService,
+  private val audienceScoreService: AudienceScoreService,
+  private val endResultService: EndResultService,
 ) {
-    @Bean
-    fun scoreRouterFunction(
-        qualificationScoreHandler: QualificationScoreHandler,
-        audienceScoreHandler: AudienceScoreHandler,
-        seniorEndResultHandler: SeniorEndResultHandler,
-        juniorEndResultHandler: JuniorEndResultHandler,
-    ): RouterFunction<ServerResponse> {
-        return RouterFunctions.route()
-            .filter(robonAuthFilter)
-            .POST("/api/scores/qualification", qualificationScoreHandler)
-            .POST("/api/scores/audience", audienceScoreHandler)
-            .POST("/api/scores/endResult/senior", seniorEndResultHandler)
-            .POST("/api/scores/endResult/junior", juniorEndResultHandler)
-            .build()
-    }
+  @Bean
+  fun scoreRouterFunction(
+    qualificationScoreHandler: QualificationScoreHandler,
+    audienceScoreHandler: AudienceScoreHandler,
+    seniorEndResultHandler: SeniorEndResultHandler,
+    juniorEndResultHandler: JuniorEndResultHandler,
+  ): RouterFunction<ServerResponse> =
+    RouterFunctions
+      .route()
+      .filter(robonAuthFilter)
+      .POST("/api/scores/qualification", qualificationScoreHandler)
+      .POST("/api/scores/audience", audienceScoreHandler)
+      .POST("/api/scores/endResult/senior", seniorEndResultHandler)
+      .POST("/api/scores/endResult/junior", juniorEndResultHandler)
+      .build()
 
-    @Bean
-    fun qualificationScoreHandler() = QualificationScoreHandler(qualificationScoreService)
+  @Bean
+  fun qualificationScoreHandler() = QualificationScoreHandler(qualificationScoreService)
 
-    @Bean
-    fun audienceScoreHandler() = AudienceScoreHandler(audienceScoreService)
+  @Bean
+  fun audienceScoreHandler() = AudienceScoreHandler(audienceScoreService)
 
-    @Bean
-    fun seniorEndResultHandler() = SeniorEndResultHandler(endResultService)
+  @Bean
+  fun seniorEndResultHandler() = SeniorEndResultHandler(endResultService)
 
-    @Bean
-    fun juniorEndResultHandler() = JuniorEndResultHandler(endResultService)
+  @Bean
+  fun juniorEndResultHandler() = JuniorEndResultHandler(endResultService)
 }

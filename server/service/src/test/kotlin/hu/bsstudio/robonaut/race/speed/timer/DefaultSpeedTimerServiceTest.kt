@@ -8,23 +8,24 @@ import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 
 internal class DefaultSpeedTimerServiceTest {
-    private lateinit var underTest: DefaultSpeedTimerService
+  private lateinit var underTest: DefaultSpeedTimerService
 
-    @BeforeEach
-    internal fun setUp() {
-        underTest = DefaultSpeedTimerService()
-    }
+  @BeforeEach
+  internal fun setUp() {
+    underTest = DefaultSpeedTimerService()
+  }
 
-    @Test
-    internal fun `should return timer on update`() {
-        Mono.just(SPEED_TIMER)
-            .flatMap(underTest::updateTimer)
-            .let(StepVerifier::create)
-            .expectNext(SPEED_TIMER)
-            .verifyComplete()
-    }
+  @Test
+  internal fun `should return timer on update`() {
+    Mono
+      .just(SPEED_TIMER)
+      .flatMap(underTest::updateTimer)
+      .let(StepVerifier::create)
+      .expectNext(SPEED_TIMER)
+      .verifyComplete()
+  }
 
-    companion object {
-        private val SPEED_TIMER = SpeedTimer(2020, TimerAction.START)
-    }
+  companion object {
+    private val SPEED_TIMER = SpeedTimer(2020, TimerAction.START)
+  }
 }

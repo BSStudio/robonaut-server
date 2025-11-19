@@ -6,15 +6,15 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate
 import reactor.core.publisher.Mono
 
 class BroadcastingQualificationScoreService(
-    private val template: RabbitTemplate,
-    private val service: QualificationScoreService,
+  private val template: RabbitTemplate,
+  private val service: QualificationScoreService,
 ) : QualificationScoreService {
-    override fun updateQualificationScore(qualifiedTeam: QualifiedTeam): Mono<DetailedTeam> {
-        return service.updateQualificationScore(qualifiedTeam)
-            .doOnNext(::sendTeamInfo)
-    }
+  override fun updateQualificationScore(qualifiedTeam: QualifiedTeam): Mono<DetailedTeam> =
+    service
+      .updateQualificationScore(qualifiedTeam)
+      .doOnNext(::sendTeamInfo)
 
-    private fun sendTeamInfo(detailedTeam: DetailedTeam) {
-        template.convertAndSend("team.teamData", detailedTeam)
-    }
+  private fun sendTeamInfo(detailedTeam: DetailedTeam) {
+    template.convertAndSend("team.teamData", detailedTeam)
+  }
 }

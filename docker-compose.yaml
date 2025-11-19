@@ -17,7 +17,7 @@ services:
       retries: 5
       start_period: 40s
   rabbitmq:
-    image: "rabbitmq:4.1.0-management-alpine"
+    image: "rabbitmq:4.2.1-management-alpine@sha256:f49fd0ca3d3bcf90b5218623d3e3279ae1a665153696ad4339b0bd2b5d3fe9c7"
     ports:
     - "5672:5672"
     healthcheck:
@@ -27,7 +27,7 @@ services:
       retries: 5
       start_period: 40s
   mongo:
-    image: "mongo:8.0.9"
+    image: "mongo:8.2.1@sha256:e64a984d36b24419327c558b49a9100cf78191706222da6a7c8cf56a743ad3db"
     ports:
     - "127.0.0.1:27017:27017"
     volumes:

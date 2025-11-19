@@ -7,31 +7,31 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate
 import reactor.core.publisher.Mono
 
 class BroadcastingSpeedRaceService(
-    private val template: RabbitTemplate,
-    private val service: SpeedRaceService,
+  private val template: RabbitTemplate,
+  private val service: SpeedRaceService,
 ) : SpeedRaceService {
-    override fun updateSpeedRaceOnLap(speedRaceScore: SpeedRaceScore): Mono<DetailedTeam> {
-        return Mono.just(speedRaceScore)
-            .doOnNext(::sendLapInfo)
-            .flatMap(service::updateSpeedRaceOnLap)
-            .doOnNext(::sendTeamInfo)
-    }
+  override fun updateSpeedRaceOnLap(speedRaceScore: SpeedRaceScore): Mono<DetailedTeam> =
+    Mono
+      .just(speedRaceScore)
+      .doOnNext(::sendLapInfo)
+      .flatMap(service::updateSpeedRaceOnLap)
+      .doOnNext(::sendTeamInfo)
 
-    override fun updateSpeedRaceJunior(speedRaceResult: SpeedRaceResult): Mono<DetailedTeam> {
-        return service.updateSpeedRaceJunior(speedRaceResult)
-            .doOnNext(::sendTeamInfo)
-    }
+  override fun updateSpeedRaceJunior(speedRaceResult: SpeedRaceResult): Mono<DetailedTeam> =
+    service
+      .updateSpeedRaceJunior(speedRaceResult)
+      .doOnNext(::sendTeamInfo)
 
-    override fun updateSpeedRaceSenior(speedRaceResult: SpeedRaceResult): Mono<DetailedTeam> {
-        return service.updateSpeedRaceSenior(speedRaceResult)
-            .doOnNext(::sendTeamInfo)
-    }
+  override fun updateSpeedRaceSenior(speedRaceResult: SpeedRaceResult): Mono<DetailedTeam> =
+    service
+      .updateSpeedRaceSenior(speedRaceResult)
+      .doOnNext(::sendTeamInfo)
 
-    private fun sendLapInfo(raceScore: SpeedRaceScore) {
-        template.convertAndSend("speed.lap", raceScore)
-    }
+  private fun sendLapInfo(raceScore: SpeedRaceScore) {
+    template.convertAndSend("speed.lap", raceScore)
+  }
 
-    private fun sendTeamInfo(detailedTeam: DetailedTeam) {
-        template.convertAndSend("team.teamData", detailedTeam)
-    }
+  private fun sendTeamInfo(detailedTeam: DetailedTeam) {
+    template.convertAndSend("team.teamData", detailedTeam)
+  }
 }

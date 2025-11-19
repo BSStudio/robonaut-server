@@ -14,54 +14,56 @@ import reactor.core.publisher.Mono
 import reactor.test.StepVerifier
 
 internal class DefaultAudienceScoreServiceTest {
-    @MockK
-    private lateinit var mockRepository: TeamRepository
+  @MockK
+  private lateinit var mockRepository: TeamRepository
 
-    @MockK
-    private lateinit var mockMapper: TeamModelEntityMapper
+  @MockK
+  private lateinit var mockMapper: TeamModelEntityMapper
 
-    private lateinit var underTest: DefaultAudienceScoreService
+  private lateinit var underTest: DefaultAudienceScoreService
 
-    @BeforeEach
-    internal fun setUp() {
-        MockKAnnotations.init(this)
-        underTest = DefaultAudienceScoreService(mockRepository)
-        underTest = DefaultAudienceScoreService(mockRepository, mockMapper)
-    }
+  @BeforeEach
+  internal fun setUp() {
+    MockKAnnotations.init(this)
+    underTest = DefaultAudienceScoreService(mockRepository)
+    underTest = DefaultAudienceScoreService(mockRepository, mockMapper)
+  }
 
-    @Test
-    internal fun `should return DetailedTeam when Entity was found and successfully was updated`() {
-        val foundTeamEntity = TeamEntity()
-        every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
-        val updatedTeamEntity = TeamEntity(audienceScore = AUDIENCE_SCORE, votes = VOTES)
-        every { mockRepository.save(updatedTeamEntity) } returns Mono.just(updatedTeamEntity)
-        val detailedTeam = DetailedTeam()
-        every { mockMapper.toModel(updatedTeamEntity) } returns detailedTeam
+  @Test
+  internal fun `should return DetailedTeam when Entity was found and successfully was updated`() {
+    val foundTeamEntity = TeamEntity()
+    every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
+    val updatedTeamEntity = TeamEntity(audienceScore = AUDIENCE_SCORE, votes = VOTES)
+    every { mockRepository.save(updatedTeamEntity) } returns Mono.just(updatedTeamEntity)
+    val detailedTeam = DetailedTeam()
+    every { mockMapper.toModel(updatedTeamEntity) } returns detailedTeam
 
-        val result = underTest.updateAudienceScore(AUDIENCE_SCORED_TEAM)
+    val result = underTest.updateAudienceScore(AUDIENCE_SCORED_TEAM)
 
-        StepVerifier.create(result)
-            .expectNext(detailedTeam)
-            .verifyComplete()
-    }
+    StepVerifier
+      .create(result)
+      .expectNext(detailedTeam)
+      .verifyComplete()
+  }
 
-    @Test
-    internal fun `should return Empty when entity was not found`() {
-        val foundTeamEntity = TeamEntity()
-        every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
-        val updatedTeamEntity = TeamEntity(audienceScore = AUDIENCE_SCORE, votes = VOTES)
-        every { mockRepository.save(updatedTeamEntity) } returns Mono.empty()
+  @Test
+  internal fun `should return Empty when entity was not found`() {
+    val foundTeamEntity = TeamEntity()
+    every { mockRepository.findById(TEAM_ID) } returns Mono.just(foundTeamEntity)
+    val updatedTeamEntity = TeamEntity(audienceScore = AUDIENCE_SCORE, votes = VOTES)
+    every { mockRepository.save(updatedTeamEntity) } returns Mono.empty()
 
-        val result = underTest.updateAudienceScore(AUDIENCE_SCORED_TEAM)
+    val result = underTest.updateAudienceScore(AUDIENCE_SCORED_TEAM)
 
-        StepVerifier.create(result)
-            .verifyComplete()
-    }
+    StepVerifier
+      .create(result)
+      .verifyComplete()
+  }
 
-    companion object {
-        private const val TEAM_ID: Long = 42
-        private const val VOTES = 420
-        private const val AUDIENCE_SCORE = 20
-        private val AUDIENCE_SCORED_TEAM = AudienceScoredTeam(TEAM_ID, VOTES, AUDIENCE_SCORE)
-    }
+  companion object {
+    private const val TEAM_ID: Long = 42
+    private const val VOTES = 420
+    private const val AUDIENCE_SCORE = 20
+    private val AUDIENCE_SCORED_TEAM = AudienceScoredTeam(TEAM_ID, VOTES, AUDIENCE_SCORE)
+  }
 }

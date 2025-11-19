@@ -12,28 +12,35 @@ import org.springframework.web.reactive.function.server.RouterFunctions
 import reactor.core.publisher.Mono
 
 internal class AdminUpdateTeamHandlerTest {
-    @MockK
-    private lateinit var mockService: TeamService
-    private lateinit var webTestClient: WebTestClient
+  @MockK
+  private lateinit var mockService: TeamService
+  private lateinit var webTestClient: WebTestClient
 
-    @BeforeEach
-    internal fun setUp() {
-        MockKAnnotations.init(this)
-        val underTest = AdminUpdateTeamHandler(mockService)
-        val routerFunction =
-            RouterFunctions.route()
-                .POST("/test", underTest).build()
-        webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
-    }
+  @BeforeEach
+  internal fun setUp() {
+    MockKAnnotations.init(this)
+    val underTest = AdminUpdateTeamHandler(mockService)
+    val routerFunction =
+      RouterFunctions
+        .route()
+        .POST("/test", underTest)
+        .build()
+    webTestClient = WebTestClient.bindToRouterFunction(routerFunction).build()
+  }
 
-    @Test
-    internal fun `should return DetailedTeam with OK status`() {
-        val detailedTeam = DetailedTeam()
-        every { mockService.updateTeam(detailedTeam) } returns Mono.just(detailedTeam)
+  @Test
+  internal fun `should return DetailedTeam with OK status`() {
+    val detailedTeam = DetailedTeam()
+    every { mockService.updateTeam(detailedTeam) } returns Mono.just(detailedTeam)
 
-        webTestClient.post().uri("/test").bodyValue(detailedTeam).exchange()
-            .expectStatus().isOk
-            .expectBody<List<DetailedTeam>>()
-            .isEqualTo(listOf(detailedTeam))
-    }
+    webTestClient
+      .post()
+      .uri("/test")
+      .bodyValue(detailedTeam)
+      .exchange()
+      .expectStatus()
+      .isOk
+      .expectBody<List<DetailedTeam>>()
+      .isEqualTo(listOf(detailedTeam))
+  }
 }

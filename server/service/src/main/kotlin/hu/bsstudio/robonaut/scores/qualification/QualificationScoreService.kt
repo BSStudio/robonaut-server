@@ -5,5 +5,5 @@ import hu.bsstudio.robonaut.team.model.DetailedTeam
 import reactor.core.publisher.Mono
 
 interface QualificationScoreService {
-    fun updateQualificationScore(qualifiedTeam: QualifiedTeam): Mono<DetailedTeam>
+  fun updateQualificationScore(qualifiedTeam: QualifiedTeam): Mono<DetailedTeam>
 }

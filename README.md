@@ -1,6 +1,9 @@
 # RobonAUT Server
 
-![CircleCI](https://img.shields.io/circleci/build/github/BSStudio/robonaut-server/main?label=build)
+[![Docker](https://github.com/BSStudio/robonaut-server/actions/workflows/docker.yml/badge.svg)](https://github.com/BSStudio/robonaut-server/actions/workflows/docker.yml)
+[![Gradle](https://github.com/BSStudio/robonaut-server/actions/workflows/gradle.yml/badge.svg)](https://github.com/BSStudio/robonaut-server/actions/workflows/gradle.yml)
+[![Integration](https://github.com/BSStudio/robonaut-server/actions/workflows/integration.yml/badge.svg)](https://github.com/BSStudio/robonaut-server/actions/workflows/integration.yml)
+[![Release](https://github.com/BSStudio/robonaut-server/actions/workflows/release.yml/badge.svg)](https://github.com/BSStudio/robonaut-server/actions/workflows/release.yml)
 ![GitHub Release Date](https://img.shields.io/github/release-date/BSStudio/robonaut-server)
 ![GitHub Tag](https://img.shields.io/github/v/tag/BSStudio/robonaut-server)
 ![GitHub branch checks state](https://img.shields.io/github/checks-status/BSStudio/robonaut-server/main)

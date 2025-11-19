@@ -11,16 +11,16 @@ import org.springframework.security.web.server.SecurityWebFilterChain
 @Configuration
 @EnableWebFluxSecurity
 class SecurityConfiguration(
-    @Value("\${robonauth.api-key}") private val apiKey: String,
+  @param:Value("\${robonauth.api-key}") private val apiKey: String,
 ) {
-    @Bean
-    fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
-        return http.httpBasic { it.disable() }
-            .cors { it.disable() }
-            .csrf { it.disable() }
-            .build()
-    }
+  @Bean
+  fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain =
+    http
+      .httpBasic { it.disable() }
+      .cors { it.disable() }
+      .csrf { it.disable() }
+      .build()
 
-    @Bean
-    fun robonAuthFilter() = RobonAuthFilter(apiKey)
+  @Bean
+  fun robonAuthFilter() = RobonAuthFilter(apiKey)
 }

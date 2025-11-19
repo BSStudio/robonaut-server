@@ -10,14 +10,13 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class AudienceScoreServiceConfiguration(
-    private val rabbitTemplate: RabbitTemplate,
-    private val teamRepository: TeamRepository,
+  private val rabbitTemplate: RabbitTemplate,
+  private val teamRepository: TeamRepository,
 ) {
-    @Bean
-    fun audienceScoreService(defaultAudienceScoreService: AudienceScoreService): AudienceScoreService {
-        return BroadcastingAudienceScoreService(rabbitTemplate, defaultAudienceScoreService)
-    }
+  @Bean
+  fun audienceScoreService(defaultAudienceScoreService: AudienceScoreService): AudienceScoreService =
+    BroadcastingAudienceScoreService(rabbitTemplate, defaultAudienceScoreService)
 
-    @Bean
-    fun defaultAudienceScoreService(): AudienceScoreService = DefaultAudienceScoreService(teamRepository)
+  @Bean
+  fun defaultAudienceScoreService(): AudienceScoreService = DefaultAudienceScoreService(teamRepository)
 }
