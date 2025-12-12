@@ -5,5 +5,6 @@ export default defineConfig({
     testTimeout: -1,
     globalSetup: 'env/global-setup.ts',
     fileParallelism: false,
+    maxWorkers: 1,
   },
 });

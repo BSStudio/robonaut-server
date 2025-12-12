@@ -13,3 +13,5 @@ management:
   health:
     mongodb:
       enabled: true
+    rabbit:
+      enabled: true

@@ -8,9 +8,9 @@ services:
     profiles:
       - app
     ports:
-    - "8080:8080"
+    - "127.0.0.1:8080:8080"
     healthcheck:
-      test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+      test:  "wget --tries=1 --no-verbose -qO- http://localhost:8080/actuator/health/readiness | grep -q UP"
       interval: 20s
       timeout: 5s
       retries: 5
@@ -18,7 +18,8 @@ services:
   rabbitmq:
     image: "rabbitmq:4.2.1-management-alpine@sha256:395e21feb54d07af2f913d317e40221855ae5848d120b585bc58ab9644a909e3"
     ports:
-    - "5672:5672"
+    - "127.0.0.1:5672:5672"
+    - "127.0.0.1:15672:15672"
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 30s
@@ -29,10 +30,8 @@ services:
     image: "mongo:8.2.2@sha256:7245ffb851d149dbfac67397caf91bae4974d899972f9fd1d8985fc6eea3c13d"
     ports:
     - "127.0.0.1:27017:27017"
-    volumes:
-      - "./db:/data/db"
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet
+      test: echo 'db.runCommand("ping").ok' | mongosh mongo:27017/test --quiet
       interval: 10s
       timeout: 10s
       retries: 5
