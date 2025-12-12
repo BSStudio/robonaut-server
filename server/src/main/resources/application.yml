@@ -11,5 +11,7 @@ springdoc:
     display-request-duration: true
 management:
   health:
-    mongo:
+    mongodb:
+      enabled: true
+    rabbit:
       enabled: true

@@ -22,6 +22,7 @@
   "scripts": {
     "lint": "biome check .",
     "lint:fix": "biome check . --write --unsafe",
-    "test": "vitest"
+    "test": "vitest",
+    "test:local": "vitest run --config local.vitest.config.ts"
   }
 }
