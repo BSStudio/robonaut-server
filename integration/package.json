@@ -4,20 +4,20 @@
   "type": "module",
   "devDependencies": {
     "@biomejs/biome": "2.3.8",
-    "@vitest/ui": "4.0.14",
+    "@vitest/ui": "4.0.15",
     "@tsconfig/node24": "24.0.3",
     "@tsconfig/strictest": "2.0.8",
     "@types/amqplib": "0.10.8",
-    "@types/node": "24.10.1",
+    "@types/node": "24.10.3",
     "@types/supertest": "6.0.3",
     "amqplib": "0.10.9",
     "mkdirp": "3.0.1",
     "mongodb": "7.0.0",
     "rimraf": "6.1.2",
     "supertest": "7.1.4",
-    "testcontainers": "11.9.0",
+    "testcontainers": "11.10.0",
     "typescript": "5.9.3",
-    "vitest": "4.0.14"
+    "vitest": "4.0.15"
   },
   "scripts": {
     "lint": "biome check .",
