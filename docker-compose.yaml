@@ -27,7 +27,7 @@ services:
       retries: 5
       start_period: 40s
   mongo:
-    image: "mongo:8.2.2@sha256:bf5995bcccb65725aa81fd92e68449323c94b96bf1c1fa9f7acbc2a8ad518114"
+    image: "mongo:8.2.3@sha256:d775d416112201f006871dd792dc0917eec9aa566b327611b1ca52397e79bf03"
     ports:
     - "127.0.0.1:27017:27017"
     volumes:
