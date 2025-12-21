@@ -34,7 +34,7 @@ class RabbitConfiguration {
   fun teamDataQueue() = Queue("team.teamData")
 
   @Bean
-  fun jackson2JsonMessageConverter() = JacksonJsonMessageConverter()
+  fun jacksonJsonMessageConverter() = JacksonJsonMessageConverter()
 
   @Bean
   fun connectionNameStrategy(): ConnectionNameStrategy = SimplePropertyValueConnectionNameStrategy("spring.application.name")
