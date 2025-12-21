@@ -29,7 +29,6 @@ class JacocoConventionPlugin : Plugin<Project> {
         val excluded =
             setOf(
                 "**/entity/**",
-                "**/model/**",
                 "**/exception/**",
                 "**/**Config**",
             )

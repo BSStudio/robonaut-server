@@ -1,8 +1,8 @@
 package hu.bsstudio.robonaut.team.mapper
 
+import hu.bsstudio.robonaut.common.model.TeamType
 import hu.bsstudio.robonaut.entity.ScoreEntity
 import hu.bsstudio.robonaut.entity.TeamEntity
-import hu.bsstudio.robonaut.entity.TeamType
 import hu.bsstudio.robonaut.team.model.DetailedTeam
 import hu.bsstudio.robonaut.team.model.Score
 import io.mockk.MockKAnnotations

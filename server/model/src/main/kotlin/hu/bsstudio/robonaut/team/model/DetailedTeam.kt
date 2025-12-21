@@ -1,6 +1,6 @@
 package hu.bsstudio.robonaut.team.model
 
-import hu.bsstudio.robonaut.entity.TeamType
+import hu.bsstudio.robonaut.common.model.TeamType
 
 data class DetailedTeam(
   val teamId: Long = 0,

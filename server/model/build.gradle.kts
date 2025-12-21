@@ -9,10 +9,9 @@ plugins {
 }
 
 dependencies {
-  api(project(":server:service"))
-  implementation(libs.springdoc)
-  implementation("org.springframework.boot:spring-boot-starter-actuator")
-  implementation("org.springframework.boot:spring-boot-starter-security")
-  implementation("org.springframework.boot:spring-boot-starter-webflux")
-  testImplementation("io.projectreactor:reactor-test")
+  api(project(":server:common"))
+  implementation("org.springframework.boot:spring-boot-starter-json")
+  implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+  testImplementation(libs.kotestAssertionsJson)
+  // testImplementation("org.springframework.boot:spring-boot-starter-jackson-test")
 }
