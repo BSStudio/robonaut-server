@@ -5,7 +5,6 @@ COPY ./buildSrc/*.gradle.kts             ./buildSrc/
 COPY ./buildSrc/src                      ./buildSrc/src/
 COPY ./gradle                            ./gradle/
 COPY ./server/build.gradle.kts           ./server/
-COPY ./server/client/build.gradle.kts    ./server/client/
 COPY ./server/common/build.gradle.kts    ./server/common/
 COPY ./server/data/build.gradle.kts      ./server/data/
 COPY ./server/model/build.gradle.kts     ./server/model/
