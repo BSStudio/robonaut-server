@@ -7,6 +7,7 @@ COPY ./gradle                            ./gradle/
 COPY ./server/build.gradle.kts           ./server/
 COPY ./server/common/build.gradle.kts    ./server/common/
 COPY ./server/data/build.gradle.kts      ./server/data/
+COPY ./server/messaging/build.gradle.kts ./server/messaging/
 COPY ./server/model/build.gradle.kts     ./server/model/
 COPY ./server/service/build.gradle.kts   ./server/service/
 COPY ./server/web/build.gradle.kts       ./server/web/
