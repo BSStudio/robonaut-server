@@ -2,7 +2,6 @@ package hu.bsstudio.robonaut.speed
 
 import hu.bsstudio.robonaut.race.speed.SpeedRaceService
 import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult
-import org.slf4j.LoggerFactory
 import org.springframework.web.reactive.function.server.HandlerFunction
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
@@ -17,11 +16,5 @@ class JuniorSpeedRaceResultHandler(
     request
       .bodyToMono<SpeedRaceResult>()
       .flatMap(service::updateSpeedRaceJunior)
-      .doOnError { error -> LOG.error("Junior Speed Race error: ", error) }
       .let { detailedTeam -> ServerResponse.ok().body(detailedTeam) }
-
-
-  companion object {
-    private val LOG = LoggerFactory.getLogger(this::class.java)
-  }
 }
