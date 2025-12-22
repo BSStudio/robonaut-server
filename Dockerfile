@@ -1,12 +1,14 @@
-FROM bellsoft/liberica-runtime-container:jdk-21.0.9_12-crac-cds-musl@sha256:1d3771780243c062273fda3e01f9e74a9442702a00501613dd23d49cb647ba8c AS build
+FROM bellsoft/liberica-runtime-container:jdk-21.0.9_12-crac-cds-musl@sha256:4028183b4bf74bfbd72d893f47acf215d58f7b3200baca636a948806bb225224 AS build
 WORKDIR /usr/src/app
 # cache dependencies
 COPY ./buildSrc/*.gradle.kts             ./buildSrc/
 COPY ./buildSrc/src                      ./buildSrc/src/
 COPY ./gradle                            ./gradle/
 COPY ./server/build.gradle.kts           ./server/
+COPY ./server/common/build.gradle.kts    ./server/common/
 COPY ./server/data/build.gradle.kts      ./server/data/
 COPY ./server/messaging/build.gradle.kts ./server/messaging/
+COPY ./server/model/build.gradle.kts     ./server/model/
 COPY ./server/service/build.gradle.kts   ./server/service/
 COPY ./server/web/build.gradle.kts       ./server/web/
 COPY ./gradlew                           ./
@@ -15,12 +17,13 @@ COPY ./settings.gradle.kts               ./
 RUN --mount=type=cache,target=/root/.gradle \
     ./gradlew
 # build
-COPY ./server ./server
+COPY ./buildSrc ./buildSrc
+COPY ./server   ./server
 ARG BUILD_ARG="bootJar"
 RUN --mount=type=cache,target=/root/.gradle \
     ./gradlew ${BUILD_ARG}
 
-FROM bellsoft/liberica-runtime-container:jre-25.0.1_11-cds-musl@sha256:4a3c8d1986b7a0567b64f6a3f0a93f91558b2da21d7dea3d554f14bbe0c305ba AS app
+FROM bellsoft/liberica-runtime-container:jre-25.0.1_11-cds-musl@sha256:964ab76e0affd0994c6058cf9bcf30d150c9c7624a8382c87cbf63b99ed5a884 AS app
 # use non-root user
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
@@ -30,3 +33,5 @@ ARG BUILD_ROOT=/usr/src/app
 ARG BOOT_JAR=$BUILD_ROOT/server/build/libs/*.jar
 COPY --from=build $BOOT_JAR ./app.jar
 ENTRYPOINT ["java","-jar","./app.jar"]
+
+EXPOSE 8080

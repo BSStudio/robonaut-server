@@ -1,5 +1,6 @@
 package hu.bsstudio.robonaut.entity
 
+import hu.bsstudio.robonaut.common.model.TeamType
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document

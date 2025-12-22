@@ -1,8 +1,8 @@
 package hu.bsstudio.robonaut.race.speed
 
+import hu.bsstudio.robonaut.common.model.TeamType
 import hu.bsstudio.robonaut.entity.ScoreEntity
 import hu.bsstudio.robonaut.entity.TeamEntity
-import hu.bsstudio.robonaut.entity.TeamType
 import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult
 import hu.bsstudio.robonaut.race.speed.model.SpeedRaceScore
 import hu.bsstudio.robonaut.repository.TeamRepository

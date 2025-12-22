@@ -1,4 +1,4 @@
-package hu.bsstudio.robonaut.entity
+package hu.bsstudio.robonaut.common.model
 
 enum class TeamType {
   JUNIOR,

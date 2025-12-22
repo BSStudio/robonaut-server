@@ -9,7 +9,7 @@ export class AmqpUtil {
     const message = await channel.get(queueName, { noAck: true });
     await connection.close();
     if (!message) {
-      return Promise.reject('No message');
+      throw new Error('No message in queue');
     }
     return JSON.parse(message.content.toString()) as unknown;
   }
