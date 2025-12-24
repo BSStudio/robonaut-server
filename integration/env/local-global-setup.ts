@@ -9,16 +9,7 @@ declare module 'vitest' {
 }
 
 export async function setup({ provide }: TestProject) {
-  provide(
-    'app',
-    'http://localhost:8080',
-  );
-  provide(
-    'amqp',
-    'amqp://localhost:5672',
-  );
-  provide(
-    'mongo',
-    'mongodb://localhost:27017/',
-  );
+  provide('app', 'http://localhost:8080');
+  provide('amqp', 'amqp://localhost:5672');
+  provide('mongo', 'mongodb://localhost:27017/');
 }

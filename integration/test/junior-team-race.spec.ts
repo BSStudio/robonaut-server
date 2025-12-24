@@ -239,14 +239,15 @@ describe('test a likely path of events for a junior team', () => {
   const speedResult = {
     teamId: 0,
     speedScore: 25,
-    speedBonusScore: 15,
+    bestSpeedTime: 20,
     speedTimes: [20, 30, 50],
   };
   const updatedTeamAfterSpeedRaceSenior = {
     ...updatedTeamWithLapInformation,
     combinedScore: {
       ...updatedTeamWithLapInformation.combinedScore,
-      speedScore: 25,
+      speedScore: speedResult.speedScore,
+      bestSpeedTime: speedResult.bestSpeedTime,
     },
     speedTimes: [20, 30, 50],
   };
@@ -266,7 +267,8 @@ describe('test a likely path of events for a junior team', () => {
     ...updatedTeamAfterSpeedRaceSenior,
     juniorScore: {
       ...updatedTeamAfterSpeedRaceSenior.juniorScore,
-      speedScore: 25,
+      speedScore: speedResult.speedScore,
+      bestSpeedTime: speedResult.bestSpeedTime,
     },
     speedTimes: [20, 30, 50],
   };
