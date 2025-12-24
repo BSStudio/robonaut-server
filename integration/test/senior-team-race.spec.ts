@@ -249,16 +249,17 @@ describe('test a likely path of events for a senior team', () => {
   const speedResult = {
     teamId: 0,
     speedScore: 25,
-    speedBonusScore: 15,
+    bestSpeedTime: 20,
     speedTimes: [20, 30, 50],
   };
   const updatedTeamAfterSpeedRace = {
     ...updatedTeamWithLapInformation,
     combinedScore: {
       ...updatedTeamWithLapInformation.combinedScore,
-      speedScore: 25,
+      speedScore: speedResult.speedScore,
+      bestSpeedTime: speedResult.bestSpeedTime,
     },
-    speedTimes: [20, 30, 50],
+    speedTimes: speedResult.speedTimes,
   };
   test('should update team after speed race', async () => {
     expect.assertions(3);

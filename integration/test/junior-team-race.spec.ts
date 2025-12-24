@@ -239,16 +239,17 @@ describe('test a likely path of events for a junior team', () => {
   const speedResult = {
     teamId: 0,
     speedScore: 25,
-    speedBonusScore: 15,
+    bestSpeedTime: 20,
     speedTimes: [20, 30, 50],
   };
   const updatedTeamAfterSpeedRaceSenior = {
     ...updatedTeamWithLapInformation,
     combinedScore: {
       ...updatedTeamWithLapInformation.combinedScore,
-      speedScore: 25,
+      speedScore: speedResult.speedScore,
+      bestSpeedTime: speedResult.bestSpeedTime,
     },
-    speedTimes: [20, 30, 50],
+    speedTimes: speedResult.speedTimes,
   };
   test('should update team after speed race', async () => {
     expect.assertions(3);
@@ -266,9 +267,10 @@ describe('test a likely path of events for a junior team', () => {
     ...updatedTeamAfterSpeedRaceSenior,
     juniorScore: {
       ...updatedTeamAfterSpeedRaceSenior.juniorScore,
-      speedScore: 25,
+      speedScore: speedResult.speedScore,
+      bestSpeedTime: speedResult.bestSpeedTime,
     },
-    speedTimes: [20, 30, 50],
+    speedTimes: speedResult.speedTimes,
   };
   test('should update junior score for junior team', async () => {
     expect.assertions(3);

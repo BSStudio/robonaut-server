@@ -231,11 +231,11 @@ paths:
       tags:
       - speed
       summary: Update scores after speed race
-      description: "This action will replace all the previous _speedTimes_! All previous\
-        \ _speedTimes_ should be sent for consistency. The endpoint will update the\
-        \ _speedTimes_, _speedBonusScore_ and _speedScore_ fields for a team with\
-        \ their speed race results. The updated DetailedTeam schema will be broadcast\
-        \ on the `team.teamData` queue as JSON."
+      description: This action will replace all the previous _speedTimes_! All previous
+        _speedTimes_ should be sent for consistency. The endpoint will update the
+        _speedTimes_ and _speedScore_ fields for a team with their speed race results.
+        The updated DetailedTeam schema will be broadcast on the `team.teamData` queue
+        as JSON.
       requestBody:
         content:
           application/json:
@@ -253,11 +253,11 @@ paths:
       tags:
       - speed
       summary: Update scores after speed race
-      description: "This action will replace all the previous _speedTimes_! All previous\
-        \ _speedTimes_ should be sent for consistency. The endpoint will update the\
-        \ _speedTimes_, _speedBonusScore_ and _speedScore_ fields for a team with\
-        \ their speed race results. The updated DetailedTeam schema will be broadcast\
-        \ on the `team.teamData` queue as JSON."
+      description: This action will replace all the previous _speedTimes_! All previous
+        _speedTimes_ should be sent for consistency. The endpoint will update the
+        _speedTimes_ and _speedScore_ fields for a team with their speed race results.
+        The updated DetailedTeam schema will be broadcast on the `team.teamData` queue
+        as JSON.
       requestBody:
         content:
           application/json:
