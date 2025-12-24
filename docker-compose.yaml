@@ -1,17 +1,16 @@
-version: "3.9"
 services:
   app:
     build: ./
     environment:
       robonauth.api-key: BSS
-      spring.data.mongodb.host: mongo
+      spring.mongodb.host: mongo
       spring.rabbitmq.host: rabbitmq
     profiles:
       - app
     ports:
-    - "8080:8080"
+    - "127.0.0.1:8080:8080"
     healthcheck:
-      test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+      test:  "wget --tries=1 --no-verbose -qO- http://localhost:8080/actuator/health/readiness | grep -q UP"
       interval: 20s
       timeout: 5s
       retries: 5
@@ -19,7 +18,8 @@ services:
   rabbitmq:
     image: "rabbitmq:4.2.2-management-alpine@sha256:f10f014d87ff75a34f512eb7e51d0e841021e3888568712ed731032fd8d92d34"
     ports:
-    - "5672:5672"
+    - "127.0.0.1:5672:5672"
+    - "127.0.0.1:15672:15672"
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 30s
@@ -30,10 +30,8 @@ services:
     image: "mongo:8.2.3@sha256:7f5bbdafebde7c42e42e33396d01c0eda3eb753da8dae99071a30e350568a0a4"
     ports:
     - "127.0.0.1:27017:27017"
-    volumes:
-      - "./db:/data/db"
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet
+      test: echo 'db.runCommand("ping").ok' | mongosh mongo:27017/test --quiet
       interval: 10s
       timeout: 10s
       retries: 5

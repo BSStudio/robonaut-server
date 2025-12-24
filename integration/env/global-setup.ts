@@ -1,7 +1,10 @@
+import { createWriteStream } from 'node:fs';
 import * as path from 'node:path';
+import { mkdirp } from 'mkdirp';
 import {
   DockerComposeEnvironment,
   type StartedDockerComposeEnvironment,
+  type StartedTestContainer,
   Wait,
 } from 'testcontainers';
 import type { TestProject } from 'vitest/node';
@@ -51,8 +54,19 @@ export async function setup({ provide }: TestProject) {
     'mongo',
     `mongodb://${mongo.getHost()}:${mongo.getMappedPort(27017)}/`,
   );
+
+  await mkdirp('reports/container');
+  writeToFile(rabbitMQ);
+  writeToFile(mongo);
+  writeToFile(application);
 }
 
 export async function teardown() {
   await globalThis.compose.down();
+}
+
+async function writeToFile(container: StartedTestContainer) {
+  const name = container.getName();
+  const readable = await container.logs();
+  readable.pipe(createWriteStream(`reports/container/${name}.log`));
 }
