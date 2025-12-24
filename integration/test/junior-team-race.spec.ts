@@ -249,7 +249,7 @@ describe('test a likely path of events for a junior team', () => {
       speedScore: speedResult.speedScore,
       bestSpeedTime: speedResult.bestSpeedTime,
     },
-    speedTimes: [20, 30, 50],
+    speedTimes: speedResult.speedTimes
   };
   test('should update team after speed race', async () => {
     expect.assertions(3);
@@ -270,7 +270,7 @@ describe('test a likely path of events for a junior team', () => {
       speedScore: speedResult.speedScore,
       bestSpeedTime: speedResult.bestSpeedTime,
     },
-    speedTimes: [20, 30, 50],
+    speedTimes: speedResult.speedTimes
   };
   test('should update junior score for junior team', async () => {
     expect.assertions(3);
