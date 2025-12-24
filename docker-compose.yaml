@@ -3,7 +3,7 @@ services:
     build: ./
     environment:
       robonauth.api-key: BSS
-      spring.mongodb.host: mongo
+      spring.data.mongodb.host: mongo
       spring.rabbitmq.host: rabbitmq
     profiles:
       - app
