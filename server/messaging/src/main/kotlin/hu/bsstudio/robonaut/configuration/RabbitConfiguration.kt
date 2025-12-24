@@ -3,7 +3,7 @@ package hu.bsstudio.robonaut.configuration
 import org.springframework.amqp.core.Queue
 import org.springframework.amqp.rabbit.connection.ConnectionNameStrategy
 import org.springframework.amqp.rabbit.connection.SimplePropertyValueConnectionNameStrategy
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter
+import org.springframework.amqp.support.converter.JacksonJsonMessageConverter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -34,7 +34,7 @@ class RabbitConfiguration {
   fun teamDataQueue() = Queue("team.teamData")
 
   @Bean
-  fun jackson2JsonMessageConverter() = Jackson2JsonMessageConverter()
+  fun jacksonJsonMessageConverter() = JacksonJsonMessageConverter()
 
   @Bean
   fun connectionNameStrategy(): ConnectionNameStrategy = SimplePropertyValueConnectionNameStrategy("spring.application.name")

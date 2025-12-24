@@ -9,7 +9,3 @@ springdoc:
     url: /open-api.yaml
     path: /
     display-request-duration: true
-management:
-  health:
-    mongo:
-      enabled: true
