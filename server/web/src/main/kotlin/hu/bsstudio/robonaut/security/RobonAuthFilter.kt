@@ -22,12 +22,11 @@ class RobonAuthFilter(
     return handlerFunction.handle(request)
   }
 
-  private fun apiKeyDoesNotMatchOrEmpty(request: ServerRequest): Boolean = !getHeaderValues(request, AUTH_API_KEY_HEADER).contains(apiKey)
+  private fun apiKeyDoesNotMatchOrEmpty(request: ServerRequest): Boolean = !getApiKey(request).contains(apiKey)
 
-  private fun getHeaderValues(
+  private fun getApiKey(
     request: ServerRequest,
-    headerName: String,
-  ): List<String> = request.headers().header(headerName)
+  ): List<String> = request.headers().header(AUTH_API_KEY_HEADER)
 
   companion object {
     private val UNAUTHORIZED_RESPONSE = ServerResponse.status(HttpStatus.UNAUTHORIZED).build()

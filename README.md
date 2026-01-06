@@ -55,7 +55,7 @@ playout --> cg
 docker compose up -d
 ```
 
-### Using gradle
+### Using Gradle
 ```shell
 ./gradlew bootRun
 ```
