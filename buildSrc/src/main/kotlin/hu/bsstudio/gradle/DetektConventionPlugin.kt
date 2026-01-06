@@ -9,11 +9,11 @@ import org.gradle.kotlin.dsl.configure
 
 class DetektConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        project.pluginManager.apply(DetektPlugin::class)
+        // project.pluginManager.apply(DetektPlugin::class)
 
-        project.extensions.configure<DetektExtension> {
-            buildUponDefaultConfig = true
-            config.setFrom(project.layout.settingsDirectory.file("detekt.yml"))
-        }
+        // project.extensions.configure<DetektExtension> {
+        //     buildUponDefaultConfig = true
+        //     config.setFrom(project.layout.settingsDirectory.file("detekt.yml"))
+        // }
     }
 }
