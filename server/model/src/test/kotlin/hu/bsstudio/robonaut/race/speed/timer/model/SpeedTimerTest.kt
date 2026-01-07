@@ -1,7 +1,6 @@
 package hu.bsstudio.robonaut.race.speed.timer.model
 
 import hu.bsstudio.robonaut.common.model.TimerAction
-import hu.bsstudio.robonaut.race.speed.timer.model.SpeedTimer
 import io.kotest.assertions.json.shouldEqualJson
 import io.kotest.matchers.equals.shouldBeEqual
 import org.junit.jupiter.api.Test
