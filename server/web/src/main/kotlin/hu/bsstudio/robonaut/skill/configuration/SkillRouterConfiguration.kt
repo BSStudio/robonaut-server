@@ -27,10 +27,13 @@ class SkillRouterConfiguration(
     RouterFunctions
       .route()
       .filter(robonAuthFilter)
-      .POST("/api/skill/timer", updateSkillTimerHandler)
-      .POST("/api/skill/gate", skillGateHandler)
-      .POST("/api/skill/result", skillRaceResultHandler)
-      .build()
+      .path("/api/skill") { builder ->
+        builder
+          .POST("/timer", updateSkillTimerHandler)
+          .POST("/gate", skillGateHandler)
+          .POST("/result", skillRaceResultHandler)
+          .build()
+      }.build()
 
   @Bean
   fun updateSkillTimerHandler() = UpdateSkillTimerHandler(skillTimerService)

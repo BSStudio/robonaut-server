@@ -23,9 +23,12 @@ class SafetyCarRouterConfiguration(
     RouterFunctions
       .route()
       .filter(robonAuthFilter)
-      .POST("/api/speed/safetyCar/follow", safetyCarFollowHandler)
-      .POST("/api/speed/safetyCar/overtake", safetyCarOvertakeHandler)
-      .build()
+      .path("/api/speed/safetyCar") { builder ->
+        builder
+          .POST("/follow", safetyCarFollowHandler)
+          .POST("/overtake", safetyCarOvertakeHandler)
+          .build()
+      }.build()
 
   @Bean
   fun safetyCarFollowHandler() = SafetyCarFollowHandler(safetyCarService)
