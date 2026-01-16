@@ -8,7 +8,7 @@
     "@tsconfig/node24": "24.0.3",
     "@tsconfig/strictest": "2.0.8",
     "@types/amqplib": "0.10.8",
-    "@types/node": "24.10.7",
+    "@types/node": "24.10.8",
     "@types/supertest": "6.0.3",
     "amqplib": "0.10.9",
     "mkdirp": "3.0.1",
