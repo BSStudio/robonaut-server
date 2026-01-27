@@ -29,11 +29,14 @@ class SpeedRaceRouterConfiguration(
     RouterFunctions
       .route()
       .filter(robonAuthFilter)
-      .POST("/api/speed/timer", updateSpeedTimerHandler)
-      .POST("/api/speed/lap", speedRaceLapHandler)
-      .POST("/api/speed/result/junior", juniorSpeedRaceResultHandler)
-      .POST("/api/speed/result/senior", seniorSpeedRaceResultHandler)
-      .build()
+      .path("/api/speed/") { builder ->
+        builder
+          .POST("/timer", updateSpeedTimerHandler)
+          .POST("/lap", speedRaceLapHandler)
+          .POST("/result/junior", juniorSpeedRaceResultHandler)
+          .POST("/result/senior", seniorSpeedRaceResultHandler)
+          .build()
+      }.build()
 
   @Bean
   fun updateSpeedTimerHandler() = UpdateSpeedTimerHandler(speedTimerService)

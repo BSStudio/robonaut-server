@@ -1,6 +1,5 @@
 package hu.bsstudio.robonaut.race.speed.model
 
-import hu.bsstudio.robonaut.race.speed.model.SpeedRaceResult
 import io.kotest.assertions.json.shouldEqualJson
 import io.kotest.matchers.equals.shouldBeEqual
 import org.junit.jupiter.api.Test

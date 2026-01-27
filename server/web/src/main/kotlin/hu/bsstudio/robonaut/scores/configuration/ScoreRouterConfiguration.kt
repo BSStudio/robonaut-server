@@ -31,11 +31,14 @@ class ScoreRouterConfiguration(
     RouterFunctions
       .route()
       .filter(robonAuthFilter)
-      .POST("/api/scores/qualification", qualificationScoreHandler)
-      .POST("/api/scores/audience", audienceScoreHandler)
-      .POST("/api/scores/endResult/senior", seniorEndResultHandler)
-      .POST("/api/scores/endResult/junior", juniorEndResultHandler)
-      .build()
+      .path("/api/scores") { builder ->
+        builder
+          .POST("/qualification", qualificationScoreHandler)
+          .POST("/audience", audienceScoreHandler)
+          .POST("/endResult/senior", seniorEndResultHandler)
+          .POST("/endResult/junior", juniorEndResultHandler)
+          .build()
+      }.build()
 
   @Bean
   fun qualificationScoreHandler() = QualificationScoreHandler(qualificationScoreService)
