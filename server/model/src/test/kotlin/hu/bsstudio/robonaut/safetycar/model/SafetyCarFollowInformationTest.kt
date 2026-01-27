@@ -1,6 +1,5 @@
 package hu.bsstudio.robonaut.safetycar.model
 
-import hu.bsstudio.robonaut.safetycar.model.SafetyCarFollowInformation
 import io.kotest.assertions.json.shouldEqualJson
 import io.kotest.matchers.equals.shouldBeEqual
 import org.junit.jupiter.api.Test

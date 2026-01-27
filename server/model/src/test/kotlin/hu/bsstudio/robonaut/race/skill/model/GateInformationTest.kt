@@ -1,6 +1,5 @@
 package hu.bsstudio.robonaut.race.skill.model
 
-import hu.bsstudio.robonaut.race.skill.model.GateInformation
 import io.kotest.assertions.json.shouldEqualJson
 import io.kotest.matchers.equals.shouldBeEqual
 import org.junit.jupiter.api.Test

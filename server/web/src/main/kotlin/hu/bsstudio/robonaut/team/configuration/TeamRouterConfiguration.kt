@@ -27,10 +27,13 @@ class TeamRouterConfiguration(
     RouterFunctions
       .route()
       .filter(robonAuthFilter)
-      .POST("/api/team", createTeamHandler)
-      .GET("/api/team", readAllTeamHandler)
-      .PUT("/api/team", updateTeamHandler)
-      .PUT("/api/admin/team", adminUpdateTeamHandler)
+      .path("/api/team") { builder ->
+        builder
+          .POST(createTeamHandler)
+          .GET(readAllTeamHandler)
+          .PUT(updateTeamHandler)
+          .build()
+      }.PUT("/api/admin/team", adminUpdateTeamHandler)
       .build()
 
   @Bean
