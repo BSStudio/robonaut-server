@@ -27,8 +27,8 @@ importers:
         specifier: 0.10.8
         version: 0.10.8
       '@types/node':
-        specifier: 24.10.10
-        version: 24.10.10
+        specifier: 24.10.11
+        version: 24.10.11
       '@types/supertest':
         specifier: 6.0.3
         version: 6.0.3
@@ -58,7 +58,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: 4.0.18
-        version: 4.0.18(@types/node@24.10.10)(@vitest/ui@4.0.18)(yaml@2.8.1)
+        version: 4.0.18(@types/node@24.10.11)(@vitest/ui@4.0.18)(yaml@2.8.1)
 
 packages:
 
@@ -647,8 +647,8 @@ packages:
   '@types/node@18.19.130':
     resolution: {integrity: sha512-GRaXQx6jGfL8sKfaIDD6OupbIHBr9jv7Jnaml9tB7l4v068PAOXqfcujMMo5PhbIs6ggR1XODELqahT2R8v0fg==}
 
-  '@types/node@24.10.10':
-    resolution: {integrity: sha512-+0/4J266CBGPUq/ELg7QUHhN25WYjE0wYTPSQJn1xeu8DOlIOPxXxrNGiLmfAWl7HMMgWFWXpt9IDjMWrF5Iow==}
+  '@types/node@24.10.11':
+    resolution: {integrity: sha512-/Af7O8r1frCVgOz0I62jWUtMohJ0/ZQU/ZoketltOJPZpnb17yoNc9BSoVuV9qlaIXJiPNOpsfq4ByFajSArNQ==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -2964,7 +2964,7 @@ snapshots:
 
   '@types/amqplib@0.10.8':
     dependencies:
-      '@types/node': 24.10.10
+      '@types/node': 24.10.11
 
   '@types/chai@5.2.3':
     dependencies:
@@ -2977,13 +2977,13 @@ snapshots:
 
   '@types/docker-modem@3.0.6':
     dependencies:
-      '@types/node': 24.10.10
+      '@types/node': 24.10.11
       '@types/ssh2': 1.15.5
 
   '@types/dockerode@3.3.47':
     dependencies:
       '@types/docker-modem': 3.0.6
-      '@types/node': 24.10.10
+      '@types/node': 24.10.11
       '@types/ssh2': 1.15.5
 
   '@types/estree@1.0.8': {}
@@ -2994,7 +2994,7 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
-  '@types/node@24.10.10':
+  '@types/node@24.10.11':
     dependencies:
       undici-types: 7.16.0
 
@@ -3002,11 +3002,11 @@ snapshots:
 
   '@types/ssh2-streams@0.1.13':
     dependencies:
-      '@types/node': 24.10.10
+      '@types/node': 24.10.11
 
   '@types/ssh2@0.5.52':
     dependencies:
-      '@types/node': 24.10.10
+      '@types/node': 24.10.11
       '@types/ssh2-streams': 0.1.13
 
   '@types/ssh2@1.15.5':
@@ -3017,7 +3017,7 @@ snapshots:
     dependencies:
       '@types/cookiejar': 2.1.5
       '@types/methods': 1.1.4
-      '@types/node': 24.10.10
+      '@types/node': 24.10.11
       form-data: 4.0.5
 
   '@types/supertest@6.0.3':
@@ -3040,13 +3040,13 @@ snapshots:
       chai: 6.2.1
       tinyrainbow: 3.0.3
 
-  '@vitest/mocker@4.0.18(vite@7.2.2(@types/node@24.10.10)(yaml@2.8.1))':
+  '@vitest/mocker@4.0.18(vite@7.2.2(@types/node@24.10.11)(yaml@2.8.1))':
     dependencies:
       '@vitest/spy': 4.0.18
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 7.2.2(@types/node@24.10.10)(yaml@2.8.1)
+      vite: 7.2.2(@types/node@24.10.11)(yaml@2.8.1)
 
   '@vitest/pretty-format@4.0.18':
     dependencies:
@@ -3074,7 +3074,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vitest: 4.0.18(@types/node@24.10.10)(@vitest/ui@4.0.18)(yaml@2.8.1)
+      vitest: 4.0.18(@types/node@24.10.11)(@vitest/ui@4.0.18)(yaml@2.8.1)
 
   '@vitest/utils@4.0.18':
     dependencies:
@@ -4173,7 +4173,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 24.10.10
+      '@types/node': 24.10.11
       long: 5.3.2
 
   pump@3.0.3:
@@ -4719,7 +4719,7 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  vite@7.2.2(@types/node@24.10.10)(yaml@2.8.1):
+  vite@7.2.2(@types/node@24.10.11)(yaml@2.8.1):
     dependencies:
       esbuild: 0.25.12
       fdir: 6.5.0(picomatch@4.0.3)
@@ -4728,14 +4728,14 @@ snapshots:
       rollup: 4.53.2
       tinyglobby: 0.2.15
     optionalDependencies:
-      '@types/node': 24.10.10
+      '@types/node': 24.10.11
       fsevents: 2.3.3
       yaml: 2.8.1
 
-  vitest@4.0.18(@types/node@24.10.10)(@vitest/ui@4.0.18)(yaml@2.8.1):
+  vitest@4.0.18(@types/node@24.10.11)(@vitest/ui@4.0.18)(yaml@2.8.1):
     dependencies:
       '@vitest/expect': 4.0.18
-      '@vitest/mocker': 4.0.18(vite@7.2.2(@types/node@24.10.10)(yaml@2.8.1))
+      '@vitest/mocker': 4.0.18(vite@7.2.2(@types/node@24.10.11)(yaml@2.8.1))
       '@vitest/pretty-format': 4.0.18
       '@vitest/runner': 4.0.18
       '@vitest/snapshot': 4.0.18
@@ -4752,10 +4752,10 @@ snapshots:
       tinyexec: 1.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vite: 7.2.2(@types/node@24.10.10)(yaml@2.8.1)
+      vite: 7.2.2(@types/node@24.10.11)(yaml@2.8.1)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 24.10.10
+      '@types/node': 24.10.11
       '@vitest/ui': 4.0.18(vitest@4.0.18)
     transitivePeerDependencies:
       - jiti
