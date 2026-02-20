@@ -51,8 +51,8 @@ importers:
         specifier: 7.2.2
         version: 7.2.2
       testcontainers:
-        specifier: 11.11.0
-        version: 11.11.0
+        specifier: 11.12.0
+        version: 11.12.0
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -329,6 +329,9 @@ packages:
 
   '@js-sdsl/ordered-map@4.4.2':
     resolution: {integrity: sha512-iUKgm52T8HOE/makSxjqoWhe95ZJA1/G1sYsGev2JDKUSS14KAgg1LHb+Ba+IPow0xflbnSkOsZcO08C7w1gYw==}
+
+  '@kwsites/file-exists@1.1.1':
+    resolution: {integrity: sha512-m9/5YGR18lIwxSFDwfE3oA7bWuq9kdau6ugN4H2rJeyhFQZcG9AgSHkQtSD15a8WvTgfz9aikZMrKPHvbpqFiw==}
 
   '@mongodb-js/saslprep@1.4.6':
     resolution: {integrity: sha512-y+x3H1xBZd38n10NZF/rEBlvDOOMQ6LKUTHqr8R9VkJ+mmQOYtJFxIlkkK8fZrtOiL6VixbOBWMbZGBdal3Z1g==}
@@ -638,8 +641,8 @@ packages:
   '@types/docker-modem@3.0.6':
     resolution: {integrity: sha512-yKpAGEuKRSS8wwx0joknWxsmLha78wNMe9R2S3UNsVOkZded8UqOrV8KoeDXoXsjndxwyF3eIhyClGbO1SEhEg==}
 
-  '@types/dockerode@3.3.47':
-    resolution: {integrity: sha512-ShM1mz7rCjdssXt7Xz0u1/R2BJC7piWa3SJpUBiVjCf2A3XNn4cP6pUVaD8bLanpPVVn4IKzJuw3dOvkJ8IbYw==}
+  '@types/dockerode@4.0.1':
+    resolution: {integrity: sha512-cmUpB+dPN955PxBEuXE3f6lKO1hHiIGYJA46IVF3BJpNsZGvtBDcRnlrHYHtOH/B6vtDOyl2kZ2ShAu3mgc27Q==}
 
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
@@ -1620,11 +1623,6 @@ packages:
   mkdirp-classic@0.5.3:
     resolution: {integrity: sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A==}
 
-  mkdirp@1.0.4:
-    resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
-    engines: {node: '>=10'}
-    hasBin: true
-
   mkdirp@3.0.1:
     resolution: {integrity: sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==}
     engines: {node: '>=10'}
@@ -1939,9 +1937,9 @@ packages:
   proper-lockfile@4.1.2:
     resolution: {integrity: sha512-TjNPblN4BwAWMXU8s9AEz4JmQxnD1NNL7bNOY/AKUzyamc379FWASUhc/K1pL2noVb+XmZKLL68cjzLsiOAMaA==}
 
-  properties-reader@2.3.0:
-    resolution: {integrity: sha512-z597WicA7nDZxK12kZqHr2TcvwNU1GCfA5UwfDY/HDp3hXPoPlb5rlEx9bwGTiJnc0OqbBTkU975jDToth8Gxw==}
-    engines: {node: '>=14'}
+  properties-reader@3.0.1:
+    resolution: {integrity: sha512-WPn+h9RGEExOKdu4bsF4HksG/uzd3cFq3MFtq8PsFeExPse5Ha/VOjQNyHhjboBFwGXGev6muJYTSPAOkROq2g==}
+    engines: {node: '>=18'}
 
   proto-list@1.2.4:
     resolution: {integrity: sha512-vtK/94akxsTMhe0/cbfpR+syPuszcuwhqVjJq26CuNDgFGj682oRBXOP5MJpv2r7JtE8MsiepGIqvvOTBwn2vA==}
@@ -2242,8 +2240,8 @@ packages:
     resolution: {integrity: sha512-d79HhZya5Djd7am0q+W4RTsSU+D/aJzM+4Y4AGJGuGlgM2L6sx5ZvOYTmZjqPhrDrV6xJTtRSm1JCLj6V6LHLQ==}
     engines: {node: '>=14.16'}
 
-  testcontainers@11.11.0:
-    resolution: {integrity: sha512-nKTJn3n/gkyGg/3SVkOwX+isPOGSHlfI+CWMobSmvQrsj7YW01aWvl2pYIfV4LMd+C8or783yYrzKSK2JlP+Qw==}
+  testcontainers@11.12.0:
+    resolution: {integrity: sha512-VWtH+UQejVYYvb53ohEZRbx2naxyDvwO9lQ6A0VgmVE2Oh8r9EF09I+BfmrXpd9N9ntpzhao9di2yNwibSz5KA==}
 
   text-decoder@1.2.6:
     resolution: {integrity: sha512-27FeW5GQFDfw0FpwMQhMagB7BztOOlmjcSRi97t2oplhKVTZtp0DZbSegSaXS5IIC6mxMvBG4AR1Sgc6BX3CQg==}
@@ -2724,6 +2722,12 @@ snapshots:
 
   '@js-sdsl/ordered-map@4.4.2': {}
 
+  '@kwsites/file-exists@1.1.1':
+    dependencies:
+      debug: 4.4.3
+    transitivePeerDependencies:
+      - supports-color
+
   '@mongodb-js/saslprep@1.4.6':
     dependencies:
       sparse-bitfield: 3.0.3
@@ -3012,7 +3016,7 @@ snapshots:
       '@types/node': 24.10.13
       '@types/ssh2': 1.15.5
 
-  '@types/dockerode@3.3.47':
+  '@types/dockerode@4.0.1':
     dependencies:
       '@types/docker-modem': 3.0.6
       '@types/node': 24.10.13
@@ -4014,8 +4018,6 @@ snapshots:
 
   mkdirp-classic@0.5.3: {}
 
-  mkdirp@1.0.4: {}
-
   mkdirp@3.0.1: {}
 
   mongodb-connection-string-url@7.0.1:
@@ -4211,9 +4213,12 @@ snapshots:
       retry: 0.12.0
       signal-exit: 3.0.7
 
-  properties-reader@2.3.0:
+  properties-reader@3.0.1:
     dependencies:
-      mkdirp: 1.0.4
+      '@kwsites/file-exists': 1.1.1
+      mkdirp: 3.0.1
+    transitivePeerDependencies:
+      - supports-color
 
   proto-list@1.2.4: {}
 
@@ -4649,10 +4654,10 @@ snapshots:
       type-fest: 2.19.0
       unique-string: 3.0.0
 
-  testcontainers@11.11.0:
+  testcontainers@11.12.0:
     dependencies:
       '@balena/dockerignore': 1.0.2
-      '@types/dockerode': 3.3.47
+      '@types/dockerode': 4.0.1
       archiver: 7.0.1
       async-lock: 1.4.1
       byline: 5.0.0
@@ -4661,7 +4666,7 @@ snapshots:
       dockerode: 4.0.9
       get-port: 7.1.0
       proper-lockfile: 4.1.2
-      properties-reader: 2.3.0
+      properties-reader: 3.0.1
       ssh-remote-port-forward: 1.0.4
       tar-fs: 3.1.1
       tmp: 0.2.5
