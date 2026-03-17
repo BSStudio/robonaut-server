@@ -27,7 +27,7 @@ services:
       retries: 5
       start_period: 40s
   mongo:
-    image: "mongo:8.2.5@sha256:3a7947f3211e70c045ebff7e94293298bc3fa4e08e5cfcb8cb32ca0d06e06635"
+    image: "mongo:8.2.5@sha256:b80abaeb88da051d51f51a138d6c1a0c72bb39f88a7492d7e88a458dae7e80b5"
     ports:
     - "127.0.0.1:27017:27017"
     healthcheck:
