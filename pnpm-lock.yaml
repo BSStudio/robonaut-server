@@ -36,8 +36,8 @@ importers:
         specifier: 4.1.2
         version: 4.1.2(vitest@4.1.2)
       amqplib:
-        specifier: 0.10.9
-        version: 0.10.9
+        specifier: 1.0.3
+        version: 1.0.3
       mkdirp:
         specifier: 3.0.1
         version: 3.0.1
@@ -551,9 +551,9 @@ packages:
     resolution: {integrity: sha512-gOsf2YwSlleG6IjRYG2A7k0HmBMEo6qVNk9Bp/EaLgAJT5ngH6PXbqa4ItvnEwCm/velL5jAnQgsHsWnjhGmvw==}
     engines: {node: '>=18'}
 
-  amqplib@0.10.9:
-    resolution: {integrity: sha512-jwSftI4QjS3mizvnSnOrPGYiUnm1vI2OP1iXeOUz5pb74Ua0nbf6nPyyTzuiCLEE3fMpaJORXh2K/TQ08H5xGA==}
-    engines: {node: '>=10'}
+  amqplib@1.0.3:
+    resolution: {integrity: sha512-nsrXa59tvX4HPjPPW8JJGuBb/Db0MOq3DOhGdSbIY7bTsQDMV2fmF9c3i74g/8Gt9+QWyrxfEPppOOoV9lK1uQ==}
+    engines: {node: '>=18'}
 
   ansi-escapes@7.3.0:
     resolution: {integrity: sha512-BvU8nYgGQBxcmMuEeUEmNTvrMVjJNSH7RgW24vXexN4Ven6qCvy4TntnvlnwnMLTVlcRQQdbRY8NKnaIoeWDNg==}
@@ -1861,9 +1861,6 @@ packages:
     resolution: {integrity: sha512-mAZTtNCeetKMH+pSjrb76NAM8V9a05I9aBZOHztWy/UqcJdQYNsf59vrRKWnojAT9Y+GbIvoTBC++CPHqpDBhQ==}
     engines: {node: '>=0.6'}
 
-  querystringify@2.2.0:
-    resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==}
-
   rc@1.2.8:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
     hasBin: true
@@ -1905,9 +1902,6 @@ packages:
   require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
-
-  requires-port@1.0.0:
-    resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
 
   resolve-from@4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
@@ -2280,9 +2274,6 @@ packages:
   url-join@5.0.0:
     resolution: {integrity: sha512-n2huDr9h9yzd6exQVnH/jU5mr+Pfx08LRXXZhkLLetAMESRj+anQsTAh940iMrIetKAmry9coFuZQ2jY8/p3WA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-
-  url-parse@1.5.10:
-    resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -2972,10 +2963,9 @@ snapshots:
       clean-stack: 5.3.0
       indent-string: 5.0.0
 
-  amqplib@0.10.9:
+  amqplib@1.0.3:
     dependencies:
       buffer-more-ints: 1.0.0
-      url-parse: 1.5.10
 
   ansi-escapes@7.3.0:
     dependencies:
@@ -4110,8 +4100,6 @@ snapshots:
     dependencies:
       side-channel: 1.1.0
 
-  querystringify@2.2.0: {}
-
   rc@1.2.8:
     dependencies:
       deep-extend: 0.6.0
@@ -4180,8 +4168,6 @@ snapshots:
       '@pnpm/npm-conf': 3.0.2
 
   require-directory@2.1.1: {}
-
-  requires-port@1.0.0: {}
 
   resolve-from@4.0.0: {}
 
@@ -4636,11 +4622,6 @@ snapshots:
   universalify@2.0.1: {}
 
   url-join@5.0.0: {}
-
-  url-parse@1.5.10:
-    dependencies:
-      querystringify: 2.2.0
-      requires-port: 1.0.0
 
   util-deprecate@1.0.2: {}
 
