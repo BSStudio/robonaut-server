@@ -51,8 +51,8 @@ importers:
         specifier: 7.2.2
         version: 7.2.2
       testcontainers:
-        specifier: 11.14.0
-        version: 11.14.0
+        specifier: 12.0.1
+        version: 12.0.1
       typescript:
         specifier: 6.0.3
         version: 6.0.3
@@ -919,9 +919,9 @@ packages:
     resolution: {integrity: sha512-XJgGhoR/CLpqshm4d3L7rzH6t8NgDFUIIpztYlLHIApeJjMZKYJMz2zxPsYxnejq5h3ELYSw/RBsi3t5h7gNTA==}
     engines: {node: '>= 8.0'}
 
-  dockerode@4.0.12:
-    resolution: {integrity: sha512-/bCZd6KlGcjZO8Buqmi/vXuqEGVEZ0PNjx/biBNqJD3MhK9DmdiAuKxqfNhflgDESDIiBz3qF+0e55+CpnrUcw==}
-    engines: {node: '>= 8.0'}
+  dockerode@5.0.0:
+    resolution: {integrity: sha512-C52mvJ+7lcyhWNfrzVfFsbTrBfy/ezE9FGEYLpu17FUeBcCkxERk9nN7uDl/478ynDiQ4U+5DbQC2vENHkVEtQ==}
+    engines: {node: '>= 14.17'}
 
   dot-prop@5.3.0:
     resolution: {integrity: sha512-QM8q3zDe58hqUqjraQOmzZ1LIH9SWQJTlEKCH4kJ2oQvLZk7RbQXvtDM2XEq3fwkV9CCvvH4LA0AV+ogFsBM2Q==}
@@ -2126,8 +2126,8 @@ packages:
     resolution: {integrity: sha512-d79HhZya5Djd7am0q+W4RTsSU+D/aJzM+4Y4AGJGuGlgM2L6sx5ZvOYTmZjqPhrDrV6xJTtRSm1JCLj6V6LHLQ==}
     engines: {node: '>=14.16'}
 
-  testcontainers@11.14.0:
-    resolution: {integrity: sha512-r9pniwv/iwzyHaI7gwAvAm4Y+IvjJg3vBWdjrUCaDMc2AXIr4jKbq7jJO18Mw2ybs73pZy1Aj7p/4RVBGMRWjg==}
+  testcontainers@12.0.1:
+    resolution: {integrity: sha512-EMjjfMNJf3HlL7V3elkxqKUO1r3CtqNBTdmKGwwma/lOtUGfoWvFJ0WQ/KQf1DHEMnRjLWzW4cXbv/Tndsbcbw==}
 
   text-decoder@1.2.7:
     resolution: {integrity: sha512-vlLytXkeP4xvEq2otHeJfSQIRyWxo/oZGEbXrtEEF9Hnmrdly59sUbzZ/QgyWuLYHctCHxFF4tRQZNQ9k60ExQ==}
@@ -2264,11 +2264,6 @@ packages:
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
-
-  uuid@10.0.0:
-    resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
-    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
-    hasBin: true
 
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
@@ -3307,7 +3302,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  dockerode@4.0.12:
+  dockerode@5.0.0:
     dependencies:
       '@balena/dockerignore': 1.0.2
       '@grpc/grpc-js': 1.14.4
@@ -3315,7 +3310,6 @@ snapshots:
       docker-modem: 5.0.7
       protobufjs: 7.6.2
       tar-fs: 2.1.4
-      uuid: 10.0.0
     transitivePeerDependencies:
       - supports-color
 
@@ -4477,7 +4471,7 @@ snapshots:
       type-fest: 2.19.0
       unique-string: 3.0.0
 
-  testcontainers@11.14.0:
+  testcontainers@12.0.1:
     dependencies:
       '@balena/dockerignore': 1.0.2
       '@types/dockerode': 4.0.1
@@ -4486,7 +4480,7 @@ snapshots:
       byline: 5.0.0
       debug: 4.4.3
       docker-compose: 1.4.2
-      dockerode: 4.0.12
+      dockerode: 5.0.0
       get-port: 7.2.0
       proper-lockfile: 4.1.2
       properties-reader: 3.0.1
@@ -4597,8 +4591,6 @@ snapshots:
   url-join@5.0.0: {}
 
   util-deprecate@1.0.2: {}
-
-  uuid@10.0.0: {}
 
   validate-npm-package-license@3.0.4:
     dependencies:
