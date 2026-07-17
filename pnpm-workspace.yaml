@@ -1,11 +1,9 @@
 packages:
   - integration
 
-ignoredBuiltDependencies:
-  - cpu-features
-  - esbuild
-  - protobufjs
-  - ssh2
-
-onlyBuiltDependencies:
-  - '@biomejs/biome'
+allowBuilds:
+  '@biomejs/biome': true
+  cpu-features: false
+  esbuild: false
+  protobufjs: false
+  ssh2: false
