@@ -16,7 +16,7 @@ services:
       retries: 5
       start_period: 40s
   rabbitmq:
-    image: "rabbitmq:4.3.3-management-alpine@sha256:8fc5bf62ea0b8b2b058994727441904a2d3d0844a301e8ab7cab3f695f2c0b89"
+    image: "rabbitmq:4.3.4-management-alpine@sha256:3715356a45c617db988228af10b959a226c832f90298bf7155033c30222ff1df"
     ports:
     - "127.0.0.1:5672:5672"
     - "127.0.0.1:15672:15672"
