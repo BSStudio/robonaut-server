@@ -16,7 +16,7 @@ services:
       retries: 5
       start_period: 40s
   rabbitmq:
-    image: "rabbitmq:4.3.6-management-alpine@sha256:537be5b43147e363edd5f2211ba9bd5769ba7ed64b329b0b6d1cbfa1c0e61df8"
+    image: "rabbitmq:4.3.6-management-alpine@sha256:9b256c20789b98b5920374bf9d0f31d86a3efeda3dc381aa4d3ffb3fbba6aa41"
     ports:
     - "127.0.0.1:5672:5672"
     - "127.0.0.1:15672:15672"
@@ -27,7 +27,7 @@ services:
       retries: 5
       start_period: 40s
   mongo:
-    image: "mongo:8.3.11@sha256:2609aaf7a1abbff404101af896e05f243d22be742471ed857b50b9ce0270fdbd"
+    image: "mongo:8.3.11@sha256:5d7043a4ffe02b9ed1b6e0bab057546981af5ca0a79107e9c461e49bc44c0a7b"
     ports:
     - "127.0.0.1:27017:27017"
     healthcheck:
