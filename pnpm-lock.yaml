@@ -194,8 +194,8 @@ importers:
         specifier: 5.0.1
         version: 5.0.1(vitest@5.0.1)
       amqplib:
-        specifier: 2.0.1
-        version: 2.0.1
+        specifier: 2.2.0
+        version: 2.2.0
       mkdirp:
         specifier: 3.0.1
         version: 3.0.1
@@ -810,8 +810,8 @@ packages:
     resolution: {integrity: sha512-gOsf2YwSlleG6IjRYG2A7k0HmBMEo6qVNk9Bp/EaLgAJT5ngH6PXbqa4ItvnEwCm/velL5jAnQgsHsWnjhGmvw==}
     engines: {node: '>=18'}
 
-  amqplib@2.0.1:
-    resolution: {integrity: sha512-a3P2MgfCf9nzVis12VxWEn0dS6hcqve7dlEAhXDtIWR27BlhtMkILOc+H9aeHjDi6i6r94dYKc2Kx2OFe3avvg==}
+  amqplib@2.2.0:
+    resolution: {integrity: sha512-VifzN9aHs/Q3zTruVHXh2yCisQyXexBN91CQ2E5iSyUKyNjH6ilYhJGte5AXZH/Bj1PaH7SwPhyuSf6Msd2udw==}
     engines: {node: '>=18'}
 
   ansi-escapes@7.3.0:
@@ -3233,7 +3233,7 @@ snapshots:
       clean-stack: 5.3.0
       indent-string: 5.0.0
 
-  amqplib@2.0.1: {}
+  amqplib@2.2.0: {}
 
   ansi-escapes@7.3.0:
     dependencies:
