@@ -1,6 +1,6 @@
 import { createWriteStream } from 'node:fs';
+import { mkdir } from 'node:fs/promises';
 import * as path from 'node:path';
-import { mkdirp } from 'mkdirp';
 import {
   DockerComposeEnvironment,
   type StartedDockerComposeEnvironment,
@@ -21,7 +21,7 @@ declare global {
   var compose: StartedDockerComposeEnvironment;
 }
 
-const BUILD_CONTEXT = path.resolve(__dirname, './../..');
+const BUILD_CONTEXT = path.resolve(import.meta.dirname, './../..');
 const COMPOSE_FILES = ['docker-compose.yaml', 'docker-compose.ci.yaml'];
 
 export async function setup({ provide }: TestProject) {
@@ -31,9 +31,9 @@ export async function setup({ provide }: TestProject) {
   )
     .withProfiles('app')
     .withBuild()
-    .withWaitStrategy('rabbitmq_1', Wait.forHealthCheck())
-    .withWaitStrategy('mongo_1', Wait.forHealthCheck())
-    .withWaitStrategy('app_1', Wait.forHealthCheck());
+    .withWaitStrategy('rabbitmq-1', Wait.forHealthCheck())
+    .withWaitStrategy('mongo-1', Wait.forHealthCheck())
+    .withWaitStrategy('app-1', Wait.forHealthCheck());
   const compose = await dockerComposeEnvironment.up();
 
   globalThis.compose = compose;
@@ -55,10 +55,8 @@ export async function setup({ provide }: TestProject) {
     `mongodb://${mongo.getHost()}:${mongo.getMappedPort(27017)}/`,
   );
 
-  await mkdirp('reports/container');
-  writeToFile(rabbitMQ);
-  writeToFile(mongo);
-  writeToFile(application);
+  await mkdir('reports/container', { recursive: true });
+  await Promise.all([rabbitMQ, mongo, application].map(writeToFile));
 }
 
 export async function teardown() {
