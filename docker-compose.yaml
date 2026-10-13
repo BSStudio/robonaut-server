@@ -28,6 +28,15 @@ services:
       start_period: 40s
   mongo:
     image: "mongo:9.0.2@sha256:bac22ea7710d774103dcad3ec8ac13cba1eb378f488e3ce8a6b3a1adf2ba9dcc"
+    environment:
+      # Workaround for https://jira.mongodb.org/browse/SERVER-121912
+      # mongod refuses to start on Linux kernels 6.19 - 7.0.13 (e.g. the ubuntu-26.04
+      # GitHub runners ship 7.0.0) because its bundled TCMalloc's per-CPU caches rely on
+      # restartable sequences (rseq), which those kernels broke. Keeping glibc's rseq
+      # registration on makes TCMalloc fall back to per-thread caches so mongod boots,
+      # at a small allocator performance cost that is irrelevant for dev/CI.
+      # Remove once the runner kernel is >= 7.0.14 (fixed by SERVER-125742).
+      GLIBC_TUNABLES: glibc.pthread.rseq=1
     ports:
     - "127.0.0.1:27017:27017"
     healthcheck:
