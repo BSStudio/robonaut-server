@@ -9,7 +9,7 @@ kotlin = "2.4.21"
 # Drop each one once springBoot manages an equal or newer version.
 jackson = "3.2.4"
 jackson2 = "2.22.4"
-amqpClient = "5.37.0"
+amqpClient = "5.37.1"
 
 [libraries]
 springdoc = { module = "org.springdoc:springdoc-openapi-starter-webflux-ui", version.ref = "springdoc" }
