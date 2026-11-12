@@ -22,7 +22,7 @@ services:
       retries: 5
       start_period: 40s
   mongo:
-    image: "mongo:9.0.8@sha256:bdcd178c7ef0c0afca7f345e413f6e8960b20f65662c2db45f8380221f32338e"
+    image: "mongo:9.0.8@sha256:1444adda2e4b8d6a0d7f242a625d834a78d6e3aa6e4ed1b0b4c2dab2318c5e3d"
     environment:
       # Workaround for https://jira.mongodb.org/browse/SERVER-121912
       # mongod refuses to start on Linux kernels 6.19 - 7.0.13 (e.g. the ubuntu-26.04
