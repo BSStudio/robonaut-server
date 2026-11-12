@@ -194,8 +194,8 @@ importers:
         specifier: 5.1.0
         version: 5.1.0(vitest@5.1.0)
       amqplib:
-        specifier: 2.3.0
-        version: 2.3.0
+        specifier: 2.3.1
+        version: 2.3.1
       mongodb:
         specifier: 7.8.0
         version: 7.8.0
@@ -822,8 +822,8 @@ packages:
     resolution: {integrity: sha512-1m4/ydbOGBbHTtBYa4/ISQcqfPdZAxQLzj71wM71T8lP4ktez8lcsVolvscrujQW4CJr/LJSzoZ6mcfnqzYQ3A==}
     engines: {node: '>=18'}
 
-  amqplib@2.3.0:
-    resolution: {integrity: sha512-xtCE2E+hIr2uPSODC3jyHZvoVszyAsJEFWln7y92jE/n8WyTawZuw+sTUuls/NzpPcagAGHJCec2eUMH4extPg==}
+  amqplib@2.3.1:
+    resolution: {integrity: sha512-0njHPLSE/xJUBeLWGgzniMuzTeyUt3o7WmAJobBlbSnvOTe9l5PxrlA+5iZW8spKteijDnkIZI81zAFV2Wzulw==}
     engines: {node: '>=18'}
 
   ansi-escapes@7.3.0:
@@ -3253,7 +3253,7 @@ snapshots:
       clean-stack: 5.3.0
       indent-string: 5.0.0
 
-  amqplib@2.3.0: {}
+  amqplib@2.3.1: {}
 
   ansi-escapes@7.3.0:
     dependencies:
