@@ -14,7 +14,7 @@ dependencies {
   api(project(":server:model"))
   implementation("org.springframework:spring-context")
   implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
-  implementation("org.springframework.boot:spring-boot-starter-amqp")
+  implementation("org.springframework.boot:spring-boot-starter-rabbitmq")
   implementation("org.springframework.boot:spring-boot-starter-logging")
   implementation("io.projectreactor:reactor-core")
   testImplementation("io.projectreactor:reactor-test")
