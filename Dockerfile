@@ -1,4 +1,4 @@
-FROM bellsoft/hardened-liberica-runtime-container:jdk-25.0.5.1-cds-musl@sha256:add23437c50d70be722f9c841650699fe9100d055ce9ba54e4eb27c969d751cb AS build
+FROM bellsoft/hardened-liberica-runtime-container:jdk-25.0.5.1-cds-musl@sha256:dbeba3487bc63040564800e8fb18c44e099b83bef88c7cb4fab3d3e0e51121ea AS build
 WORKDIR /usr/src/app
 # health probe for the runtime image, which has no shell, curl or wget
 COPY ./docker/healthcheck/HealthCheck.java ./healthcheck/
