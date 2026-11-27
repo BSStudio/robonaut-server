@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "devDependencies": {
-    "@biomejs/biome": "2.6.8",
+    "@biomejs/biome": "2.6.9",
     "@vitest/ui": "5.1.1",
     "@tsconfig/node26": "26.0.2",
     "@tsconfig/strictest": "2.0.9",
